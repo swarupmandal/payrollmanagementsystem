@@ -19,4 +19,11 @@ public class SqlQuery {
 	public static final String updatePaymentQuery = "update pms_payment_master set payment_mode = ? where id = ? ";
 	public static final String deletePaymentQuery = "update pms_payment_master set is_delete = 'Y' where id = ? ";
 	
+	/**-------------------------------------------------------BloodGroup Master---------------------------------------------------------------------------**/
+	
+	public static final String onLoadBloodGroupQuery = "select * from pms_bloodgroup_master where is_delete = 'N' ";
+	public static final String insertBloodGroupQuery = "insert into pms_bloodgroup_master (bloodgroup_name,created_by) values(?,?)";
+	public static final String updateBloodGroupQuery = "update pms_bloodgroup_master set bloodgroup_name = ?,updated_by=? where bloodgroup_id = ? ";
+	public static final String deleteBloodGroupQuery = "update pms_bloodgroup_master set is_delete = 'Y' where bloodgroup_id = ? ";
+	
 }
