@@ -21,7 +21,7 @@ public class SqlQuery {
 	
 
 	
-	/**-------------------------------------------------------Paymode Master---------------------------------------------------------------------------**/
+	/**-------------------------------------------------------CompanyInfo Master---------------------------------------------------------------------------**/
 	
 	
 	public static final String insertCompanyMasterQuery = "insert into pms_company_master (company_name, address, city, pincode, state_id, company_email, company_ph_no, company_website, created_by, updatetd_by) "
