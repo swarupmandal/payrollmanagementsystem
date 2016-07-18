@@ -1,0 +1,50 @@
+<?page title="STATE" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="State master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.StateMasterViewModel')">
+	<div align="center">
+		<grid>
+			<columns>
+				<column align="right"/>
+				<column align="left"/>
+			</columns>
+			<rows>
+				<row>
+					<label value="State Name"/>
+					<textbox placeholder="State Name" value="@bind(vm.stateMasterBean.stateName)"/>
+				</row>
+				<row>
+					<button label="Save" onClick="@command('onClickSave')" disabled="@bind(vm.stateMasterBean.saveButtonDesabled)"/>
+					<button label="Update" onClick="@command('onClickUpdate')" disabled="@bind(vm.stateMasterBean.updtateButtonDesabled)" />
+				</row>
+			</rows>
+		</grid>
+		
+	<space></space>
+	
+	</div>
+	
+	<div>
+	
+		<grid model="@bind(vm.stateBeanList)">
+			<columns>
+				<column label="State Name" align="center"></column>
+				<column label="Action" align="center"></column>
+			</columns>
+			<rows>
+			<template name="model" var = "v">
+				<row>
+				<textbox placeholder="state name" value="@bind(v.stateName)" readonly="true"></textbox>
+				<hlayout spacing="20px">
+				<button label="Edit" onClick="@command('onClickEdit', bean = v)" ></button>
+				<button label="Delete" onClick="@command('onClickDelete', bean = v)"></button>
+				</hlayout>
+				</row>
+			</template>	
+			</rows>	
+	
+		</grid>
+	</div>
+	
+</window>
+</zk>

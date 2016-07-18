@@ -1,0 +1,48 @@
+<?page title="COMPONENT" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Component Master" border="normal">
+
+	<div align="center">
+		<grid>
+			<columns>
+				<column align="right"/>
+				<column align="left"/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Component"/>
+					<textbox placeholder="Component"/>
+				</row>
+				<row>
+					<button label="Save"/>
+					<button label="Update"/>
+				</row>
+			</rows>
+		</grid>
+		
+	<space></space>
+	
+	</div>
+	
+	<div>
+	
+		<grid>
+			<columns>
+				<column label="Component" align="center"></column>
+				<column label="Action" align="center"></column>
+			</columns>
+			<rows>
+				<row>
+				<textbox placeholder="Component"></textbox>
+				<hlayout spacing="20px">
+				<button label="Edit"></button>
+				<button label="Delete"></button>
+				</hlayout>
+				</row>
+			</rows>	
+	
+		</grid>
+	</div>
+
+</window>
+</zk>

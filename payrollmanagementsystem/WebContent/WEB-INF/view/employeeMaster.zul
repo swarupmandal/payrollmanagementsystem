@@ -1,0 +1,245 @@
+<?page title="Emp" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Emp m" border="normal">
+	<hlayout>
+		<div  height="200px" width="370px" align="center">
+		<vbox>
+		 
+		  <label value="Company Name"></label>	
+		  <combobox></combobox>
+		  <space></space>
+		  <label value="Unit Name"></label>
+		  <combobox></combobox>
+		 </vbox>
+		</div>
+	
+	 <vbox>
+	 <label value="Employee Information" style="font-weight:bold; color:black"></label>		
+		<div >
+			<grid width="100%">
+				<columns>
+					<column></column>
+					<column></column>
+					<column></column>
+					<column></column>
+					<column></column>
+					<column></column>
+				</columns>
+				<rows>
+					<row>
+						<label value="Employee Code"></label>
+						<textbox ></textbox>
+						
+						<label value="Name"></label>
+						<textbox></textbox>
+					</row>
+						
+					<row>
+						<label value="Phone Number"></label>
+						<textbox></textbox>
+					
+						<label value="Email"></label>
+						<textbox></textbox>
+					</row>
+					<row>
+						<label value="Gender"></label>
+						<textbox></textbox>
+						
+						<label value="Date Of Birth"></label>
+						<datebox width="160px"></datebox>
+					</row>
+					
+					
+					<row></row>
+				
+				</rows>
+			
+			</grid>
+			<space></space>
+			<div >
+				<button label="Save"></button>
+			
+			</div>
+			
+		</div>
+	</vbox>	
+	</hlayout>
+	
+	<div style="border:Black 1px solid;" height="390px">
+	
+		<tabbox>
+			<tabs>
+				<tab label="Personal Information"></tab>
+				<tab label="Official Information"></tab>
+				<tab label="Salary Components"></tab>
+				<tab label="PF, ESI Details"></tab>
+			
+			</tabs>
+			<tabpanels>	
+				<tabpanel>
+					
+				 <div>
+				 	<grid>
+				 		<columns>
+				 			<column></column>
+				 			<column></column>
+				 			<column></column>
+				 			<column></column>
+				 			<column></column>
+				 			<column></column>
+				 		</columns>
+				 		<rows>
+				 			<row>
+					 			<label value="Address"></label>
+					 			<textbox placeholder="Address"></textbox>
+					 			
+					 			<label value="City"></label>
+					 			<textbox placeholder="City"></textbox>
+					 			
+					 			<label value="State"></label>
+					 			<combobox width="160px"></combobox>
+				 			
+				 			</row>
+				 			<row>
+				 			
+					 			<label value="Pincode"></label>
+					 			<textbox placeholder="Pincode"></textbox>
+					 			
+					 			<label value="Blood Group"></label>
+					 			<combobox placeholder="Blood Group" width="160px"></combobox>
+					 			
+					 			<label value="PAN"></label>
+					 			<textbox placeholder="PAN"></textbox>
+				 			
+				 			</row>
+				 			<row>
+				 				<label value="Marital Status"></label>
+				 				<textbox placeholder="Marital Status"></textbox>
+				 			</row>
+				 		
+				 		</rows>
+				 	
+				 	</grid>
+				 </div>	
+				<div align="center">
+				<button label="Save" width="100px" height="35px"></button>
+				</div>	
+				</tabpanel>
+				
+				<tabpanel>
+					 <div>
+					 	<grid>
+					 		<columns>
+					 			<column></column>
+					 			<column></column>
+					 			<column></column>
+					 			<column></column>
+					 			<column></column>
+					 			<column></column>
+					 		</columns>
+					 		<rows>
+					 			<row>
+						 			<label value="Joining Date"></label>
+						 			<datebox width="160px"></datebox>
+						 			
+						 			<label value="Designation"></label>
+						 			<textbox placeholder="Designation"></textbox>
+						 			
+						 			<label value="Location"></label>
+						 			<textbox placeholder="Location"></textbox>
+					 			
+					 			</row>
+					 			<row>
+					 			
+						 			<label value="Salary"></label>
+						 			<textbox placeholder="Salary"></textbox>
+						 			
+						 			<label value="Blood Group"></label>
+						 			<combobox placeholder="Blood Group" width="160px"></combobox>
+						 			
+						 			<label value="Payment Mode"></label>
+						 			<combobox placeholder="Payment Mode" width="160px"></combobox>
+						 			
+					 			
+					 			</row>
+					 			<row>
+					 			
+						 			<label value="Employee Bank Account"></label>
+						 			<combobox placeholder="Employee Bank Account" width="160px"></combobox>
+						 			
+						 			
+						 			<label value="Bank Account Number"></label>
+						 			<textbox placeholder="Bank Account Number" ></textbox>
+						 			
+						 			
+						 			<label value="IFSC Code"></label>
+						 			<textbox placeholder="IFSC Code"></textbox>
+						 			
+					 			
+					 			</row>
+					 			<row>
+					 				<label value="Increment Date"></label>
+						 			<datebox width="160px"></datebox>
+						 			
+						 			
+						 			<label value="Registration Date"></label>
+						 			<datebox width="160px"></datebox>
+						 			
+						 			<label value="Last Working Date"></label>
+						 			<datebox width="160px"></datebox>
+					 			
+					 				
+					 			</row>
+					 		
+					 		</rows>
+					 	
+					 	</grid>
+					 </div>
+					<div align="center">
+						<button label="Save" width="100px" height="35px"></button>
+					</div>
+				</tabpanel>
+				
+					
+				
+				<tabpanel>
+					
+				
+				
+				</tabpanel>
+				
+				<tabpanel>
+					<div>
+						<hlayout>
+							<label value="PF"></label>
+							<checkbox></checkbox>
+							<space></space>
+							
+							<label value="UAN"></label>
+							<textbox></textbox>
+						</hlayout>
+						<space></space>
+						<hlayout>
+							<label value="ESI"></label>
+							<checkbox></checkbox>
+							<space></space>
+							
+							<label value="ESI"></label>
+							<textbox></textbox>
+						</hlayout>
+					
+					<div height="50px">
+					
+					</div>
+					
+					<button label="Save"></button>	
+					</div>
+				
+				
+				</tabpanel>
+			</tabpanels>
+		</tabbox>
+	</div>
+	
+</window>
+</zk>

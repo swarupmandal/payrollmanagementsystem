@@ -1,0 +1,46 @@
+<?page title="DESIGNATION" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Designation Master" border="normal">
+<div align="center">
+		<grid>
+			<columns>
+				<column align="right"/>
+				<column align="left"/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Designation"/>
+					<textbox placeholder="Designation"/>
+				</row>
+				<row>
+					<button label="Save"/>
+					<button label="Update"/>
+				</row>
+			</rows>
+		</grid>
+		
+	<space></space>
+	
+	</div>
+	
+	<div>
+	
+		<grid>
+			<columns>
+				<column label="Designation" align="center"></column>
+				<column label="Action" align="center"></column>
+			</columns>
+			<rows>
+				<row>
+				<textbox placeholder="Designation"></textbox>
+				<hlayout spacing="20px">
+				<button label="Edit"></button>
+				<button label="Delete"></button>
+				</hlayout>
+				</row>
+			</rows>	
+	
+		</grid>
+	</div>
+</window>
+</zk>

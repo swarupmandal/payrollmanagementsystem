@@ -1,0 +1,218 @@
+<?page title="EMPLOYEE DETAILS" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Employee Master" border="normal">
+	<div>
+		<label value="Company Name"></label>
+		<combobox placeholder="select company"></combobox>
+	
+		<label value="Unit Name"></label>
+		<combobox placeholder="select unit"></combobox>
+	
+	</div>
+	
+	<div height="10px"></div>
+	<label value="Employee Information" style="font-weight:bold; color:black"></label>
+	 <div>
+	 	<grid>
+	 		<columns>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 		</columns>
+	 		<rows>
+	 			<row>
+		 			<label value="Employee Code"></label>
+		 			<textbox placeholder="employee code"></textbox>
+		 			
+		 			<label value="Name"></label>
+		 			<textbox placeholder="Name"></textbox>
+		 			
+		 			<label value="Phone No"></label>
+		 			<textbox placeholder="Phone No"></textbox>
+	 			
+	 			</row>
+	 			<row>
+	 			
+		 			<label value="Email"></label>
+		 			<textbox placeholder="Email"></textbox>
+		 			
+		 			<label value="Gender"></label>
+		 			<textbox placeholder="Gender"></textbox>
+		 			
+		 			<label value="Date of birth"></label>
+		 			<datebox width="160px"></datebox>
+	 			
+	 			</row>
+	 		
+	 		</rows>
+	 	
+	 	</grid>
+	 </div>
+
+	<div height="10px"></div>
+	<label value="Personal Information" style="font-weight:bold; color:black"></label>
+	 <div>
+	 	<grid>
+	 		<columns>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 		</columns>
+	 		<rows>
+	 			<row>
+		 			<label value="Address"></label>
+		 			<textbox placeholder="Address"></textbox>
+		 			
+		 			<label value="City"></label>
+		 			<textbox placeholder="City"></textbox>
+		 			
+		 			<label value="State"></label>
+		 			<combobox width="160px"></combobox>
+	 			
+	 			</row>
+	 			<row>
+	 			
+		 			<label value="Pincode"></label>
+		 			<textbox placeholder="Pincode"></textbox>
+		 			
+		 			<label value="Blood Group"></label>
+		 			<combobox placeholder="Blood Group" width="160px"></combobox>
+		 			
+		 			<label value="PAN"></label>
+		 			<textbox placeholder="PAN"></textbox>
+	 			
+	 			</row>
+	 			<row>
+	 				<label value="Marital Status"></label>
+	 				<textbox placeholder="Marital Status"></textbox>
+	 			</row>
+	 		
+	 		</rows>
+	 	
+	 	</grid>
+	 </div>		
+
+	<div height="10px"></div>
+	<label value="Oficial Information" style="font-weight:bold; color:black"></label>
+	 <div>
+	 	<grid>
+	 		<columns>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 		</columns>
+	 		<rows>
+	 			<row>
+		 			<label value="Joining Date"></label>
+		 			<datebox width="160px"></datebox>
+		 			
+		 			<label value="Designation"></label>
+		 			<textbox placeholder="Designation"></textbox>
+		 			
+		 			<label value="Location"></label>
+		 			<textbox placeholder="Location"></textbox>
+	 			
+	 			</row>
+	 			<row>
+	 			
+		 			<label value="Salary"></label>
+		 			<textbox placeholder="Salary"></textbox>
+		 			
+		 			<label value="Blood Group"></label>
+		 			<combobox placeholder="Blood Group" width="160px"></combobox>
+		 			
+		 			<label value="Payment Mode"></label>
+		 			<combobox placeholder="Payment Mode" width="160px"></combobox>
+		 			
+	 			
+	 			</row>
+	 			<row>
+	 			
+		 			<label value="Employee Bank Account"></label>
+		 			<combobox placeholder="Employee Bank Account" width="160px"></combobox>
+		 			
+		 			
+		 			<label value="Bank Account Number"></label>
+		 			<textbox placeholder="Bank Account Number" ></textbox>
+		 			
+		 			
+		 			<label value="IFSC Code"></label>
+		 			<textbox placeholder="IFSC Code"></textbox>
+		 			
+	 			
+	 			</row>
+	 			<row>
+	 				<label value="Increment Date"></label>
+		 			<datebox width="160px"></datebox>
+		 			
+		 			
+		 			<label value="Registration Date"></label>
+		 			<datebox width="160px"></datebox>
+		 			
+		 			<label value="Last Working Date"></label>
+		 			<datebox width="160px"></datebox>
+	 			
+	 				
+	 			</row>
+	 		
+	 		</rows>
+	 	
+	 	</grid>
+	 </div>
+		
+	<div height="10px"></div>
+	<label value="PF AND ESI INFORMATION" style="font-weight:bold; color:black"></label>
+	 <div>
+	 	<grid>
+	 		<columns>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 			<column></column>
+	 		</columns>
+	 		<rows>
+	 			<row>
+	 			<label value="PF"></label>
+	 			<checkbox></checkbox>
+	 			<label value="UAN"></label>
+	 			<textbox></textbox>
+	 			
+	 			<label value="ESI"></label>
+	 			<checkbox></checkbox>
+	 			<label value="ESI NUMBER"></label>
+	 			<textbox></textbox>
+	 			
+	 			
+	 			</row>
+	 		
+	 		</rows>
+	 	
+	 	</grid>
+	 </div>	
+
+	<div height="10px"></div>
+	
+	<label value="Salary" style="font-weight:bold; color:black"></label>
+	<div>
+	<label value="components"></label>
+	<textbox placeholder="Need to check from sir about components" width="400px"></textbox>
+	</div>
+	
+
+	
+
+</window>
+</zk>

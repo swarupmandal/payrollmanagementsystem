@@ -1,0 +1,58 @@
+<?page title="UNIT" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Unit Master" border="normal">
+<div align="center">
+		<grid>
+			<columns>
+				<column align="right"/>
+				<column align="left"/>
+				<column align="right"/>
+				<column align="left"/>
+				<column align="right"/>
+				<column align="left"/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Company Name"/>
+					<combobox placeholder="Select Company"></combobox>
+					
+					
+					<label value="Unit Name"></label>
+					<textbox placeholder="unit name"></textbox>
+					
+					
+					<button label="Save"/>
+					<button label="Update"/>
+				</row>
+			</rows>
+		</grid>
+		
+	
+	
+	</div>
+	<space></space>
+	<div>
+	
+		<grid>
+			<columns>
+				<column label="Company Name" align="center"></column>
+				<column label="Unit Name" align="center"></column>
+				<column label="Action" align="center"></column>
+			</columns>
+			<rows>
+				<row>
+				<textbox placeholder="Company Name"></textbox>
+				<textbox placeholder="Unit Name"></textbox>
+				<hlayout spacing="20px">
+				<button label="Edit"></button>
+				<button label="Delete"></button>
+				</hlayout>
+				</row>
+			</rows>	
+	
+		</grid>
+	</div>
+
+
+</window>
+</zk>

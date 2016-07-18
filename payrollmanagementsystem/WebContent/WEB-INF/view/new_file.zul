@@ -1,0 +1,52 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="" border="none">
+<hlayout>
+	<div style="border:Black 1px solid;" width="925px" height="580px"></div>
+	
+	
+	
+	<div style="border:Black 1px solid;" width="400px" height="580px" align="center">
+		
+		<div height="50px"></div>
+		
+		<div height="70px">
+			<label value="login" style="font-size:170%; color:green" ></label>
+	
+		</div>
+		
+		<div height="20px">
+		<label value="user name"></label>
+		</div>
+	
+		<div height="70px" >
+		<textbox  height="45px" width="270px" style="font-size:20px; color:black"></textbox>
+		</div>
+	
+		<div height="20px" >
+		<label value="password"></label>
+		</div>
+	
+		<div height="70px" >
+		<textbox height="45px" width="270px" style="font-size:20px; color:black"></textbox>
+		</div>
+		
+		<div height="20px" ></div>
+		
+		<div height="50px" >
+		<button label="login" height="35px" width="270px" style="font-size:20px; color:black"></button>
+		</div>
+		
+		<div height="20px" ></div>
+		
+		<div height="50px" >
+		<a label="forgot password"></a>
+		</div>
+	
+	
+	</div>
+
+
+</hlayout>
+</window>
+</zk>

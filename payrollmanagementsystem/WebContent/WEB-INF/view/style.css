@@ -1,0 +1,78 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ====== Zurich LtCn BT ========= */
+@font-face {
+  font-family: 'ZurichBT-LightCondensed';
+  src: url('fonts/zurchlc.eot');
+  src: url('fonts/zurchlc.eot?#iefix') format('embedded-opentype'), url('fonts/zurchlc.woff') format('woff'), url('fonts/zurchlc.ttf') format('truetype'), url('fonts/zurchlc.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Zurich LtCn BT';
+  src: url('fonts/zurchlc.eot');
+  src: url('fonts/zurchlc?#iefix') format('embedded-opentype'), url('fonts/zurchlc.woff') format('woff'), url('fonts/zurchlc.ttf') format('truetype'), url('fonts/zurchlc.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* ====== Zurich Cn BT ========= */
+@font-face {
+  font-family: 'ZurichBT-BoldCondensed';
+  src: url('fonts/zurchbc.eot');
+  src: url('fonts/zurchbc.eot?#iefix') format('embedded-opentype'), url('fonts/zurchbc.woff') format('woff'), url('fonts/zurchbc.ttf') format('truetype'), url('fonts/zurchbc.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Zurich Cn BT';
+  src: url('fonts/zurchbc.eot');
+  src: url('fonts/zurchbc.eot?#iefix') format('embedded-opentype'), url('fonts/zurchbc.woff') format('woff'), url('fonts/zurchbc.ttf') format('truetype'), url('fonts/zurchbc.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ZurichBT-BlackExtended';
+  src: url('fonts/zurchke.eot');
+  src: url('fonts/zurchke.eot?#iefix') format('embedded-opentype'), url('fonts/zurchke.woff') format('woff'), url('fonts/zurchke.ttf') format('truetype'), url('fonts/zurchke.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Zurich BlkEx BT';
+  src: url('fonts/Zurich BlkEx BT.eot');
+  src: url('fonts/Zurich BlkEx BT.eot?#iefix') format('embedded-opentype'), url('fonts/Zurich BlkEx BT.woff') format('woff'), url('fonts/Zurich BlkEx BT.ttf') format('truetype'), url('fonts/Zurich BlkEx BT.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'zurich_lt_btlight';
+  src: url('fonts/zurchl-webfont.eot');
+  src: url('fonts/zurchl-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/zurchl-webfont.woff') format('woff'), url('fonts/zurchl-webfont.ttf') format('truetype'), url('fonts/zurchl-webfont.svg#zurich_lt_btlight') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* ====== Zurich End ========= */
+#bgLogin {
+	width:100%;
+	height:100%
+	background:url(images/bg_login.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	background-color:#666;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Zurich LtCn BT';
+  font-size: 16px;
+  color: #333;
+  
+}
+#container {
+	margin: 0 auto;
+	width: 1200px;
+	border: 5px solid #DDD;
+}

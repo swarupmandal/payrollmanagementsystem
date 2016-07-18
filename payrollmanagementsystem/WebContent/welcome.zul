@@ -1,0 +1,37 @@
+<?page title="WELCOME" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="" border="none" apply="org.zkoss.bind.BindComposer"
+viewModel="@id('vm') @init('org.appsquad.viewmodel.LoginViewModel')">
+<style src="style.css"></style>
+<include src="inc/header.zul"></include>
+
+<div id="bgLogin">
+  <div id="container">
+    <div>
+      <div height="50px"></div>
+      <div height="70px">
+        <label value="login" style="font-size:170%; color:green" ></label>
+      </div>
+      <div height="20px">
+        <label value="user name"></label>
+      </div>
+      <div height="70px" >
+        <textbox  height="45px" width="270px" style="font-size:20px; color:black" value="@bind(vm.loginBean.userId)"></textbox>
+      </div>
+      <div height="20px" >
+        <label value="password"></label>
+      </div>
+      <div height="70px" >
+        <textbox height="45px" width="270px" style="font-size:20px; color:black" value="@bind(vm.loginBean.password)"></textbox>
+      </div>
+      <div height="20px" ></div>
+      <div height="50px" >
+        <button label="login" height="35px" width="270px" style="font-size:20px; color:black" onClick="@command('onClickLogin')"></button>
+      </div>
+      <div height="20px" ></div>
+      <div height="50px" > <a label="forgot password"></a> </div>
+    </div>
+  </div>
+</div>
+</window>
+</zk>

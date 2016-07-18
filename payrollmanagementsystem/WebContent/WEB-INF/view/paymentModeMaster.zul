@@ -1,0 +1,49 @@
+<?page title="PAYMENT MODE" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Payment mode master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.PaymentModeMasterViewMode')">
+
+	<div align="center">
+		<grid>
+			<columns>
+				<column align="right"/>
+				<column align="left"/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Payment Mode"/>
+					<textbox placeholder="Payment Mode" value="@bind(vm.paymentModeMasterBean.paymentMode)"/>
+				</row>
+				<row>
+					<!-- <button label="Save"/> -->
+					<button label="Save" onClick="@command('onClickSave')"/>
+				</row>
+			</rows>
+		</grid>
+		
+	<space></space>
+	
+	</div>
+	
+	<div>
+	
+		<grid model="@bind(vm.paymentmodeBeanList)">
+			<columns>
+				<column label="Payment Mode" align="center"></column>
+				<column label="Action" align="center"></column>
+			</columns>
+			<rows>
+				<row>
+				<textbox placeholder="Payment Mode" value="@bind(vm.paymentModeMasterBean.paymentMode)" readonly="true"></textbox>
+				<hlayout spacing="20px">
+				<button label="Edit"></button>
+				<button label="Delete"></button>
+				</hlayout>
+				</row>
+			</rows>	
+	
+		</grid>
+	</div>
+
+</window>
+</zk>

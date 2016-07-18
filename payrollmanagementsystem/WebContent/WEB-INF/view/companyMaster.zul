@@ -1,0 +1,246 @@
+<?page title="COMPANY" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Company Master" border="normal" height="100%" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.CompanyMasterViewModel')">
+	<div>
+		<label value="Company Profile" style="font-weight:bold; color:black"></label>
+		<grid>
+		
+			<columns>
+			
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+			
+			</columns>
+			
+			
+			<rows>
+				
+				<row>
+				<label value="Company Name"></label>
+				<textbox value="@bind(vm.companyMasterBean.companyName)"></textbox>
+				
+				<label value="Address"></label>
+				<textbox value="@bind(vm.companyMasterBean.address)"></textbox>
+				
+				
+				<label value="City"></label>
+				<textbox value="@bind(vm.companyMasterBean.city)"></textbox>
+				</row>
+				
+				<row>
+				<label value="Pincode"></label>
+				<textbox value="@bind(vm.companyMasterBean.pincode)"></textbox>
+				
+				<label value="State"></label>
+				<combobox  width="160px" model="@bind(vm.stateBeanList)"
+				   onSelect="@command('onSelectStateName')"
+					selectedItem="@bind(vm.stateMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.stateName)" value="@bind(v.stateId)" />
+					  </template>
+				</combobox>
+				
+				
+				<label value="Phone"></label>
+				<textbox></textbox>
+				
+				</row>
+				
+				<row>
+				<label value="Website"></label>
+				<textbox ></textbox>
+				
+				<label value="Company Email"></label>
+				<textbox></textbox>
+				
+				
+				<!-- <label value="City"></label>
+				<textbox></textbox> -->
+				
+				</row>
+				<row></row>
+			</rows>
+		</grid>
+	</div>
+	
+	<div height="10px"></div>
+	
+	<label value="Contact Info" style="font-weight:bold; color:black"></label>
+	<div>
+	<grid>
+		<columns>
+			<column></column>
+			
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+		
+			</columns>
+			
+			<rows>
+				<row>
+				
+				<label value="Contact Person"></label>
+				<textbox ></textbox>
+				
+				<label value="Email"></label>
+				<textbox></textbox>
+				
+				
+				<label value="Phone no"></label>
+				<textbox></textbox>
+				</row>
+			</rows>
+	
+	</grid>
+	
+	</div>
+	
+	<div height="10px"></div>
+	<label value="PF Info" style="font-weight:bold; color:black"></label>
+	<div>
+	<grid>
+		<columns>
+			<column></column>
+			
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+		
+			</columns>
+			
+			<rows>
+				<row>
+				
+				<label value="PF Number"></label>
+				<textbox ></textbox>
+				
+				<label value="Registration Date"></label>
+				<datebox width="160px"></datebox>
+				
+				<label value="Signatory Name"></label>
+				<textbox></textbox>
+				</row>
+			</rows>
+	
+	</grid>
+	
+	</div>
+	
+	<div height="10px"></div>
+	<label value="ESI Info" style="font-weight:bold; color:black"></label>
+	<div>
+	<grid>
+		<columns>
+			<column></column>
+			
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+		
+			</columns>
+			
+			<rows>
+				<row>
+				
+				<label value="ESI Number"></label>
+				<textbox ></textbox>
+				
+				<label value="Registration Date"></label>
+				<datebox width="160px"></datebox>
+				
+				<label value="Signatory Name"></label>
+				<textbox></textbox>
+				</row>
+			</rows>
+	
+	</grid>
+	
+	</div>
+	
+	
+	<div height="10px"></div>
+	<label value="PT Info" style="font-weight:bold; color:black"></label>
+	<div>
+	<grid>
+		<columns>
+			<column></column>
+			
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+		
+			</columns>
+			
+			<rows>
+				<row>
+				
+				<label value="PT Number"></label>
+				<textbox ></textbox>
+				
+				<label value="Registration Date"></label>
+				<datebox width="160px"></datebox>
+				
+				<label value="Signatory Name"></label>
+				<textbox></textbox>
+				</row>
+			</rows>
+	
+	</grid>
+	
+	</div>
+	
+	<div height="10px"></div>
+	<label value="IT Info" style="font-weight:bold; color:black"></label>
+	<div>
+	<grid>
+		<columns>
+			<column></column>
+			
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+				<column></column>
+		
+			</columns>
+			
+			<rows>
+				<row>
+				
+				<label value="PAN"></label>
+				<textbox ></textbox>
+				
+				<label value="TAN"></label>
+				<textbox></textbox>
+				
+				<label value="TAN CIRCLE"></label>
+				<textbox></textbox>
+				</row>
+			</rows>
+	
+	</grid>
+	<space></space>
+	<div height="30px"></div>
+	</div>
+	<div align="center">
+	<button label="Save Details" width="150px" height="30px"></button>
+	
+	</div>
+	
+
+</window>
+</zk>

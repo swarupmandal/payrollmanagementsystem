@@ -1,0 +1,225 @@
+<?page title="Home " contentType="text/html;charset=UTF-8"?>
+
+<zk>
+<timer id="timerKeepAliveSession" repeats="true" delay="600000" onTimer=""/>
+ <style>
+  .north {
+   background : ;
+  }
+  
+  .west {
+   background :  ;
+  }
+  
+  .mybutton {
+         border-radius: 10px;
+         background: linear-gradient(to bottom, #f0f9ff 0%,#a1dbff 100%);
+         font-size :15px;
+     }
+     
+     .myGrid tr.z-row td.z-row-inner, tr.z-row
+  .z-cell,div.z-grid { 
+      
+      
+      align:right;
+      border: 2px;
+     }
+     .mylabel {
+      font-size : 15px;
+      align:center;
+      font-weight:bold;
+      color:#DFADCC;
+     }
+     
+     
+     .panellabel {
+      align:right;
+     }
+     .z-tab-ver .z-tab-ver-text {
+   text-align: left;
+   }
+   
+  
+ </style>
+ 
+ 
+ <borderlayout  width="100%" height="100%" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.LoginHomeViewModel')">
+ 
+  <north size="9.9%" sclass="north">
+   <div>
+    <grid style="background:#edf4ff;border: 0.02px groove;" sclass="myGrid">
+     <columns>
+      <column />
+      <column />
+      <column align="right"/>
+     </columns>
+     
+     <rows>
+      <row> 
+       <label style="font-weight:bold;font-size:20px;color:#00AAAA;" value="@bind(vm.userId)"/>
+       <image />
+       <hlayout>
+        <button  label="Change password"  />
+       <button  label="Sign Out"  onClick="@command('onClickSignOut')"/>
+       </hlayout>
+      </row>
+     
+     </rows>
+    </grid>
+    
+   </div>
+  </north>
+  
+  <west  size="15%" flex="true" splittable="true"
+   collapsible="true" >
+   
+   <borderlayout width="100%" height="100%">
+    <center>
+     <div style="background:" height="100%">
+     <tree vflex="1" >
+      <treechildren>
+       <treeitem open="false">
+        <treerow>
+         <treecell label="Payroll Setting"/>
+        </treerow>
+        <treechildren>
+         <treeitem open="false">
+          <treerow>
+           <treecell label="Masters"/>
+          </treerow>
+          
+          <treechildren>
+            <treeitem open="false">
+            	<treerow>
+            	 <treecell label="State Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/stateMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+             <treeitem open="false">
+            	<treerow>
+            	 <treecell label="PaymentMode Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/paymentModeMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+             <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Blood Group Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/bloodGroupMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+            <treeitem open="false">
+             <treerow>
+              <treecell label="Company Master"
+               onClick='inclResults.setSrc("/WEB-INF/view/companyMaster.zul");' />
+             </treerow>
+            </treeitem>
+            <treeitem open="false">
+             <treerow>
+              <treecell label="Unit Master"
+               onClick='inclResults.setSrc("/WEB-INF/view/unitMaster.zul");' />
+             </treerow>
+            </treeitem>
+            <treeitem open="false">
+             <treerow>
+              <treecell label="Employee Master"
+               onClick='inclResults.setSrc("/WEB-INF/view/employeeMaster.zul");' />
+             </treerow>
+            </treeitem>
+            <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Componenyt Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/componentMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+             <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Designation Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/designationMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+             <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Employee Bank Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/BankMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+             <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Holiday Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/holidayMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+            
+            
+          </treechildren>
+         </treeitem>
+         
+         <treeitem open="false">
+         <treerow>
+         	<treecell label="Payment Section">
+         	</treecell>
+         </treerow>
+         <treechildren>
+         <treeitem>
+         <treerow>
+         	<treecell label="Payslip Generation">
+         	
+         	</treecell>
+         </treerow>
+         </treeitem>
+         </treechildren>
+         </treeitem>
+         
+         <treeitem open="false">
+         <treerow>
+         	<treecell label="Payment Report">
+         	</treecell>
+         </treerow>
+         <treechildren>
+         <treeitem>
+         <treerow>
+         	<treecell label="Report Generation">
+         	
+         	</treecell>
+         </treerow>
+         </treeitem>
+         </treechildren>
+         </treeitem>
+         
+        </treechildren>
+       </treeitem>
+      </treechildren>
+     </tree>
+     </div>
+    </center>
+   </borderlayout>
+   
+  </west>
+  
+  <center>
+   <borderlayout >
+    <north size="100%" splittable="true" autoscroll="true"
+     flex="true">
+      <div style="background:#FFFFFF">
+      <include id="inclResults" mode="instant"
+       style="overflow: auto; overflow-x:scroll ;">
+      </include>
+     </div>
+    </north>
+
+   </borderlayout>
+  </center>
+  
+  
+ </borderlayout>
+ <zscript>
+ </zscript>
+</zk>
