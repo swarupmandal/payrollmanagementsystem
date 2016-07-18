@@ -51,54 +51,20 @@ public class BloodGroupMasterViewModel {
 		
 		userName = (String) session.getAttribute("userId");
 		
-		onLoad();
-		System.out.println("Size:: "+bloodGroupBeanList.size());
+		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+		//System.out.println("Size:: "+bloodGroupBeanList.size());
 	}
 	
-	public void onLoad(){
-		if(bloodGroupBeanList.size()>0){
-			bloodGroupBeanList.clear();
-		}
-		try {		
-			  sql:{	
-				connection = DbConnection.createConnection();
-				PreparedStatement preparedStatement = null;
-				ResultSet resultSet = null;
-			
-				try {
-					preparedStatement = Util1.createQuery(connection, SqlQuery.onLoadBloodGroupQuery, null);
-					
-					resultSet = preparedStatement.executeQuery();
-					while (resultSet.next()) {
-						int bloodGroupId = resultSet.getInt("bloodgroup_id");
-						String bloodGroupName = resultSet.getString("bloodgroup_name");
-						bloodGroupBeanList.add(new BloodGroupBean(bloodGroupName, bloodGroupId));
-					}
-				    
-				} catch (Exception e) {
-					e.printStackTrace();
-				}finally{
-					if(preparedStatement != null){
-						preparedStatement.close();
-					}if(connection != null){
-						connection.close();
-					}
-				}
-			}	
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-
 	
 	@Command
 	@NotifyChange("*")
 	public void onClickSave(){
 	
-		if( BloodGroupService.isValid(bloodGroupBean) ){
-			if(BloodGroupDao.insertBloodGroupData(bloodGroupBean, userName)){
+		if( BloodGroupService.isValid(bloodGroupBean,userName) ){
+			if(BloodGroupService.insertBloodGroupData(bloodGroupBean, userName)){
 				Messagebox.show("Saved Succesfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
-				onLoad();
+				BloodGroupService.clearData(bloodGroupBean);
+				BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
 			}
 		}
 	}
@@ -116,63 +82,15 @@ public class BloodGroupMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickUpdate(){
-		updateData();
-	}
-	
-	public void updateData(){
-		
-		if(fieldValidation()){
-		try {			
-			sql:{
-			connection = DbConnection.createConnection();
-			connection.setAutoCommit(false);
-			PreparedStatement preparedStatement = null;
-			try {
-				preparedStatement = Util1.createQuery(connection, SqlQuery.updateBloodGroupQuery, 
-						Arrays.asList(bloodGroupBean.getBloodGroupName().toUpperCase(),userName , bloodGroupBean.getBloodGroupId() ));
-				
-				int i = preparedStatement.executeUpdate();
-				connection.commit();
-				if(i>0){
-					Messagebox.show("Updated successfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
-					clearScreen();
-					updateDisability = true;
-					saveDisability = true;
-				}else {
-					Messagebox.show("Updation Failed", "Information", Messagebox.OK, Messagebox.INFORMATION);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				connection.rollback();
-			}finally{
-				if(preparedStatement != null){
-					preparedStatement.close();
-				}if(connection != null){
-					connection.setAutoCommit(true);
-					connection.close();
-				}
-			}	
+		if( BloodGroupService.isValid(bloodGroupBean,userName) ){
+			if(BloodGroupService.updateBloodGroupData(bloodGroupBean, userName)){
+				saveDisability = true;
+				updateDisability = false;
+				BloodGroupService.clearData(bloodGroupBean);
+				Messagebox.show("Updated Succesfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+				BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+			}
 		}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		}
-		onLoad();
-		
-	}
-	
-	public boolean fieldValidation(){
-		if(bloodGroupBean.getBloodGroupName()!=null && bloodGroupBean.getBloodGroupName().trim().length()>0){
-			return true;
-		}else {
-			Messagebox.show("Enter Blood Group Name","Alert",Messagebox.OK,Messagebox.EXCLAMATION);
-			return false;
-		}
-	}
-	
-	public void clearScreen(){
-		bloodGroupBean.setBloodGroupName(null);
-		bloodGroupBean.setBloodGroupId(0);
 	}
 	
 	public Connection getConnection() {
