@@ -1,4 +1,4 @@
-package unility;
+package utility;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

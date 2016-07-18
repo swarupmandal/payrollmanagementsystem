@@ -21,7 +21,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
 
-import unility.Util1;
+import utility.Util1;
 
 public class PaymentModeMasterViewMode {
 
