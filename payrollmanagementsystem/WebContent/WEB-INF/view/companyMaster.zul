@@ -47,21 +47,17 @@
 				
 				
 				<label value="Phone"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.phoneNumber)"></textbox>
 				
 				</row>
 				
 				<row>
 				<label value="Website"></label>
-				<textbox ></textbox>
+				<textbox value="@bind(vm.companyMasterBean.website)"></textbox>
 				
 				<label value="Company Email"></label>
-				<textbox></textbox>
-				
-				
-				<!-- <label value="City"></label>
-				<textbox></textbox> -->
-				
+				<textbox value="@bind(vm.companyMasterBean.companyEmail)"></textbox>
+			
 				</row>
 				<row></row>
 			</rows>
@@ -88,14 +84,14 @@
 				<row>
 				
 				<label value="Contact Person"></label>
-				<textbox ></textbox>
+				<textbox value="@bind(vm.companyMasterBean.contactPerson)" ></textbox>
 				
 				<label value="Email"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.contactPersonEmail)"></textbox>
 				
 				
 				<label value="Phone no"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.contactPersonPhone)"></textbox>
 				</row>
 			</rows>
 	
@@ -122,13 +118,13 @@
 				<row>
 				
 				<label value="PF Number"></label>
-				<textbox ></textbox>
+				<textbox value="@bind(vm.companyMasterBean.companyPfNumber)"></textbox>
 				
 				<label value="Registration Date"></label>
-				<datebox width="160px"></datebox>
+				<datebox width="160px" value="@bind(vm.companyMasterBean.pfRegistrationDate)"></datebox>
 				
 				<label value="Signatory Name"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.pfSignatoryName)"></textbox>
 				</row>
 			</rows>
 	
@@ -155,13 +151,13 @@
 				<row>
 				
 				<label value="ESI Number"></label>
-				<textbox ></textbox>
+				<textbox value="@bind(vm.companyMasterBean.companyEsiNumber)"></textbox>
 				
 				<label value="Registration Date"></label>
-				<datebox width="160px"></datebox>
+				<datebox width="160px" value="@bind(vm.companyMasterBean.esiRegistrationDate)"></datebox>
 				
 				<label value="Signatory Name"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.esiSignatoryName)"></textbox>
 				</row>
 			</rows>
 	
@@ -189,13 +185,13 @@
 				<row>
 				
 				<label value="PT Number"></label>
-				<textbox ></textbox>
+				<textbox value="@bind(vm.companyMasterBean.companyPtNumber)" ></textbox>
 				
 				<label value="Registration Date"></label>
-				<datebox width="160px"></datebox>
+				<datebox width="160px" value="@bind(vm.companyMasterBean.ptRegistrationDate)"></datebox>
 				
 				<label value="Signatory Name"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.ptSignatoryName)"></textbox>
 				</row>
 			</rows>
 	
@@ -222,13 +218,13 @@
 				<row>
 				
 				<label value="PAN"></label>
-				<textbox ></textbox>
+				<textbox value="@bind(vm.companyMasterBean.panNumber)"></textbox>
 				
 				<label value="TAN"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.tan)"></textbox>
 				
 				<label value="TAN CIRCLE"></label>
-				<textbox></textbox>
+				<textbox value="@bind(vm.companyMasterBean.tanCircle)"></textbox>
 				</row>
 			</rows>
 	
@@ -237,7 +233,7 @@
 	<div height="30px"></div>
 	</div>
 	<div align="center">
-	<button label="Save Details" width="150px" height="30px"></button>
+	<button label="Save Details" width="150px" height="30px" onClick="@command('onclickSave')"></button>
 	
 	</div>
 	

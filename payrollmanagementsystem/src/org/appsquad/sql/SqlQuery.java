@@ -19,4 +19,29 @@ public class SqlQuery {
 	public static final String updatePaymentQuery = "update pms_payment_master set payment_mode = ? where id = ? ";
 	public static final String deletePaymentQuery = "update pms_payment_master set is_delete = 'Y' where id = ? ";
 	
+	
+	/**-------------------------------------------------------Paymode Master---------------------------------------------------------------------------**/
+	
+	
+	public static final String insertCompanyMasterQuery = "insert into pms_company_master (company_name, address, city, pincode, state_id, company_email, company_ph_no, company_website, created_by, updatetd_by) "
+														  + " values(?,?,?,?,?,?,?,?,?,?) ";
+	
+	public static final String getIdCompanyMasterQuery = "select max(company_id) as id from pms_company_master";
+	
+	public static final String insertCompanyContactInfo = "insert into pms_company_person_contact_info (contact_person_name, contact_person_email, contact_person_phone_no, company_id, created_by, updatetd_by) "
+														  + " values(?,?,?,?,?,?) ";
+	
+	public static final String insertPfInfo = "insert into pms_company_pf_info (company_pf_number, company_pf_registration_date, company_pf_signatory_name,company_id, created_by, updatetd_by) "
+			  								  + " values(?,?,?,?,?,?) ";
+	
+	public static final String insertEsiInfo = "insert into pms_company_esi_info (company_esi_number, company_esi_registration_date, company_esi_signatory_name, company_id, created_by, updatetd_by) "
+			  								  + " values(?,?,?,?,?,?) ";
+	
+	public static final String insertPtInfo = "insert into pms_company_pt_info (company_pt_number, company_pt_registration_date, company_pt_signatory_name, company_id, created_by, updatetd_by) "
+			  								  + " values(?,?,?,?,?,?) ";
+	
+	public static final String insertItInfo = "insert into pms_company_it_info (company_pan, company_tan, company_tan_cercle, company_id, created_by, updatetd_by) "
+			  								  + " values(?,?,?,?,?,?) ";
+	
+	
 }

@@ -3,7 +3,9 @@ package org.appsquad.viewmodel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.StateMasterBean;
@@ -19,6 +21,7 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 
+import bsh.util.Util;
 import utility.Util1;
 
 public class CompanyMasterViewModel {
@@ -101,18 +104,155 @@ public class CompanyMasterViewModel {
 		System.out.println("stateName selected");
 		System.out.println("State Name " + stateMasterBean.getStateName());
 		System.out.println("state Id " + stateMasterBean.getStateId());
+		companyMasterBean.setCompanyStateId(stateMasterBean.getStateId());
 		
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onclickSave(){
-		sql1:{
+		int i = 0;
+		Integer maxcompanyId = 0;
+		try {
+			connection = DbConnection.createConnection();
+			connection.setAutoCommit(false);  
+			sqlcompanyinfo1:{
+				PreparedStatement preparedStatement = null;
+				PreparedStatement preparedStatement2 = null;
+				   try {
+					
+					preparedStatement = Util1.createQuery(connection, SqlQuery.insertCompanyMasterQuery, Arrays.asList(companyMasterBean.getCompanyName(), 
+															companyMasterBean.getAddress(), companyMasterBean.getCity(), 
+															companyMasterBean.getPincode(),stateMasterBean.getStateId(),
+															companyMasterBean.getCompanyEmail(), companyMasterBean.getPhoneNumber(), 
+															companyMasterBean.getWebsite(), userId, userId ));
+					
+					i = preparedStatement.executeUpdate();
+					if(i>0){
+						
+						try {
+							
+							preparedStatement2 = Util1.createQuery(connection, SqlQuery.getIdCompanyMasterQuery, null);
+							ResultSet resultSet = preparedStatement2.executeQuery();
+							if(resultSet.next()){
+								maxcompanyId = resultSet.getInt("id");
+								
+							}
+						} finally {
+							if(preparedStatement2 != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} finally {
+					if(preparedStatement != null){
+						preparedStatement.close();
+					}
+					
+				}
+				
+				
+			 }
+			
+			sqlcontactpersoninfo2:{
+				 PreparedStatement preparedStatement = null;
+				 try {
+					 preparedStatement = Util1.createQuery(connection, SqlQuery.insertCompanyContactInfo, Arrays.asList(companyMasterBean.getContactPerson(), companyMasterBean.getContactPersonEmail(), companyMasterBean.getContactPersonPhone(),
+							 			 maxcompanyId, userId, userId));
+					 
+					 int contactinfoUpdate  = preparedStatement.executeUpdate();
+					 
+					
+				} finally{
+					if(preparedStatement != null){
+						preparedStatement.close();
+					}
+				}
+				 
+				 
+			 }
+			
+			sqlpfinfo3:{
+			     PreparedStatement preparedStatement = null;
+			     try {
+					preparedStatement = Util1.createQuery(connection, SqlQuery.insertPfInfo, Arrays.asList(companyMasterBean.getCompanyPfNumber(), companyMasterBean.getPfRegistrationDate(), companyMasterBean.getPfSignatoryName(), 
+									    maxcompanyId, userId, userId));
+					int pfinfoUpdate  = preparedStatement.executeUpdate(); 
+			    	 
+				}finally{
+					if(preparedStatement != null){
+						preparedStatement.close();
+					}
+				}
+			 }
+			
+			 sqlesiinfo4:{
+			     PreparedStatement preparedStatement = null;
+			     try {
+					preparedStatement = Util1.createQuery(connection, SqlQuery.insertEsiInfo, Arrays.asList(companyMasterBean.getCompanyEsiNumber(), companyMasterBean.getEsiRegistrationDate(), companyMasterBean.getEsiSignatoryName(), 
+									    maxcompanyId, userId, userId));
+					int esiinfoUpdate  = preparedStatement.executeUpdate(); 
+			    	 
+				}finally{
+					if(preparedStatement != null){
+						preparedStatement.close();
+					}
+				}
+			 }
+			
+			 sqlptinfo5:{
+			     PreparedStatement preparedStatement = null;
+			     try {
+					preparedStatement = Util1.createQuery(connection, SqlQuery.insertPtInfo, Arrays.asList(companyMasterBean.getCompanyPtNumber(), companyMasterBean.getPtRegistrationDate(), companyMasterBean.getPtSignatoryName(), 
+									    maxcompanyId, userId, userId));
+					int ptinfoUpdate  = preparedStatement.executeUpdate(); 
+			    	 
+				}finally{
+					if(preparedStatement != null){
+						preparedStatement.close();
+					}
+				}
+			 } 
+			 
+			 sqlitinfo6:{
+			     PreparedStatement preparedStatement = null;
+			     try {
+					preparedStatement = Util1.createQuery(connection, SqlQuery.insertItInfo, Arrays.asList(companyMasterBean.getPanNumber(), companyMasterBean.getTan(), companyMasterBean.getTanCircle(), 
+									    maxcompanyId, userId, userId));
+					int itinfoUpdate  = preparedStatement.executeUpdate(); 
+			    	 
+				}finally{
+					if(preparedStatement != null){
+						preparedStatement.close();
+					}
+				}
+			 }
+			connection.commit();
+			
+			
+			
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally{
+			if(connection != null){
+				try {
+					connection.setAutoCommit(true);
+					connection.close();
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			}
+		}
+	
 		
-	        }
-	
-	
-	
+		
 	}
 	
 	
