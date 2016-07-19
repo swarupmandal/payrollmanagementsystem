@@ -1,6 +1,7 @@
 <?page title="UNIT" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Unit Master" border="normal">
+<window title="Unit Master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.UnitMasterViewModel')">
 <div align="center">
 		<grid>
 			<columns>
@@ -14,15 +15,20 @@
 			<rows>
 				<row>
 					<label value="Company Name"/>
-					<combobox placeholder="Select Company"></combobox>
+					<combobox placeholder="Select Company" model="@bind(vm.companyMasterBeanList)" 
+					selectedItem="@bind(vm.companyMasterBean)" onSelect="@command('onSelectCompanyName')">
+						<template name="model" var="v">
+							<comboitem label="@bind(v.companyName)" value="@bind(v.companyId)"/>
+						</template>
+					</combobox>
 					
 					
 					<label value="Unit Name"></label>
-					<textbox placeholder="unit name"></textbox>
+					<textbox placeholder="unit name" value="@bind(vm.unitMasterBean.unitName)"></textbox>
 					
 					
-					<button label="Save"/>
-					<button label="Update"/>
+					<button label="Save" onClick="@command('onClickSave')"/>
+					<button label="Update" onClick="@command('onClickUpdate')"/>
 				</row>
 			</rows>
 		</grid>
@@ -33,21 +39,24 @@
 	<space></space>
 	<div>
 	
-		<grid>
+		<grid model="@bind(vm.unitMasterBeanList)">
 			<columns>
 				<column label="Company Name" align="center"></column>
 				<column label="Unit Name" align="center"></column>
 				<column label="Action" align="center"></column>
 			</columns>
 			<rows>
+			<template name="model" var="v">
 				<row>
-				<textbox placeholder="Company Name"></textbox>
-				<textbox placeholder="Unit Name"></textbox>
-				<hlayout spacing="20px">
-				<button label="Edit"></button>
-				<button label="Delete"></button>
-				</hlayout>
+					<textbox placeholder="Company Name" value="@bind(v.companyName)"/>
+					<textbox placeholder="Unit Name" value="@bind(v.unitName)"/>
+					<hlayout spacing="20px">
+					<button label="Edit"></button>
+					<button label="Delete"></button>
+					</hlayout>
 				</row>
+			</template>
+			
 			</rows>	
 	
 		</grid>

@@ -3,8 +3,11 @@ package org.appsquad.viewmodel;
 import java.util.ArrayList;
 
 import org.appsquad.bean.BloodGroupBean;
+import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.dao.CompanyDao;
 import org.appsquad.service.BloodGroupService;
+import org.appsquad.service.UnitMasterService;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
@@ -20,19 +23,24 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
 
-public class BloodGroupMasterViewModel {
-
-	public BloodGroupBean bloodGroupBean = new BloodGroupBean();
+public class UnitMasterViewModel {
+	public UnitMasterBean unitMasterBean = new UnitMasterBean();
 
 	Session session = null;
 	
 	private String userName;
 	
-	public ArrayList<BloodGroupBean> bloodGroupBeanList = new ArrayList<BloodGroupBean>();
+	public ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
+	
+	private CompanyMasterBean companyMasterBean = new CompanyMasterBean();
+	
+	public ArrayList<CompanyMasterBean> companyMasterBeanList = new ArrayList<CompanyMasterBean>();
 	
 	public boolean saveDisability = false;
 	
 	public boolean updateDisability = true;
+	
+	private int companyId =0;
 	
 	@AfterCompose
 	public void initSetUp(@ContextParam(ContextType.VIEW) Component view) throws Exception{
@@ -43,49 +51,60 @@ public class BloodGroupMasterViewModel {
 		
 		userName = (String) session.getAttribute("userId");
 		
-		bloodGroupBean.setUserName(userName);
+		unitMasterBean.setUserName(userName);
 		
-		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+		UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
 		
+		companyMasterBeanList = CompanyDao.loadCompanyList();
+		
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectCompanyName(){
+		unitMasterBean.setCompanyName(companyMasterBean.getCompanyName());
+		companyId = companyMasterBean.getCompanyId();
+		unitMasterBean.setCompanyId(companyId);
 	}
 	
 	@GlobalCommand
 	@NotifyChange("*")
 	public void globalReload(){
-		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+		UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onClickSave(){
-		BloodGroupService.insertBloodGroupData(bloodGroupBean);
-		BloodGroupService.clearData(bloodGroupBean);
-		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+		unitMasterBean.setCompanyId(companyId);
+		UnitMasterService.insertUnitMasterData(unitMasterBean);
+		UnitMasterService.clearScreen(unitMasterBean);
+		UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
 	}
 	
 	@Command
 	@NotifyChange("*")
-	public void onClickEdit(@BindingParam("bean")BloodGroupBean bean){
-		
-		bloodGroupBean.setBloodGroupName(bean.getBloodGroupName());
-		bloodGroupBean.setBloodGroupId(bean.getBloodGroupId());
-		saveDisability = true;
-		updateDisability = false;
+	public void onClickEdit(@BindingParam("bean")UnitMasterBean bean){
+		unitMasterBean.setCompanyId(bean.getCompanyId());
+		unitMasterBean.setUnitAddress(bean.getUnitAddress());
+		unitMasterBean.setUnitName(bean.getUnitName());
+		unitMasterBean.setUnitId(bean.getUnitId());
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onClickUpdate(){
-		BloodGroupService.updateBloodGroupData(bloodGroupBean);
-		BloodGroupService.clearData(bloodGroupBean);
-		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+		UnitMasterService.updateUnitMasterData(unitMasterBean);
+		UnitMasterService.clearScreen(unitMasterBean);
+		UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
 		updateDisability = true;
 		saveDisability = false;
 	}
-	
+
+
 	@Command
 	@NotifyChange("*")
-	public void onClickDelete(@BindingParam("bean")BloodGroupBean bloodgroupbean){
+	public void onClickDelete(@BindingParam("bean")UnitMasterBean unitmasterbean){
 		
 		Messagebox.show(
 				"Are you sure to delete?", "Confirm Dialog",
@@ -95,7 +114,7 @@ public class BloodGroupMasterViewModel {
 					@Override
 					public void onEvent(Event evt) throws InterruptedException {
 						if (evt.getName().equals("onOK")) {
-							BloodGroupService.deleteBloodGroupData(bloodgroupbean);
+							UnitMasterService.deleteUnitMasterData(unitmasterbean);
 							 BindUtils.postGlobalCommand(null, null, "globalReload", null);
 						} else if (evt.getName().equals("onIgnore")) {
 							Messagebox.show("Ignore Deletion?", "Warning",
@@ -107,21 +126,13 @@ public class BloodGroupMasterViewModel {
 				}
 			);
 	}
-
-	public BloodGroupBean getBloodGroupBean() {
-		return bloodGroupBean;
+	
+	public UnitMasterBean getUnitMasterBean() {
+		return unitMasterBean;
 	}
 
-	public void setBloodGroupBean(BloodGroupBean bloodGroupBean) {
-		this.bloodGroupBean = bloodGroupBean;
-	}
-
-	public Session getSession() {
-		return session;
-	}
-
-	public void setSession(Session session) {
-		this.session = session;
+	public void setUnitMasterBean(UnitMasterBean unitMasterBean) {
+		this.unitMasterBean = unitMasterBean;
 	}
 
 	public String getUserName() {
@@ -132,12 +143,12 @@ public class BloodGroupMasterViewModel {
 		this.userName = userName;
 	}
 
-	public ArrayList<BloodGroupBean> getBloodGroupBeanList() {
-		return bloodGroupBeanList;
+	public ArrayList<UnitMasterBean> getUnitMasterBeanList() {
+		return unitMasterBeanList;
 	}
 
-	public void setBloodGroupBeanList(ArrayList<BloodGroupBean> bloodGroupBeanList) {
-		this.bloodGroupBeanList = bloodGroupBeanList;
+	public void setUnitMasterBeanList(ArrayList<UnitMasterBean> unitMasterBeanList) {
+		this.unitMasterBeanList = unitMasterBeanList;
 	}
 
 	public boolean isSaveDisability() {
@@ -154,5 +165,22 @@ public class BloodGroupMasterViewModel {
 
 	public void setUpdateDisability(boolean updateDisability) {
 		this.updateDisability = updateDisability;
+	}
+
+	public CompanyMasterBean getCompanyMasterBean() {
+		return companyMasterBean;
+	}
+
+	public void setCompanyMasterBean(CompanyMasterBean companyMasterBean) {
+		this.companyMasterBean = companyMasterBean;
+	}
+
+	public ArrayList<CompanyMasterBean> getCompanyMasterBeanList() {
+		return companyMasterBeanList;
+	}
+
+	public void setCompanyMasterBeanList(
+			ArrayList<CompanyMasterBean> companyMasterBeanList) {
+		this.companyMasterBeanList = companyMasterBeanList;
 	}
 }

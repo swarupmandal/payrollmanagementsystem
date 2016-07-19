@@ -37,7 +37,7 @@
 						<textbox placeholder="Blood Group name" value="@bind(v.bloodGroupName)"></textbox>
 						<hlayout spacing="20px">
 						<button label="Edit" onClick="@command('onClickEdit',bean=v)"></button>
-						<button label="Delete"></button>
+						<button label="Delete" onClick="@command('onClickDelete',bean=v)"></button>
 						</hlayout>
 					</row>
 				</template>

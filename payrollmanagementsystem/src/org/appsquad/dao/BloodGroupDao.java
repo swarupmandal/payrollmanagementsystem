@@ -3,6 +3,7 @@ package org.appsquad.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -52,37 +53,53 @@ public class BloodGroupDao {
 	}
 	
 	
-	public static boolean insertBloodGroupData(BloodGroupBean bloodGroupBean,String userName){
+	public static void insertBloodGroupData(BloodGroupBean bloodGroupBean){
 		boolean isInserted = false;
+		Connection connection = DbConnection.createConnection();
 		try {
 			sql:{
-				Connection connection = DbConnection.createConnection();
+				
 				PreparedStatement preparedStatement = null;
 				try {
 					preparedStatement = Util1.createQuery(connection, 
-							SqlQuery.insertBloodGroupQuery, Arrays.asList(bloodGroupBean.getBloodGroupName().toUpperCase(),userName) );
+							SqlQuery.insertBloodGroupQuery, Arrays.asList(bloodGroupBean.getBloodGroupName().toUpperCase(),
+									bloodGroupBean.getUserName()) );
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
 						isInserted = true;	
 					}					
-				} catch (Exception e) {
-					e.printStackTrace();
-					connection.rollback();
 				}finally{
 					if(preparedStatement != null){
 						preparedStatement.close();
-					}if(connection != null){
-						connection.close();
 					}
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		return isInserted;	
+		if( isInserted){
+			Messagebox.show("Blood Group Saved successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
+		}else{
+			Messagebox.show("Blood Group Saving failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
+		}
 	}
 	
-	public static boolean updateBloodGroupData(BloodGroupBean bloodGroupBean,String userName){
+	public static void updateBloodGroupData(BloodGroupBean bloodGroupBean){
 		Connection connection = null;
 		boolean isUpdated = false;
 		try {			
@@ -92,29 +109,91 @@ public class BloodGroupDao {
 			PreparedStatement preparedStatement = null;
 			try {
 				preparedStatement = Util1.createQuery(connection, SqlQuery.updateBloodGroupQuery, 
-						Arrays.asList(bloodGroupBean.getBloodGroupName().toUpperCase(),userName , bloodGroupBean.getBloodGroupId() ));
+						Arrays.asList(bloodGroupBean.getBloodGroupName().toUpperCase(),bloodGroupBean.getUserName() , 
+								bloodGroupBean.getBloodGroupId() ));
 
 				int i = preparedStatement.executeUpdate();
 				connection.commit();
 				if(i>0){
 					isUpdated = true;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				connection.rollback();
-			}finally{
+			} finally{
 				if(preparedStatement != null){
 					preparedStatement.close();
-				}if(connection != null){
-					connection.setAutoCommit(true);
-					connection.close();
 				}
 			}	
 		}
 		} catch (Exception e) {
 			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		return isUpdated;
+		if( isUpdated){
+			Messagebox.show("Blood group updated successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
+		}else{
+			Messagebox.show("Blood group updating failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
+		}
+	}
+	
+	public static void deleteBloodGroupData(BloodGroupBean bloodGroupBean){
+		Connection connection = null;
+		boolean isdeleted = false;
+		try {			
+			sql:{
+			connection = DbConnection.createConnection();
+			connection.setAutoCommit(false);
+			PreparedStatement preparedStatement = null;
+			try {
+				preparedStatement = Util1.createQuery(connection, SqlQuery.deleteBloodGroupQuery, 
+						Arrays.asList(bloodGroupBean.getBloodGroupId() ));
+
+				int i = preparedStatement.executeUpdate();
+				connection.commit();
+				if(i>0){
+					isdeleted = true;
+				}
+			} finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+			}	
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		if( isdeleted){
+			Messagebox.show("Blood group deleted successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
+		}else{
+			Messagebox.show("Blood group deleting failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
+		}
 	}
 	
 	
