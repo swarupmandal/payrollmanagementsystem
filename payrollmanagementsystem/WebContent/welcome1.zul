@@ -1,0 +1,26 @@
+<?page title="WELCOME" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css"	href="/style.css" ?>
+<zk>
+<style src="style.css"></style>
+<window title="" border="none">
+
+<div sclass="bgLogin">
+	<div sclass="outBorder">
+	<div sclass="bxLogin">
+		
+      	<html><![CDATA[
+        <h1 style="font-family: 'Zurich LtCn BT';">LOGIN ${parent.title}</h1>
+    ]]></html>
+    	
+        <textbox placeholder="User Name"  height="36px" width="300px" style="border-radius: 0px; border: 2px solid #EEE; background: rgba(0, 0, 0, 0.5); opacity: 0.6; filter: alpha(opacity=60); font-family: 'Zurich LtCn BT'; line-height:55px !important; color:#FFFFFF; font-size: 20px; padding:5px;"></textbox>
+        <div height="10px" ></div>
+        <textbox placeholder="Password" height="36px" width="300px" style="border-radius: 0px; border: 2px solid #EEE; background: rgba(0, 0, 0, 0.5); opacity: 0.6; filter: alpha(opacity=60); font-family: 'Zurich LtCn BT'; line-height:55px !important; color:#FFFFFF;  font-size: 20px; padding:5px;"></textbox>
+        <div height="20px" ></div>
+        <button label="Login" height="35px" width="300px" sclass="bb_button" ></button>
+      <div height="20px" ></div>
+      <a href="">forgot password?</a>
+    </div>
+    </div>
+</div>
+</window>
+</zk>

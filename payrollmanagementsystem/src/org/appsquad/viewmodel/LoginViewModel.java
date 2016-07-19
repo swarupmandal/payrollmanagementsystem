@@ -3,6 +3,7 @@ package org.appsquad.viewmodel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,10 +54,11 @@ public class LoginViewModel {
 		
 		if(isFieldValidate()){
 			
+			connection = DbConnection.createConnection();
 			try {
 				 
 				sql:{
-				     connection = DbConnection.createConnection();
+				     
 				     
 				     
 				     PreparedStatement preparedStatement = null;
@@ -75,20 +77,24 @@ public class LoginViewModel {
 						}else {
 							Messagebox.show("Illigal entry");
 						}
-					} catch (Exception e) {
-						
-						e.printStackTrace();
-					}finally{
+					} finally{
 						if(preparedStatement!=null){
 							preparedStatement.close();
-						}if(connection!=null){
-							connection.close();
 						}
 					}
 			}
 				
 			} catch (Exception e) {
 				e.printStackTrace();
+			}finally{
+				if(connection!=null){
+					try {
+						connection.close();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 			
 		}

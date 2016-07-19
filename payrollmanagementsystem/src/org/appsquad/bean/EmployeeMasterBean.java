@@ -18,7 +18,7 @@ public class EmployeeMasterBean {
 	private String empDobValue;
 	
 	private String empAddress;
-	private int empCity;
+	private String empCity;
 	private String empState;
 	private int empStateId;
 	private String pinCode;
@@ -29,11 +29,14 @@ public class EmployeeMasterBean {
 	
 	private Date empDoj;
 	private String empDesignation;
+	private int empDesignationId;
+	private String empLocation;
 	private double salary;
 	private String paymentMode;
-	private String paymentModeId;
+	private int paymentModeId;
 	private String empBankAccount;
-	private String empBankId;
+	private int empBankId;
+	private String empAccountNo;
 	private String ifscCode;
 	private Date incrementDate;
 	private String incrementDateValue;
@@ -162,13 +165,7 @@ public class EmployeeMasterBean {
 		this.empAddress = empAddress;
 	}
 
-	public int getEmpCity() {
-		return empCity;
-	}
-
-	public void setEmpCity(int empCity) {
-		this.empCity = empCity;
-	}
+	
 
 	public String getEmpState() {
 		return empState;
@@ -258,13 +255,7 @@ public class EmployeeMasterBean {
 		this.paymentMode = paymentMode;
 	}
 
-	public String getPaymentModeId() {
-		return paymentModeId;
-	}
-
-	public void setPaymentModeId(String paymentModeId) {
-		this.paymentModeId = paymentModeId;
-	}
+	
 
 	public String getEmpBankAccount() {
 		return empBankAccount;
@@ -274,13 +265,7 @@ public class EmployeeMasterBean {
 		this.empBankAccount = empBankAccount;
 	}
 
-	public String getEmpBankId() {
-		return empBankId;
-	}
-
-	public void setEmpBankId(String empBankId) {
-		this.empBankId = empBankId;
-	}
+	
 
 	public String getIfscCode() {
 		return ifscCode;
@@ -404,6 +389,122 @@ public class EmployeeMasterBean {
 
 	public void setEmpPhone(String empPhone) {
 		this.empPhone = empPhone;
+	}
+
+
+
+
+
+
+
+	public String getEmpCity() {
+		return empCity;
+	}
+
+
+
+
+
+
+
+	public void setEmpCity(String empCity) {
+		this.empCity = empCity;
+	}
+
+
+
+
+
+
+
+	public int getEmpDesignationId() {
+		return empDesignationId;
+	}
+
+
+
+
+
+
+
+	public void setEmpDesignationId(int empDesignationId) {
+		this.empDesignationId = empDesignationId;
+	}
+
+
+
+
+
+
+
+	public String getEmpLocation() {
+		return empLocation;
+	}
+
+
+
+
+
+
+
+	public void setEmpLocation(String empLocation) {
+		this.empLocation = empLocation;
+	}
+
+
+
+
+
+
+
+	public int getPaymentModeId() {
+		return paymentModeId;
+	}
+
+
+
+
+
+
+
+	public void setPaymentModeId(int paymentModeId) {
+		this.paymentModeId = paymentModeId;
+	}
+
+
+
+	public int getEmpBankId() {
+		return empBankId;
+	}
+
+
+
+
+
+
+
+	public void setEmpBankId(int empBankId) {
+		this.empBankId = empBankId;
+	}
+
+
+
+
+
+
+
+	public String getEmpAccountNo() {
+		return empAccountNo;
+	}
+
+
+
+
+
+
+
+	public void setEmpAccountNo(String empAccountNo) {
+		this.empAccountNo = empAccountNo;
 	}
 	
 	

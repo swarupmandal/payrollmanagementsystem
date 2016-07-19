@@ -3,9 +3,15 @@ package org.appsquad.viewmodel;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import org.appsquad.bean.BankAccountBean;
+import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
+import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeMasterBean;
+import org.appsquad.bean.PaymentModeMasterBean;
+import org.appsquad.bean.StateMasterBean;
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.dao.EmployeeDao;
 import org.appsquad.service.EmployeeMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -24,9 +30,20 @@ public class EmployeeMasterViewModel {
 	public ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	public ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	public ArrayList<EmployeeMasterBean> employeeMasterBeanList = new ArrayList<EmployeeMasterBean>();
+	private ArrayList<StateMasterBean> stateMasterBeanList = new ArrayList<StateMasterBean>();
+	private ArrayList<BloodGroupBean> bloodGroupBeanList = new ArrayList<BloodGroupBean>();
+	private ArrayList<DesignationBean> designationBeanList = new ArrayList<DesignationBean>();
+	private ArrayList<PaymentModeMasterBean> paymentModeMasterBeanList = new ArrayList<PaymentModeMasterBean>();
+	private ArrayList<BankAccountBean> bankAccountBeanList = new ArrayList<BankAccountBean>();
+	
 	public CompanyMasterBean companyMasterBean = new CompanyMasterBean();
 	public UnitMasterBean unitMasterBean = new UnitMasterBean();
-	public static final int maxEmpId =0;
+	private StateMasterBean stateMasterBean = new StateMasterBean();
+	private BloodGroupBean bloodGroupBean = new BloodGroupBean();
+	private DesignationBean designationBean = new DesignationBean();
+	private PaymentModeMasterBean paymentModeMasterBean = new PaymentModeMasterBean();
+	private BankAccountBean bankAccountBean = new BankAccountBean();
+	private int maxEmpId =0;
 
 	private Connection connection = null;
 	private Session session = null;
@@ -42,14 +59,26 @@ public class EmployeeMasterViewModel {
 		
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
 		EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
+		EmployeeMasterService.loadStateBeanList(stateMasterBeanList);
+		EmployeeMasterService.loadBloodGroupList(bloodGroupBeanList);
+		EmployeeMasterService.loadDesignationList(designationBeanList);
+		EmployeeMasterService.loadpaymentmodeList(paymentModeMasterBeanList);
+		EmployeeMasterService.loadBankList(bankAccountBeanList);
+		
 	}
 	
 	
 	
+	/*
+	 * @author: Swarup Mondol
+	 * @Functionality:
+	 * @Return:
+	 */
 	@Command
 	@NotifyChange("*")
 	public void saveEmpInfo(){
 		if(EmployeeMasterService.isValid(companyMasterBean, unitMasterBean, userName)){
+		
 		
 			if(EmployeeMasterService.insertEmployeeInformation(employeeMasterBean, userName)){
 				
@@ -61,6 +90,24 @@ public class EmployeeMasterViewModel {
 		
 	}
 
+	
+	@Command
+	@NotifyChange("*")
+	public void saveEmpInfo2(){
+		
+		if(EmployeeMasterService.isValid(companyMasterBean, unitMasterBean, userName)){
+			
+			maxEmpId = EmployeeMasterService.insertEmployeeInformation2(employeeMasterBean, userName);
+			
+			if(maxEmpId>0){
+				
+				Messagebox.show("Saved successfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			}
+		}
+		
+	}
+	
+	
 	@Command
 	@NotifyChange("*")
 	public void onSelectCompanyName(){
@@ -78,7 +125,102 @@ public class EmployeeMasterViewModel {
 	}
 	
 
+	@Command
+	@NotifyChange("*")
+	public void insertPersonalInfo(){
+		if(EmployeeMasterService.insertPersonelInfoService(employeeMasterBean, maxEmpId, userName)){
+			System.out.println("userName >>> >> > " + userName);
+			Messagebox.show("Saved successfully \n procceed to next tab", "Information", Messagebox.OK, Messagebox.INFORMATION);
+		}
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectStateName(){
+		System.out.println("selected state name >>> >> > " + stateMasterBean.getStateName());
+		System.out.println("Selected state id >>> >> > " + stateMasterBean.getStateId());
+		employeeMasterBean.setEmpStateId(stateMasterBean.getStateId());
+		
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectBooldGroup(){
+		System.out.println("selected Blood geoup name >>> >> > " + bloodGroupBean.getBloodGroupName());
+		System.out.println("Selected Blood id >>> >> > " + bloodGroupBean.getBloodGroupId());
+		employeeMasterBean.setEmpBloodGroupId(bloodGroupBean.getBloodGroupId());
+	}
+	
 
+	@Command
+	@NotifyChange("*")
+	public void onSelectDesignation(){
+		System.out.println("selected designation name >>> >> > " + designationBean.getDesignation());
+		System.out.println("Selected designation id >>> >> > " + designationBean.getDesignationId());
+		employeeMasterBean.setEmpDesignationId(designationBean.getDesignationId());
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectPaymentMode(){
+		System.out.println("selected Payment name >>> >> > " + paymentModeMasterBean.getPaymentMode());
+		System.out.println("Selected Payment id >>> >> > " + paymentModeMasterBean.getPaymentModeId());
+		employeeMasterBean.setPaymentModeId(paymentModeMasterBean.getPaymentModeId());
+	}
+	
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectBankAccount(){
+		System.out.println("selected Bank name >>> >> > " + bankAccountBean.getBankName());
+		System.out.println("Selected Bank id >>> >> > " + bankAccountBean.getBankId());
+		employeeMasterBean.setEmpBankId(bankAccountBean.getBankId());
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickOfficialDetails(){
+		if(EmployeeDao.insertEmpOfficialDet(employeeMasterBean, maxEmpId, userName)){
+			Messagebox.show("Saved successfully \n procceed to next tab", "Information", Messagebox.OK, Messagebox.INFORMATION);
+		}
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onCheckPf(){
+		if(employeeMasterBean.isPfCheckValue()){
+			employeeMasterBean.setUanFieldDisabled(true);
+		}else if (!employeeMasterBean.isPfCheckValue()) {
+			employeeMasterBean.setUanFieldDisabled(false);
+		}
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onCheckEsi(){
+		if(employeeMasterBean.isEsiCheckValue()){
+			employeeMasterBean.setEsiFieldDisabled(true);;
+		}else if (!employeeMasterBean.isEsiCheckValue()) {
+			employeeMasterBean.setEsiFieldDisabled(false);
+		}
+	}
+	
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickPfEsiSave(){
+		/*if (condition) {
+			
+		}*/
+		
+		
+		
+		
+		
+	}
+	
+	
+	
 	public EmployeeMasterBean getEmployeeMasterBean() {
 		return employeeMasterBean;
 	}
@@ -184,6 +326,130 @@ public class EmployeeMasterViewModel {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+
+
+	public ArrayList<StateMasterBean> getStateMasterBeanList() {
+		return stateMasterBeanList;
+	}
+
+
+
+	public void setStateMasterBeanList(
+			ArrayList<StateMasterBean> stateMasterBeanList) {
+		this.stateMasterBeanList = stateMasterBeanList;
+	}
+
+
+
+	public StateMasterBean getStateMasterBean() {
+		return stateMasterBean;
+	}
+
+
+
+	public void setStateMasterBean(StateMasterBean stateMasterBean) {
+		this.stateMasterBean = stateMasterBean;
+	}
+
+
+
+	public ArrayList<BloodGroupBean> getBloodGroupBeanList() {
+		return bloodGroupBeanList;
+	}
+
+
+
+	public void setBloodGroupBeanList(ArrayList<BloodGroupBean> bloodGroupBeanList) {
+		this.bloodGroupBeanList = bloodGroupBeanList;
+	}
+
+
+
+	public BloodGroupBean getBloodGroupBean() {
+		return bloodGroupBean;
+	}
+
+
+
+	public void setBloodGroupBean(BloodGroupBean bloodGroupBean) {
+		this.bloodGroupBean = bloodGroupBean;
+	}
+
+
+
+	public ArrayList<DesignationBean> getDesignationBeanList() {
+		return designationBeanList;
+	}
+
+
+
+	public void setDesignationBeanList(
+			ArrayList<DesignationBean> designationBeanList) {
+		this.designationBeanList = designationBeanList;
+	}
+
+
+
+	public DesignationBean getDesignationBean() {
+		return designationBean;
+	}
+
+
+
+	public void setDesignationBean(DesignationBean designationBean) {
+		this.designationBean = designationBean;
+	}
+
+
+
+	public ArrayList<PaymentModeMasterBean> getPaymentModeMasterBeanList() {
+		return paymentModeMasterBeanList;
+	}
+
+
+
+	public void setPaymentModeMasterBeanList(
+			ArrayList<PaymentModeMasterBean> paymentModeMasterBeanList) {
+		this.paymentModeMasterBeanList = paymentModeMasterBeanList;
+	}
+
+
+
+	public PaymentModeMasterBean getPaymentModeMasterBean() {
+		return paymentModeMasterBean;
+	}
+
+
+
+	public void setPaymentModeMasterBean(PaymentModeMasterBean paymentModeMasterBean) {
+		this.paymentModeMasterBean = paymentModeMasterBean;
+	}
+
+
+
+	public ArrayList<BankAccountBean> getBankAccountBeanList() {
+		return bankAccountBeanList;
+	}
+
+
+
+	public void setBankAccountBeanList(
+			ArrayList<BankAccountBean> bankAccountBeanList) {
+		this.bankAccountBeanList = bankAccountBeanList;
+	}
+
+
+
+	public BankAccountBean getBankAccountBean() {
+		return bankAccountBean;
+	}
+
+
+
+	public void setBankAccountBean(BankAccountBean bankAccountBean) {
+		this.bankAccountBean = bankAccountBean;
 	}
 	
 }

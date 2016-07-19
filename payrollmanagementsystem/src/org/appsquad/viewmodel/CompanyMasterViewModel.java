@@ -21,7 +21,6 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 
-import bsh.util.Util;
 import utility.Util1;
 
 public class CompanyMasterViewModel {
@@ -52,7 +51,7 @@ public class CompanyMasterViewModel {
 		userId = (String) session.getAttribute("userId");
 		
 		fetchStateNameList();
-		}
+	}
 	
 	public void fetchStateNameList(){
 		if(stateBeanList.size()>0){
