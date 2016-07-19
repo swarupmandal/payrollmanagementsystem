@@ -38,6 +38,22 @@ public class CompanyMasterBean {
 	private String panNumber;
 	private String tan;
 	private String tanCircle;
+	
+	
+	
+	public CompanyMasterBean() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public CompanyMasterBean(String companyName, int companyId) {
+		super();
+		this.companyName = companyName;
+		this.companyId = companyId;
+	}
+
+
 	public String getCompanyName() {
 		return companyName;
 	}

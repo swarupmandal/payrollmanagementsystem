@@ -1,35 +1,27 @@
 package org.appsquad.viewmodel;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.appsquad.bean.BloodGroupBean;
-import org.appsquad.bean.StateMasterBean;
-import org.appsquad.dao.BloodGroupDao;
-import org.appsquad.database.DbConnection;
+import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.service.BloodGroupService;
-import org.appsquad.sql.SqlQuery;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
 
-import utility.Util1;
-
 public class BloodGroupMasterViewModel {
 
-	private Connection connection = null;
-	
 	public BloodGroupBean bloodGroupBean = new BloodGroupBean();
 
 	Session session = null;
@@ -51,22 +43,24 @@ public class BloodGroupMasterViewModel {
 		
 		userName = (String) session.getAttribute("userId");
 		
+		bloodGroupBean.setUserName(userName);
+		
 		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
-		//System.out.println("Size:: "+bloodGroupBeanList.size());
+		
 	}
 	
+	@GlobalCommand
+	@NotifyChange("*")
+	public void globalReload(){
+		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onClickSave(){
-	
-		if( BloodGroupService.isValid(bloodGroupBean,userName) ){
-			if(BloodGroupService.insertBloodGroupData(bloodGroupBean, userName)){
-				Messagebox.show("Saved Succesfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
-				BloodGroupService.clearData(bloodGroupBean);
-				BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
-			}
-		}
+		BloodGroupService.insertBloodGroupData(bloodGroupBean);
+		BloodGroupService.clearData(bloodGroupBean);
+		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
 	}
 	
 	@Command
@@ -82,23 +76,36 @@ public class BloodGroupMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickUpdate(){
-		if( BloodGroupService.isValid(bloodGroupBean,userName) ){
-			if(BloodGroupService.updateBloodGroupData(bloodGroupBean, userName)){
-				saveDisability = true;
-				updateDisability = false;
-				BloodGroupService.clearData(bloodGroupBean);
-				Messagebox.show("Updated Succesfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
-				BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
-			}
-		}
+		BloodGroupService.updateBloodGroupData(bloodGroupBean);
+		BloodGroupService.clearData(bloodGroupBean);
+		BloodGroupService.loadAllDataOfBloodGroup(bloodGroupBeanList);
+		updateDisability = true;
+		saveDisability = false;
 	}
 	
-	public Connection getConnection() {
-		return connection;
-	}
-
-	public void setConnection(Connection connection) {
-		this.connection = connection;
+	@Command
+	@NotifyChange("*")
+	public void onClickDelete(@BindingParam("bean")BloodGroupBean bloodgroupbean){
+		
+		Messagebox.show(
+				"Are you sure to delete?", "Confirm Dialog",
+				Messagebox.OK | Messagebox.IGNORE | Messagebox.CANCEL,
+				Messagebox.QUESTION, 
+				new org.zkoss.zk.ui.event.EventListener() {
+					@Override
+					public void onEvent(Event evt) throws InterruptedException {
+						if (evt.getName().equals("onOK")) {
+							BloodGroupService.deleteBloodGroupData(bloodgroupbean);
+							 BindUtils.postGlobalCommand(null, null, "globalReload", null);
+						} else if (evt.getName().equals("onIgnore")) {
+							Messagebox.show("Ignore Deletion?", "Warning",
+									Messagebox.OK, Messagebox.EXCLAMATION);
+						} else {
+							System.out.println("Save Canceled !");
+						}
+					}
+				}
+			);
 	}
 
 	public BloodGroupBean getBloodGroupBean() {
