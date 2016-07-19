@@ -1,7 +1,6 @@
 package org.appsquad.bean;
 
 public class UnitMasterBean {
-
 	private int unitId,companyId;
 	private String unitName,unitAddress,userName,companyName;
 	
@@ -67,5 +66,4 @@ public class UnitMasterBean {
 		this.companyName = companyName;
 	}
 
-	
 }

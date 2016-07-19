@@ -14,7 +14,7 @@ public class BloodGroupBean {
 	
 	public BloodGroupBean() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public String getBloodGroupName() {
