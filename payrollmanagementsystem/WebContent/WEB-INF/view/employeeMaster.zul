@@ -242,7 +242,27 @@
 					
 				
 				<tabpanel>
-					
+					<grid model="@bind(vm.componentMasterBeanList)">
+					  <columns>
+					<column label="Sl no"></column>
+					<column label="Component Name"></column>
+					<column label="Component Type"></column>
+					<column label="Check"></column>
+				</columns>
+		
+				<rows>
+				 <template name="model" var = "v">
+				  <row> 	
+					<label></label>
+					<textbox value="@bind(vm.componentMasterBean.componentName)"></textbox>
+					<textbox value="@bind(vm.unitMasterBean.unitId)"></textbox>
+					<checkbox checked="false" ></checkbox>
+				
+				
+				   </row>
+				   </template>	
+				</rows>
+				</grid>
 				
 				
 				</tabpanel>
@@ -251,7 +271,7 @@
 					<div>
 						<hlayout>
 							<label value="PF"></label>
-							<checkbox onCheck="@command('onCheckPf')"></checkbox>
+							<checkbox checked="@bind(vm.employeeMasterBean.pfCheckValue)" onCheck="@command('onCheckPf')"></checkbox>
 							<space></space>
 							
 							<label value="UAN"></label>
@@ -260,7 +280,7 @@
 						<space></space>
 						<hlayout>
 							<label value="ESI"></label>
-							<checkbox onCheck="@command('onCheckEsi')"></checkbox>
+							<checkbox checked="@bind(vm.employeeMasterBean.esiCheckValue)" onCheck="@command('onCheckEsi')"></checkbox>
 							<space></space>
 							
 							<label value="ESI"></label>

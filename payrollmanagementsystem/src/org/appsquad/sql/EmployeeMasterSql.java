@@ -13,7 +13,7 @@ public class EmployeeMasterSql {
 																+ "	values(?,?,?,?,?,?,?,?,?,?) ";
 	public static final String selectMaxEmployeeID = "select max(employee_id) as employee_id from pms_employee_master ";
 	
-	public static final String loadStateListQuery = "select state_name, id from pms_state_master";
+	public static final String loadStateListQuery = "select state_name, id from pms_state_master where is_delete = 'N' ";
 	
 	public static final String loadBllodGroupListQuery = "select bloodgroup_id, bloodgroup_name from pms_bloodgroup_master";
 	
@@ -57,7 +57,9 @@ public class EmployeeMasterSql {
 																		"    ? " +
 																		"  )";
 																
+	public static final String empPfEsiInsertQuery = "INSERT INTO pms_employee_pf_esi_details(employee_id, uan, esi, created_by, updatetd_by)VALUES (?, ?, ?, ?, ?) ";
 	
-	
-	
+	public static final String loadComponentDetailsQuery =  "SELECT pcm.component_id, pcm.component_name, pctm.component_type "
+			+ " FROM pms_component_master pcm, pms_component_type_master pctm "
+			+ " WHERE pcm.component_type_id = pctm.component_type_id";
 }

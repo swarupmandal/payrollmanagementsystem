@@ -32,7 +32,7 @@ public class LoginHomeViewModel {
 		userId = (String) session.getAttribute("userId");
 		
 		if(userId==null){
-			Executions.sendRedirect("/welcome.zul");
+			Executions.sendRedirect("/welcome1.zul");
 		}else{
 			userId = "Welcome "+userId;
 			

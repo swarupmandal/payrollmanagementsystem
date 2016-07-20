@@ -1,22 +1,39 @@
 <?page title="COMPONENT" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Component Master" border="normal">
+<window title="Component Master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.ComponentMasterViewMoedl')">
+
+	
 
 	<div align="center">
 		<grid>
 			<columns>
 				<column align="right"/>
 				<column align="left"/>
+				<column align="right"/>
+				<column align="left"/>
+				<column align="right"/>
+				<column align="left"/>
+				
 			</columns>
 			<rows>
 				<row>
 					<label value="Component"/>
-					<textbox placeholder="Component"/>
-				</row>
-				<row>
-					<button label="Save"/>
+					<textbox placeholder="Component" value="@bind(vm.componentName)"/>
+					
+					<label value="Component Type"></label>
+					<combobox  width="120px" model="@bind(vm.componetTypeList)" placeholder="Select E/D"
+				    value="@bind(vm.componentMasterBean.componentType)"
+					selectedItem="@bind(vm.componentMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.componentType)" value="@bind(v.componentTypeId)" />
+					  </template>
+				    </combobox>
+				
+				<button label="Save" onClick="@command('onClickSave')"/>
 					<button label="Update"/>
 				</row>
+				
 			</rows>
 		</grid>
 		
@@ -26,19 +43,28 @@
 	
 	<div>
 	
-		<grid>
+		<grid model="@bind(vm.componentMasterBeanList)">
 			<columns>
 				<column label="Component" align="center"></column>
+				
 				<column label="Action" align="center"></column>
 			</columns>
 			<rows>
+			
+			<template name="model" var="v">
 				<row>
-				<textbox placeholder="Component"></textbox>
+				<hlayout>
+				  <textbox value="@bind(v.componentName)"></textbox>
+				    <space></space>
+				  <textbox value="@bind(v.componentType)"></textbox>
+				</hlayout>
+				
 				<hlayout spacing="20px">
-				<button label="Edit"></button>
-				<button label="Delete"></button>
+				   <button label="Edit"></button>
+				    <button label="Delete"></button>
 				</hlayout>
 				</row>
+				</template>
 			</rows>	
 	
 		</grid>

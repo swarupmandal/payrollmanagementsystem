@@ -1,0 +1,244 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ====== Zurich LtCn BT ========= */
+@font-face {
+    font-family: 'ZurichBT-LightCondensed';
+    src: url('zurchlc.eot');
+    src: url('zurchlc.eot?#iefix') format('embedded-opentype'),
+         url('zurchlc.woff') format('woff'),
+         url('zurchlc.ttf') format('truetype'),
+         url('zurchlc.svg#zurchlc') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Zurich LtCn BT';
+  src: url('fonts/zurchlc.eot');
+  src: url('fonts/zurchlc?#iefix') format('embedded-opentype'), url('fonts/zurchlc.woff') format('woff'), url('fonts/zurchlc.ttf') format('truetype'), url('fonts/zurchlc.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* ====== Zurich Cn BT ========= */
+@font-face {
+  font-family: 'ZurichBT-BoldCondensed';
+  src: url('fonts/zurchbc.eot');
+  src: url('fonts/zurchbc.eot?#iefix') format('embedded-opentype'), url('fonts/zurchbc.woff') format('woff'), url('fonts/zurchbc.ttf') format('truetype'), url('fonts/zurchbc.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Zurich Cn BT';
+  src: url('fonts/zurchbc.eot');
+  src: url('fonts/zurchbc.eot?#iefix') format('embedded-opentype'), url('fonts/zurchbc.woff') format('woff'), url('fonts/zurchbc.ttf') format('truetype'), url('fonts/zurchbc.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* ====== Zurich BlkEx BT ========= */
+@font-face {
+  font-family: 'ZurichBT-BlackExtended';
+  src: url('fonts/zurchke.eot');
+  src: url('fonts/zurchke.eot?#iefix') format('embedded-opentype'), url('fonts/zurchke.woff') format('woff'), url('fonts/zurchke.ttf') format('truetype'), url('fonts/zurchke.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Zurich BlkEx BT';
+  src: url('fonts/Zurich BlkEx BT.eot');
+  src: url('fonts/Zurich BlkEx BT.eot?#iefix') format('embedded-opentype'), url('fonts/Zurich BlkEx BT.woff') format('woff'), url('fonts/Zurich BlkEx BT.ttf') format('truetype'), url('fonts/Zurich BlkEx BT.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'zurich_lt_btlight';
+  src: url('fonts/zurchl-webfont.eot');
+  src: url('fonts/zurchl-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/zurchl-webfont.woff') format('woff'), url('fonts/zurchl-webfont.ttf') format('truetype'), url('fonts/zurchl-webfont.svg#zurich_lt_btlight') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* ====== Zurich End ========= */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'ZurichBT-LightCondensed','Zurich BlkEx BT','zurich_lt_btlight','ZurichBT-BlackExtended','Zurich Cn BT','ZurichBT-BoldCondensed' !important;
+  font-size: 16px;
+  color: #333;
+  
+  background:url('images/bg_login.jpg') no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'ZurichBT-LightCondensed' !important;
+	color: #64c5cf;
+	text-transform: capitalize;
+}
+h1 {
+	font-size: 60px;
+	letter-spacing: 10px;
+}
+h2 {
+	font-size: 50px;
+	letter-spacing: 8px;
+}
+h3 {
+	font-size: 40px;
+	letter-spacing: 8px;
+}
+h4 {
+	font-size: 32px;
+	letter-spacing: 6px;
+}
+h5 {
+	font-size: 24px;
+	letter-spacing: 4px;
+}
+h6 {
+	font-size: 18px;
+	letter-spacing: 2px;
+}
+.pageTitle {
+	font: 'Zurich LtCn BT' 60px #64c5cf;
+	letter-spacing: 10px;
+}
+a {
+	font-family: 'ZurichBT-LightCondensed', 'Arial'  !important;
+	font-size: 14px !important;
+	font-weight: normal !important;
+ 	color: #ffffff;
+ 	text-decoration: none;
+ 	letter-spacing: 2px;
+}
+a:hover {
+ 	color: #64c5cf;
+}
+.bb_logo {
+	float: left;
+	margin: 1vh 2vw;
+	width: 80px;
+	height: 87px;
+	background: url('images/bb_logo.png') no-repeat; 
+}
+.headText {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #64c5cf;
+	font-size: 36px;
+	line-height: 36px;
+	letter-spacing: 2px;
+}
+.bb_button {
+	font-family: 'Zurich LtCn BT';
+	color:#333333;
+	font-size:20px;
+	font-weight: bold;
+	background:#64c5cf;
+	border:none;
+	letter-spacing:3px;
+	box-shadow: 0px 0px 5px #000;
+	border-radius: 0px;
+}
+.bb_buttonSml {
+	font-family: 'Zurich LtCn BT';
+	color:#333333;
+	font-size:16px;
+	font-weight: bold;
+	background:#64c5cf;
+	border:none;
+	letter-spacing:3px;
+	box-shadow: 0px 0px 5px #000;
+	border-radius: 0px;
+	
+}
+.bgLogin {
+	width:100vw;
+	height: 100vh;
+	padding-top: 4vh;
+	background:url('images/bg_login.jpg') no-repeat center center fixed !important; 
+	-webkit-background-size: cover !important;
+	-moz-background-size: cover !important;
+	-o-background-size: cover !important;
+	background-size: cover !important;
+}
+.outBorder {
+	margin: 0 auto;
+	width:96vw;
+	height: 92vh;
+	background: rgba(0, 0, 0, 0.3);
+}
+.container {
+	margin: 0 auto;
+	width: 96vw;
+}
+
+.bxLogin {
+	margin: 0 auto;
+	width: 300px;
+	padding-top: 20vh;
+}
+/* ==== Home =================*/
+.north {
+	background : #333333;
+}
+.west {
+	background : #333333;
+}
+.mybutton {
+	border-radius: 10px;
+	background: linear-gradient(to bottom, #f0f9ff 0%, #a1dbff 100%);
+	font-size : 15px;
+}
+.myGrid tr.z-row td.z-row-inner, tr.z-row  .z-cell, div.z-grid {
+	align: right;
+	border: 2px;
+}
+treerow {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-size: 14px !important;
+	font-weight: normal !important;
+ 	color: #ffffff;
+ 	text-decoration: none;
+ 	letter-spacing: 1px;
+}
+label {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-size: 40px !important;
+	font-weight: normal !important;
+ 	color: #ffffff;
+ 	text-decoration: none;
+ 	letter-spacing: 1px;
+}
+.mylabel {
+	font-size : 15px;
+	align: center;
+	font-weight: bold;
+	color: #DFADCC;
+}
+.panellabel {
+	align: right;
+}
+.z-tab-ver .z-tab-ver-text {
+	text-align: left;
+}
+/* ==== OVERRIDE =================*/
+.z-window-content {
+	padding: 0px;
+}
+.z-grid, .z-tree {
+	border: none;
+}
+.z-treecell-text {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #FFFFFF;
+	font-size: 18px;
+	line-height: 30px;
+	letter-spacing: 1px;
+}
+.z-treerow .z-treerow-selected {
+	background: rgba(100, 197, 207, 0.3);
+}
+.z-treerow:hover .z-treecell-content {
+    color: rgba(100, 197, 207, 0.3);
+}

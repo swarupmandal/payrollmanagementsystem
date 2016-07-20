@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import org.appsquad.bean.BankAccountBean;
 import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
+import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
 import org.appsquad.bean.StateMasterBean;
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.dao.ComponentMasterDao;
 import org.appsquad.dao.EmployeeDao;
 import org.zkoss.zul.Flash;
 import org.zkoss.zul.Messagebox;
@@ -99,27 +101,45 @@ public class EmployeeMasterService {
 		}
 	
 	public static boolean isPfEsiFieldEmpty(EmployeeMasterBean bean){
-		if((bean.isPfCheckValue() && bean.getUan() != null) || (bean.isEsiCheckValue() && bean.getEsi() != null)){
-			return true;
-		}
 		
-		boolean falg = false;
+		boolean flag = false;
 		
 		if(bean.isPfCheckValue() || bean.isEsiCheckValue()){
 			if(bean.isPfCheckValue()){
 				if(bean.getUan() != null){
-					falg = true;
+					flag = true;
 				}
 			}
 			if(bean.isEsiCheckValue()){
 				if(bean.getEsi() != null){
-					falg = true;
+					flag = true;
 				}
 			}
 		}
-		return falg;
+		if(bean.isPfCheckValue() && bean.isEsiCheckValue()){
+			if(bean.getUan() != null && bean.getEsi() != null){
+				flag = true;
+		    }else {
+				flag = false;
+			}
+	  }
+		
+		return flag;
 	}
 	
+	public static boolean pfEsiInsert(EmployeeMasterBean bean, int empId, String userName){
+		if(EmployeeDao.pfEsiSave(bean, empId, userName)){
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
+	public static void loadComponentDetails(ArrayList<ComponentMasterBean> beanList){
+		EmployeeDao.onloadComponentDetails(beanList);
+		
+	}
 	
 	
 	

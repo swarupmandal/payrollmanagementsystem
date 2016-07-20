@@ -73,7 +73,7 @@ public class LoginViewModel {
 							String userId = resultSet.getString("user_id");
 							session.setAttribute("userId", userId);
 							Executions.sendRedirect("/test.zul");
-							
+							//Executions.sendRedirect("/home.zul");
 						}else {
 							Messagebox.show("Illigal entry");
 						}

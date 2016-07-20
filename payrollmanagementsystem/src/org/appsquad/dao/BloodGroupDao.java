@@ -76,12 +76,7 @@ public class BloodGroupDao {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			
 		}finally{
 			if(connection != null){
 				try {

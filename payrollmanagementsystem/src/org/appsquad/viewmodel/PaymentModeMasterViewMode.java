@@ -58,7 +58,7 @@ private Connection connection = null;
 			ResultSet resultSet = null;
 		
 			try {
-				preparedStatement = Util1.createQuery(connection, SqlQuery.onLoadStateQuery, null);
+				preparedStatement = Util1.createQuery(connection, SqlQuery.onLoadPaymentQuery, null);
 				
 				resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
@@ -95,9 +95,6 @@ private Connection connection = null;
 			
 			if(paymentModeMasterBean.getPaymentModeId()>0){
 				
-				
-				
-				
 			}else {
 
 				
@@ -107,7 +104,7 @@ private Connection connection = null;
 					connection = DbConnection.createConnection();
 					PreparedStatement preparedStatement = null;
 					try {
-						preparedStatement = Util1.createQuery(connection, SqlQuery.insertPaymentQuery, Arrays.asList(paymentModeMasterBean.getPaymentMode()));
+						preparedStatement = Util1.createQuery(connection, SqlQuery.insertPaymentQuery, Arrays.asList(paymentModeMasterBean.getPaymentMode().toUpperCase()));
 						int i = preparedStatement.executeUpdate();
 						if(i>0){
 							Messagebox.show("saved successfully");
@@ -133,7 +130,7 @@ private Connection connection = null;
 			}
 			
 		}
-		
+		onLoad();
 		
 		
 		

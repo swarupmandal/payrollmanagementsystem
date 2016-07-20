@@ -16,6 +16,7 @@
 				</row>
 				<row>
 					<!-- <button label="Save"/> -->
+					<label></label>
 					<button label="Save" onClick="@command('onClickSave')"/>
 				</row>
 			</rows>
@@ -33,13 +34,15 @@
 				<column label="Action" align="center"></column>
 			</columns>
 			<rows>
+				<template name="model" var="v">
 				<row>
-				<textbox placeholder="Payment Mode" value="@bind(vm.paymentModeMasterBean.paymentMode)" readonly="true"></textbox>
+				<textbox placeholder="Payment Mode" value="@bind(v.paymentMode)" readonly="true"></textbox>
 				<hlayout spacing="20px">
 				<button label="Edit"></button>
 				<button label="Delete"></button>
 				</hlayout>
 				</row>
+				</template>
 			</rows>	
 	
 		</grid>

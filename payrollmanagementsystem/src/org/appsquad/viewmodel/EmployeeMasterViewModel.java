@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.appsquad.bean.BankAccountBean;
 import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
+import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
@@ -35,6 +36,8 @@ public class EmployeeMasterViewModel {
 	private ArrayList<DesignationBean> designationBeanList = new ArrayList<DesignationBean>();
 	private ArrayList<PaymentModeMasterBean> paymentModeMasterBeanList = new ArrayList<PaymentModeMasterBean>();
 	private ArrayList<BankAccountBean> bankAccountBeanList = new ArrayList<BankAccountBean>();
+	ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
+	
 	
 	public CompanyMasterBean companyMasterBean = new CompanyMasterBean();
 	public UnitMasterBean unitMasterBean = new UnitMasterBean();
@@ -43,6 +46,7 @@ public class EmployeeMasterViewModel {
 	private DesignationBean designationBean = new DesignationBean();
 	private PaymentModeMasterBean paymentModeMasterBean = new PaymentModeMasterBean();
 	private BankAccountBean bankAccountBean = new BankAccountBean();
+	private ComponentMasterBean componentMasterBean = new ComponentMasterBean();
 	private int maxEmpId =0;
 
 	private Connection connection = null;
@@ -64,6 +68,7 @@ public class EmployeeMasterViewModel {
 		EmployeeMasterService.loadDesignationList(designationBeanList);
 		EmployeeMasterService.loadpaymentmodeList(paymentModeMasterBeanList);
 		EmployeeMasterService.loadBankList(bankAccountBeanList);
+		EmployeeMasterService.loadComponentDetails(componentMasterBeanList);
 		
 	}
 	
@@ -188,10 +193,12 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onCheckPf(){
-		if(employeeMasterBean.isPfCheckValue()){
-			employeeMasterBean.setUanFieldDisabled(true);
-		}else if (!employeeMasterBean.isPfCheckValue()) {
+		
+		if(employeeMasterBean.isPfCheckValue()==true){
 			employeeMasterBean.setUanFieldDisabled(false);
+			}else if (employeeMasterBean.isPfCheckValue()==false) {
+			employeeMasterBean.setUan(null);
+			employeeMasterBean.setUanFieldDisabled(true);
 		}
 	}
 	
@@ -199,9 +206,10 @@ public class EmployeeMasterViewModel {
 	@NotifyChange("*")
 	public void onCheckEsi(){
 		if(employeeMasterBean.isEsiCheckValue()){
-			employeeMasterBean.setEsiFieldDisabled(true);;
-		}else if (!employeeMasterBean.isEsiCheckValue()) {
 			employeeMasterBean.setEsiFieldDisabled(false);
+		}else if (!employeeMasterBean.isEsiCheckValue()) {
+			employeeMasterBean.setEsi(null);
+			employeeMasterBean.setEsiFieldDisabled(true);
 		}
 	}
 	
@@ -209,13 +217,17 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickPfEsiSave(){
-		/*if (condition) {
+		if (EmployeeMasterService.isPfEsiFieldEmpty(employeeMasterBean)) {
 			
-		}*/
-		
-		
-		
-		
+			if(EmployeeMasterService.pfEsiInsert(employeeMasterBean, maxEmpId, userName)){
+				
+				Messagebox.show("Saved succesful", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			}else {
+				Messagebox.show("Fill the details", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			}
+		}else {
+			Messagebox.show("Fill the details", "Information", Messagebox.OK, Messagebox.INFORMATION);
+		}
 		
 	}
 	
@@ -450,6 +462,43 @@ public class EmployeeMasterViewModel {
 
 	public void setBankAccountBean(BankAccountBean bankAccountBean) {
 		this.bankAccountBean = bankAccountBean;
+	}
+
+
+
+	public ArrayList<ComponentMasterBean> getComponentMasterBeanList() {
+		return componentMasterBeanList;
+	}
+
+
+
+	public void setComponentMasterBeanList(
+			ArrayList<ComponentMasterBean> componentMasterBeanList) {
+		this.componentMasterBeanList = componentMasterBeanList;
+	}
+
+
+
+	public ComponentMasterBean getComponentMasterBean() {
+		return componentMasterBean;
+	}
+
+
+
+	public void setComponentMasterBean(ComponentMasterBean componentMasterBean) {
+		this.componentMasterBean = componentMasterBean;
+	}
+
+
+
+	public int getMaxEmpId() {
+		return maxEmpId;
+	}
+
+
+
+	public void setMaxEmpId(int maxEmpId) {
+		this.maxEmpId = maxEmpId;
 	}
 	
 }

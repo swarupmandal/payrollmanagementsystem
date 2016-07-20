@@ -106,8 +106,15 @@
             </treeitem>
             <treeitem open="false">
             	<treerow>
-            	 <treecell label="Componenyt Master"
+            	 <treecell label="Component Master"
             	  onClick='inclResults.setSrc("/WEB-INF/view/componentMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+            <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Component Master Unit Allocation"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/componentPerUnitMaster.zul");'>
             	</treecell>
             	</treerow>
             </treeitem>
@@ -141,7 +148,7 @@
             </treeitem>
              <treeitem open="false">
             	<treerow>
-            	 <treecell label="PaymentMode Master"
+            	 <treecell label="Paymentmode Master"
             	  onClick='inclResults.setSrc("/WEB-INF/view/paymentModeMaster.zul");'>
             	</treecell>
             	</treerow>

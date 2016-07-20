@@ -20,6 +20,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zul.Messagebox;
 
 import utility.Util1;
 
@@ -112,14 +113,16 @@ public class CompanyMasterViewModel {
 	public void onclickSave(){
 		int i = 0;
 		Integer maxcompanyId = 0;
+		int contactinfoUpdate,pfinfoUpdate,esiinfoUpdate,ptinfoUpdate,itinfoUpdate;
 		try {
 			connection = DbConnection.createConnection();
 			connection.setAutoCommit(false);  
 			sqlcompanyinfo1:{
 				PreparedStatement preparedStatement = null;
 				PreparedStatement preparedStatement2 = null;
+				
 				   try {
-					
+					if(companyMasterBean.getCompanyName() != null){
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertCompanyMasterQuery, Arrays.asList(companyMasterBean.getCompanyName(), 
 															companyMasterBean.getAddress(), companyMasterBean.getCity(), 
 															companyMasterBean.getPincode(),stateMasterBean.getStateId(),
@@ -143,6 +146,9 @@ public class CompanyMasterViewModel {
 							}
 						}
 					}
+					}else {
+						Messagebox.show("Select all details");
+					}
 				} finally {
 					if(preparedStatement != null){
 						preparedStatement.close();
@@ -159,7 +165,7 @@ public class CompanyMasterViewModel {
 					 preparedStatement = Util1.createQuery(connection, SqlQuery.insertCompanyContactInfo, Arrays.asList(companyMasterBean.getContactPerson(), companyMasterBean.getContactPersonEmail(), companyMasterBean.getContactPersonPhone(),
 							 			 maxcompanyId, userId, userId));
 					 
-					 int contactinfoUpdate  = preparedStatement.executeUpdate();
+					 contactinfoUpdate  = preparedStatement.executeUpdate();
 					 
 					
 				} finally{
@@ -176,7 +182,7 @@ public class CompanyMasterViewModel {
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertPfInfo, Arrays.asList(companyMasterBean.getCompanyPfNumber(), companyMasterBean.getPfRegistrationDate(), companyMasterBean.getPfSignatoryName(), 
 									    maxcompanyId, userId, userId));
-					int pfinfoUpdate  = preparedStatement.executeUpdate(); 
+					pfinfoUpdate  = preparedStatement.executeUpdate(); 
 			    	 
 				}finally{
 					if(preparedStatement != null){
@@ -190,7 +196,7 @@ public class CompanyMasterViewModel {
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertEsiInfo, Arrays.asList(companyMasterBean.getCompanyEsiNumber(), companyMasterBean.getEsiRegistrationDate(), companyMasterBean.getEsiSignatoryName(), 
 									    maxcompanyId, userId, userId));
-					int esiinfoUpdate  = preparedStatement.executeUpdate(); 
+					 esiinfoUpdate  = preparedStatement.executeUpdate(); 
 			    	 
 				}finally{
 					if(preparedStatement != null){
@@ -204,7 +210,7 @@ public class CompanyMasterViewModel {
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertPtInfo, Arrays.asList(companyMasterBean.getCompanyPtNumber(), companyMasterBean.getPtRegistrationDate(), companyMasterBean.getPtSignatoryName(), 
 									    maxcompanyId, userId, userId));
-					int ptinfoUpdate  = preparedStatement.executeUpdate(); 
+					 ptinfoUpdate  = preparedStatement.executeUpdate(); 
 			    	 
 				}finally{
 					if(preparedStatement != null){
@@ -218,7 +224,7 @@ public class CompanyMasterViewModel {
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertItInfo, Arrays.asList(companyMasterBean.getPanNumber(), companyMasterBean.getTan(), companyMasterBean.getTanCircle(), 
 									    maxcompanyId, userId, userId));
-					int itinfoUpdate  = preparedStatement.executeUpdate(); 
+				 itinfoUpdate  = preparedStatement.executeUpdate(); 
 			    	 
 				}finally{
 					if(preparedStatement != null){
@@ -227,7 +233,9 @@ public class CompanyMasterViewModel {
 				}
 			 }
 			connection.commit();
-			
+			if(itinfoUpdate>0 && contactinfoUpdate>0 && pfinfoUpdate>0 && esiinfoUpdate > 0 && ptinfoUpdate>0 && i>0){
+				Messagebox.show("Saved Succesfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			}
 			
 			
 		} catch (Exception e) {

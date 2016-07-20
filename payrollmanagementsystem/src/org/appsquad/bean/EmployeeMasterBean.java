@@ -45,11 +45,14 @@ public class EmployeeMasterBean {
 	private Date lastWorkingDate;
 	private String lastWorkingDateValue;
 	
-	/**location for salary component
-	 * 
-	 * --------------------------------------------
-	 * 
-	 * */
+	private boolean checkSelect = false;
+	private String componentName;
+	private Integer componentId;
+	private String componentType;
+	private Integer componentTypeId;
+	
+	
+	
 	
 	private boolean pfCheckValue = false;
 	private String uan;
@@ -58,6 +61,8 @@ public class EmployeeMasterBean {
 	private boolean esiCheckValue = false;
 	private String esi;
 	private boolean esiFieldDisabled = true;
+	
+	
 	
 	public EmployeeMasterBean(){
 		super();
@@ -505,6 +510,106 @@ public class EmployeeMasterBean {
 
 	public void setEmpAccountNo(String empAccountNo) {
 		this.empAccountNo = empAccountNo;
+	}
+
+
+
+
+
+
+
+	public boolean isCheckSelect() {
+		return checkSelect;
+	}
+
+
+
+
+
+
+
+	public void setCheckSelect(boolean checkSelect) {
+		this.checkSelect = checkSelect;
+	}
+
+
+
+
+
+
+
+	public String getComponentName() {
+		return componentName;
+	}
+
+
+
+
+
+
+
+	public void setComponentName(String componentName) {
+		this.componentName = componentName;
+	}
+
+
+
+
+
+
+
+	public Integer getComponentId() {
+		return componentId;
+	}
+
+
+
+
+
+
+
+	public void setComponentId(Integer componentId) {
+		this.componentId = componentId;
+	}
+
+
+
+
+
+
+
+	public String getComponentType() {
+		return componentType;
+	}
+
+
+
+
+
+
+
+	public void setComponentType(String componentType) {
+		this.componentType = componentType;
+	}
+
+
+
+
+
+
+
+	public Integer getComponentTypeId() {
+		return componentTypeId;
+	}
+
+
+
+
+
+
+
+	public void setComponentTypeId(Integer componentTypeId) {
+		this.componentTypeId = componentTypeId;
 	}
 	
 	
