@@ -1,37 +1,27 @@
 <?page title="WELCOME" contentType="text/html;charset=UTF-8"?>
+<?link rel="stylesheet" type="text/css"	href="/style.css" ?>
 <zk>
+<style src="style.css"></style>
 <window title="" border="none" apply="org.zkoss.bind.BindComposer"
 viewModel="@id('vm') @init('org.appsquad.viewmodel.LoginViewModel')">
-<style src="style.css"></style>
-<include src="inc/header.zul"></include>
 
-<div id="bgLogin">
-  <div id="container">
-    <div>
-      <div height="50px"></div>
-      <div height="70px">
-        <label value="login" style="font-size:170%; color:green" ></label>
-      </div>
-      <div height="20px">
-        <label value="user name"></label>
-      </div>
-      <div height="70px" >
-        <textbox  height="45px" width="270px" style="font-size:20px; color:black" value="@bind(vm.loginBean.userId)"></textbox>
-      </div>
-      <div height="20px" >
-        <label value="password"></label>
-      </div>
-      <div height="70px" >
-        <textbox height="45px" width="270px" style="font-size:20px; color:black" value="@bind(vm.loginBean.password)"></textbox>
-      </div>
+<div sclass="bgLogin">
+	<div sclass="outBorder">
+	<div sclass="bxLogin">
+		
+      	<html><![CDATA[
+        <h1 style="font-family: 'Zurich LtCn BT';">LOGIN ${parent.title}</h1>
+    ]]></html>
+    	
+        <textbox placeholder="User Name" value="@bind(vm.loginBean.userId)" height="36px" width="300px" style="border-radius: 0px; border: 2px solid #EEE; background: rgba(0, 0, 0, 0.5); opacity: 0.6; filter: alpha(opacity=60); font-family: 'Zurich LtCn BT'; line-height:55px !important; color:#FFFFFF; font-size: 20px; padding:5px;"></textbox>
+        <div height="10px" ></div>
+        <textbox placeholder="Password" value="@bind(vm.loginBean.password)" height="36px" width="300px" style="border-radius: 0px; border: 2px solid #EEE; background: rgba(0, 0, 0, 0.5); opacity: 0.6; filter: alpha(opacity=60); font-family: 'Zurich LtCn BT'; line-height:55px !important; color:#FFFFFF;  font-size: 20px; padding:5px;"></textbox>
+        <div height="20px" ></div>
+        <button label="Login" height="35px" width="300px" sclass="bb_button" onClick="@command('onClickLogin')"></button>
       <div height="20px" ></div>
-      <div height="50px" >
-        <button label="login" height="35px" width="270px" style="font-size:20px; color:black" onClick="@command('onClickLogin')"></button>
-      </div>
-      <div height="20px" ></div>
-      <div height="50px" > <a label="forgot password"></a> </div>
+      <a href="">forgot password?</a>
     </div>
-  </div>
+    </div>
 </div>
 </window>
 </zk>

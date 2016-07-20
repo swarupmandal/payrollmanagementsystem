@@ -2,6 +2,7 @@ package org.appsquad.bean;
 
 public class ComponentPerUnitMasterBean {
 	
+	
 	private int companyId;
 	private int unitId;
 	
@@ -13,7 +14,7 @@ public class ComponentPerUnitMasterBean {
 	
 	private boolean checkVal = false;
 	
-	
+	private Integer count;
 	
 	
 	
@@ -59,6 +60,12 @@ public class ComponentPerUnitMasterBean {
 	}
 	public void setCheckVal(boolean checkVal) {
 		this.checkVal = checkVal;
+	}
+	public Integer getCount() {
+		return count;
+	}
+	public void setCount(Integer count) {
+		this.count = count;
 	}
 
 }

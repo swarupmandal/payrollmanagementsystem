@@ -23,67 +23,47 @@
 					  </template>
 		</combobox>
 		
-		
+		<button label="Save" onClick="@command('onClickSave')"></button>
 		</div>
 		
 		<div>
 			<tabbox>
 				<tabs>
 					<tab label="New Component add" onClick="@command('onClickTab1')"></tab>
-					<tab label="Saved Component" onClick="@command('onClickTab2')"></tab>
+					<!-- <tab label="Saved Component" onClick="@command('onClickTab2')"></tab> -->
 					
 				</tabs>
 				
 				<tabpanels>
 					<tabpanel>
-						<grid>	
-				<columns>
-					<column label="Sl no"></column>
-					<column label="Component Name"></column>
-					<column label="Component Type"></column>
-					<column label="Check"></column>
-				</columns>
-		
-				<rows>
-				  <row> 	
-					<label></label>
-					<textbox ></textbox>
-					<textbox></textbox>
-					<checkbox></checkbox>
-				
-				
-				   </row>	
-				</rows>
-		
-		
-			</grid>
+						<grid model="@bind(vm.componentPerUnitMasterBeanList)">	
+							<columns>
+								<column label="Sl no" value=""></column>
+								<column label="Component Name"></column>
+								<column label="Component Type"></column>
+								<column label="Check"></column>
+							</columns>
 					
-					</tabpanel>
-					
-					<tabpanel>
-					
-						<grid>	
-				<columns>
-					<column label="Sl no"></column>
-					<column label="Component Name"></column>
-					<column label="Component Type"></column>
-					<column label="Check"></column>
-				</columns>
-		
-				<rows>
-				  <row> 	
-					<label></label>
-					<textbox ></textbox>
-					<textbox></textbox>
-					<checkbox></checkbox>
-				
-				
-				   </row>	
-				</rows>
+							<rows>
+							<template name="model" var = "v">
+							  <row> 	
+								<label value="@bind(v.count)"></label>
+								<textbox value="@bind(v.componet)"></textbox>
+								<textbox value="@bind(v.componentType)"></textbox>
+								<checkbox value="@bind(v.checkVal)" checked="@bind(v.checkVal)" ></checkbox>
+							
+							
+						</row>
+						</template>	
+					</rows>
 		
 		
-			</grid>
+					</grid>
 					
+					<div align="center">
+						<!-- <button label="Save" onClick="@command('onClickSave')"></button> -->
+					
+					</div>
 					
 					</tabpanel>
 				

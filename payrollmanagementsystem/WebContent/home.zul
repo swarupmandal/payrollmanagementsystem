@@ -1,7 +1,8 @@
 <?page title="Home " contentType="text/html;charset=UTF-8"?>
 
 <zk>
-<timer id="timerKeepAliveSession" repeats="true" delay="600000" onTimer=""/>
+<!-- <timer id="timerKeepAliveSession" repeats="true" delay="600000" onTimer=""/> -->
+<div apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.LoginHomeViewModel')">
 <style src="style.css"></style>
  
 <div style="width:50%; height:10%; float: left; border-bottom: 2px solid ##64c5cf;">
@@ -13,8 +14,8 @@
 	<button label="Change Password" height="30px" width="180px" sclass="bb_buttonSml" style="float:right; margin-top:3%; padding-right: 3%;" />
 	<button label="Sign-out" height="30px" width="120px" sclass="bb_buttonSml" onClick="@command('onClickSignOut')" style="float:right; margin-top:3%; margin-right: 1%;" />
 </div>
-<div sclass="container">
-  <div sclass="outBorder" style="width: 20%; float:left; height:85vh; overflow:hidden; float:left; border:2px solid #FFF; color:#FFFFFF; margin-right:10px;" >
+<div sclass="container" >
+  <div sclass="outBorder" style="width: 15%; float:left; height:85vh; overflow:hidden; float:left; border:2px solid #FFF; color:#FFFFFF; margin-right:10px;" >
     <tree vflex="1" >
       <treechildren>
        <treeitem open="false">
@@ -30,6 +31,9 @@
                onClick='inclResults.setSrc("/WEB-INF/view/companyMaster.zul");' />
              </treerow>
             </treeitem>
+            
+           
+            
             <treeitem open="false">
              <treerow>
               <treecell label="Unit Master"
@@ -44,11 +48,19 @@
             </treeitem>
             <treeitem open="false">
             	<treerow>
-            	 <treecell label="Componenyt Master"
+            	 <treecell label="Component Master"
             	  onClick='inclResults.setSrc("/WEB-INF/view/componentMaster.zul");'>
             	</treecell>
             	</treerow>
             </treeitem>
+             <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Component Master Unit Allocation"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/componentPerUnitMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
+            
              <treeitem open="false">
             	<treerow>
             	 <treecell label="Designation Master"
@@ -128,19 +140,20 @@
       </treechildren>
      </tree>
   </div>
-  <div sclass="outBorder" style="width: 79%; float:right; height:85vh; overflow:hidden; float:left; border:2px solid #FFF;">
+  <div sclass="outBorder" style="width: 80%; float:right; height:85vh; overflow:hidden; float:left; border:2px solid #FFF;">
     
-     <include id="inclResults" mode="instant" style="overflow: auto; ">
+     <!-- <include id="inclResults" mode="instant" style="overflow: auto; "> -->
 	<div style="margin:4vh auto; width: 80%; border:2px solid #000000; padding: 2vh; min-height: 10vh;">
 	<!-- Inner Page Content -->
-	
+	<include id="inclResults" mode="instant" style="overflow: auto; ">
 	<!-- Inner Page Content End -->
-	</div>
+	<!-- </div> -->
 	</include>
-	
+	</div>
   </div>
 </div>
 
  <zscript>
  </zscript>
+ </div>
 </zk>

@@ -72,7 +72,7 @@ body {
 	background-size: cover;
 }
 h1, h2, h3, h4, h5, h6 {
-	
+	font-family: 'ZurichBT-LightCondensed' !important;
 	color: #64c5cf;
 	text-transform: capitalize;
 }
@@ -115,8 +115,42 @@ a {
 a:hover {
  	color: #64c5cf;
 }
+.bb_logo {
+	float: left;
+	margin: 1vh 2vw;
+	width: 80px;
+	height: 87px;
+	background: url('images/bb_logo.png') no-repeat; 
+}
+.headText {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #64c5cf;
+	font-size: 36px;
+	line-height: 36px;
+	letter-spacing: 2px;
+}
 .bb_button {
-	font-size:20px; color:#333333; background:#64c5cf; border:none; letter-spacing:3px; box-shadow: 0px 0px 5px #000; border-radius: 0px; font-family: 'Zurich LtCn BT'; color:#333333;  font-size: 24px;
+	font-family: 'Zurich LtCn BT';
+	color:#333333;
+	font-size:20px;
+	font-weight: bold;
+	background:#64c5cf;
+	border:none;
+	letter-spacing:3px;
+	box-shadow: 0px 0px 5px #000;
+	border-radius: 0px;
+}
+.bb_buttonSml {
+	font-family: 'Zurich LtCn BT';
+	color:#333333;
+	font-size:16px;
+	font-weight: bold;
+	background:#64c5cf;
+	border:none;
+	letter-spacing:3px;
+	box-shadow: 0px 0px 5px #000;
+	border-radius: 0px;
+	
 }
 .bgLogin {
 	width:100vw;
@@ -138,14 +172,12 @@ a:hover {
 	margin: 0 auto;
 	width: 96vw;
 }
+
 .bxLogin {
 	margin: 0 auto;
 	width: 300px;
 	padding-top: 20vh;
 }
-
-
-
 /* ==== Home =================*/
 .north {
 	background : #333333;
@@ -196,4 +228,17 @@ label {
 }
 .z-grid, .z-tree {
 	border: none;
+}
+.z-treecell-text {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #FFFFFF;
+	font-size: 18px;
+	line-height: 30px;
+	letter-spacing: 1px;
+}
+.z-treerow .z-treerow-selected {
+	background: rgba(100, 197, 207, 0.3);
+}
+.z-treerow:hover .z-treecell-content {
+    color: rgba(100, 197, 207, 0.3);
 }

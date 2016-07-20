@@ -72,8 +72,8 @@ public class LoginViewModel {
 						if(resultSet.next()){
 							String userId = resultSet.getString("user_id");
 							session.setAttribute("userId", userId);
-							Executions.sendRedirect("/test.zul");
-							//Executions.sendRedirect("/home.zul");
+							//Executions.sendRedirect("/test.zul");
+							Executions.sendRedirect("/home.zul");
 						}else {
 							Messagebox.show("Illigal entry");
 						}

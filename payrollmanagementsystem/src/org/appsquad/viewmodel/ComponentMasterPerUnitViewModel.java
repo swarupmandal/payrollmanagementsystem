@@ -25,6 +25,7 @@ public class ComponentMasterPerUnitViewModel {
 	
 	ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
+	ArrayList<ComponentPerUnitMasterBean> componentPerUnitMasterBeanList = new ArrayList<ComponentPerUnitMasterBean>();
 	CompanyMasterBean companyMasterBean = new CompanyMasterBean();
 	UnitMasterBean unitMasterBean = new UnitMasterBean();
 	ComponentPerUnitMasterBean componentPerUnitMasterBean = new ComponentPerUnitMasterBean();
@@ -43,6 +44,8 @@ public class ComponentMasterPerUnitViewModel {
 		userName = (String) session.getAttribute("userId");
 		
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
+		componentPerUnitMasterBeanList = ComponentPerUnitMasterService.loadData();
+		
 		//EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
 		
 		
@@ -83,7 +86,18 @@ public class ComponentMasterPerUnitViewModel {
 		System.out.println("TAB2 SELECTED");
 	}
 	
-	
+	@Command
+	@NotifyChange("*")
+	public void onClickSave(){
+	if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean)){
+		
+		ComponentPerUnitMasterService.saveComponentPerUnit(componentPerUnitMasterBeanList, componentPerUnitMasterBean.getCompanyId(), componentPerUnitMasterBean.getUnitId(), userName);
+		System.out.println("SAVED " + companyMasterBean);
+		
+		
+	    }
+		
+	}
 	
 	
 	
@@ -145,6 +159,24 @@ public class ComponentMasterPerUnitViewModel {
 
 	public void setUnitMasterBean(UnitMasterBean unitMasterBean) {
 		this.unitMasterBean = unitMasterBean;
+	}
+
+	public ArrayList<ComponentPerUnitMasterBean> getComponentPerUnitMasterBeanList() {
+		return componentPerUnitMasterBeanList;
+	}
+
+	public void setComponentPerUnitMasterBeanList(
+			ArrayList<ComponentPerUnitMasterBean> componentPerUnitMasterBeanList) {
+		this.componentPerUnitMasterBeanList = componentPerUnitMasterBeanList;
+	}
+
+	public ComponentPerUnitMasterBean getComponentPerUnitMasterBean() {
+		return componentPerUnitMasterBean;
+	}
+
+	public void setComponentPerUnitMasterBean(
+			ComponentPerUnitMasterBean componentPerUnitMasterBean) {
+		this.componentPerUnitMasterBean = componentPerUnitMasterBean;
 	}
 
 }
