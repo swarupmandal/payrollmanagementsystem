@@ -3,7 +3,7 @@
 <window title="Company Master" border="normal" height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('org.appsquad.viewmodel.CompanyMasterViewModel')">
 	<div>
-		<label value="Company Profile" style="font-weight:bold; color:black"></label>
+		<label value="Company Profile" sclass="seactionHead"></label>
 		<grid>
 		
 			<columns>
@@ -66,7 +66,7 @@
 	
 	<div height="10px"></div>
 	
-	<label value="Contact Info" style="font-weight:bold; color:black"></label>
+	<label value="Contact Info" sclass="seactionHead"></label>
 	<div>
 	<grid>
 		<columns>
@@ -100,7 +100,7 @@
 	</div>
 	
 	<div height="10px"></div>
-	<label value="PF Info" style="font-weight:bold; color:black"></label>
+	<label value="PF Info" sclass="seactionHead"></label>
 	<div>
 	<grid>
 		<columns>
@@ -133,7 +133,7 @@
 	</div>
 	
 	<div height="10px"></div>
-	<label value="ESI Info" style="font-weight:bold; color:black"></label>
+	<label value="ESI Info" sclass="seactionHead"></label>
 	<div>
 	<grid>
 		<columns>
@@ -167,7 +167,7 @@
 	
 	
 	<div height="10px"></div>
-	<label value="PT Info" style="font-weight:bold; color:black"></label>
+	<label value="PT Info" sclass="seactionHead"></label>
 	<div>
 	<grid>
 		<columns>
@@ -200,7 +200,7 @@
 	</div>
 	
 	<div height="10px"></div>
-	<label value="IT Info" style="font-weight:bold; color:black"></label>
+	<label value="IT Info" sclass="seactionHead"></label>
 	<div>
 	<grid>
 		<columns>
@@ -233,7 +233,7 @@
 	<div height="30px"></div>
 	</div>
 	<div align="center">
-	<button label="Save Details" width="150px" height="30px" onClick="@command('onclickSave')"></button>
+	<button label="Save Details" width="150px" height="30px" sclass="bb_button" onClick="@command('onclickSave')"></button>
 	
 	</div>
 	

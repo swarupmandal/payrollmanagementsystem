@@ -1,18 +1,12 @@
 package org.appsquad.bean;
 
-public class DesignationBean {
-	
+public class DesignationMasterBean {
+
 	private String designation;
 	private int designationId;
-	
 	private String userName;
 	
-	public String getDesignation() {
-		return designation;
-	}
-	public void setDesignation(String designation) {
-		this.designation = designation;
-	}
+	
 	public int getDesignationId() {
 		return designationId;
 	}
@@ -25,5 +19,13 @@ public class DesignationBean {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
+	public String getDesignation() {
+		return designation;
+	}
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+	
+	
+	
 }

@@ -72,12 +72,12 @@ body {
 	background-size: cover;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'ZurichBT-LightCondensed' !important;
+	font-family: 'Zurich LtCn BT' !important;
 	color: #64c5cf;
 	text-transform: capitalize;
 }
 h1 {
-	font-size: 60px;
+	font-size: 32px;
 	letter-spacing: 10px;
 }
 h2 {
@@ -104,6 +104,13 @@ h6 {
 	font: 'Zurich LtCn BT' 60px #64c5cf;
 	letter-spacing: 10px;
 }
+p {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #64c5cf;
+	font-size: 36px;
+	line-height: 36px;
+	letter-spacing: 2px;
+}
 a {
 	font-family: 'ZurichBT-LightCondensed', 'Arial'  !important;
 	font-size: 14px !important;
@@ -118,8 +125,8 @@ a:hover {
 .bb_logo {
 	float: left;
 	margin: 1vh 2vw;
-	width: 80px;
-	height: 87px;
+	width: 416px;
+	height: 80px;
 	background: url('images/bb_logo.png') no-repeat; 
 }
 .headText {
@@ -226,8 +233,9 @@ label {
 .z-window-content {
 	padding: 0px;
 }
-.z-grid, .z-tree {
-	border: none;
+.z-grid, .z-tree, .z-tree-body, .z-window-embedded-hr, .z-window-embedded-hm, .z-window-embedded-cl, .z-window-embedded-cr, .z-window-embedded-tl, .z-window-embedded-tr, .z-window-embedded-bl, .z-window-embedded-br, .z-window-embedded-hl, .z-window-embedded-cnt, .z-window-embedded-cm, div.z-grid-body, tr.z-row td.z-row-inner, tr.z-grid-odd td.z-row-inner, tr.z-grid-odd .z-cell, tr.z-grid-odd {
+	border: none !important;
+	background: none !important;
 }
 .z-treecell-text {
 	font-family: 'Zurich LtCn BT', 'Arial'  !important;
@@ -237,8 +245,70 @@ label {
 	letter-spacing: 1px;
 }
 .z-treerow .z-treerow-selected {
-	background: rgba(100, 197, 207, 0.3);
+	background: rgba(100, 197, 207, 0.3)  !important;
 }
 .z-treerow:hover .z-treecell-content {
     color: rgba(100, 197, 207, 0.3);
 }
+div.z-treefooter-cnt, div.z-treecell-cnt, div.z-treecol-cnt {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #FFFFFF;
+	font-size: 18px;
+	line-height: 30px;
+	letter-spacing: 1px;
+}
+span.z-tree-root-open, span.z-tree-tee-open, span.z-tree-last-open, span.z-tree-root-close, span.z-tree-tee-close, span.z-tree-last-close {
+	margin-top:6px;
+}
+.z-window-embedded-header, .z-window-modal-header, .z-window-popup-header, .z-window-highlighted-header, .z-window-overlapped-header {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #64c5cf;
+	font-size: 32px;
+	line-height: 32px;
+	letter-spacing: 1px;
+	display: block;
+	border-bottom: 4px solid #64c5cf;
+	margin-bottom: 20px;
+}
+.z-label {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #FFFFFF;
+	font-size: 16px;
+	letter-spacing: 1px;
+	margin-bottom: 10px;
+}
+.seactionHead {
+	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	color: #64c5cf;
+	font-size: 20px;
+	letter-spacing: 1px;
+	border-bottom: 1px dotted #666666;
+	margin-bottom: 10px;
+	display:block;
+}
+.z-textbox {
+	border-radius: 0px;
+	border: 2px solid #EEE;
+	background: rgba(0, 0, 0, 0.5);
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+	font-family: 'Zurich LtCn BT';
+	line-height:30px !important;
+	color:#FFFFFF;
+	font-size: 20px;
+	padding:2px;
+}
+tr.z-row td.z-row-inner {
+	padding: 4px 0px;
+}
+
+tr.z-treerow-over>td.z-treecell {
+	border-top: none !important;
+	border-bottom: none !important;
+}
+tr.z-treerow-over, tr.z-treerow-seld {
+	background-image: none !important;
+	background-color: rgba(0, 0, 0, 0.3);
+	border: none !important;
+}
+	

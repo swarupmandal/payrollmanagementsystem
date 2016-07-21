@@ -1,6 +1,7 @@
 <?page title="BANK" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Employee bank master" border="normal">
+<window title="Employee bank master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.BankAccountMasterViewModel')">
 
 <div align="center">
 		<grid>
@@ -11,10 +12,10 @@
 			<rows>
 				<row>
 					<label value="Bank Name"/>
-					<textbox placeholder="Bank Name"/>
+					<textbox value="@bind(vm.bankAccountMasterBean.bankName)" />
 				</row>
 				<row>
-					<button label="Save"/>
+					<button label="Save" onClick="@command('onClickSave')"/>
 					<button label="Update"/>
 				</row>
 			</rows>
@@ -26,19 +27,21 @@
 	
 	<div>
 	
-		<grid>
+		<grid model="@bind(vm.bankAccountMasterBeanList)">
 			<columns>
 				<column label="Bank Name" align="center"></column>
 				<column label="Action" align="center"></column>
 			</columns>
 			<rows>
+			  <template name="model" var="v">
 				<row>
-				<textbox placeholder="Bank Name"></textbox>
+				<textbox value="@bind(v.bankName)"></textbox>
 				<hlayout spacing="20px">
 				<button label="Edit"></button>
 				<button label="Delete"></button>
 				</hlayout>
 				</row>
+			   </template>
 			</rows>	
 	
 		</grid>

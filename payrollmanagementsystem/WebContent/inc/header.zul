@@ -1,11 +1,15 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
+
 <window title="" border="none">
-<div>
-
-	ABCDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-
-
+<style src="style.css"></style>
+<div style="width:50%; height:10%; float: left;">
+	<div sclass="bb_logo" />
+</div>
+<div style="width:48%; height:10%;  float: right; padding-right: 2vw;">
+	<label style="font-size:18px; color:#00AAAA;" value="@bind(vm.userId)" />
+	<a style="float:right; margin-top:3%; padding-right: 3%;">Change Password</a>
+	<a onClick="@command('onClickSignOut')" style="float:right; margin-top:3%; margin-right: 1%;">Sign-out</a>
 </div>
 </window>
 </zk>
