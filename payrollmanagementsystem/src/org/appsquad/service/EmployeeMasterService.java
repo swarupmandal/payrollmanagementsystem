@@ -6,6 +6,7 @@ import org.appsquad.bean.BankAccountBean;
 import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.ComponentMasterBean;
+import org.appsquad.bean.ComponentPerUnitMasterBean;
 import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
@@ -44,6 +45,12 @@ public class EmployeeMasterService {
 	
 	public static void loadBankList(ArrayList<BankAccountBean> bankList){
 		EmployeeDao.loadBankList(bankList);
+	}
+	
+	public static ArrayList<ComponentMasterBean> loadComponentDetatils(int companyId, int unitId){
+		ArrayList<ComponentMasterBean> list = new ArrayList<ComponentMasterBean>();
+		list = EmployeeDao.loadComponentDetails(companyId, unitId);
+		return list;
 	}
 	
 	
@@ -136,12 +143,29 @@ public class EmployeeMasterService {
 		
 	}
 	
-	public static void loadComponentDetails(ArrayList<ComponentMasterBean> beanList){
+	/*public static void loadComponentDetails(ArrayList<ComponentMasterBean> beanList){
 		EmployeeDao.onloadComponentDetails(beanList);
+		
+	}*/
+	
+	public static boolean isEmptyLocationField(EmployeeMasterBean bean){
+		boolean flag = false;
+		if(bean.getCompanyId()>0){
+			if(bean.getUnitId()>0){
+				return true;
+			}else {
+				Messagebox.show("Select Unit", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+			}	return false;
+			}else {
+				Messagebox.show("Select Company Name ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+				return false;
+		}
 		
 	}
 	
-	
+	public static void saveComponentsPerEmployee(ArrayList<ComponentMasterBean> list,int empId, Integer companyId, Integer unitId, String userName){
+		EmployeeDao.insertComponentPerEmployee(list, empId, companyId, unitId, userName);
+	}
 	
 	
 	public static void clearData(){

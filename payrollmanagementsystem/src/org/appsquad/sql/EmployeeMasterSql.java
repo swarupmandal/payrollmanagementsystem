@@ -7,7 +7,7 @@ public class EmployeeMasterSql {
 	
 	public static final String loadCompanyListQuery = "select company_name, company_id from pms_company_master ";
 	
-	public static final String loadUnitListQuery = "select unit_name, unit_id from unit_master ";
+	public static final String loadUnitListQuery = "select unit_name, unit_id from pms_unit_master ";
 	
 	public static final String insertPersoalInformationQuery = "insert into pms_employee_personal_information (employee_id,employee_address,employee_city,emp_state_id,employee_pincode,emp_blood_group_id,emp_pan,emp_marital_status,created_by,updatetd_by) "
 																+ "	values(?,?,?,?,?,?,?,?,?,?) ";
@@ -59,7 +59,12 @@ public class EmployeeMasterSql {
 																
 	public static final String empPfEsiInsertQuery = "INSERT INTO pms_employee_pf_esi_details(employee_id, uan, esi, created_by, updatetd_by)VALUES (?, ?, ?, ?, ?) ";
 	
-	public static final String loadComponentDetailsQuery =  "SELECT pcm.component_id, pcm.component_name, pctm.component_type "
-			+ " FROM pms_component_master pcm, pms_component_type_master pctm "
-			+ " WHERE pcm.component_type_id = pctm.component_type_id";
+	public static final String loadComponentDetailsQuery =  " SELECT pcm.component_id, pcm.component_name, pcm.component_type_id, pcmp.company_id, pcmp.unit_id, pctm.component_type " +     
+																 " FROM pms_component_master pcm, pms_component_master_per_unit pcmp, pms_component_type_master pctm " +
+																 " where pcm.component_id = pcmp.component_id " +
+																 " and pcmp.component_type_id = pctm.component_type_id" +
+																 " and pcmp.company_id = ? and pcmp.unit_id =? " ;
+	public static final String insertComponentsPerEmpQuery = "INSERT INTO pms_employee_salary_components(employee_id, component_id, component_name, component_type_id, company_id, unit_id, created_by, updatetd_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+	
+
 }

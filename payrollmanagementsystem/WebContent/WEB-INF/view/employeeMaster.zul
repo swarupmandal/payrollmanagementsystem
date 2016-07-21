@@ -1,6 +1,6 @@
-<?page title="Emp" contentType="text/html;charset=UTF-8"?>
+<?page title="EMPLOYEE DETAILS" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Emp m" border="normal" apply="org.zkoss.bind.BindComposer"
+<window title="Employee Master" border="normal" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('org.appsquad.viewmodel.EmployeeMasterViewModel')">
 	<hlayout>
 		<div  height="200px" width="370px" align="center">
@@ -243,27 +243,27 @@
 				
 				<tabpanel>
 					<grid model="@bind(vm.componentMasterBeanList)">
-					  <columns>
-					<column label="Sl no"></column>
-					<column label="Component Name"></column>
-					<column label="Component Type"></column>
-					<column label="Check"></column>
-				</columns>
+						<columns>
+								<column label="Sl no"></column>
+								<column label="Component Name"></column>
+								<column label="Component Type"></column>
+								<column label="Check"></column>
+						</columns>
 		
-				<rows>
-				 <template name="model" var = "v">
-				  <row> 	
-					<label></label>
-					<textbox value="@bind(vm.componentMasterBean.componentName)"></textbox>
-					<textbox value="@bind(vm.unitMasterBean.unitId)"></textbox>
-					<checkbox checked="false" ></checkbox>
-				
-				
-				   </row>
+						<rows>
+				 		<template name="model" var = "v">
+				  		<row> 	
+							<label value="@bind(v.count)"></label>
+							<textbox value="@bind(v.componentName)"></textbox>
+							<textbox value="@bind(v.componentType)"></textbox>
+							<checkbox checked="@bind(v.checkVal)" value="@bind(v.checkVal)"></checkbox>
+				   		</row>
 				   </template>	
 				</rows>
 				</grid>
-				
+				<div align="center">
+				<button label="Save" onClick="@command('onClickSaveComponents')"></button>
+				</div>
 				
 				</tabpanel>
 				

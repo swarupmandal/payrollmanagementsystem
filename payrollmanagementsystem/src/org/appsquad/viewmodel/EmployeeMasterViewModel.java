@@ -68,7 +68,7 @@ public class EmployeeMasterViewModel {
 		EmployeeMasterService.loadDesignationList(designationBeanList);
 		EmployeeMasterService.loadpaymentmodeList(paymentModeMasterBeanList);
 		EmployeeMasterService.loadBankList(bankAccountBeanList);
-		EmployeeMasterService.loadComponentDetails(componentMasterBeanList);
+		
 		
 	}
 	
@@ -127,6 +127,11 @@ public class EmployeeMasterViewModel {
 		System.out.println("selected unit name >>> >> > " + unitMasterBean.getUnitName());
 		System.out.println("Selected unit id >>> >> > " + unitMasterBean.getUnitId());
 		employeeMasterBean.setUnitId(unitMasterBean.getUnitId());
+		if(employeeMasterBean.getCompanyId()>0 && employeeMasterBean.getUnitId()>0){
+			componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
+			System.out.println("comp 0 >>> >> > " +componentMasterBeanList);
+		}
+		
 	}
 	
 
@@ -213,6 +218,15 @@ public class EmployeeMasterViewModel {
 		}
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onClickSaveComponents(){
+		if(EmployeeMasterService.isEmptyLocationField(employeeMasterBean)){
+			EmployeeDao.insertComponentPerEmployee(componentMasterBeanList, maxEmpId, employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId(), userName);
+		}
+		
+		
+	}
 	
 	@Command
 	@NotifyChange("*")
