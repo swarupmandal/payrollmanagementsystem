@@ -25,7 +25,7 @@ import utility.Util1;
 
 public class StateMasterViewModel {
 	
-	StateMasterBean stateMasterBean = new StateMasterBean();;
+	StateMasterBean stateMasterBean = new StateMasterBean();
 	
 	ArrayList<StateMasterBean> stateBeanList = new ArrayList<StateMasterBean>();
 	

@@ -247,6 +247,7 @@
 								<column label="Sl no"></column>
 								<column label="Component Name"></column>
 								<column label="Component Type"></column>
+								<column label="Amount"></column>
 								<column label="Check"></column>
 						</columns>
 		
@@ -256,6 +257,7 @@
 							<label value="@bind(v.count)"></label>
 							<textbox value="@bind(v.componentName)"></textbox>
 							<textbox value="@bind(v.componentType)"></textbox>
+							<textbox value="@bind(v.componentAmount)"></textbox>
 							<checkbox checked="@bind(v.checkVal)" value="@bind(v.checkVal)"></checkbox>
 				   		</row>
 				   </template>	

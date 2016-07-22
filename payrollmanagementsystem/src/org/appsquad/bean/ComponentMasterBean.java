@@ -8,7 +8,7 @@ public class ComponentMasterBean {
 	private int componentId;
 	private boolean checkVal;
 	private Integer count;
-	
+	private double componentAmount;
 	
 	
 	
@@ -51,6 +51,12 @@ public class ComponentMasterBean {
 	}
 	public void setComponentId(int componentId) {
 		this.componentId = componentId;
+	}
+	public double getComponentAmount() {
+		return componentAmount;
+	}
+	public void setComponentAmount(double componentAmount) {
+		this.componentAmount = componentAmount;
 	}
 	
 	

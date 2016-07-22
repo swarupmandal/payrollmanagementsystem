@@ -653,10 +653,10 @@ public static void insertComponentPerEmployee(ArrayList<ComponentMasterBean> lis
 					
 					for(ComponentMasterBean bean : list){
 					
-					if(bean.isCheckVal()==true){
-					System.out.println("INSIDE CHECK---------------------------------- >>> >> > ");	
-					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertComponentsPerEmpQuery, Arrays.asList(empId, bean.getComponentId(), bean.getComponentName(),bean.getComponentTypeId(),companyId,unitId,userName,userName));
-					System.out.println("Batch Query >>> >> > " + preparedStatement);
+					if(bean.isCheckVal()==true && bean.getComponentAmount()>0){
+			
+					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertComponentsPerEmpQuery, Arrays.asList(empId, bean.getComponentId(), bean.getComponentName(),bean.getComponentTypeId(),companyId,unitId,userName,userName, bean.getComponentAmount()));
+					
 					//preparedStatement.addBatch(); 
 					c = preparedStatement.executeUpdate();
 					
@@ -664,16 +664,13 @@ public static void insertComponentPerEmployee(ArrayList<ComponentMasterBean> lis
 					
 				}
 				
-				int count[] = preparedStatement.executeBatch();
-				int insertCount = 0;
-				for(int i : count){
-					insertCount +=i;
-				}
-				System.out.println("INSERT COUNT >>> >> > " + insertCount);
+				
 				if(c>0){
+				
 					Messagebox.show("Saved successfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
 				}else {
-					Messagebox.show("Data Not Saved", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+					
+					Messagebox.show("Select Component \n and enter amount", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 				}
 				
 				

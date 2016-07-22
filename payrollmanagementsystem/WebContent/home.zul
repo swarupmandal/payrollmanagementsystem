@@ -104,8 +104,8 @@
          <treechildren>
          <treeitem>
          <treerow>
-         	<treecell label="Payslip Generation">
-         	
+         	<treecell label="Payslip Generation"
+         	onClick='inclResults.setSrc("/WEB-INF/view/runPayroll.zul");'>
          	</treecell>
          </treerow>
          </treeitem>

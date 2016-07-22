@@ -1,0 +1,102 @@
+<?page title="RUN PAYROLL" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;" 
+								apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.RunPayrollViewModel')">
+  <div>
+     <hlayout spacing="40px"> 
+  		
+  		<vbox>
+	     <label value="Select Month"></label>
+	     <combobox></combobox>
+		</vbox>
+  		
+  		<vbox>
+	     <label value="Select Company Name"></label>
+	     <combobox></combobox>
+		</vbox>
+		<vbox>
+		 <label value="Select Unit"></label>
+		 <combobox></combobox>
+	
+		</vbox>
+	 </hlayout>
+  </div>
+  <div height="10px"></div>
+  <label value="Employee Salary Components"></label>
+  <div>
+  	
+  	<grid width="2000px">	
+  		<auxhead>
+  			<auxheader label="Employee Details" colspan="6" style="font-weight:bold;" align="center"/>
+  			<auxheader label="Earnings" colspan="6" style="font-weight:bold;" align="center"></auxheader>
+  			<auxheader label="Deductions" colspan="3" style="font-weight:bold;" align="center"></auxheader>
+  			<auxheader label="Others" colspan="6" style="font-weight:bold;" align="center"></auxheader>
+  			
+  		</auxhead>
+  		<columns>
+  			<column label="Sl no" width="40px"></column>
+  			<column label="Emp Code" width="120px"></column>
+  			<column label="Emp Name" width="120px"></column>
+  			<column label="Designation"></column>
+  			<column label="Pf Number"></column>
+  			<column label="Esi Number"></column>
+  			
+  			<column label="Basic" ></column>
+  			<column label="Hra"></column>
+  			<column label="Allowance"></column>
+  			<column label="Special Allowance"></column>
+  			<column label="Conveyance"></column>
+  			<column label="Washing"></column>
+  			
+  			
+  			<column label="Pf"></column>
+  			<column label="Esi"></column>
+  			<column label="Pt"></column>
+  			
+  			<column label="Ot Salary"></column>
+  			<column label="Leave Deduction"></column>
+  			<column label="Total Deduction"></column>
+  			<column label="Salary"></column>
+  			<column label="Net Salary"></column>
+  			<column label="Adjustment"></column>
+  			
+  		</columns>
+  		
+  		<rows>
+  			<row>
+  		      <textbox readonly="true"></textbox>
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      <textbox></textbox>
+  		      <textbox></textbox>
+  		      
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      <textbox ></textbox>
+  		      
+  		      <textbox ></textbox>
+  		      <textbox></textbox>
+  		      <textbox></textbox>
+  		      <textbox ></textbox>
+  		      <textbox></textbox>
+  		      <textbox style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:green;" readonly="true"></textbox>
+  		        	
+  			</row>
+  			
+  		</rows>
+  			
+  
+  	</grid>
+  </div>
+  
+  	
+</window>
+</zk>

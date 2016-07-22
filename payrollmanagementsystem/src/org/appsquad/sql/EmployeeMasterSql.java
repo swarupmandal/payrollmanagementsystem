@@ -64,7 +64,7 @@ public class EmployeeMasterSql {
 																 " where pcm.component_id = pcmp.component_id " +
 																 " and pcmp.component_type_id = pctm.component_type_id" +
 																 " and pcmp.company_id = ? and pcmp.unit_id =? " ;
-	public static final String insertComponentsPerEmpQuery = "INSERT INTO pms_employee_salary_components(employee_id, component_id, component_name, component_type_id, company_id, unit_id, created_by, updatetd_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ";
+	public static final String insertComponentsPerEmpQuery = "INSERT INTO pms_employee_salary_components(employee_id, component_id, component_name, component_type_id, company_id, unit_id, created_by, updatetd_by,component_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?) ";
 	
 
 }

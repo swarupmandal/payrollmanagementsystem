@@ -23,7 +23,7 @@
 					  </template>
 		</combobox>
 		
-		<button label="Save" onClick="@command('onClickSave')"></button>
+		<!-- <button label="Save" onClick="@command('onClickSave')"></button> -->
 		</div>
 		
 		<div>
@@ -61,7 +61,7 @@
 					</grid>
 					
 					<div align="center">
-						<!-- <button label="Save" onClick="@command('onClickSave')"></button> -->
+						<button label="Save" onClick="@command('onClickSave')"></button>
 					
 					</div>
 					

@@ -152,7 +152,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 								bean.setComponentType(resultSet.getString("component_type"));
 								bean.setComponentTypeId(resultSet.getInt("component_type_id"));
 								bean.setCheckVal(false);
-								System.out.println("C O U N T >>> >> > " + count);
+								
 								list.add(bean);
 							}
 						}finally{
