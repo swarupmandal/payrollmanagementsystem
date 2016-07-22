@@ -25,7 +25,7 @@
   <label value="Employee Salary Components"></label>
   <div>
   	
-  	<grid width="2000px">	
+  	<grid width="3000px">	
   		<auxhead>
   			<auxheader label="Employee Details" colspan="6" style="font-weight:bold;" align="center"/>
   			<auxheader label="Earnings" colspan="6" style="font-weight:bold;" align="center"></auxheader>
@@ -34,18 +34,18 @@
   			
   		</auxhead>
   		<columns>
-  			<column label="Sl no" width="40px"></column>
+  			<column label="Sl no" width="50px"></column>
   			<column label="Emp Code" width="120px"></column>
-  			<column label="Emp Name" width="120px"></column>
-  			<column label="Designation"></column>
-  			<column label="Pf Number"></column>
-  			<column label="Esi Number"></column>
+  			<column label="Emp Name" width="180px"></column>
+  			<column label="Designation" width="180px"></column>
+  			<column label="Pf Number" width="180px"></column>
+  			<column label="Esi Number" width="150px"></column>
   			
   			<column label="Basic" ></column>
   			<column label="Hra"></column>
   			<column label="Allowance"></column>
-  			<column label="Special Allowance"></column>
-  			<column label="Conveyance"></column>
+  			<column label="Special Allowance" width="200px"></column>
+  			<column label="Conveyance" width="180px"></column>
   			<column label="Washing"></column>
   			
   			
@@ -53,9 +53,9 @@
   			<column label="Esi"></column>
   			<column label="Pt"></column>
   			
-  			<column label="Ot Salary"></column>
-  			<column label="Leave Deduction"></column>
-  			<column label="Total Deduction"></column>
+  			<column label="Ot Salary" width="180px"></column>
+  			<column label="Leave Deduction" width="200px"></column>
+  			<column label="Total Deduction" width="200px"></column>
   			<column label="Salary"></column>
   			<column label="Net Salary"></column>
   			<column label="Adjustment"></column>
@@ -66,28 +66,28 @@
   			<row>
   		      <textbox readonly="true"></textbox>
   		      <textbox ></textbox>
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
   		      
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
-  		      <textbox></textbox>
-  		      <textbox></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
   		      
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
-  		      <textbox ></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
   		      
-  		      <textbox ></textbox>
-  		      <textbox></textbox>
-  		      <textbox></textbox>
-  		      <textbox ></textbox>
-  		      <textbox></textbox>
-  		      <textbox style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:green;" readonly="true"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%"></textbox>
+  		      <textbox style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:aqua;" readonly="true" width="85%"></textbox>
   		        	
   			</row>
   			
