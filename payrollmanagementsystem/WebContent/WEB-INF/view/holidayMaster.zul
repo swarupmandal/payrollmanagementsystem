@@ -1,0 +1,141 @@
+<?page title="HOLIDAYS" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Holiday Master" border="normal" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.HolidayMasterViewModel')">
+
+	<div>
+	<label value="Leave Year"></label>
+	 <hlayout spacing="15px">
+		<hlayout spacing="40px">
+		 <datebox format="dd-MMM-yyyy" value="@bind(vm.holidayMasterBean.leavYrStartDate)"></datebox>
+		 <datebox format="dd-MMM-yyyy" value="@bind(vm.holidayMasterBean.leavYrEndDate)"></datebox>
+		</hlayout>
+		<button label="Save" width="60px" onClick="@command('onClickSaveLeaveYr')"></button>		
+	 </hlayout>	
+	</div>
+	<space></space>
+	
+	<tabbox>
+	 <tabs>
+	   <tab label="Weekly Holiday"></tab>
+	   <tab label="General Holiday"></tab>
+	 </tabs>
+	 <tabpanels>    
+	    <tabpanel>
+	    
+	      <label value="Select Day"></label>
+	      	
+	   	  <div>
+	   	   <div>
+	   	    
+	   	    <combobox model="@bind(vm.weekDayList)" 
+					selectedItem="@bind(vm.dayBean)" onSelect="@command('onSelectDay')">
+						<template name="model" var="v">
+							<comboitem label="@bind(v.weeklyHoliDayName)" value="@bind(v.weeklyHoliDayId)"/>
+						</template>
+					</combobox>
+	   	    
+	   	   </div>
+	   	   <div height="25px"></div>
+	   	   <grid model="@bind(vm.weekList)">
+	   	   <columns>
+	   	   	<column width="50px"/>
+	   	   	<column/>
+	   	   </columns>
+	   	   <rows>
+	   	   	<template name="model" var="v">
+	   	   		<row>
+	   	   			<checkbox checked="@bind(v.weekChecked)"/>
+	   	   			<label value="@bind(v.weekName)"/>
+	   	   		</row>
+	   	   	</template>
+	   	   </rows>
+	   	   
+	   	   </grid>
+	   	    
+	   	    <div height="25px"></div>
+	   	    <div>
+	   	    <button label="Save" height="25px" width="100px" onClick="@command('onClickSaveWeek')"></button> 
+	   	    
+	   	    </div>
+	   	  </div>
+	   	  <space></space>
+	   	  <grid model="@bind(vm.holidayMasterBeanList)">
+	   	  	<columns>
+	   	  	<column label="Sl No." width="100px"></column>
+	         <column label="Day"></column>
+	         <column label="Week"></column>
+	         <column label="Delete"></column>
+	        </columns>
+	        <rows>
+	        <template name="model" var = "v">
+	         <row>
+	         <label value="@bind(v.weekDayCount)"></label>
+	         <label value="@bind(v.weeklyHoliDayName)"></label>
+	         <label value="@bind(v.week)"></label>
+	         <button label="Delete" onClick="@command('deleteWeekMasterData', bean=v)"></button>
+	         </row>
+	         </template>
+	        </rows>
+	      </grid> 
+	    </tabpanel>
+	    
+	    <tabpanel> 
+		
+		<hlayout spacing="80px">
+		   <vbox>	 
+		   	   <label value="Select Day"></label>	
+		   	   <div>
+		   	    <datebox format="dd-MMM-yy" width="150px" value="@bind(vm.generalHolidayBean.generalHolidayDate)"></datebox>
+		   	   </div>
+		   	</vbox>
+		   	
+		   	<vbox>	 
+		   	   <label value="Holiday Name"></label>
+	       	   <div>
+		   	    <textbox value="@bind(vm.generalHolidayBean.generalHolidayName)"></textbox>
+		   	   </div>
+		   	 </vbox>
+		   	
+		   	<vbox>	 
+		   	  
+		   	   <space></space>
+	       	   <div>
+		   	    <button label="Save" width="100px" height="25px" onClick="@command('onClickSaveGeneralHday')"></button>
+		   	    
+		   	   </div>
+		   	 </vbox>
+		   	
+		   	
+		   	   
+		</hlayout>	
+	    
+		<div height="30px"></div>
+		<div>
+		  <grid model="@bind(vm.generalHoliDayBeanList)">    
+		    <columns>
+		      <column label="Sl no." width="100px"></column>
+		      <column label="Date"></column>
+		      <column label="Holiday Name"></column>
+		      <column label="Delete"></column>
+		    </columns>
+		    
+		    <rows>
+		    <template name="model" var ="v">
+		      <row>
+		       <label value="@bind(v.generalCount)"></label>
+		       <label value="@bind(v.generalHolidayDate)"></label>
+		       <label value="@bind(v.generalHolidayName)"></label>
+		       <button label="Delete" onClick="@command('onClickDeleteGeneralHoliday', bean=v)"></button>
+		      </row>
+		      </template>
+		    </rows>
+		
+		  </grid>
+		 </div> 
+	     </tabpanel>
+	</tabpanels>
+	</tabbox>
+
+</window>
+</zk>

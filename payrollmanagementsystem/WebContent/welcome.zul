@@ -15,7 +15,7 @@ viewModel="@id('vm') @init('org.appsquad.viewmodel.LoginViewModel')">
     ]]></html>
         <textbox placeholder="User Name" value="@bind(vm.loginBean.userId)" height="36px" width="300px"></textbox>
         <div height="10px" ></div>
-        <textbox placeholder="Password" value="@bind(vm.loginBean.password)" height="36px" width="300px"></textbox>
+        <textbox placeholder="Password" value="@bind(vm.loginBean.password)" height="36px" width="300px" type="password"></textbox>
         <div height="20px" ></div>
         <button label="Login" height="35px" width="308px" sclass="bb_button" onClick="@command('onClickLogin')"></button>
       <div height="20px" ></div>
