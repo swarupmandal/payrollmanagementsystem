@@ -52,7 +52,7 @@
   	<grid width="1500px" mold="paging" pageSize="10" model="@bind(vm.runPayRollBeanList)">	
   		<auxhead>
   			<auxheader label="Employee Details" colspan="6" style="font-weight:bold;" align="center"/>
-  			<auxheader label="Salary Details" colspan="4" style="font-weight:bold;" align="center"></auxheader>
+  			<auxheader label="Salary Details" colspan="5" style="font-weight:bold;" align="center"></auxheader>
   			
   			
   		</auxhead>
@@ -65,6 +65,7 @@
   			<column label="Esi Number" width="150px"></column>
   			
   			
+  			<column label="Components" width="500px"></column>
   			<column label="Total Salary" width="150px"></column>
   			<column label="Total Deduction" width="150px"></column>
   			<column label="Net Salary" width="150px"></column>
@@ -81,6 +82,29 @@
   		      <textbox width="99%" value="@bind(v.empDesignation)"></textbox>
   		      <textbox width="99%" value="@bind(v.empPf)"></textbox>
   		      <textbox width="99%" value="@bind(v.empEsi)"></textbox>
+  		      
+  		      <groupbox open="false">
+  		      <caption label="Components" style="font-weight:bold;"></caption>
+				 
+				 <grid model="@bind(v.componentAmountBeanList)"> 		      
+  		      		<columns>
+  		      			<column label="Components"></column>
+  		      			<column label="Amount"></column>
+  		      			<column label="Component Type"></column>
+  		      		
+  		      		</columns>	
+  		      		<rows>
+  		      			<template name="model" var = "v1">
+  		      			  	<row>
+  		                     <textbox value="@bind(v1.componentName)"></textbox>
+  		                     <textbox value="@bind(v1.componentAmount)"></textbox>
+  		                     <textbox value="@bind(v1.componentType)"></textbox>
+  		      				</row>
+  		      			</template>
+  		      		</rows>
+  		      	</grid>
+  		      	
+  		      </groupbox>
   		      
   		      <textbox width="99%" value="@bind(v.totalSalary)"></textbox>
   		      <textbox width="99%" value="@bind(v.totalDeduction)"></textbox>

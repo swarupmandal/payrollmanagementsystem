@@ -1,5 +1,7 @@
 package org.appsquad.bean;
 
+import java.util.ArrayList;
+
 public class RunPayRollBean {
 	
     private String empName;
@@ -12,6 +14,7 @@ public class RunPayRollBean {
     private double totalDeduction;
     private double netSalary;
     private double totalSalary;
+    private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
     
 	public String getEmpName() {
@@ -74,6 +77,13 @@ public class RunPayRollBean {
 	}
 	public void setTotalSalary(double totalSalary) {
 		this.totalSalary = totalSalary;
+	}
+	public ArrayList<EmployeeSalaryComponentAmountBean> getComponentAmountBeanList() {
+		return componentAmountBeanList;
+	}
+	public void setComponentAmountBeanList(
+			ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList) {
+		this.componentAmountBeanList = componentAmountBeanList;
 	}
 	
 	

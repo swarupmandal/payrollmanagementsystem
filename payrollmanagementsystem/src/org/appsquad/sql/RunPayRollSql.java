@@ -24,8 +24,13 @@ public class RunPayRollSql {
 													  " pesc.component_type_id = pctm.component_type_id " +
 													  " and employee_id = ? ";
 
-	
-	
+	public static final String loadEmpcomponentSalaryDetails = " SELECT pesc.component_name, pesc.component_type_id, " +
+			  " pesc.component_amount, pctm.component_type " +
+			  " FROM pms_employee_salary_components pesc, " +
+			  " pms_component_type_master pctm where " + 
+			  " pesc.component_type_id = pctm.component_type_id " +
+			  " and employee_id = ? ";
+  	
 	
 
 }

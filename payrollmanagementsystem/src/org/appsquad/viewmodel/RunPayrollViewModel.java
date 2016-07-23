@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.appsquad.bean.CompanyMasterBean;
+import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.bean.UnitMasterBean;
@@ -30,14 +31,21 @@ public class RunPayrollViewModel {
 	
 	RunPayRollBean runPayRollBean = new RunPayRollBean();
 	
+	private CompanyMasterBean companyMasterBean = new CompanyMasterBean();
+	private UnitMasterBean unitMasterBean = new UnitMasterBean();
+	private MonthMasterBean monthMasterBean = new MonthMasterBean();
+	private EmployeeSalaryComponentAmountBean amountBean = new EmployeeSalaryComponentAmountBean();
+	
+	
+	
 	private ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
+	private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 	
-	private CompanyMasterBean companyMasterBean = new CompanyMasterBean();
-	private UnitMasterBean unitMasterBean = new UnitMasterBean();
-	private MonthMasterBean monthMasterBean = new MonthMasterBean();
+	
+	
 	
 	
 	Session session = null;
@@ -98,9 +106,6 @@ public class RunPayrollViewModel {
 		}
 		
 	}
-	
-	
-	
 	
 	@Command
 	@NotifyChange
@@ -273,6 +278,23 @@ public class RunPayrollViewModel {
 
 	public void setRunPayRollBeanList(ArrayList<RunPayRollBean> runPayRollBeanList) {
 		this.runPayRollBeanList = runPayRollBeanList;
+	}
+
+	public EmployeeSalaryComponentAmountBean getAmountBean() {
+		return amountBean;
+	}
+
+	public void setAmountBean(EmployeeSalaryComponentAmountBean amountBean) {
+		this.amountBean = amountBean;
+	}
+
+	public ArrayList<EmployeeSalaryComponentAmountBean> getComponentAmountBeanList() {
+		return componentAmountBeanList;
+	}
+
+	public void setComponentAmountBeanList(
+			ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList) {
+		this.componentAmountBeanList = componentAmountBeanList;
 	}
 	
 }
