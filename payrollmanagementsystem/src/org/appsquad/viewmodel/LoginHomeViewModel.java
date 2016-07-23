@@ -34,7 +34,7 @@ public class LoginHomeViewModel {
 		if(userId==null){
 			Executions.sendRedirect("/welcome.zul");
 		}else{
-			userId = "Welcome "+userId;
+			userId = "welcome "+userId;
 			
 		}
 	}

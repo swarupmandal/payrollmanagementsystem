@@ -7,30 +7,53 @@
   		
   		<vbox>
 	     <label value="Select Month"></label>
-	     <combobox></combobox>
+	     <combobox  width="160px" model="@bind(vm.monthList)"
+				   onSelect="@command('onSelectMonth')"
+					selectedItem="@bind(vm.monthMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.monthName)" value="@bind(v.monthId)" />
+					  </template>
+		  </combobox>
 		</vbox>
   		
   		<vbox>
 	     <label value="Select Company Name"></label>
-	     <combobox></combobox>
+	     <combobox  width="160px" model="@bind(vm.companyBeanList)"
+				   onSelect="@command('onSelectCompany')"
+					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.companyName)" value="@bind(v.companyId)" />
+					  </template>
+		  </combobox>
 		</vbox>
+		
 		<vbox>
 		 <label value="Select Unit"></label>
-		 <combobox></combobox>
+		 <combobox  width="160px" model="@bind(vm.unitMasterBeanList)"
+				   onSelect="@command('onSelectUnit')"
+					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.unitName)" value="@bind(v.unitId)" />
+					  </template>
+		</combobox>
 	
 		</vbox>
+		<vbox>
+		<label value="Current Date"></label>
+		<label value="@bind(vm.currentDate)"></label>
+		</vbox>
+		
 	 </hlayout>
   </div>
   <div height="10px"></div>
   <label value="Employee Salary Components"></label>
   <div>
   	
-  	<grid width="3000px">	
+  	<grid width="1500px" mold="paging" pageSize="10" model="@bind(vm.runPayRollBeanList)">	
   		<auxhead>
   			<auxheader label="Employee Details" colspan="6" style="font-weight:bold;" align="center"/>
-  			<auxheader label="Earnings" colspan="6" style="font-weight:bold;" align="center"></auxheader>
-  			<auxheader label="Deductions" colspan="3" style="font-weight:bold;" align="center"></auxheader>
-  			<auxheader label="Others" colspan="6" style="font-weight:bold;" align="center"></auxheader>
+  			<auxheader label="Salary Details" colspan="4" style="font-weight:bold;" align="center"></auxheader>
+  			
   			
   		</auxhead>
   		<columns>
@@ -41,56 +64,34 @@
   			<column label="Pf Number" width="180px"></column>
   			<column label="Esi Number" width="150px"></column>
   			
-  			<column label="Basic" ></column>
-  			<column label="Hra"></column>
-  			<column label="Allowance"></column>
-  			<column label="Special Allowance" width="200px"></column>
-  			<column label="Conveyance" width="180px"></column>
-  			<column label="Washing"></column>
   			
-  			
-  			<column label="Pf"></column>
-  			<column label="Esi"></column>
-  			<column label="Pt"></column>
-  			
-  			<column label="Ot Salary" width="180px"></column>
-  			<column label="Leave Deduction" width="200px"></column>
-  			<column label="Total Deduction" width="200px"></column>
-  			<column label="Salary"></column>
-  			<column label="Net Salary"></column>
-  			<column label="Adjustment"></column>
+  			<column label="Total Salary" width="150px"></column>
+  			<column label="Total Deduction" width="150px"></column>
+  			<column label="Net Salary" width="150px"></column>
+  			<column label="Adjustment" width="150px"></column>
   			
   		</columns>
   		
   		<rows>
+  		<template name="model" var="v">
   			<row>
-  		      <textbox readonly="true"></textbox>
-  		      <textbox ></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
+  		      <textbox readonly="true" value="@bind(v.empcount)"></textbox>
+  		      <textbox value="@bind(v.empCode)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empName)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empDesignation)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empPf)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empEsi)"></textbox>
   		      
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
+  		      <textbox width="99%" value="@bind(v.totalSalary)"></textbox>
+  		      <textbox width="99%" value="@bind(v.totalDeduction)"></textbox>
+  		      <textbox width="99%" value="@bind(v.netSalary)"></textbox>
   		      
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
   		      
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox width="99%"></textbox>
-  		      <textbox style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:aqua;" readonly="true" width="85%"></textbox>
+  		      <label style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:aqua;" 
+  		      value="ADJ" width="85%" onClick="@command('onClickAdjment', bean=v)"></label>
   		        	
   			</row>
-  			
+  			</template>
   		</rows>
   			
   

@@ -81,7 +81,7 @@
             </treeitem>
              <treeitem open="false">
             	<treerow>
-            	 <treecell label="PaymentMode Master"
+            	 <treecell label="Payment Mode Master"
             	  onClick='inclResults.setSrc("/WEB-INF/view/paymentModeMaster.zul");'>
             	</treecell>
             	</treerow>
@@ -120,7 +120,7 @@
          <treechildren>
          <treeitem>
          <treerow>
-         	<treecell label="Report Generation">
+         	<treecell label="Report">
          	</treecell>
          </treerow>
          </treeitem>
