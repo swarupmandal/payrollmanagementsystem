@@ -5,6 +5,7 @@ public class EmployeeSalaryComponentAmountBean {
 	private String componentName;
 	private String componentType;
 	private double componentAmount;
+	private int componentTypeId;
 	
 	private int empId;
 	
@@ -31,6 +32,12 @@ public class EmployeeSalaryComponentAmountBean {
 	}
 	public void setEmpId(int empId) {
 		this.empId = empId;
+	}
+	public int getComponentTypeId() {
+		return componentTypeId;
+	}
+	public void setComponentTypeId(int componentTypeId) {
+		this.componentTypeId = componentTypeId;
 	}
 	
 	

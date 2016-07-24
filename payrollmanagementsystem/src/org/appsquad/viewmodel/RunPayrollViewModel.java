@@ -42,9 +42,6 @@ public class RunPayrollViewModel {
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
-	private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
-	
-	
 	
 	
 	
@@ -81,8 +78,8 @@ public class RunPayrollViewModel {
 	       
 	      currentDate =day+"-"+month+"-"+year;
 	      currentTime = hour+" : "+minute+" : "+second;
-	      runPayRollBean.setEmpName("SWARUP");
-	      runPayRollBean.setEmpCode("ASDF/1234");
+	      //runPayRollBean.setEmpName("SWARUP");
+	      //runPayRollBean.setEmpCode("ASDF/1234");
 	      System.out.println("current date "+ currentDate +" - " + currentTime);
 	      
 	}
@@ -115,12 +112,67 @@ public class RunPayrollViewModel {
 		parenMap.put("companyName", companyMasterBean.getCompanyName());
 		parenMap.put("unitName", unitMasterBean.getUnitName());
 		parenMap.put("salaryMonth", monthMasterBean.getMonthName());
+		parenMap.put("Year", year);
+		
 		
 		Window window = (Window) Executions.createComponents("/WEB-INF/view/employeePaymentDetails.zul", null, parenMap);
 		window.doModal();
 	}
 	
-	
+	@Command
+	@NotifyChange("*")
+	public void onclickConfirm(){
+		/*for(RunPayRollBean rBean: runPayRollBeanList){
+			String comp = null;
+			double cAmount = 0;
+			String cType = null;
+			
+			ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+			ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+			
+			System.out.println("ID :: " +rBean.getEmpId() +" :: "+ rBean.getEmpName());
+			 for(EmployeeSalaryComponentAmountBean sBean : rBean.getComponentAmountBeanList()){
+				  
+				 comp = sBean.getComponentName();
+				 cAmount = sBean.getComponentAmount();
+				 cType = sBean.getComponentType();
+				 
+				 if(cType.equalsIgnoreCase("EARNING")){
+					 
+					 earnList.add(sBean);
+				 }if(cType.equalsIgnoreCase("DEDUCTION")){
+					 
+					 deductList.add(sBean);
+				 }
+				 
+			 }
+			 System.out.println("EARNINGS ");
+			 for(EmployeeSalaryComponentAmountBean sBean : earnList){
+				 comp = sBean.getComponentName();
+				 cAmount = sBean.getComponentAmount();
+				 cType = sBean.getComponentType();
+				 System.out.println("Components :: "+ comp + " :: " + cAmount + " :: " +cType);
+			 }
+			 System.out.println();
+			 System.out.println("DEDUCTIONS ");
+			 for(EmployeeSalaryComponentAmountBean sBean : deductList){
+				 comp = sBean.getComponentName();
+				 cAmount = sBean.getComponentAmount();
+				 cType = sBean.getComponentType();
+			     System.out.println("Components :: "+ comp + " :: " + cAmount + " :: " +cType);
+			 }
+			 
+			 System.out.println("------------------------------------------------------------------------");
+			
+		}*/
+		
+		
+		
+		
+		
+		
+		
+	}
 	
 	
 	
@@ -288,13 +340,6 @@ public class RunPayrollViewModel {
 		this.amountBean = amountBean;
 	}
 
-	public ArrayList<EmployeeSalaryComponentAmountBean> getComponentAmountBeanList() {
-		return componentAmountBeanList;
-	}
-
-	public void setComponentAmountBeanList(
-			ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList) {
-		this.componentAmountBeanList = componentAmountBeanList;
-	}
+	
 	
 }

@@ -1,29 +1,79 @@
 <?page title="SALARY DETAILS" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Salary Breakups" border="normal" apply="org.zkoss.bind.BindComposer"
-						viewModel="@id('vm') @init('org.appsquad.viewmodel.EmployeePaymentDetailsViewModel')" closable="true">
+<window title="Salary Adjustments" border="normal" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.appsquad.viewmodel.EmployeePaymentDetailsViewModel')" closable="true" width="1000px" height="600px">
 
-	<label value="company InforMation" />
-	<div>
 	
-	
-	
+	<label value="@bind(vm.salaryMonth)"></label>
+	<div   height="100px" >
+		<label value="@bind(vm.companyName)"></label>
+	    <space></space>
+		<label value="@bind(vm.unitName)"></label>
 	</div>
 	<space></space>
 	
 	<label value="Employee InforMation" />
 	<div>
-	
-	
+	  <hlayout>
+	   <label value="Employee Name"></label>	
+	   <label value="@bind(vm.payRollBean.empName)"></label>
+	  </hlayout>
 	
 	</div>
 	<space></space>
 	
 	<label value="Salary InforMation" />
 	<div>
+	    <label value="Earnings"></label>
+		<grid model="@bind(vm.componentEarningAmountBeanList)">
+		  	<columns>
+				<column label="Components"/>	
+				<column label="Amount"/>	
+				<column label="Component type"/>	
+			</columns>
+			
+			
+				<template name="model" var = "payr">
+				<row>
+					<textbox value="@bind(payr.componentName)"></textbox>	
+					<textbox value="@bind(payr.componentAmount)"></textbox>
+					<textbox value="@bind(payr.componentType)"></textbox>
+				
+				</row>
+				</template>
+			
 	
+		</grid>
+		<space></space>
+		
+		<label value="Deductions"></label>
+		<grid model="@bind(vm.componentDeductionAmountBeanList)">
+		  	<columns>
+				<column label="Components"/>	
+				<column label="Amount"/>	
+				<column label="Component type"/>	
+			</columns>
+			
+			
+				<template name="model" var = "payr">
+				<row>
+					<textbox value="@bind(payr.componentName)"></textbox>	
+					<textbox value="@bind(payr.componentAmount)"></textbox>
+					<textbox value="@bind(payr.componentType)"></textbox>
+				
+				</row>
+				</template>
+			
 	
+		</grid>
 	
+	    <label value=""></label>
+		<grid>
+		
+		
+		
+		
+		</grid>
 	</div>
 	
 	

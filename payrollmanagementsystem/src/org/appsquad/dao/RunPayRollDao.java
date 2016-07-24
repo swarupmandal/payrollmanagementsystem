@@ -70,6 +70,8 @@ public class RunPayRollDao {
 	
 	}
 	
+	
+	
 	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId){
 		
 		if(beanList.size()>0){
@@ -99,7 +101,7 @@ public class RunPayRollDao {
 								
 								bean.setEmpcount(i);
 								bean.setEmpId(resultSet.getInt("employee_id"));
-								bean.setComponentAmountBeanList(loadComponentAmountDetails(bean.getEmpId()));
+								bean.setComponentAmountBeanList(loadComponentAmountDetails(bean.getEmpId(), bean));
 								bean.setEmpCode(resultSet.getString("employee_code"));
 								bean.setEmpName(resultSet.getString("employee_name"));
 								bean.setEmpPf(resultSet.getString("uan"));
@@ -132,12 +134,16 @@ public class RunPayRollDao {
 	}
 	
 	
-	public static ArrayList<EmployeeSalaryComponentAmountBean> loadComponentAmountDetails(int empid){
+	public static ArrayList<EmployeeSalaryComponentAmountBean> loadComponentAmountDetails(int empid, RunPayRollBean salBean){
 		
 		ArrayList<EmployeeSalaryComponentAmountBean> list = new ArrayList<EmployeeSalaryComponentAmountBean>();
 		if(list.size()>0){
 			list.clear();
 		}
+		double earning = 0;
+		double deductions = 0;
+		double netSal = 0;
+		
 		Connection connection = DbConnection.createConnection();
 			try {
 				
@@ -152,11 +158,25 @@ public class RunPayRollDao {
 						  	bean.setComponentName(resultSet.getString("component_name"));
 							bean.setComponentAmount(resultSet.getDouble("component_amount"));
 							bean.setComponentType(resultSet.getString("component_type"));
+							bean.setComponentTypeId(resultSet.getInt("component_type_id"));
+							
+							if(bean.getComponentType().equalsIgnoreCase("EARNING")){
+								earning = earning + bean.getComponentAmount(); 
+							}
+							if(bean.getComponentType().equalsIgnoreCase("DEDUCTION")){
+								deductions = deductions+bean.getComponentAmount();
+							}
 							
 							list.add(bean);
 						  
-					}	
-				
+					}
+					
+					netSal = earning - deductions;  
+					salBean.setTotalSalary(earning);
+					salBean.setTotalDeduction(deductions);
+					salBean.setNetSalary(netSal);
+				    
+					   
 					}
 			} catch (SQLException e) {
 				

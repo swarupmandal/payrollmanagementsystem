@@ -14,6 +14,8 @@ public class RunPayRollBean {
     private double totalDeduction;
     private double netSalary;
     private double totalSalary;
+    
+    
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
     
@@ -85,6 +87,7 @@ public class RunPayRollBean {
 			ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList) {
 		this.componentAmountBeanList = componentAmountBeanList;
 	}
+	
 	
 	
 

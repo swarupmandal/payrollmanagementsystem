@@ -121,7 +121,11 @@
   
   	</grid>
   </div>
+  <div align="center">
+  <button label="Confirm" onClick="@command('onclickConfirm')"></button>	
   
+  
+  </div>
   	
 </window>
 </zk>
