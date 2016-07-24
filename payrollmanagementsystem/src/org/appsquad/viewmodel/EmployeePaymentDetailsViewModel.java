@@ -7,14 +7,24 @@ import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.dao.RunPayRollDao;
 import org.appsquad.service.EmployeeMasterService;
+import org.appsquad.service.RunPayRollService;
+import org.appsquad.service.UnitMasterService;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zul.Messagebox;
+
+import utility.LeaveCalculation;
+import utility.OtCalculation;
 
 public class EmployeePaymentDetailsViewModel {
 
@@ -24,6 +34,15 @@ public class EmployeePaymentDetailsViewModel {
 	private String unitName;
 	private String salaryMonth;
 	private int year;
+	
+	private Integer totalWorkingDays;
+	private Double workinghoursPerDay;
+	
+	private Double otHours;
+	private Integer noOfLeaveDays;
+	
+	private Double otSalaryAdd;
+	private Double leaveSalaryDeduct;
 	
 	private RunPayRollBean payRollBean = new RunPayRollBean();
 	private EmployeePaymentDetailsBean paymentDetailsBean = new EmployeePaymentDetailsBean();
@@ -50,7 +69,8 @@ public class EmployeePaymentDetailsViewModel {
 		companyName= com;
 		unitName=unit;	
 		
-		salaryMonth = "Salary for the month of \n"+ mon +"-"+yr;
+		salaryMonth = "SALARY FOR THE MONTH\n"+ mon +"-"+yr;
+		
 		System.out.println("salary month " + salaryMonth);
 		if(rpBean!=null){
 			payRollBean = rpBean;
@@ -72,7 +92,91 @@ public class EmployeePaymentDetailsViewModel {
 	}
 
 
-
+	@Command
+	@NotifyChange("*")
+	public void onClickSaveTotalWorkingDay(){
+		
+		if(RunPayRollService.totalWorkingDaysisNull(totalWorkingDays, workinghoursPerDay)){
+			
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	@NotifyChange("*")
+	public void onClickSaveOtHours(){
+		Messagebox.show(
+				"Are you sure to calculate?", "Confirm Dialog",
+				Messagebox.OK | Messagebox.IGNORE | Messagebox.CANCEL,
+				Messagebox.QUESTION, 
+				new org.zkoss.zk.ui.event.EventListener() {
+					@Override
+					public void onEvent(Event evt) throws InterruptedException {
+						if (evt.getName().equals("onOK")) {
+							if(RunPayRollService.totalOtHoursIsNullCheck(totalWorkingDays, workinghoursPerDay, otHours)){
+								otSalaryAdd= OtCalculation.otAmount(payRollBean.getTotalSalary(), totalWorkingDays, workinghoursPerDay, otHours);
+								if(otSalaryAdd>0){
+									Messagebox.show("Over Time Amount " +otSalaryAdd, "Information", Messagebox.OK, Messagebox.INFORMATION);
+								}
+								System.out.println("O T >>> >> > " + otSalaryAdd);
+							}	
+						} else if (evt.getName().equals("onIgnore")) {
+							Messagebox.show("Ignore Caculation?", "Warning",
+									Messagebox.OK, Messagebox.EXCLAMATION);
+						} else {
+							System.out.println("Save Canceled !");
+						}
+					}
+				}
+			);
+		
+		
+		/*if(RunPayRollService.totalOtHoursIsNullCheck(totalWorkingDays, workinghoursPerDay, otHours)){
+			otSalaryAdd= OtCalculation.otAmount(payRollBean.getTotalSalary(), totalWorkingDays, workinghoursPerDay, otHours);
+		}*/
+		
+		
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Command
+	@NotifyChange("*")
+	public void onClickSaveLeaveDays(){
+		
+		Messagebox.show(
+				"Are you sure to calculate?", "Confirm Dialog",
+				Messagebox.OK | Messagebox.IGNORE | Messagebox.CANCEL,
+				Messagebox.QUESTION, 
+				new org.zkoss.zk.ui.event.EventListener() {
+					@Override
+					public void onEvent(Event evt) throws InterruptedException {
+						if (evt.getName().equals("onOK")) {
+							if(RunPayRollService.totalLeaveIsNullCheck(totalWorkingDays, workinghoursPerDay, noOfLeaveDays)){
+								leaveSalaryDeduct = LeaveCalculation.leaveAmount(payRollBean.getTotalSalary(), totalWorkingDays, workinghoursPerDay, noOfLeaveDays);
+								if(leaveSalaryDeduct >0){
+									Messagebox.show("Leave Deduction " + leaveSalaryDeduct, "Information", Messagebox.OK, Messagebox.INFORMATION);
+								}
+								System.out.println("Leave Salary Ded >>> >> > " + leaveSalaryDeduct);
+							}
+						} else if (evt.getName().equals("onIgnore")) {
+							Messagebox.show("Ignore Calculation?", "Warning",
+									Messagebox.OK, Messagebox.EXCLAMATION);
+						} else {
+							System.out.println("Save Canceled !");
+						}
+					}
+				}
+			);
+		
+		/*if(RunPayRollService.totalLeaveIsNullCheck(totalWorkingDays, workinghoursPerDay, noOfLeaveDays)){
+			leaveSalaryDeduct = LeaveCalculation.leaveAmount(payRollBean.getTotalSalary(), totalWorkingDays, workinghoursPerDay, noOfLeaveDays);
+		}*/
+		
+		
+	}
+	
+	
+	
 	public Session getSession() {
 		return session;
 	}
@@ -204,6 +308,66 @@ public class EmployeePaymentDetailsViewModel {
 	public void setComponentDeductionAmountBeanList(
 			ArrayList<EmployeeSalaryComponentAmountBean> componentDeductionAmountBeanList) {
 		this.componentDeductionAmountBeanList = componentDeductionAmountBeanList;
+	}
+
+
+	public Integer getTotalWorkingDays() {
+		return totalWorkingDays;
+	}
+
+
+	public void setTotalWorkingDays(Integer totalWorkingDays) {
+		this.totalWorkingDays = totalWorkingDays;
+	}
+
+
+	public Double getWorkinghoursPerDay() {
+		return workinghoursPerDay;
+	}
+
+
+	public void setWorkinghoursPerDay(Double workinghoursPerDay) {
+		this.workinghoursPerDay = workinghoursPerDay;
+	}
+
+
+	public Double getOtHours() {
+		return otHours;
+	}
+
+
+	public void setOtHours(Double otHours) {
+		this.otHours = otHours;
+	}
+
+
+	public Integer getNoOfLeaveDays() {
+		return noOfLeaveDays;
+	}
+
+
+	public void setNoOfLeaveDays(Integer noOfLeaveDays) {
+		this.noOfLeaveDays = noOfLeaveDays;
+	}
+
+
+	public Double getOtSalaryAdd() {
+		return otSalaryAdd;
+	}
+
+
+	public void setOtSalaryAdd(Double otSalaryAdd) {
+		this.otSalaryAdd = otSalaryAdd;
+	}
+
+
+	public Double getLeaveSalaryDeduct() {
+		return leaveSalaryDeduct;
+	}
+
+
+	public void setLeaveSalaryDeduct(Double leaveSalaryDeduct) {
+		this.leaveSalaryDeduct = leaveSalaryDeduct;
 	}
 
 

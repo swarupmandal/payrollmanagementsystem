@@ -102,6 +102,7 @@ public class UnitMasterViewModel {
 	}
 
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	@NotifyChange("*")
 	public void onClickDelete(@BindingParam("bean")UnitMasterBean unitmasterbean){

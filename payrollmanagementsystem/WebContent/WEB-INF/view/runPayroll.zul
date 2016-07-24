@@ -38,6 +38,12 @@
 		</combobox>
 	
 		</vbox>
+		
+		<vbox>
+		<label value="Total Working Days"></label>
+		<intbox placeholder="Total Working Days"></intbox>
+		</vbox>
+		
 		<vbox>
 		<label value="Current Date"></label>
 		<label value="@bind(vm.currentDate)"></label>

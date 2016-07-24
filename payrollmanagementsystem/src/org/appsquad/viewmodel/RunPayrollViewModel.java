@@ -78,8 +78,6 @@ public class RunPayrollViewModel {
 	       
 	      currentDate =day+"-"+month+"-"+year;
 	      currentTime = hour+" : "+minute+" : "+second;
-	      //runPayRollBean.setEmpName("SWARUP");
-	      //runPayRollBean.setEmpCode("ASDF/1234");
 	      System.out.println("current date "+ currentDate +" - " + currentTime);
 	      
 	}
@@ -122,56 +120,41 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onclickConfirm(){
-		/*for(RunPayRollBean rBean: runPayRollBeanList){
-			String comp = null;
-			double cAmount = 0;
-			String cType = null;
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		for(RunPayRollBean rBean: runPayRollBeanList){
+			
 			
 			ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 			ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 			
-			System.out.println("ID :: " +rBean.getEmpId() +" :: "+ rBean.getEmpName());
+			
+			stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() +"\n");
+			
 			 for(EmployeeSalaryComponentAmountBean sBean : rBean.getComponentAmountBeanList()){
-				  
-				 comp = sBean.getComponentName();
-				 cAmount = sBean.getComponentAmount();
-				 cType = sBean.getComponentType();
 				 
-				 if(cType.equalsIgnoreCase("EARNING")){
-					 
+				 if(sBean.getComponentType().equalsIgnoreCase("EARNING")){
 					 earnList.add(sBean);
-				 }if(cType.equalsIgnoreCase("DEDUCTION")){
-					 
+				 }if(sBean.getComponentType().equalsIgnoreCase("DEDUCTION")){
 					 deductList.add(sBean);
 				 }
-				 
-			 }
-			 System.out.println("EARNINGS ");
-			 for(EmployeeSalaryComponentAmountBean sBean : earnList){
-				 comp = sBean.getComponentName();
-				 cAmount = sBean.getComponentAmount();
-				 cType = sBean.getComponentType();
-				 System.out.println("Components :: "+ comp + " :: " + cAmount + " :: " +cType);
-			 }
-			 System.out.println();
-			 System.out.println("DEDUCTIONS ");
-			 for(EmployeeSalaryComponentAmountBean sBean : deductList){
-				 comp = sBean.getComponentName();
-				 cAmount = sBean.getComponentAmount();
-				 cType = sBean.getComponentType();
-			     System.out.println("Components :: "+ comp + " :: " + cAmount + " :: " +cType);
-			 }
+		     }
 			 
-			 System.out.println("------------------------------------------------------------------------");
+			 stringBuilder.append("EARNINGS "+ "\n");
+			 for(EmployeeSalaryComponentAmountBean sBean : earnList){
+				 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
+				 }
+			 
+			 stringBuilder.append(" "+ "\n");
+			 stringBuilder.append("DEDUCTIONS "+ "\n");
+			 
+			 for(EmployeeSalaryComponentAmountBean sBean : deductList){
+				 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
+				 }
+			 stringBuilder.append("--------------------------------------------" +"\n");
 			
-		}*/
-		
-		
-		
-		
-		
-		
-		
+		}
+		System.out.println(stringBuilder.toString());
 	}
 	
 	

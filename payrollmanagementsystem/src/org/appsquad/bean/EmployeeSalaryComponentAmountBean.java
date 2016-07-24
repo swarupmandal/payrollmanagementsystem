@@ -6,6 +6,9 @@ public class EmployeeSalaryComponentAmountBean {
 	private String componentType;
 	private double componentAmount;
 	private int componentTypeId;
+	private Integer totalWorkingDays;
+	private Double totalOtAdd;
+	private Double totalLeaveDeduction;
 	
 	private int empId;
 	
@@ -38,6 +41,24 @@ public class EmployeeSalaryComponentAmountBean {
 	}
 	public void setComponentTypeId(int componentTypeId) {
 		this.componentTypeId = componentTypeId;
+	}
+	public Integer getTotalWorkingDays() {
+		return totalWorkingDays;
+	}
+	public void setTotalWorkingDays(Integer totalWorkingDays) {
+		this.totalWorkingDays = totalWorkingDays;
+	}
+	public Double getTotalOtAdd() {
+		return totalOtAdd;
+	}
+	public void setTotalOtAdd(Double totalOtAdd) {
+		this.totalOtAdd = totalOtAdd;
+	}
+	public Double getTotalLeaveDeduction() {
+		return totalLeaveDeduction;
+	}
+	public void setTotalLeaveDeduction(Double totalLeaveDeduction) {
+		this.totalLeaveDeduction = totalLeaveDeduction;
 	}
 	
 	

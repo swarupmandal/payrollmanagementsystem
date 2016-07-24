@@ -14,6 +14,7 @@ public class RunPayRollBean {
     private double totalDeduction;
     private double netSalary;
     private double totalSalary;
+    private Integer totalWorkingDays;
     
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -86,6 +87,12 @@ public class RunPayRollBean {
 	public void setComponentAmountBeanList(
 			ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList) {
 		this.componentAmountBeanList = componentAmountBeanList;
+	}
+	public Integer getTotalWorkingDays() {
+		return totalWorkingDays;
+	}
+	public void setTotalWorkingDays(Integer totalWorkingDays) {
+		this.totalWorkingDays = totalWorkingDays;
 	}
 	
 	
