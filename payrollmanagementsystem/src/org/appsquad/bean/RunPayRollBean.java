@@ -15,7 +15,7 @@ public class RunPayRollBean {
     private double netSalary;
     private double totalSalary;
     private Integer totalWorkingDays;
-    
+    private boolean checked = false;
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
@@ -93,6 +93,12 @@ public class RunPayRollBean {
 	}
 	public void setTotalWorkingDays(Integer totalWorkingDays) {
 		this.totalWorkingDays = totalWorkingDays;
+	}
+	public boolean isChecked() {
+		return checked;
+	}
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 	
 	
