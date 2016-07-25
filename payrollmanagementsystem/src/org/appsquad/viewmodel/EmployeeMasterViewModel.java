@@ -82,7 +82,7 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void saveEmpInfo(){
-		if(EmployeeMasterService.isValid(companyMasterBean, unitMasterBean, userName)){
+		if(EmployeeMasterService.isValid(employeeMasterBean,companyMasterBean, unitMasterBean, userName)){
 		
 		
 			if(EmployeeMasterService.insertEmployeeInformation(employeeMasterBean, userName)){
@@ -100,7 +100,7 @@ public class EmployeeMasterViewModel {
 	@NotifyChange("*")
 	public void saveEmpInfo2(){
 		
-		if(EmployeeMasterService.isValid(companyMasterBean, unitMasterBean, userName)){
+		if(EmployeeMasterService.isValid(employeeMasterBean , companyMasterBean, unitMasterBean, userName)){
 			
 			maxEmpId = EmployeeMasterService.insertEmployeeInformation2(employeeMasterBean, userName);
 			

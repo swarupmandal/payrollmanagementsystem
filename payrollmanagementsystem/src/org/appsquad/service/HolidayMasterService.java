@@ -12,6 +12,17 @@ import org.zkoss.zul.Messagebox;
 public class HolidayMasterService {
 
 	
+	public static void loadLeaveYr(HolidayMasterBean bean){
+		HolidayMasterDao.loadLeaveYr(bean);
+	}
+	
+	public static void saveHourPerDay(HolidayMasterBean bean, String userName, int companyId, int unitId){
+		
+		HolidayMasterDao.saveHourPerDay(bean, userName, companyId, unitId);
+		
+	}
+	
+	
 	
 	public static Boolean dateIsEmpty(HolidayMasterBean bean) {
 		System.out.println(bean.getLeavYrStartDate());
@@ -78,18 +89,18 @@ public class HolidayMasterService {
 	}
 	
 	
-	public static void saveHolidayMasterData(String week, HolidayMasterBean bean, String userName){
-		HolidayMasterDao.saveWeekLeaveMasterData(week, bean, userName);
+	public static void saveHolidayMasterData(String week, HolidayMasterBean bean, String userName, int companyId, int unitId){
+		HolidayMasterDao.saveWeekLeaveMasterData(week, bean, userName, companyId, unitId);
 	}
 	
 	public static void deleteHolidayMasterData(HolidayMasterBean bean){
 		HolidayMasterDao.deleteWeekDayMasterData(bean);
 	}
 	
-	public static void saveGeneralHoliDayMasterData(HolidayMasterGeneralHolidayBean bean,Date date, String holiDayName, String userName, int leaveYrId){
+	public static void saveGeneralHoliDayMasterData(HolidayMasterGeneralHolidayBean bean,Date date, String holiDayName, String userName, int leaveYrId, int companyId, int unitId){
 		if(generalFieldIsEmpty(bean)){
 		
-			HolidayMasterDao.saveGeneralHoliDayMasterData(date, holiDayName, userName, leaveYrId);
+			HolidayMasterDao.saveGeneralHoliDayMasterData(date, holiDayName, userName, leaveYrId, companyId, unitId);
 		}
 	}
 	

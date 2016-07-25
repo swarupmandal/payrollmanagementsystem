@@ -386,6 +386,8 @@ public class EmployeeDao {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			
+			Messagebox.show("Already Exist ", "ERROR",Messagebox.OK,Messagebox.ERROR);
 		}finally{
 			if(connection != null){
 				connection.close();

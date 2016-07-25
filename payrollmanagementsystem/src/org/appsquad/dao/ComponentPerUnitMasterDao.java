@@ -58,6 +58,9 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 					
 				} catch (Exception e) {
 					e.printStackTrace();
+					Messagebox.show(e.getMessage());
+					
+					
 				}finally{
 					if(connection !=null){
 						connection.close();

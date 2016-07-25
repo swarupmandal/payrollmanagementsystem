@@ -55,13 +55,51 @@ public class EmployeeMasterService {
 	
 	
 	
-	public static boolean isValid(CompanyMasterBean companyMasterBean, UnitMasterBean unitMasterBean, String userName){
+	public static boolean isValid(EmployeeMasterBean bean,CompanyMasterBean companyMasterBean, UnitMasterBean unitMasterBean, String userName){
 		
 		if(companyMasterBean.getCompanyName() != null && companyMasterBean.getCompanyName().trim().length()>0){
 
 			if(unitMasterBean.getUnitName() != null && unitMasterBean.getUnitName().trim().length()>0){
 				
-				return true;
+				if(bean.getEmployeeCode() != null){
+					
+					if(bean.getEmployeeName() != null){
+						
+						if(bean.getEmpPhone() != null){
+							
+							if(bean.getGender() != null){
+								
+								if(bean.getEmpDob() != null){
+									
+									return true;
+									
+								}else {
+									Messagebox.show("Entetr Employee Date of Birth","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
+									return false;
+								}
+								
+							}else {
+								Messagebox.show("Enter Gender", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
+								return false;
+							}
+							
+						}else {
+							Messagebox.show("Enter Employee Phone Number", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
+							return false;
+						}
+						
+					}else {
+						Messagebox.show("Enter Employee Name", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
+						return false;
+					}
+					
+				}else {
+					
+					Messagebox.show("Enter Employee Code", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
+					return false;
+					
+				}
+				
 			}else {
 				Messagebox.show("Select Unit", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
 				return false;

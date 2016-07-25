@@ -7,20 +7,74 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.appsquad.bean.BankAccountMasterBean;
+
 import org.appsquad.bean.HolidayMasterBean;
 import org.appsquad.bean.HolidayMasterGeneralHolidayBean;
 import org.appsquad.bean.HolidayMasterWeekDayBean;
 import org.appsquad.database.DbConnection;
-import org.appsquad.sql.BankAccountMasterSql;
+
 import org.appsquad.sql.HolidayMasterSql;
 import org.zkoss.zul.Messagebox;
 
+import utility.DateFormatter;
 import utility.Util1;
 
 
 
 public class HolidayMasterDao {
+	
+	public static void loadLeaveYr(HolidayMasterBean bean){
+		try {
+			Connection connection = DbConnection.createConnection();
+			try {
+				sql:{
+				   PreparedStatement preparedStatement = null;
+				   
+						try {
+							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.loadLeaveYear, Arrays.asList());
+							
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								
+								bean.setLeavYrStartDate(resultSet.getDate("start_date"));
+								bean.setLeavYrStartDateValue(resultSet.getString("start_date"));
+								
+								bean.setLeavYrEndDate(resultSet.getDate("end_date"));
+								bean.setLeavYrEndDateValue(resultSet.getString("end_date"));
+								
+								
+								bean.setLeaveYrId(resultSet.getInt("id"));
+							}
+							
+							if(resultSet.next()){
+								
+							}
+							 
+						} finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+				
+			}
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}finally{
+				if(connection != null){
+					connection.close();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	
 	
 	public static int saveLeaveYr(HolidayMasterBean bean, String userName){
 		int id = 0;
@@ -74,6 +128,51 @@ public class HolidayMasterDao {
 		
 		return id;
 	}
+	
+	public static void saveHourPerDay(HolidayMasterBean bean, String userName, int companyId, int unitId){
+		
+
+		int id = 0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			try {
+				sql:{
+				   PreparedStatement preparedStatement = null;
+				   
+						try {
+							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.saveWorkingHourPerDay, 
+									                Arrays.asList(companyId, unitId, bean.getLeaveYrId(), bean.getHourPerDay(), userName, userName));
+							int i = preparedStatement.executeUpdate();
+							if(i>0){
+								Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+								
+							}
+							
+							 
+						} finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+				
+				
+			}
+			} catch (Exception e) {
+				
+				Messagebox.show("Already Exist","ERROR",Messagebox.OK,Messagebox.ERROR);
+				e.printStackTrace();
+			}finally{
+				if(connection != null){
+					connection.close();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	public static ArrayList<HolidayMasterWeekDayBean> loadWeekDayData(){
 		ArrayList<HolidayMasterWeekDayBean> beanList = new ArrayList<HolidayMasterWeekDayBean>();
@@ -139,7 +238,7 @@ public class HolidayMasterDao {
 	}
 	
 	
-	public static int saveWeekLeaveMasterData(String week,HolidayMasterBean bean, String userName){
+	public static int saveWeekLeaveMasterData(String week,HolidayMasterBean bean, String userName, int companyId, int unitId){
 		int id = 0;
 		try {
 			Connection connection = DbConnection.createConnection();
@@ -150,7 +249,7 @@ public class HolidayMasterDao {
 						try {
 							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.saveWeekLyHollyDayMasterData, 
 									                Arrays.asList(week, bean.getWeeklyHoliDayName(), bean.getWeeklyHoliDayId(), 
-									                		userName,userName, bean.getLeaveYrId()));
+									                		userName,userName, bean.getLeaveYrId(), companyId, unitId));
 							int i = preparedStatement.executeUpdate();
 							if(i>0){
 								Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);
@@ -167,9 +266,8 @@ public class HolidayMasterDao {
 				
 			}
 			} catch (Exception e) {
-
 				
-				Messagebox.show("Error due to:"+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+				Messagebox.show("Already Exist","ERROR",Messagebox.OK,Messagebox.ERROR);
 				e.printStackTrace();
 			}finally{
 				if(connection != null){
@@ -292,7 +390,7 @@ public class HolidayMasterDao {
 		}
 	}
 	
-	public static int saveGeneralHoliDayMasterData(Date date, String holiDayName, String userName, int leaveYrId){
+	public static int saveGeneralHoliDayMasterData(Date date, String holiDayName, String userName, int leaveYrId, int companyId, int unitId){
 
 		int id = 0;
 		try {
@@ -302,7 +400,7 @@ public class HolidayMasterDao {
 				   PreparedStatement preparedStatement = null;
 				   
 						try {
-							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.saveGeneralHoliDayMasterData, Arrays.asList(date, holiDayName, userName, userName, leaveYrId));
+							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.saveGeneralHoliDayMasterData, Arrays.asList(date, holiDayName, userName, userName, leaveYrId,companyId, unitId ));
 							int i = preparedStatement.executeUpdate();
 							if(i>0){
 								Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);
@@ -318,8 +416,8 @@ public class HolidayMasterDao {
 			}
 			} catch (Exception e) {
 
-				
-				Messagebox.show("Error due to:"+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+				System.out.println(">>> >> > " +e.getMessage());
+				Messagebox.show("Already Exist","ERROR",Messagebox.OK,Messagebox.ERROR);
 				e.printStackTrace();
 			}finally{
 				if(connection != null){
@@ -365,9 +463,11 @@ public class HolidayMasterDao {
 								bean.setGeneralCount(count);
 								bean.setGeneralHolidayNameId(resultSet.getInt("id"));
 								bean.setGeneralHolidayDate(resultSet.getDate("date"));
+								bean.setGeneralHolidayDateValue(resultSet.getString("date"));
+								bean.generalHolidayString = DateFormatter.toStringDate(bean.getGeneralHolidayDateValue());
 								bean.setGeneralHolidayName(resultSet.getString("holiday_name"));
 								bean.setLeaveYearId(resultSet.getInt("leave_year_id"));
-								System.out.println("G H N I >>> >> > " + bean.getGeneralHolidayNameId());
+								//System.out.println("G H N I >>> >> > " + bean.getGeneralHolidayNameId());
 								beanList.add(bean);
 								
 							}  

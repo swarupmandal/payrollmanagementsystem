@@ -15,7 +15,7 @@
 			<rows>
 				<row>
 					<label value="Company Name"/>
-					<combobox placeholder="Select Company" model="@bind(vm.companyMasterBeanList)" 
+					<combobox placeholder="Select Company" model="@bind(vm.companyMasterBeanList)" readonly="true"
 					selectedItem="@bind(vm.companyMasterBean)" onSelect="@command('onSelectCompanyName')">
 						<template name="model" var="v">
 							<comboitem label="@bind(v.companyName)" value="@bind(v.companyId)"/>
@@ -28,7 +28,7 @@
 					
 					
 					<button label="Save" onClick="@command('onClickSave')"/>
-					<button label="Update" onClick="@command('onClickUpdate')"/>
+					<button label="Update" onClick="@command('onClickUpdate')" visible="false"/>
 				</row>
 			</rows>
 		</grid>
@@ -48,11 +48,11 @@
 			<rows>
 			<template name="model" var="v">
 				<row>
-					<textbox placeholder="Company Name" value="@bind(v.companyName)"/>
+					<textbox placeholder="Company Name" value="@bind(v.companyName)" readonly="true" />
 					<textbox placeholder="Unit Name" value="@bind(v.unitName)"/>
 					<hlayout spacing="20px">
-					<button label="Edit"></button>
-					<button label="Delete"></button>
+					<button label="Edit" visible="false"></button>
+					<button label="Delete" visible="false"></button>
 					</hlayout>
 				</row>
 			</template>

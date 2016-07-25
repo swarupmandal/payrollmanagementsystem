@@ -29,7 +29,7 @@ public class UnitMasterDao {
 			
 				try {
 					preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.onLoadUnitMasterQuery, null);
-					
+					System.out.println("u ni t " + preparedStatement);
 					resultSet = preparedStatement.executeQuery();
 					while (resultSet.next()) {
 						int unitId = resultSet.getInt("unit_id");
@@ -67,7 +67,7 @@ public class UnitMasterDao {
 				PreparedStatement preparedStatement = null;
 				try {
 					preparedStatement = Util1.createQuery(connection, 
-							UnitMasterSqlQuery.insertUnitMasterQuery, Arrays.asList(unitMasterBean.getUnitName(),unitMasterBean.getUnitAddress(),
+							UnitMasterSqlQuery.insertUnitMasterQuery, Arrays.asList(unitMasterBean.getUnitName().toUpperCase(),unitMasterBean.getUnitAddress(),
 									unitMasterBean.getCompanyId(),unitMasterBean.getUserName()) );
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
@@ -81,6 +81,8 @@ public class UnitMasterDao {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			Messagebox.show("Already Exsist","ERROR",Messagebox.OK,Messagebox.ERROR );
+			
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
@@ -115,9 +117,12 @@ public class UnitMasterDao {
 					preparedStatement = Util1.createQuery(connection, 
 							UnitMasterSqlQuery.updateUnitMasterQuery, Arrays.asList(unitMasterBean.getUnitName(),unitMasterBean.getUnitAddress(),
 									unitMasterBean.getUserName()) );
+					
+					System.out.println("UPDATE >>> >> > " + preparedStatement);
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
-						isUpdated = true;	
+						isUpdated = true;
+						
 					}					
 				} finally{
 					if(preparedStatement != null){

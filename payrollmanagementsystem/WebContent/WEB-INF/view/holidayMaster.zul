@@ -10,7 +10,30 @@
 		 <datebox format="dd-MMM-yyyy" value="@bind(vm.holidayMasterBean.leavYrStartDate)"></datebox>
 		 <datebox format="dd-MMM-yyyy" value="@bind(vm.holidayMasterBean.leavYrEndDate)"></datebox>
 		</hlayout>
-		<button label="Save" width="60px" onClick="@command('onClickSaveLeaveYr')"></button>		
+		<button label="Save" width="60px" onClick="@command('onClickSaveLeaveYr')"></button>
+		<space></space>
+		<hlayout spacing="20px">
+			
+			<combobox  width="150px" model="@bind(vm.companyBeanList)"
+				   onSelect="@command('onSelectCompanyName')" placeholder="Select Company Name"
+					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.companyName)" value="@bind(v.companyId)" />
+					  </template>
+				</combobox>
+		  <space></space>
+		  
+		  <!-- <label value="Unit Name"></label> -->
+		  <combobox  width="150px" model="@bind(vm.unitMasterBeanList)" placeholder="Select Unit Name"
+				   
+					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@bind(v.unitName)" value="@bind(v.unitId)" />
+					  </template>
+		</combobox>
+		<intbox placeholder="Hours Per Day" onOK="@command('onOkHourPerDay')" width="100px" value="@bind(vm.holidayMasterBean.hourPerDay)"></intbox>		
+		
+		</hlayout>		
 	 </hlayout>	
 	</div>
 	<space></space>
@@ -124,7 +147,7 @@
 		    <template name="model" var ="v">
 		      <row>
 		       <label value="@bind(v.generalCount)"></label>
-		       <label value="@bind(v.generalHolidayDate)"></label>
+		       <label value="@bind(v.generalHolidayString)"></label>
 		       <label value="@bind(v.generalHolidayName)"></label>
 		       <button label="Delete" onClick="@command('onClickDeleteGeneralHoliday', bean=v)"></button>
 		      </row>

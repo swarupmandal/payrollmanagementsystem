@@ -2,12 +2,16 @@ package org.appsquad.viewmodel;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.HolidayMasterBean;
 import org.appsquad.bean.HolidayMasterGeneralHolidayBean;
 import org.appsquad.bean.HolidayMasterWeekDayBean;
+import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.bean.Week;
 import org.appsquad.dao.HolidayMasterDao;
+import org.appsquad.service.EmployeeMasterService;
 import org.appsquad.service.HolidayMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
@@ -21,18 +25,29 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
 
+import utility.DateFormatter;
+
 public class HolidayMasterViewModel {
   
 	private ArrayList<Week> weekList = new ArrayList<Week>();
 	private ArrayList<HolidayMasterWeekDayBean> weekDayList = new ArrayList<HolidayMasterWeekDayBean>();
 	private ArrayList<HolidayMasterBean> holidayMasterBeanList = new ArrayList<HolidayMasterBean>();
 	private ArrayList<HolidayMasterGeneralHolidayBean> generalHoliDayBeanList = new ArrayList<HolidayMasterGeneralHolidayBean>();
+	public ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
+	public ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	
 	HolidayMasterBean holidayMasterBean = new HolidayMasterBean();
 	HolidayMasterWeekDayBean dayBean = new HolidayMasterWeekDayBean();
 	HolidayMasterGeneralHolidayBean generalHolidayBean = new HolidayMasterGeneralHolidayBean();
+	private CompanyMasterBean companyMasterBean = new CompanyMasterBean();
+	private UnitMasterBean unitMasterBean = new UnitMasterBean();
 	Session session = null;
 	String userName;
+	private String currentDateValue;
+	private Date currentDate;
+	private Date utilstartDate;
+	private Date utilEndDate;
+	
 	
 	
 	@AfterCompose
@@ -52,11 +67,37 @@ public class HolidayMasterViewModel {
 		weekList.add(new Week(false, "4th Week", "4"));
 		weekList.add(new Week(false, "5th week", "5"));
 		
-//		weekList.add(new Week(false, "1st week", "1"));
-		
+		currentDate = DateFormatter.date();
+		System.out.println("Current " + currentDate);
 		holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
 		generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList();
+		loadLeaveYrDate();
+		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
+		EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
 	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectCompanyName(){
+		
+		System.out.println("selected company name >>> >> > " + companyMasterBean.getCompanyName());
+		System.out.println("Selected company ID >>> >> > " + companyMasterBean.getCompanyId());
+		//employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
+	}
+	
+	
+	
+	
+	
+	public void loadLeaveYrDate(){
+		HolidayMasterService.loadLeaveYr(holidayMasterBean);
+		
+	}
+	
+	
+	
+	
+	
 	
 	@Command
 	@NotifyChange("*")
@@ -100,17 +141,33 @@ public class HolidayMasterViewModel {
 		}
 		
 		if(holidayMasterBean.getLeaveYrId()>0){
-			if(dayBean.getWeeklyHoliDayName()!=null){
 			
-			if(str.length()>0){
+			if(dayBean.getWeeklyHoliDayName()!=null){
 				
-				HolidayMasterService.saveHolidayMasterData(str,holidayMasterBean,userName);
+				if(companyMasterBean.getCompanyId()>0){
 				
-				holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
-				}else{
+					if(unitMasterBean.getUnitId()>0){
 					
-				Messagebox.show("Week Not Selected ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+						if(str.length()>0){
+						
+							HolidayMasterService.saveHolidayMasterData(str,holidayMasterBean,userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+						
+							holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
+						
+					     }else{
+					
+					   Messagebox.show("Week Not Selected ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+					     
+					  }
+					
+					}else {
+						Messagebox.show("Select Unit ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+					}
+			
+				}else {
+					Messagebox.show("Select Company Name ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 			}
+				
 			}else {
 				Messagebox.show("Select Day ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 			}
@@ -124,6 +181,18 @@ public class HolidayMasterViewModel {
 
 	@Command
 	@NotifyChange("*")
+	public void onOkHourPerDay(){
+		if(holidayMasterBean.getLeaveYrId()>0){
+			
+			HolidayMasterService.saveHourPerDay(holidayMasterBean, userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+		}else {
+			Messagebox.show("First save Leave Year ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+		}
+	}
+	
+	
+	@Command
+	@NotifyChange("*")
 	public void deleteWeekMasterData(@BindingParam("bean") HolidayMasterBean bean){
 		HolidayMasterService.deleteHolidayMasterData(bean);
 		holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
@@ -134,7 +203,7 @@ public class HolidayMasterViewModel {
 	public void onClickSaveGeneralHday(){
 		if(holidayMasterBean.getLeaveYrId()>0){
 			HolidayMasterService.saveGeneralHoliDayMasterData(generalHolidayBean, generalHolidayBean.getGeneralHolidayDate(), 
-															  generalHolidayBean.getGeneralHolidayName(), userName, holidayMasterBean.getLeaveYrId());
+															  generalHolidayBean.getGeneralHolidayName(), userName, holidayMasterBean.getLeaveYrId(), companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 			generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList();
 		}
 	}
@@ -224,6 +293,46 @@ public class HolidayMasterViewModel {
 	public void setGeneralHolidayBean(
 			HolidayMasterGeneralHolidayBean generalHolidayBean) {
 		this.generalHolidayBean = generalHolidayBean;
+	}
+
+
+	public ArrayList<CompanyMasterBean> getCompanyBeanList() {
+		return companyBeanList;
+	}
+
+
+	public void setCompanyBeanList(ArrayList<CompanyMasterBean> companyBeanList) {
+		this.companyBeanList = companyBeanList;
+	}
+
+
+	public ArrayList<UnitMasterBean> getUnitMasterBeanList() {
+		return unitMasterBeanList;
+	}
+
+
+	public void setUnitMasterBeanList(ArrayList<UnitMasterBean> unitMasterBeanList) {
+		this.unitMasterBeanList = unitMasterBeanList;
+	}
+
+
+	public CompanyMasterBean getCompanyMasterBean() {
+		return companyMasterBean;
+	}
+
+
+	public void setCompanyMasterBean(CompanyMasterBean companyMasterBean) {
+		this.companyMasterBean = companyMasterBean;
+	}
+
+
+	public UnitMasterBean getUnitMasterBean() {
+		return unitMasterBean;
+	}
+
+
+	public void setUnitMasterBean(UnitMasterBean unitMasterBean) {
+		this.unitMasterBean = unitMasterBean;
 	}
 
 	
