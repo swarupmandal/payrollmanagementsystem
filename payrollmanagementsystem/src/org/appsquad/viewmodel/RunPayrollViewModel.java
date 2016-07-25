@@ -27,6 +27,10 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Window;
 
+import com.itextpdf.text.DocumentException;
+
+import utility.PdfPaySlipGenerator;
+
 public class RunPayrollViewModel {
 	
 	RunPayRollBean runPayRollBean = new RunPayRollBean();
@@ -119,7 +123,7 @@ public class RunPayrollViewModel {
 	
 	@Command
 	@NotifyChange("*")
-	public void onclickConfirm(){
+	public void onclickConfirm() throws DocumentException, Exception{
 		
 		StringBuilder stringBuilder = new StringBuilder();
 		for(RunPayRollBean rBean: runPayRollBeanList){
@@ -154,6 +158,12 @@ public class RunPayrollViewModel {
 			 stringBuilder.append("--------------------------------------------" +"\n");
 			
 		}
+		String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+		System.out.println("pdf_path >>> >> > " + pdfPath);
+		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+	    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean);
+		
+		
 		System.out.println(stringBuilder.toString());
 	}
 	

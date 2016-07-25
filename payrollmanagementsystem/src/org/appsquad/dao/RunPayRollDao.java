@@ -150,7 +150,7 @@ public class RunPayRollDao {
 				SQL:{
 				      PreparedStatement preparedStatement = null;
 				      preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadEmpcomponentSalaryDetails, Arrays.asList(empid));
-				      System.out.println(">>> >> > " + preparedStatement );
+				      
 				      ResultSet resultSet = preparedStatement.executeQuery();
 					  while (resultSet.next()) {
 						  EmployeeSalaryComponentAmountBean bean = new EmployeeSalaryComponentAmountBean();
