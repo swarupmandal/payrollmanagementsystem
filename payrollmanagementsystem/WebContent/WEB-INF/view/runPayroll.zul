@@ -1,7 +1,7 @@
 <?page title="RUN PAYROLL" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;" 
-								apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.RunPayrollViewModel')">
+<window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;"
+apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.RunPayrollViewModel')">
   <div>
      <hlayout spacing="40px"> 
   		
@@ -51,18 +51,24 @@
 		
 	 </hlayout>
   </div>
-  <div height="10px"></div>
+  
+  <div visible="@bind(vm.salaryComponentVisibility)" >
   <label value="Employee Salary Components"></label>
   <div>
   	
-  	<grid width="1500px" mold="paging" pageSize="10" model="@bind(vm.runPayRollBeanList)">	
+  	<grid width="1500px" mold="paging" pageSize="5" 
+  	model="@bind(vm.runPayRollBeanList)">	
   		<auxhead>
+  			<auxheader colspan="2">
+  				<checkbox checked="@bind(vm.allChecked)" onCheck="@command('onCheckAll')"/><label value="Select"/>
+  			</auxheader>
   			<auxheader label="Employee Details" colspan="6" style="font-weight:bold;" align="center"/>
   			<auxheader label="Salary Details" colspan="5" style="font-weight:bold;" align="center"></auxheader>
   			
   			
   		</auxhead>
   		<columns>
+  			<column label="Check" width="58px"/>
   			<column label="Sl no" width="50px"></column>
   			<column label="Emp Code" width="120px"></column>
   			<column label="Emp Name" width="180px"></column>
@@ -82,6 +88,7 @@
   		<rows>
   		<template name="model" var="v">
   			<row>
+  			  <checkbox checked="@bind(v.checked)"/>
   		      <textbox readonly="true" value="@bind(v.empcount)"></textbox>
   		      <textbox value="@bind(v.empCode)"></textbox>
   		      <textbox width="99%" value="@bind(v.empName)"></textbox>
@@ -129,9 +136,49 @@
   </div>
   <div align="center">
   <button label="Confirm" onClick="@command('onclickConfirm')"></button>	
-  
-  
   </div>
+  </div>
+  
+  <div>
+  	<space/>
+  	<space/>
+  		<grid mold="paging" pageSize="5" model="@bind(vm.runPayRollBeanList)"
+  		visible="@bind(vm.salaryAdjustmentVisibility)">
+  			<columns>
+  				<column label="Emp Code" align="center"/>
+  				<column label="Emp Name" align="center"/>
+  				<column label="OT Days" align="center"/>
+  				<column label="OT hours" align="center"/>
+  				<column label="Leave Days" align="center"/>
+  				<column label="Leave Hours" align="center"/>
+  				<column label="Total Amount" align="center"/>
+  				<column label="Deduction" align="center"/>
+  				<column label="Net Amount" align="left"/>
+  			</columns>
+  			<rows>
+  				<template name="model" var="v">
+	  				<row>
+	  					<textbox value="@bind(v.empCode)" readonly="true"/>
+	  					<textbox value="@bind(v.empName)"  readonly="true"/>
+	  					<textbox />
+	  					<textbox/>
+	  					<textbox/>
+	  					<textbox/>
+	  					<textbox  readonly="true"/>
+	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
+	  					<textbox value="@bind(v.netSalary)" readonly="true"/>
+	  				</row>
+  				</template>
+  			</rows>
+  		</grid>
+  		<div align="center">
+  			<vbox>
+  				<button label="Next" sclass="bb_button" onClick="@command('onClickNext')" visible="@bind(vm.nextButtonVisibility)"/>
+  				<button label="Previous" sclass="bb_button" onClick="@command('onClickPrevious')" visible="@bind(vm.prevButtonVisibility)"/>
+  			</vbox>
+  			
+  		</div>
   	
+  </div>
 </window>
 </zk>

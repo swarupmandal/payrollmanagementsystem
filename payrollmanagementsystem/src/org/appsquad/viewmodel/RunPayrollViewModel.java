@@ -25,6 +25,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zul.Include;
 import org.zkoss.zul.Window;
 
 import com.itextpdf.text.DocumentException;
@@ -56,6 +57,14 @@ public class RunPayrollViewModel {
 	int second, minute, hour;
 	String currentDate;
 	String currentTime;
+	
+	public boolean salaryAdjustmentVisibility = true;
+	public boolean salaryComponentVisibility  = false;
+	
+	public boolean nextButtonVisibility = false;
+	public boolean prevButtonVisibility = false;
+	
+	public boolean allChecked = false;
 	
 	@AfterCompose
 	public void initSetUp(@ContextParam(ContextType.VIEW) Component view) throws Exception{
@@ -103,7 +112,11 @@ public class RunPayrollViewModel {
 		if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 		}
-		
+		if(runPayRollBeanList.size()>0){
+			nextButtonVisibility = true;
+		}else{
+			nextButtonVisibility = false;
+		}
 	}
 	
 	@Command
@@ -128,49 +141,88 @@ public class RunPayrollViewModel {
 		StringBuilder stringBuilder = new StringBuilder();
 		for(RunPayRollBean rBean: runPayRollBeanList){
 			
-			
-			ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
-			ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
-			
-			
-			stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() +"\n");
-			
-			 for(EmployeeSalaryComponentAmountBean sBean : rBean.getComponentAmountBeanList()){
+			if(rBean.isChecked()){
+				
+				ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+				ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+				
+				
+				stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() +"\n");
+				
+				 for(EmployeeSalaryComponentAmountBean sBean : rBean.getComponentAmountBeanList()){
+					 
+					 if(sBean.getComponentType().equalsIgnoreCase("EARNING")){
+						 earnList.add(sBean);
+					 }if(sBean.getComponentType().equalsIgnoreCase("DEDUCTION")){
+						 deductList.add(sBean);
+					 }
+			     }
 				 
-				 if(sBean.getComponentType().equalsIgnoreCase("EARNING")){
-					 earnList.add(sBean);
-				 }if(sBean.getComponentType().equalsIgnoreCase("DEDUCTION")){
-					 deductList.add(sBean);
+				 stringBuilder.append("EARNINGS "+ "\n");
+				 for(EmployeeSalaryComponentAmountBean sBean : earnList){
+					 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
 				 }
-		     }
-			 
-			 stringBuilder.append("EARNINGS "+ "\n");
-			 for(EmployeeSalaryComponentAmountBean sBean : earnList){
-				 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
-				 }
-			 
-			 stringBuilder.append(" "+ "\n");
-			 stringBuilder.append("DEDUCTIONS "+ "\n");
-			 
-			 for(EmployeeSalaryComponentAmountBean sBean : deductList){
-				 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
-				 }
-			 stringBuilder.append("--------------------------------------------" +"\n");
+				 
+				 stringBuilder.append(" "+ "\n");
+				 stringBuilder.append("DEDUCTIONS "+ "\n");
+				 
+				 for(EmployeeSalaryComponentAmountBean sBean : deductList){
+					 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
+					 }
+				 stringBuilder.append("--------------------------------------------" +"\n");
+				
+				String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+				System.out.println("pdf_path >>> >> > " + pdfPath);
+				PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+			    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean);
+			}
+			
 			
 		}
-		String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+		/*String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 		System.out.println("pdf_path >>> >> > " + pdfPath);
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
-	    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean);
+	    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean);*/
+	
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onCheckAll(){
 		
+		if(runPayRollBeanList.size()>0){
+			if(allChecked){
+				for(RunPayRollBean bean : runPayRollBeanList){
+					bean.setChecked(true);	
+				}
+			}else{
+				for(RunPayRollBean bean : runPayRollBeanList){
+					bean.setChecked(false);	
+				}
+			}
+			
+		}
 		
-		System.out.println(stringBuilder.toString());
 	}
 	
 	
+	@Command
+	@NotifyChange("*")
+	public void onClickNext(){
+		salaryAdjustmentVisibility = false;
+		salaryComponentVisibility = true;
+		nextButtonVisibility = false;
+		prevButtonVisibility = true;
+	}
 	
-	
-	
+	@Command
+	@NotifyChange("*")
+	public void onClickPrevious(){
+		salaryAdjustmentVisibility = true;
+		salaryComponentVisibility = false;
+		nextButtonVisibility = true;
+		prevButtonVisibility = false;
+	}
 	
 	
 	public String getCurrentDate() {
@@ -331,6 +383,46 @@ public class RunPayrollViewModel {
 
 	public void setAmountBean(EmployeeSalaryComponentAmountBean amountBean) {
 		this.amountBean = amountBean;
+	}
+
+	public boolean isSalaryAdjustmentVisibility() {
+		return salaryAdjustmentVisibility;
+	}
+
+	public void setSalaryAdjustmentVisibility(boolean salaryAdjustmentVisibility) {
+		this.salaryAdjustmentVisibility = salaryAdjustmentVisibility;
+	}
+
+	public boolean isSalaryComponentVisibility() {
+		return salaryComponentVisibility;
+	}
+
+	public void setSalaryComponentVisibility(boolean salaryComponentVisibility) {
+		this.salaryComponentVisibility = salaryComponentVisibility;
+	}
+
+	public boolean isNextButtonVisibility() {
+		return nextButtonVisibility;
+	}
+
+	public void setNextButtonVisibility(boolean nextButtonVisibility) {
+		this.nextButtonVisibility = nextButtonVisibility;
+	}
+
+	public boolean isPrevButtonVisibility() {
+		return prevButtonVisibility;
+	}
+
+	public void setPrevButtonVisibility(boolean prevButtonVisibility) {
+		this.prevButtonVisibility = prevButtonVisibility;
+	}
+
+	public boolean isAllChecked() {
+		return allChecked;
+	}
+
+	public void setAllChecked(boolean allChecked) {
+		this.allChecked = allChecked;
 	}
 
 	
