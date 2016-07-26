@@ -216,7 +216,7 @@ public class RunPayRollDao {
 						try {
 						
 							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadEmpSalaryDetails, Arrays.asList(empId));
-							System.out.println("PREPared statemt " +preparedStatement);
+							//System.out.println("PREPared statemt " +preparedStatement);
 							ResultSet resultSet = preparedStatement.executeQuery();
 							
 							while (resultSet.next()) {
@@ -250,8 +250,320 @@ public class RunPayRollDao {
 			e.printStackTrace();
 		}
 		
+	}
 	
+	public static Integer sunDayCount(int companyId, int unitId, RunPayRollBean bean){
+		Integer sundayCount =0;
+		
+		try {
+
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				
+				try {
+					
+					sql_block:{
+					
+						PreparedStatement preparedStatement = null;
+						try {
+						
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadSundayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
+							System.out.println("PREPared statemt 1" +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							
+							while (resultSet.next()) {
+								sundayCount = resultSet.getInt("total_no_of_days");
+							}
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return sundayCount;
 		
 	}
+	
+	public static Integer satDayCount(int companyId, int unitId, RunPayRollBean bean){
+		Integer satdayCount =0;
+		
+		try {
+
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				
+				try {
+					
+					sql_block:{
+					
+						PreparedStatement preparedStatement = null;
+						try {
+						
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadSaturdayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
+							System.out.println("PREPared statemt sat day " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							
+							while (resultSet.next()) {
+								satdayCount = resultSet.getInt("total_no_of_days");
+								
+							}
+							System.out.println("SAT COUNT DAO " + satdayCount);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return satdayCount;
+		
+	}
+	
+	public static Integer monDayCount(int companyId, int unitId, RunPayRollBean bean){
+		Integer mondayCount =0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadMondayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
+							System.out.println("PREPared statemt mon day " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								mondayCount = resultSet.getInt("total_no_of_days");
+							}
+							System.out.println("MON COUNT DAO " + mondayCount);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mondayCount;
+	}
+	
+	public static Integer tuesDayCount(int companyId, int unitId, RunPayRollBean bean){
+		Integer tuesdayCount =0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadTuesdayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
+							System.out.println("PREPared statemt tue day " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								tuesdayCount = resultSet.getInt("total_no_of_days");
+							}
+							System.out.println("TUE COUNT DAO " + tuesdayCount);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tuesdayCount;
+	}
+	
+	public static Integer wednesDayCount(int companyId, int unitId, RunPayRollBean bean){
+		Integer wesnesdayCount =0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadWendsdayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
+							System.out.println("PREPared statemt tue day " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								wesnesdayCount = resultSet.getInt("total_no_of_days");
+							}
+							System.out.println("WED COUNT DAO " + wesnesdayCount);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return wesnesdayCount;
+	}
+	
+	public static Integer thursDayCount(int companyId, int unitId, RunPayRollBean bean){
+		Integer thursdayCount =0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadThursdayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
+							System.out.println("PREPared statemt tue day " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								thursdayCount = resultSet.getInt("total_no_of_days");
+							}
+							System.out.println("THURS COUNT DAO " + thursdayCount);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return thursdayCount;
+	}
+	
+	public static Integer friDayCount(int companyId, int unitId, RunPayRollBean bean){
+		Integer fridayCount =0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadThursdayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
+							System.out.println("PREPared statemt tue day " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								fridayCount = resultSet.getInt("total_no_of_days");
+							}
+							System.out.println("FRI COUNT DAO " + fridayCount);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return fridayCount;
+	}
+	
+	public static Integer generalHoliDayCount(int companyId, int unitId, RunPayRollBean bean, int currentMonthId){
+
+		Integer generalHolidayCount =0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadGeneralHoliDayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId,currentMonthId));
+							System.out.println("PREPared statemt General Holy day " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								generalHolidayCount = resultSet.getInt("holiday_count");
+							}
+							System.out.println("General Holiday COUNT DAO " + generalHolidayCount);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return generalHolidayCount;	
+		
+	}
+	
+	
 	
 }

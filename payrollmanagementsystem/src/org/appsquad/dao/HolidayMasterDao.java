@@ -238,7 +238,7 @@ public class HolidayMasterDao {
 	}
 	
 	
-	public static int saveWeekLeaveMasterData(String week,HolidayMasterBean bean, String userName, int companyId, int unitId){
+	public static int saveWeekLeaveMasterData(int noOfDays, String week,HolidayMasterBean bean, String userName, int companyId, int unitId){
 		int id = 0;
 		try {
 			Connection connection = DbConnection.createConnection();
@@ -248,7 +248,7 @@ public class HolidayMasterDao {
 				   
 						try {
 							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.saveWeekLyHollyDayMasterData, 
-									                Arrays.asList(week, bean.getWeeklyHoliDayName(), bean.getWeeklyHoliDayId(), 
+									                Arrays.asList(noOfDays, week, bean.getWeeklyHoliDayName(), bean.getWeeklyHoliDayId(), 
 									                		userName,userName, bean.getLeaveYrId(), companyId, unitId));
 							int i = preparedStatement.executeUpdate();
 							if(i>0){
@@ -390,7 +390,7 @@ public class HolidayMasterDao {
 		}
 	}
 	
-	public static int saveGeneralHoliDayMasterData(Date date, String holiDayName, String userName, int leaveYrId, int companyId, int unitId){
+	public static int saveGeneralHoliDayMasterData(HolidayMasterGeneralHolidayBean bean,Date date, String holiDayName, String userName, int leaveYrId, int companyId, int unitId){
 
 		int id = 0;
 		try {
@@ -400,7 +400,7 @@ public class HolidayMasterDao {
 				   PreparedStatement preparedStatement = null;
 				   
 						try {
-							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.saveGeneralHoliDayMasterData, Arrays.asList(date, holiDayName, userName, userName, leaveYrId,companyId, unitId ));
+							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.saveGeneralHoliDayMasterData, Arrays.asList(date, holiDayName, userName, userName, leaveYrId,companyId, unitId, bean.getMonthId() ));
 							int i = preparedStatement.executeUpdate();
 							if(i>0){
 								Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);

@@ -1,6 +1,8 @@
 package org.appsquad.viewmodel;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -123,12 +125,15 @@ public class HolidayMasterViewModel {
 	@NotifyChange
 	public void onClickSaveWeek(){
 		ArrayList<String> weekIdList = new ArrayList<String>();
+		int noOfDays;
 		for(Week week : weekList){
 			if(week.isWeekChecked()){
 				System.out.println("Week checked ID:: "+week.getWeekId()+" week nAme :: "+week.getWeekName());
 				weekIdList.add(week.getWeekId());	
 			}
 		}
+		
+		noOfDays = weekIdList.size();
 		String str ="";
 			if(weekIdList.size()!=0){
 			StringBuilder builder = new StringBuilder();
@@ -150,7 +155,7 @@ public class HolidayMasterViewModel {
 					
 						if(str.length()>0){
 						
-							HolidayMasterService.saveHolidayMasterData(str,holidayMasterBean,userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+							HolidayMasterService.saveHolidayMasterData(noOfDays,str,holidayMasterBean,userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 						
 							holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
 						
@@ -183,8 +188,11 @@ public class HolidayMasterViewModel {
 	@NotifyChange("*")
 	public void onOkHourPerDay(){
 		if(holidayMasterBean.getLeaveYrId()>0){
-			
+			if(holidayMasterBean.getHourPerDay() != null){
 			HolidayMasterService.saveHourPerDay(holidayMasterBean, userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+			}else {
+				Messagebox.show("Eneter Working Hours Per Day ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+			}
 		}else {
 			Messagebox.show("First save Leave Year ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 		}
@@ -216,7 +224,26 @@ public class HolidayMasterViewModel {
 		generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList();
 	}
 	
-	
+	@Command
+	@NotifyChange("*")
+	public void onChangeDate(){
+		
+		java.sql.Date str = generalHolidayBean.getGeneralHolidayDate();
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		String dddd = df.format(str);
+		
+		String[]  parts= dddd.split("/");
+		String parts1 = parts[0];
+		String s = parts1;
+		s = parts1.replaceFirst ("^0*", "");
+		int i = Integer.parseInt(s);
+		
+		generalHolidayBean.setMonthId(i);
+		System.out.println("MMMMMMMMMMM MONTH ID >>> >> > " + generalHolidayBean.getMonthId());
+		
+		//System.out.println("MMM MM M " + s);
+		
+	}
 	
 	
 	

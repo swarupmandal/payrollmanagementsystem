@@ -25,12 +25,28 @@ public class RunPayRollSql {
 													  " and employee_id = ? ";
 
 	public static final String loadEmpcomponentSalaryDetails = " SELECT pesc.component_name, pesc.component_type_id, " +
-			  " pesc.component_amount, pctm.component_type " +
-			  " FROM pms_employee_salary_components pesc, " +
-			  " pms_component_type_master pctm where " + 
-			  " pesc.component_type_id = pctm.component_type_id " +
-			  " and employee_id = ? ";
-  	
+																	  " pesc.component_amount, pctm.component_type " +
+																	  " FROM pms_employee_salary_components pesc, " +
+																	  " pms_component_type_master pctm where " + 
+																	  " pesc.component_type_id = pctm.component_type_id " +
+																	  " and employee_id = ? ";
+														  	
+	
+	public static final String loadSundayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 1 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
+		
+	public static final String loadMondayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 2 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
+
+	public static final String loadTuesdayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 3 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
+
+	public static final String loadWendsdayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 4 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
+
+	public static final String loadThursdayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 5 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
+
+	public static final String loadFridayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 6 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
+
+	public static final String loadSaturdayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 7 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
+
+	public static final String loadGeneralHoliDayCount = "select count(id) as holiday_count from pms_general_holiday_master where leave_year_id = ? and company_id = ? and unit_id = ? and month_id = ? ";
 	
 
 }

@@ -107,9 +107,9 @@
 		
 		<hlayout spacing="80px">
 		   <vbox>	 
-		   	   <label value="Select Day"></label>	
+		   	   <label value="Select Date"></label>	
 		   	   <div>
-		   	    <datebox format="dd-MMM-yy" width="150px" value="@bind(vm.generalHolidayBean.generalHolidayDate)"></datebox>
+		   	    <datebox format="dd-MM-yy" width="150px" value="@bind(vm.generalHolidayBean.generalHolidayDate)" onChange="@command('onChangeDate')"></datebox>
 		   	   </div>
 		   	</vbox>
 		   	

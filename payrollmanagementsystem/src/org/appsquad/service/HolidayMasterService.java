@@ -89,8 +89,8 @@ public class HolidayMasterService {
 	}
 	
 	
-	public static void saveHolidayMasterData(String week, HolidayMasterBean bean, String userName, int companyId, int unitId){
-		HolidayMasterDao.saveWeekLeaveMasterData(week, bean, userName, companyId, unitId);
+	public static void saveHolidayMasterData(int noOfDays, String week, HolidayMasterBean bean, String userName, int companyId, int unitId){
+		HolidayMasterDao.saveWeekLeaveMasterData(noOfDays ,week, bean, userName, companyId, unitId);
 	}
 	
 	public static void deleteHolidayMasterData(HolidayMasterBean bean){
@@ -100,7 +100,7 @@ public class HolidayMasterService {
 	public static void saveGeneralHoliDayMasterData(HolidayMasterGeneralHolidayBean bean,Date date, String holiDayName, String userName, int leaveYrId, int companyId, int unitId){
 		if(generalFieldIsEmpty(bean)){
 		
-			HolidayMasterDao.saveGeneralHoliDayMasterData(date, holiDayName, userName, leaveYrId, companyId, unitId);
+			HolidayMasterDao.saveGeneralHoliDayMasterData(bean ,date, holiDayName, userName, leaveYrId, companyId, unitId);
 		}
 	}
 	

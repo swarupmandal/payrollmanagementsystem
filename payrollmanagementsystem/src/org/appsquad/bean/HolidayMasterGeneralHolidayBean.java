@@ -10,7 +10,9 @@ public class HolidayMasterGeneralHolidayBean {
 	private String generalHolidayDateValue;
 	private int generalCount;
 	private int leaveYearId;
-	public String generalHolidayString; 
+	public String generalHolidayString;
+	private int monthId;
+	
 	
 	public String getGeneralHolidayName() {
 		return generalHolidayName;
@@ -53,6 +55,12 @@ public class HolidayMasterGeneralHolidayBean {
 	}
 	public void setGeneralHolidayString(String generalHolidayString) {
 		this.generalHolidayString = generalHolidayString;
+	}
+	public int getMonthId() {
+		return monthId;
+	}
+	public void setMonthId(int monthId) {
+		this.monthId = monthId;
 	}
 	
 	

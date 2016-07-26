@@ -3,7 +3,7 @@
 <window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;"
 apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.RunPayrollViewModel')">
   <div>
-     <hlayout spacing="40px"> 
+     <hlayout spacing="35px"> 
   		
   		<vbox>
 	     <label value="Select Month"></label>
@@ -41,12 +41,17 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		
 		<vbox>
 		<label value="Total Working Days"></label>
-		<intbox placeholder="Total Working Days"></intbox>
+		<intbox placeholder="Total Working Days" readonly="true" width="120px"></intbox>
 		</vbox>
 		
 		<vbox>
 		<label value="Current Date"></label>
 		<label value="@bind(vm.currentDate)"></label>
+		</vbox>
+		
+		<vbox>
+		<label value="Lock"></label>
+		<button label="LOCK"></button>
 		</vbox>
 		
 	 </hlayout>

@@ -18,7 +18,7 @@ public class HolidayMasterBean {
 	private String week;
 	private Integer weekDayCount;
 	
-	private int hourPerDay;
+	private Integer hourPerDay;
 	
 	public int getLeaveYrId() {
 		return leaveYrId;
@@ -81,11 +81,12 @@ public class HolidayMasterBean {
 	public void setLeavYrEndDateValue(String leavYrEndDateValue) {
 		this.leavYrEndDateValue = leavYrEndDateValue;
 	}
-	public int getHourPerDay() {
+	public Integer getHourPerDay() {
 		return hourPerDay;
 	}
-	public void setHourPerDay(int hourPerDay) {
+	public void setHourPerDay(Integer hourPerDay) {
 		this.hourPerDay = hourPerDay;
 	}
+	
 	
 }

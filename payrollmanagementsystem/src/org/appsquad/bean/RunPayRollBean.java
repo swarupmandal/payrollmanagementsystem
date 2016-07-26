@@ -16,6 +16,20 @@ public class RunPayRollBean {
     private double totalSalary;
     private Integer totalWorkingDays;
     private boolean checked = false;
+    private int leaveYrId;
+    private Integer sunDayCountPerMonth;
+    private Integer monDayCountPerMonth;
+    private Integer tuesDayCountPerMonth;
+    private Integer wendsDayCountPerMonth;
+    private Integer thursDayCountPerMonth;
+    private Integer friDayCountPerMonth;
+    private Integer satDayCountPerMonth;
+    private int totalNumberOfDayseveryMonth;
+    private int totalNumberOfHolidayseveryMonth;
+    private int totalNumberOfWorkingDaysEveryMonth;
+    public int totalNumberOfHolidays;
+    
+    
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
@@ -99,6 +113,80 @@ public class RunPayRollBean {
 	}
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+	public int getLeaveYrId() {
+		return leaveYrId;
+	}
+	public void setLeaveYrId(int leaveYrId) {
+		this.leaveYrId = leaveYrId;
+	}
+	public Integer getSunDayCountPerMonth() {
+		return sunDayCountPerMonth;
+	}
+	public void setSunDayCountPerMonth(Integer sunDayCountPerMonth) {
+		this.sunDayCountPerMonth = sunDayCountPerMonth;
+	}
+	public Integer getMonDayCountPerMonth() {
+		return monDayCountPerMonth;
+	}
+	public void setMonDayCountPerMonth(Integer monDayCountPerMonth) {
+		this.monDayCountPerMonth = monDayCountPerMonth;
+	}
+	public Integer getTuesDayCountPerMonth() {
+		return tuesDayCountPerMonth;
+	}
+	public void setTuesDayCountPerMonth(Integer tuesDayCountPerMonth) {
+		this.tuesDayCountPerMonth = tuesDayCountPerMonth;
+	}
+	public Integer getWendsDayCountPerMonth() {
+		return wendsDayCountPerMonth;
+	}
+	public void setWendsDayCountPerMonth(Integer wendsDayCountPerMonth) {
+		this.wendsDayCountPerMonth = wendsDayCountPerMonth;
+	}
+	public Integer getThursDayCountPerMonth() {
+		return thursDayCountPerMonth;
+	}
+	public void setThursDayCountPerMonth(Integer thursDayCountPerMonth) {
+		this.thursDayCountPerMonth = thursDayCountPerMonth;
+	}
+	public Integer getFriDayCountPerMonth() {
+		return friDayCountPerMonth;
+	}
+	public void setFriDayCountPerMonth(Integer friDayCountPerMonth) {
+		this.friDayCountPerMonth = friDayCountPerMonth;
+	}
+	public Integer getSatDayCountPerMonth() {
+		return satDayCountPerMonth;
+	}
+	public void setSatDayCountPerMonth(Integer satDayCountPerMonth) {
+		this.satDayCountPerMonth = satDayCountPerMonth;
+	}
+	public int getTotalNumberOfHolidayseveryMonth() {
+		return totalNumberOfHolidayseveryMonth;
+	}
+	public void setTotalNumberOfHolidayseveryMonth(
+			int totalNumberOfHolidayseveryMonth) {
+		this.totalNumberOfHolidayseveryMonth = totalNumberOfHolidayseveryMonth;
+	}
+	public int getTotalNumberOfDayseveryMonth() {
+		return totalNumberOfDayseveryMonth;
+	}
+	public void setTotalNumberOfDayseveryMonth(int totalNumberOfDayseveryMonth) {
+		this.totalNumberOfDayseveryMonth = totalNumberOfDayseveryMonth;
+	}
+	public int getTotalNumberOfWorkingDaysEveryMonth() {
+		return totalNumberOfWorkingDaysEveryMonth;
+	}
+	public void setTotalNumberOfWorkingDaysEveryMonth(
+			int totalNumberOfWorkingDaysEveryMonth) {
+		this.totalNumberOfWorkingDaysEveryMonth = totalNumberOfWorkingDaysEveryMonth;
+	}
+	public int getTotalNumberOfHolidays() {
+		return totalNumberOfHolidays;
+	}
+	public void setTotalNumberOfHolidays(int totalNumberOfHolidays) {
+		this.totalNumberOfHolidays = totalNumberOfHolidays;
 	}
 	
 	
