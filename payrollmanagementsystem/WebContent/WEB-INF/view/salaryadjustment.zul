@@ -1,0 +1,6 @@
+<?page title="Salary Adjustment" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Salary Adjustment" border="normal">
+New Content Here!
+</window>
+</zk>
