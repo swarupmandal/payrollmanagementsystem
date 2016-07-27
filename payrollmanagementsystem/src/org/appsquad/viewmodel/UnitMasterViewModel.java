@@ -85,13 +85,15 @@ public class UnitMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickEdit(@BindingParam("bean")UnitMasterBean bean){
-		unitMasterBean.setCompanyId(bean.getCompanyId());
+		/*unitMasterBean.setCompanyId(bean.getCompanyId());
 		unitMasterBean.setUnitAddress(bean.getUnitAddress());
 		unitMasterBean.setUnitName(bean.getUnitName());
-		unitMasterBean.setUnitId(bean.getUnitId());
+		unitMasterBean.setUnitId(bean.getUnitId());*/
+		System.out.println("unit id = "+bean.getUnitId());
+		bean.setReadOnly(false);
 	}
 	
-	@Command
+	/*@Command
 	@NotifyChange("*")
 	public void onClickUpdate(){
 		UnitMasterService.updateUnitMasterData(unitMasterBean);
@@ -99,6 +101,16 @@ public class UnitMasterViewModel {
 		UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
 		updateDisability = true;
 		saveDisability = false;
+	}*/
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickUpdate(@BindingParam("bean")UnitMasterBean bean){
+		bean.setUserName(userName);
+		UnitMasterService.updateUnitMasterData(bean);
+		//UnitMasterService.clearScreen(bean);
+		//UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
+		bean.setReadOnly(true);
 	}
 
 

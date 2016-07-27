@@ -16,12 +16,12 @@
 						<label value="Company Profile" sclass="seactionHead"></label>
 							 <grid>
 								<columns>
+									<column ></column>
+									<column ></column>
+									<column ></column>
 									<column></column>
-									<column></column>
-									<column></column>
-									<column></column>
-									<column></column>
-									<column></column>
+									<column ></column>
+									<column ></column>
 								
 								</columns>
 								
@@ -29,23 +29,23 @@
 								<rows>
 									
 									<row>
-									<label value="Company Name"></label>
+									<label value="Company Name "></label>
 									<textbox value="@bind(vm.companyMasterBean.companyName)"></textbox>
 									
-									<label value="Address"></label>
+									<label value="Address "></label>
 									<textbox value="@bind(vm.companyMasterBean.address)"></textbox>
 									
 									
-									<label value="City"></label>
+									<label value="City "></label>
 									<textbox value="@bind(vm.companyMasterBean.city)"></textbox>
 									</row>
 									
 									<row>
-									<label value="Pincode"></label>
+									<label value="Pincode "></label>
 									<textbox value="@bind(vm.companyMasterBean.pincode)"></textbox>
 									
-									<label value="State"></label>
-									<combobox  width="160px" model="@bind(vm.stateBeanList)"
+									<label value="State "></label>
+									<combobox  width="90%" model="@bind(vm.stateBeanList)"
 									   onSelect="@command('onSelectStateName')" value="@bind(vm.companyMasterBean.stateName)"
 										selectedItem="@bind(vm.stateMasterBean)" autocomplete="true" readonly="true">
 										  <template name="model" var="v">
@@ -54,16 +54,16 @@
 									</combobox>
 									
 									
-									<label value="Phone"></label>
+									<label value="Phone "></label>
 									<textbox value="@bind(vm.companyMasterBean.phoneNumber)"></textbox>
 									
 									</row>
 									
 									<row>
-									<label value="Website"></label>
+									<label value="Website "></label>
 									<textbox value="@bind(vm.companyMasterBean.website)"></textbox>
 									
-									<label value="Company Email"></label>
+									<label value="Company Email "></label>
 									<textbox value="@bind(vm.companyMasterBean.companyEmail)"></textbox>
 								
 									</row>
@@ -129,7 +129,7 @@
 									<textbox value="@bind(vm.companyMasterBean.companyPfNumber)"></textbox>
 									
 									<label value="Registration Date"></label>
-									<datebox width="160px" value="@bind(vm.companyMasterBean.pfRegistrationDate)"></datebox>
+									<datebox width="90%" value="@bind(vm.companyMasterBean.pfRegistrationDate)"></datebox>
 									
 									<label value="Signatory Name"></label>
 									<textbox value="@bind(vm.companyMasterBean.pfSignatoryName)"></textbox>
@@ -162,7 +162,7 @@
 									<textbox value="@bind(vm.companyMasterBean.companyEsiNumber)"></textbox>
 									
 									<label value="Registration Date"></label>
-									<datebox width="160px" value="@bind(vm.companyMasterBean.esiRegistrationDate)"></datebox>
+									<datebox width="90%" value="@bind(vm.companyMasterBean.esiRegistrationDate)"></datebox>
 									
 									<label value="Signatory Name"></label>
 									<textbox value="@bind(vm.companyMasterBean.esiSignatoryName)"></textbox>
@@ -195,8 +195,8 @@
 									<label value="PT Number"></label>
 									<textbox value="@bind(vm.companyMasterBean.companyPtNumber)" ></textbox>
 									
-									<label value="Registration Date"></label>
-									<datebox width="160px" value="@bind(vm.companyMasterBean.ptRegistrationDate)"></datebox>
+									<label value="Resignation Date"></label>
+									<datebox width="90%" value="@bind(vm.companyMasterBean.ptRegistrationDate)"></datebox>
 									
 									<label value="Signatory Name"></label>
 									<textbox value="@bind(vm.companyMasterBean.ptSignatoryName)"></textbox>
@@ -238,7 +238,7 @@
 						
 						</grid>
 						<space></space>
-						<div height="30px"></div>
+						<div height="10px"></div>
 						</div>
 						<div align="center">
 						<button label="Save Details" width="150px" height="30px" sclass="bb_button" onClick="@command('onclickSave')"></button>

@@ -116,7 +116,7 @@ public class UnitMasterDao {
 				try {
 					preparedStatement = Util1.createQuery(connection, 
 							UnitMasterSqlQuery.updateUnitMasterQuery, Arrays.asList(unitMasterBean.getUnitName(),unitMasterBean.getUnitAddress(),
-									unitMasterBean.getUserName()) );
+									unitMasterBean.getUserName(),unitMasterBean.getUnitId()) );
 					
 					System.out.println("UPDATE >>> >> > " + preparedStatement);
 					int i = preparedStatement.executeUpdate();

@@ -3,6 +3,7 @@ package org.appsquad.bean;
 public class UnitMasterBean {
 	private int unitId,companyId;
 	private String unitName,unitAddress,userName,companyName;
+	private boolean readOnly = true;
 	
 	public UnitMasterBean() {
 		// TODO Auto-generated constructor stub
@@ -64,6 +65,14 @@ public class UnitMasterBean {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 
 }
