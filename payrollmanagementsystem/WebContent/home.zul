@@ -30,12 +30,7 @@
                onClick='inclResults.setSrc("/WEB-INF/view/unitMaster.zul");' />
              </treerow>
             </treeitem>
-            <treeitem open="false">
-             <treerow>
-              <treecell label="Employee Master"
-               onClick='inclResults.setSrc("/WEB-INF/view/employeeMaster.zul");' />
-             </treerow>
-            </treeitem>
+            
             <treeitem open="false">
             	<treerow>
             	 <treecell label="Component Master"
@@ -49,6 +44,13 @@
             	  onClick='inclResults.setSrc("/WEB-INF/view/componentPerUnitMaster.zul");'>
             	</treecell>
             	</treerow>
+            </treeitem>
+            
+            <treeitem open="false">
+             <treerow>
+              <treecell label="Employee Master"
+               onClick='inclResults.setSrc("/WEB-INF/view/employeeMaster.zul");' />
+             </treerow>
             </treeitem>
             
              <treeitem open="false">
