@@ -6,21 +6,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.StateMasterBean;
 import org.appsquad.database.DbConnection;
+import org.appsquad.service.CompanyService;
 import org.appsquad.sql.SqlQuery;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 import utility.Util1;
 
@@ -33,7 +39,6 @@ public class CompanyMasterViewModel {
 	ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	
 	ArrayList<StateMasterBean> stateBeanList = new ArrayList<StateMasterBean>();
-	
 	
 	Session session = null;
 
@@ -52,6 +57,8 @@ public class CompanyMasterViewModel {
 		userId = (String) session.getAttribute("userId");
 		
 		fetchStateNameList();
+		
+		loadSavedCompanyList();
 	}
 	
 	public void fetchStateNameList(){
@@ -95,7 +102,9 @@ public class CompanyMasterViewModel {
 		}
 	}
 	
-	
+	public void loadSavedCompanyList(){
+		companyBeanList = CompanyService.loadCompanyList();
+	}
 	
 	
 	@Command
@@ -165,8 +174,11 @@ public class CompanyMasterViewModel {
 			sqlcontactpersoninfo2:{
 				 PreparedStatement preparedStatement = null;
 				 try {
-					 preparedStatement = Util1.createQuery(connection, SqlQuery.insertCompanyContactInfo, Arrays.asList(companyMasterBean.getContactPerson(), companyMasterBean.getContactPersonEmail(), companyMasterBean.getContactPersonPhone(),
-							 			 maxcompanyId, userId, userId));
+					 preparedStatement = Util1.createQuery(connection, SqlQuery.insertCompanyContactInfo, 
+							 			Arrays.asList(companyMasterBean.getContactPerson(),
+							 			companyMasterBean.getContactPersonEmail(),
+							 			companyMasterBean.getContactPersonPhone(),
+							 			maxcompanyId, userId, userId));
 					 
 					 contactinfoUpdate  = preparedStatement.executeUpdate();
 					 
@@ -267,6 +279,17 @@ public class CompanyMasterViewModel {
 		}
 	  }
 		
+	}
+	
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickEdit(@BindingParam("bean")CompanyMasterBean bean){
+		System.out.println(bean.getCompanyId());
+		Map<String, Integer> parentMap = new HashMap<String, Integer>();
+		parentMap.put("parentBean", bean.getCompanyId());
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/companyedit.zul", null, parentMap);
+		window.doModal();
 	}
 	
 	

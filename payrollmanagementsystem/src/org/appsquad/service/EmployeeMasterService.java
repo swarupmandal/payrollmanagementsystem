@@ -19,6 +19,14 @@ import org.zkoss.zul.Messagebox;
 
 public class EmployeeMasterService {
 
+	public static ArrayList<EmployeeMasterBean> loadSavedEmployeeData(){
+		return EmployeeDao.loadSavedEmployeeList();
+	}
+	
+	public static ArrayList<EmployeeMasterBean> searchSavedEmployeeData(String employeeCode){
+		return EmployeeDao.searchEmployeeFromList(employeeCode);
+	}
+	
 	public static void loadCompanyBeanList(ArrayList<CompanyMasterBean> compBeanList){
 		EmployeeDao.loadCompanyList(compBeanList);
 	}

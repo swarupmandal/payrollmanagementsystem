@@ -9,6 +9,7 @@ public class EmployeeMasterBean {
 	private String UnitName;
 	private int unitId;
 	private String employeeCode;
+	private Integer employeeid;
 	private String employeeName;
 	private String gender;
 	private int genderId;
@@ -68,12 +69,6 @@ public class EmployeeMasterBean {
 		super();
 	}
 
-	
-	
-	
-	
-	
-	
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -610,6 +605,26 @@ public class EmployeeMasterBean {
 
 	public void setComponentTypeId(Integer componentTypeId) {
 		this.componentTypeId = componentTypeId;
+	}
+
+
+
+
+
+
+
+	public Integer getEmployeeid() {
+		return employeeid;
+	}
+
+
+
+
+
+
+
+	public void setEmployeeid(Integer employeeid) {
+		this.employeeid = employeeid;
 	}
 	
 	

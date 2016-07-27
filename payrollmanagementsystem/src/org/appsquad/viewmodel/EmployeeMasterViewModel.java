@@ -2,6 +2,8 @@ package org.appsquad.viewmodel;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.appsquad.bean.BankAccountBean;
 import org.appsquad.bean.BloodGroupBean;
@@ -15,15 +17,18 @@ import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.EmployeeDao;
 import org.appsquad.service.EmployeeMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 public class EmployeeMasterViewModel {
 	
@@ -53,6 +58,7 @@ public class EmployeeMasterViewModel {
 	private Session session = null;
 	private String userName;
 	
+	public String employeeCode ;
 	
 	@AfterCompose
 	public void initSetUp(@ContextParam(ContextType.VIEW) Component view)throws Exception{
@@ -60,6 +66,8 @@ public class EmployeeMasterViewModel {
 		
 		session = Sessions.getCurrent();
 		userName =  (String) session.getAttribute("userId");
+		
+		loadExistingEmployeeData();
 		
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
 		EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
@@ -72,6 +80,18 @@ public class EmployeeMasterViewModel {
 		
 	}
 	
+	/*
+	 * @author Somnath
+	 * @Functionality Searching
+	 */
+	@Command
+	@NotifyChange("*")
+	public void onChangeEmployeeCode(){
+		if(employeeCode.length()>0)
+		employeeMasterBeanList = EmployeeMasterService.searchSavedEmployeeData(employeeCode);
+		else
+			loadExistingEmployeeData();
+	}
 	
 	
 	/*
@@ -224,9 +244,18 @@ public class EmployeeMasterViewModel {
 		if(EmployeeMasterService.isEmptyLocationField(employeeMasterBean)){
 			EmployeeDao.insertComponentPerEmployee(componentMasterBeanList, maxEmpId, employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId(), userName);
 		}
-		
-		
 	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickEdit(@BindingParam("bean")EmployeeMasterBean bean){
+		System.out.println(bean.getEmployeeCode());
+		Map<String, Integer> parentMap = new HashMap<String, Integer>();
+		parentMap.put("parentBean", bean.getEmployeeid());
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/employeeedit.zul", null, null);
+		window.doModal();
+	}
+	
 	
 	@Command
 	@NotifyChange("*")
@@ -245,7 +274,9 @@ public class EmployeeMasterViewModel {
 		
 	}
 	
-	
+	public void loadExistingEmployeeData(){
+		employeeMasterBeanList = EmployeeMasterService.loadSavedEmployeeData();
+	}
 	
 	public EmployeeMasterBean getEmployeeMasterBean() {
 		return employeeMasterBean;
@@ -513,6 +544,18 @@ public class EmployeeMasterViewModel {
 
 	public void setMaxEmpId(int maxEmpId) {
 		this.maxEmpId = maxEmpId;
+	}
+
+
+
+	public String getEmployeeCode() {
+		return employeeCode;
+	}
+
+
+
+	public void setEmployeeCode(String employeeCode) {
+		this.employeeCode = employeeCode;
 	}
 	
 }

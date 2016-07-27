@@ -2,241 +2,270 @@
 <zk>
 <window title="Company Master" border="normal" height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('org.appsquad.viewmodel.CompanyMasterViewModel')" contentStyle="overflow:scroll;">
-	<div>
-		<label value="Company Profile" sclass="seactionHead"></label>
-		<grid>
+	
 		
-			<columns>
+		<tabbox>
+			<tabs>
+				<tab label=" New Company data "/>
+				<tab label=" Existing Company data"/>
+			</tabs>
 			
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-			
-			</columns>
-			
-			
-			<rows>
+			<tabpanels>
+				<tabpanel>
+					<div>
+						<label value="Company Profile" sclass="seactionHead"></label>
+							 <grid>
+								<columns>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+								
+								</columns>
+								
+								
+								<rows>
+									
+									<row>
+									<label value="Company Name"></label>
+									<textbox value="@bind(vm.companyMasterBean.companyName)"></textbox>
+									
+									<label value="Address"></label>
+									<textbox value="@bind(vm.companyMasterBean.address)"></textbox>
+									
+									
+									<label value="City"></label>
+									<textbox value="@bind(vm.companyMasterBean.city)"></textbox>
+									</row>
+									
+									<row>
+									<label value="Pincode"></label>
+									<textbox value="@bind(vm.companyMasterBean.pincode)"></textbox>
+									
+									<label value="State"></label>
+									<combobox  width="160px" model="@bind(vm.stateBeanList)"
+									   onSelect="@command('onSelectStateName')"
+										selectedItem="@bind(vm.stateMasterBean)" autocomplete="true" readonly="true">
+										  <template name="model" var="v">
+										     <comboitem label="@bind(v.stateName)" value="@bind(v.stateId)" />
+										  </template>
+									</combobox>
+									
+									
+									<label value="Phone"></label>
+									<textbox value="@bind(vm.companyMasterBean.phoneNumber)"></textbox>
+									
+									</row>
+									
+									<row>
+									<label value="Website"></label>
+									<textbox value="@bind(vm.companyMasterBean.website)"></textbox>
+									
+									<label value="Company Email"></label>
+									<textbox value="@bind(vm.companyMasterBean.companyEmail)"></textbox>
+								
+									</row>
+									<row></row>
+								</rows>
+							</grid>
+						</div>
+						
+						<div height="10px"></div>
+						
+						<label value="Contact Info" sclass="seactionHead"></label>
+						<div>
+						<grid>
+							<columns>
+								<column></column>
+								
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+							
+								</columns>
+								
+								<rows>
+									<row>
+									
+									<label value="Contact Person"></label>
+									<textbox value="@bind(vm.companyMasterBean.contactPerson)" ></textbox>
+									
+									<label value="Email"></label>
+									<textbox value="@bind(vm.companyMasterBean.contactPersonEmail)"></textbox>
+									
+									
+									<label value="Phone no"></label>
+									<textbox value="@bind(vm.companyMasterBean.contactPersonPhone)"></textbox>
+									</row>
+								</rows>
+						
+						</grid>
+						
+						</div>
+						
+						<div height="10px"></div>
+						<label value="PF Info" sclass="seactionHead"></label>
+						<div>
+						<grid>
+							<columns>
+								<column></column>
+								
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+							
+								</columns>
+								
+								<rows>
+									<row>
+									
+									<label value="PF Number"></label>
+									<textbox value="@bind(vm.companyMasterBean.companyPfNumber)"></textbox>
+									
+									<label value="Registration Date"></label>
+									<datebox width="160px" value="@bind(vm.companyMasterBean.pfRegistrationDate)"></datebox>
+									
+									<label value="Signatory Name"></label>
+									<textbox value="@bind(vm.companyMasterBean.pfSignatoryName)"></textbox>
+									</row>
+								</rows>
+						
+						</grid>
+						
+						</div>
+						
+						<div height="10px"></div>
+						<label value="ESI Info" sclass="seactionHead"></label>
+						<div>
+						<grid>
+							<columns>
+								<column></column>
+								
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+							
+								</columns>
+								
+								<rows>
+									<row>
+									
+									<label value="ESI Number"></label>
+									<textbox value="@bind(vm.companyMasterBean.companyEsiNumber)"></textbox>
+									
+									<label value="Registration Date"></label>
+									<datebox width="160px" value="@bind(vm.companyMasterBean.esiRegistrationDate)"></datebox>
+									
+									<label value="Signatory Name"></label>
+									<textbox value="@bind(vm.companyMasterBean.esiSignatoryName)"></textbox>
+									</row>
+								</rows>
+						
+						</grid>
+						
+						</div>
+						
+						
+						<div height="10px"></div>
+						<label value="PT Info" sclass="seactionHead"></label>
+						<div>
+						<grid>
+							<columns>
+								<column></column>
+								
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+							
+								</columns>
+								
+								<rows>
+									<row>
+									
+									<label value="PT Number"></label>
+									<textbox value="@bind(vm.companyMasterBean.companyPtNumber)" ></textbox>
+									
+									<label value="Registration Date"></label>
+									<datebox width="160px" value="@bind(vm.companyMasterBean.ptRegistrationDate)"></datebox>
+									
+									<label value="Signatory Name"></label>
+									<textbox value="@bind(vm.companyMasterBean.ptSignatoryName)"></textbox>
+									</row>
+								</rows>
+						
+						</grid>
+						
+						</div>
+						
+						<div height="10px"></div>
+						<label value="IT Info" sclass="seactionHead"></label>
+						<div>
+						<grid>
+							<columns>
+								<column></column>
+								
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+									<column></column>
+							
+								</columns>
+								
+								<rows>
+									<row>
+									
+									<label value="PAN"></label>
+									<textbox value="@bind(vm.companyMasterBean.panNumber)"></textbox>
+									
+									<label value="TAN"></label>
+									<textbox value="@bind(vm.companyMasterBean.tan)"></textbox>
+									
+									<label value="TAN CIRCLE"></label>
+									<textbox value="@bind(vm.companyMasterBean.tanCircle)"></textbox>
+									</row>
+								</rows>
+						
+						</grid>
+						<space></space>
+						<div height="30px"></div>
+						</div>
+						<div align="center">
+						<button label="Save Details" width="150px" height="30px" sclass="bb_button" onClick="@command('onclickSave')"></button>
+						
+						</div> 
+				</tabpanel>
 				
-				<row>
-				<label value="Company Name"></label>
-				<textbox value="@bind(vm.companyMasterBean.companyName)"></textbox>
-				
-				<label value="Address"></label>
-				<textbox value="@bind(vm.companyMasterBean.address)"></textbox>
 				
 				
-				<label value="City"></label>
-				<textbox value="@bind(vm.companyMasterBean.city)"></textbox>
-				</row>
-				
-				<row>
-				<label value="Pincode"></label>
-				<textbox value="@bind(vm.companyMasterBean.pincode)"></textbox>
-				
-				<label value="State"></label>
-				<combobox  width="160px" model="@bind(vm.stateBeanList)"
-				   onSelect="@command('onSelectStateName')"
-					selectedItem="@bind(vm.stateMasterBean)" autocomplete="true" readonly="true">
-					  <template name="model" var="v">
-					     <comboitem label="@bind(v.stateName)" value="@bind(v.stateId)" />
-					  </template>
-				</combobox>
-				
-				
-				<label value="Phone"></label>
-				<textbox value="@bind(vm.companyMasterBean.phoneNumber)"></textbox>
-				
-				</row>
-				
-				<row>
-				<label value="Website"></label>
-				<textbox value="@bind(vm.companyMasterBean.website)"></textbox>
-				
-				<label value="Company Email"></label>
-				<textbox value="@bind(vm.companyMasterBean.companyEmail)"></textbox>
-			
-				</row>
-				<row></row>
-			</rows>
-		</grid>
-	</div>
+				<tabpanel>
+						<grid model="@bind(vm.companyBeanList)">
+							<columns>
+								<column label="Company Name" align="center"/>
+								<column label="Action" align="center"/>
+							</columns>
+							<rows>
+								<template name="model" var="v">
+									<row>
+										<textbox readonly="true" value="@bind(v.companyName)"/>
+										<button label="Edit" sclass="bb_button" onClick="@command('onClickEdit',bean = v)"/>
+									</row>
+								</template>
+							</rows>
+						</grid>
+				</tabpanel>
+			</tabpanels>
+		</tabbox>
 	
-	<div height="10px"></div>
-	
-	<label value="Contact Info" sclass="seactionHead"></label>
-	<div>
-	<grid>
-		<columns>
-			<column></column>
-			
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-		
-			</columns>
-			
-			<rows>
-				<row>
-				
-				<label value="Contact Person"></label>
-				<textbox value="@bind(vm.companyMasterBean.contactPerson)" ></textbox>
-				
-				<label value="Email"></label>
-				<textbox value="@bind(vm.companyMasterBean.contactPersonEmail)"></textbox>
-				
-				
-				<label value="Phone no"></label>
-				<textbox value="@bind(vm.companyMasterBean.contactPersonPhone)"></textbox>
-				</row>
-			</rows>
-	
-	</grid>
-	
-	</div>
-	
-	<div height="10px"></div>
-	<label value="PF Info" sclass="seactionHead"></label>
-	<div>
-	<grid>
-		<columns>
-			<column></column>
-			
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-		
-			</columns>
-			
-			<rows>
-				<row>
-				
-				<label value="PF Number"></label>
-				<textbox value="@bind(vm.companyMasterBean.companyPfNumber)"></textbox>
-				
-				<label value="Registration Date"></label>
-				<datebox width="160px" value="@bind(vm.companyMasterBean.pfRegistrationDate)"></datebox>
-				
-				<label value="Signatory Name"></label>
-				<textbox value="@bind(vm.companyMasterBean.pfSignatoryName)"></textbox>
-				</row>
-			</rows>
-	
-	</grid>
-	
-	</div>
-	
-	<div height="10px"></div>
-	<label value="ESI Info" sclass="seactionHead"></label>
-	<div>
-	<grid>
-		<columns>
-			<column></column>
-			
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-		
-			</columns>
-			
-			<rows>
-				<row>
-				
-				<label value="ESI Number"></label>
-				<textbox value="@bind(vm.companyMasterBean.companyEsiNumber)"></textbox>
-				
-				<label value="Registration Date"></label>
-				<datebox width="160px" value="@bind(vm.companyMasterBean.esiRegistrationDate)"></datebox>
-				
-				<label value="Signatory Name"></label>
-				<textbox value="@bind(vm.companyMasterBean.esiSignatoryName)"></textbox>
-				</row>
-			</rows>
-	
-	</grid>
-	
-	</div>
-	
-	
-	<div height="10px"></div>
-	<label value="PT Info" sclass="seactionHead"></label>
-	<div>
-	<grid>
-		<columns>
-			<column></column>
-			
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-		
-			</columns>
-			
-			<rows>
-				<row>
-				
-				<label value="PT Number"></label>
-				<textbox value="@bind(vm.companyMasterBean.companyPtNumber)" ></textbox>
-				
-				<label value="Registration Date"></label>
-				<datebox width="160px" value="@bind(vm.companyMasterBean.ptRegistrationDate)"></datebox>
-				
-				<label value="Signatory Name"></label>
-				<textbox value="@bind(vm.companyMasterBean.ptSignatoryName)"></textbox>
-				</row>
-			</rows>
-	
-	</grid>
-	
-	</div>
-	
-	<div height="10px"></div>
-	<label value="IT Info" sclass="seactionHead"></label>
-	<div>
-	<grid>
-		<columns>
-			<column></column>
-			
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-				<column></column>
-		
-			</columns>
-			
-			<rows>
-				<row>
-				
-				<label value="PAN"></label>
-				<textbox value="@bind(vm.companyMasterBean.panNumber)"></textbox>
-				
-				<label value="TAN"></label>
-				<textbox value="@bind(vm.companyMasterBean.tan)"></textbox>
-				
-				<label value="TAN CIRCLE"></label>
-				<textbox value="@bind(vm.companyMasterBean.tanCircle)"></textbox>
-				</row>
-			</rows>
-	
-	</grid>
-	<space></space>
-	<div height="30px"></div>
-	</div>
-	<div align="center">
-	<button label="Save Details" width="150px" height="30px" sclass="bb_button" onClick="@command('onclickSave')"></button>
-	
-	</div>
-	
-
 </window>
 </zk>

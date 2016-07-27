@@ -4,6 +4,8 @@ import java.sql.Date;
 
 public class CompanyMasterBean {
 
+	private String userId ;
+	
 	private String companyName;
 	private int companyId;
 	private String address;
@@ -39,7 +41,7 @@ public class CompanyMasterBean {
 	private String tan;
 	private String tanCircle;
 	
-	
+	private StateMasterBean stateMasterBean ;
 	
 	public CompanyMasterBean() {
 		super();
@@ -221,6 +223,26 @@ public class CompanyMasterBean {
 	}
 	public void setCompanyStateId(int companyStateId) {
 		this.companyStateId = companyStateId;
+	}
+
+
+	public StateMasterBean getStateMasterBean() {
+		return stateMasterBean;
+	}
+
+
+	public void setStateMasterBean(StateMasterBean stateMasterBean) {
+		this.stateMasterBean = stateMasterBean;
+	}
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

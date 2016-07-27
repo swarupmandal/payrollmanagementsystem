@@ -27,6 +27,91 @@ import utility.Util1;
 
 public class EmployeeDao {
 	
+	public static ArrayList<EmployeeMasterBean> loadSavedEmployeeList(){
+		ArrayList<EmployeeMasterBean> employeeMasterBeanList = new ArrayList<EmployeeMasterBean>();
+		if(employeeMasterBeanList.size()>0){
+			employeeMasterBeanList.clear();
+		}
+		try {
+			SQL:{
+					Connection connection = DbConnection.createConnection();
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						
+						preparedStatement = Util1.createQuery(connection, 
+								EmployeeMasterSql.loadSavedEmployeeQuery, null);
+						resultSet = preparedStatement.executeQuery();
+						while (resultSet.next()) {
+							EmployeeMasterBean bean = new EmployeeMasterBean();
+							bean.setEmployeeid(resultSet.getInt("employee_id"));
+							bean.setCompanyName(resultSet.getString("company_name"));
+							bean.setCompanyId(resultSet.getInt("company_id"));
+							bean.setUnitName(resultSet.getString("unit_name"));
+							bean.setUnitId(resultSet.getInt("unit_id"));
+							bean.setEmployeeCode(resultSet.getString("employee_code"));
+							
+							employeeMasterBeanList.add(bean);
+						}
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						Messagebox.show("Error due to:"+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+					}finally{
+						if(connection!=null){
+							connection.close();
+						}
+					}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} 
+		return employeeMasterBeanList;
+	}
+	
+	public static ArrayList<EmployeeMasterBean> searchEmployeeFromList(String employeeCode){
+		ArrayList<EmployeeMasterBean> employeeMasterBeanList = new ArrayList<EmployeeMasterBean>();
+		if(employeeMasterBeanList.size()>0){
+			employeeMasterBeanList.clear();
+		}
+		try {
+			SQL:{
+					Connection connection = DbConnection.createConnection();
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						preparedStatement = connection.prepareStatement(EmployeeMasterSql.searchEmployeeQuery);
+						preparedStatement.setString(1, employeeCode+"%");
+						resultSet = preparedStatement.executeQuery();
+						while (resultSet.next()) {
+							EmployeeMasterBean bean = new EmployeeMasterBean();
+							bean.setCompanyName(resultSet.getString("company_name"));
+							bean.setCompanyId(resultSet.getInt("company_id"));
+							bean.setUnitName(resultSet.getString("unit_name"));
+							bean.setUnitId(resultSet.getInt("unit_id"));
+							bean.setEmployeeCode(resultSet.getString("employee_code"));
+							
+							employeeMasterBeanList.add(bean);
+						}
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						Messagebox.show("Error due to:"+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+					}finally{
+						if(connection!=null){
+							connection.close();
+						}
+					}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} 
+		return employeeMasterBeanList;
+	}
+	
+	
 	public static void loadCompanyList(ArrayList<CompanyMasterBean> companyBeanList){
 
 		if(companyBeanList.size()>0){

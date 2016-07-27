@@ -67,4 +67,7 @@ public class EmployeeMasterSql {
 	public static final String insertComponentsPerEmpQuery = "INSERT INTO pms_employee_salary_components(employee_id, component_id, component_name, component_type_id, company_id, unit_id, created_by, updatetd_by,component_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?) ";
 	
 
+	public  static final String loadSavedEmployeeQuery = "SELECT * FROM vw_employee_company_data ";
+	
+	public  static final String searchEmployeeQuery = "SELECT * FROM vw_employee_company_data where employee_code LIKE ?";
 }
