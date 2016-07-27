@@ -96,7 +96,7 @@ public class EmployeeMasterSql {
 	public static final String getEmployeeOfficeDataQuery = "select count(employee_id) AS employee_count from  pms_employee_office_details "
 			+ " where employee_id = ? ";
 	
-	public static final String updatePfEsiQuery = "UPDATE pms_employee_pf_esi_details SET  uan=?, esi=? updatetd_by=? WHERE employee_id=?";
+	public static final String updatePfEsiQuery = "UPDATE pms_employee_pf_esi_details SET  uan=?, esi=?, updatetd_by=? WHERE employee_id=?";
 	
 	public static final String getEmployeeEsiDataQuery = "select count(employee_id) AS employee_count from  pms_employee_pf_esi_details "
 			+ " where employee_id = ? ";

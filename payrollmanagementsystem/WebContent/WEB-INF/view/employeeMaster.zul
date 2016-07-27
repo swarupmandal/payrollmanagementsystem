@@ -504,6 +504,7 @@
 											label="@bind(v.unitName)" value="@bind(v.unitId)" />
 									</template>
 								</combobox>
+								<button label="Clear" sclass="bb_button" onClick="@command('onClickClear')"/>
 							</auxheader>
 						</auxhead>
 						<columns>

@@ -102,13 +102,12 @@ public class EmployeeDao {
 										employeeMasterBean.getEmpPhone(),employeeMasterBean.getEmpEmail(),
 										employeeMasterBean.getGender(),employeeMasterBean.getEmpStateId(),
 										employeeMasterBean.getEmpDob(), employeeMasterBean.getUserId(),employeeMasterBean.getEmployeeid()));
-						
 						int count = preparedStatement.executeUpdate();
 						if(count > 0){
 							masterUpdate = true;
 							System.out.println("Master data updated!");
 						}
-						System.out.println("Master data not updated!");
+						
 				} catch (Exception e) {
 						// TODO: handle exception
 					e.printStackTrace();

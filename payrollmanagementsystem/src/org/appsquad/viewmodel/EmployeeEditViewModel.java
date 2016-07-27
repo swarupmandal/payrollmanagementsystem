@@ -61,8 +61,9 @@ public class EmployeeEditViewModel {
 		
 		session = Sessions.getCurrent();
 		userName =  (String) session.getAttribute("userId");
-		System.out.println("employee data loading. . . ");
+	
 		if(empId != null){
+			System.out.println("employee data loading. . . "+empId);
 			loadEmployeeInfo(empId);
 		}
 		EmployeeMasterService.loadStateBeanList(stateMasterBeanList);
@@ -123,6 +124,7 @@ public class EmployeeEditViewModel {
 	public void loadEmployeeInfo(Integer empId){
 		employeeMasterBean = EmployeeMasterService.fetchEmployeeInfo(empId);
 		employeeMasterBean.setUserId(userName);
+		employeeMasterBean.setEmployeeid(empId);
 	}
 
 	public EmployeeMasterBean getEmployeeMasterBean() {
