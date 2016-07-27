@@ -10,7 +10,7 @@ public class SundaySaturDayDates {
 public static void main(String[] args) {
 	
 	int year = 2016;
-	int month = Calendar.JULY;
+	int month = 6;
 	
 	Calendar cal = new GregorianCalendar(year, month, 1);
 	do {

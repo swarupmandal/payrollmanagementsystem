@@ -72,7 +72,7 @@ public class RunPayRollDao {
 	
 	
 	
-	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId){
+	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId, int workingDay){
 		
 		if(beanList.size()>0){
 			beanList.clear();
@@ -107,6 +107,7 @@ public class RunPayRollDao {
 								bean.setEmpPf(resultSet.getString("uan"));
 								bean.setEmpEsi(resultSet.getString("esi"));
 								bean.setEmpDesignation(resultSet.getString("designation"));
+								bean.setTotalNumberOfDayseveryMonth(workingDay);
 								
 								beanList.add(bean);
 								
@@ -563,6 +564,93 @@ public class RunPayRollDao {
 		return generalHolidayCount;	
 		
 	}
+	
+	public static Double loadHoursPerDay(int companyId, int unitId, RunPayRollBean bean){
+
+		Double loadHoursPerDay = 0.0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadHoursPerDay, Arrays.asList(companyId, unitId, bean.getLeaveYrId()));
+							System.out.println("PREPared statemt Hours " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								loadHoursPerDay = (double) resultSet.getInt("hour_per_day");
+							}
+							System.out.println("General HOur COUNT DAO " + loadHoursPerDay);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return loadHoursPerDay;	
+		
+	}
+	
+	
+	public static ArrayList<String> generalHoliDayDateList(int companyId, int unitId, RunPayRollBean bean, int currentMonthId){
+
+		ArrayList<String> holidayDateList = new ArrayList<String>();
+		
+		if(holidayDateList.size()>0){
+			holidayDateList.clear();
+		}
+		try {
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				try {
+					sql_block:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadGeneralHoliDayDates, Arrays.asList(bean.getLeaveYrId(),companyId, unitId,currentMonthId));
+							System.out.println("PREPared statemt General Holy day Dates " +preparedStatement);
+							ResultSet resultSet = preparedStatement.executeQuery();
+							while (resultSet.next()) {
+								
+								holidayDateList.add(resultSet.getString("date"));
+								
+							}
+							System.out.println("General Holiday Dates DAO " + holidayDateList);
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return holidayDateList;	
+		
+	}
+	
+	
+	
+	
 	
 	
 	
