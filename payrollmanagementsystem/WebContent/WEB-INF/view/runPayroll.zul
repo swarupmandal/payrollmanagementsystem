@@ -41,7 +41,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		
 		<vbox>
 		<label value="Total Working Days"></label>
-		<intbox placeholder="Total Working Days" readonly="true" width="120px"></intbox>
+		<intbox placeholder="Total Working Days" readonly="true" width="120px" value="@bind(vm.runPayRollBean.totalNumberOfWorkingDaysEveryMonth)"></intbox>
 		</vbox>
 		
 		<vbox>
@@ -82,11 +82,11 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   			<column label="Esi Number" width="150px"></column>
   			
   			
-  			<column label="Components" width="500px"></column>
+  			<column label="Components" width="500px" visible="false"></column>
   			<column label="Total Salary" width="150px"></column>
   			<column label="Total Deduction" width="150px"></column>
   			<column label="Net Salary" width="150px"></column>
-  			<column label="Adjustment" width="150px"></column>
+  			<column label="Details" width="150px"></column>
   			
   		</columns>
   		
@@ -96,12 +96,12 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   			  <checkbox checked="@bind(v.checked)"/>
   		      <textbox readonly="true" value="@bind(v.empcount)"></textbox>
   		      <textbox value="@bind(v.empCode)"></textbox>
-  		      <textbox width="99%" value="@bind(v.empName)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empName)" ></textbox>
   		      <textbox width="99%" value="@bind(v.empDesignation)"></textbox>
   		      <textbox width="99%" value="@bind(v.empPf)"></textbox>
   		      <textbox width="99%" value="@bind(v.empEsi)"></textbox>
   		      
-  		      <groupbox open="false">
+  		      <groupbox open="false" visible="false">
   		      <caption label="Components" style="font-weight:bold;"></caption>
 				 
 				 <grid model="@bind(v.componentAmountBeanList)"> 		      
@@ -129,8 +129,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		      <textbox width="99%" value="@bind(v.netSalary)"></textbox>
   		      
   		      
-  		      <label style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:aqua;" 
-  		      value="ADJ" width="85%" onClick="@command('onClickAdjment', bean=v)"></label>
+  		      <label style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:blue;" 
+  		      value="Details" width="85%" onClick="@command('onClickAdjment', bean=v)"></label>
   		        	
   			</row>
   			</template>
@@ -159,19 +159,21 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   				<column label="Total Amount" align="center"/>
   				<column label="Deduction" align="center"/>
   				<column label="Net Amount" align="left"/>
+  				<column align="left"></column>
   			</columns>
   			<rows>
   				<template name="model" var="v">
 	  				<row>
 	  					<textbox value="@bind(v.empCode)" readonly="true"/>
 	  					<textbox value="@bind(v.empName)"  readonly="true"/>
-	  					<textbox />
-	  					<textbox/>
-	  					<textbox/>
-	  					<textbox/>
-	  					<textbox  readonly="true"/>
+	  					<textbox value="@bind(v.otDaysF)"/>
+	  					<textbox value="@bind(v.otHoursF)"/>
+	  					<textbox value="@bind(v.leaveDaysF)"/>
+	  					<textbox value="@bind(v.leaveHoursF)"/>
+	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
 	  					<textbox value="@bind(v.netSalary)" readonly="true"/>
+	  					<button label="Save" onClick="@command('onClcikOtandLeaveSave', bean = v)"></button>
 	  				</row>
   				</template>
   			</rows>

@@ -1,5 +1,6 @@
 package org.appsquad.viewmodel;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,6 +33,8 @@ import org.zkoss.zul.Window;
 
 import com.itextpdf.text.DocumentException;
 
+import utility.LeaveCalculation;
+import utility.OtCalculation;
 import utility.PdfPaySlipGenerator;
 
 public class RunPayrollViewModel {
@@ -127,14 +130,14 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectUnit(){
 		
-		if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
+		/*if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 		}
 		if(runPayRollBeanList.size()>0){
 			nextButtonVisibility = true;
 		}else{
 			nextButtonVisibility = false;
-		}
+		}*/
 		
 		runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(month, year));
 		
@@ -158,9 +161,26 @@ public class RunPayrollViewModel {
 		runPayRollBean.totalNumberOfHolidays = s+t+u+v+w;
 		
 		System.out.println("Total Number Of Holidays " + runPayRollBean.totalNumberOfHolidays);
-		
+		sundayDateCheck();
 		runPayRollBean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfDayseveryMonth() - runPayRollBean.totalNumberOfHolidays);
 		System.out.println("TOTAL WORKING DAYS " + runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth());
+		
+		/********************************************LOAD EMPLOYEE DETAILS*******************************************************************************/
+		
+		if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
+			//RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+			
+			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth());
+		}
+		if(runPayRollBeanList.size()>0){
+			nextButtonVisibility = true;
+		}else{
+			nextButtonVisibility = false;
+		}
+		
+		
+		
+		
 		
 		
 		//runPayRollBean.setSunDayCountPerMonth(RunPayRollService.sunDayCount(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean));
@@ -206,7 +226,7 @@ public class RunPayrollViewModel {
 	
 	public int monDayCheck(){
 		int noOfMonDayAllocated;
-		runPayRollBean.setMonDayCountPerMonth(RunPayRollService.satDayCount(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean));
+		runPayRollBean.setMonDayCountPerMonth(RunPayRollService.monDayCount(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean));
 		noOfMonDayAllocated = runPayRollBean.getMonDayCountPerMonth();
 		System.out.println("no OF MONDAY " + noOfMonDayAllocated);
 		if(noOfMonDayAllocated == 5){
@@ -237,6 +257,23 @@ public class RunPayrollViewModel {
 		return runPayRollBean.getTotalNumberOfHolidayseveryMonth();
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	public int sundayDateCheck(){
+		int noOfDateMatchs = 0;
+		ArrayList<String> monthHoliDayList = new ArrayList<String>();
+		monthHoliDayList = RunPayRollService.loadholiDayListPerMonth(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean, month, year);
+		
+		
+		
+		return noOfDateMatchs;
+	}
 	
 	
 	
@@ -277,13 +314,20 @@ public class RunPayrollViewModel {
 		StringBuilder stringBuilder = new StringBuilder();
 		for(RunPayRollBean rBean: runPayRollBeanList){
 			
+			
+			
 			if(rBean.isChecked()){
 				
 				ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 				ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 				
+				//System.out.println("MMMMMMMMMM " +rBean.otSalary);
+				//System.out.println("deddc  " + rBean.leaveDeduction);
+				//System.out.println("NETs >>> >> > " + rBean.getNetSalary());
+				//System.out.println("Workingssss " + rBean.getTotalNumberOfDayseveryMonth());
+				//System.out.println("Working days " + rBean.getTotalNumberOfWorkingDaysEveryMonth());
 				
-				stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() +"\n");
+				stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() + " : " + companyMasterBean.getCompanyName() + unitMasterBean.getUnitId() +" : " + monthMasterBean.getMonthName() +" : " + year + " : "+ rBean.getTotalNumberOfWorkingDaysEveryMonth()  +"\n");
 				
 				 for(EmployeeSalaryComponentAmountBean sBean : rBean.getComponentAmountBeanList()){
 					 
@@ -313,7 +357,7 @@ public class RunPayrollViewModel {
 			    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean);
 			}
 			
-			
+			//System.out.println(">>> >> > " + stringBuilder.toString());
 		}
 		/*String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 		System.out.println("pdf_path >>> >> > " + pdfPath);
@@ -361,11 +405,67 @@ public class RunPayrollViewModel {
 	}
 	
 	
-	
-	
-	
-	
-	
+	@Command
+	@NotifyChange("*")
+	public void onClcikOtandLeaveSave(@BindingParam("bean") RunPayRollBean bean){
+		
+		//System.out.println("Total Salary " + bean.getTotalSalary());
+		//System.out.println("Total Deduction " + bean.getTotalDeduction());
+		//System.out.println("Net Salary " + bean.getNetSalary());
+		//System.out.println("OT Days " + bean.getOtDaysF());
+		//System.out.println("OT Hours " + bean.getOtHoursF());
+		//System.out.println("Leave Days " + bean.getLeaveDaysF());
+		//System.out.println("Leave Hours " + bean.getLeaveHoursF());
+		
+		double hourPerDay = RunPayRollService.hoursPerDay(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean);
+		
+		/******************************************OT CALCULATION**********************************************************************/
+		
+		if(bean.getOtHoursF() == null){
+			bean.setOtHoursF(0.0);
+		}
+		if(bean.getOtDaysF() == null){
+			bean.setOtDaysF(0);
+		}
+		bean.setTotalOtHoursF(bean.getOtHoursF()+(bean.getOtDaysF()*hourPerDay));
+		
+		//double otSalary = 0;
+		bean.otSalary = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
+		
+		String decimalformat = new DecimalFormat("#.##").format(bean.otSalary);
+		
+		double d = Double.parseDouble(decimalformat);
+		
+		bean.otSalary = d;
+		
+		bean.setNetSalary(bean.getNetSalary()+bean.otSalary);
+		
+		/************************************LEAVE CALCULATION*************************************************/
+		
+		
+		if(bean.getLeaveHoursF() == null){
+			bean.setLeaveHoursF(0.0);
+		}if(bean.getLeaveDaysF() == null){
+			bean.setLeaveDaysF(0);
+		}
+		bean.setTotalLeaveHoursF(bean.getLeaveHoursF()+(bean.getLeaveDaysF()*hourPerDay));
+		
+		
+		bean.leaveDeduction = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
+
+		String decimalformat2 = new DecimalFormat("#.##").format(bean.leaveDeduction);
+		
+		double d2 = Double.parseDouble(decimalformat2);
+		
+		bean.leaveDeduction = d2;
+		
+		bean.setNetSalary(bean.getNetSalary()-bean.leaveDeduction);
+		
+		bean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()-bean.getLeaveDaysF());
+		
+		System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());
+		
+	}
 	
 	
 	public String getCurrentDate() {

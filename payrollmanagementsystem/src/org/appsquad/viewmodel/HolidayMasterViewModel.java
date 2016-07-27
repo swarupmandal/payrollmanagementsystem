@@ -239,7 +239,7 @@ public class HolidayMasterViewModel {
 		int i = Integer.parseInt(s);
 		
 		generalHolidayBean.setMonthId(i);
-		System.out.println("MMMMMMMMMMM MONTH ID >>> >> > " + generalHolidayBean.getMonthId());
+		//System.out.println("MMMMMMMMMMM MONTH ID >>> >> > " + generalHolidayBean.getMonthId());
 		
 		//System.out.println("MMM MM M " + s);
 		

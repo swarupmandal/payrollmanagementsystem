@@ -22,7 +22,7 @@
 	<div>
 	  <hlayout spacing="560px">
 		<label value="Employee Information" style="color:black; font-weight:bold;"></label>
-		<label value="OT and Leave Ajustment" style="color:black; font-weight:bold;"></label>  	
+		<label value="OT and Leave Ajustment" style="color:black; font-weight:bold;" visible="false"></label>  	
 	  	
 	  </hlayout>	
 	  <hlayout>
@@ -49,7 +49,7 @@
 	  </div>
 	  
 	  <div  width="500px">
-	  	<vbox>
+	  	<vbox visible="false">
 	  	  
 	  	  <hlayout>
 	  	  	<intbox placeholder="Total Working Days" width="150px" value="@bind(vm.totalWorkingDays)"></intbox>

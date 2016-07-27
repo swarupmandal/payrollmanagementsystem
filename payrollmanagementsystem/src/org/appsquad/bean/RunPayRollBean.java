@@ -29,7 +29,17 @@ public class RunPayRollBean {
     private int totalNumberOfWorkingDaysEveryMonth;
     public int totalNumberOfHolidays;
     
+    private Integer otDaysF;
+    private Double otHoursF;
+    private Double totalOtHoursF;
     
+    
+    private Integer leaveDaysF;
+    private Double leaveHoursF;
+    private Double totalLeaveHoursF;
+    
+    public double otSalary = 0;
+    public double leaveDeduction = 0;
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
@@ -188,8 +198,53 @@ public class RunPayRollBean {
 	public void setTotalNumberOfHolidays(int totalNumberOfHolidays) {
 		this.totalNumberOfHolidays = totalNumberOfHolidays;
 	}
+	public Integer getOtDaysF() {
+		return otDaysF;
+	}
+	public void setOtDaysF(Integer otDaysF) {
+		this.otDaysF = otDaysF;
+	}
+	public Double getOtHoursF() {
+		return otHoursF;
+	}
+	public void setOtHoursF(Double otHoursF) {
+		this.otHoursF = otHoursF;
+	}
+	public Double getTotalOtHoursF() {
+		return totalOtHoursF;
+	}
+	public void setTotalOtHoursF(Double totalOtHoursF) {
+		this.totalOtHoursF = totalOtHoursF;
+	}
+	public Integer getLeaveDaysF() {
+		return leaveDaysF;
+	}
+	public void setLeaveDaysF(Integer leaveDaysF) {
+		this.leaveDaysF = leaveDaysF;
+	}
+	public Double getLeaveHoursF() {
+		return leaveHoursF;
+	}
+	public void setLeaveHoursF(Double leaveHoursF) {
+		this.leaveHoursF = leaveHoursF;
+	}
+	public Double getTotalLeaveHoursF() {
+		return totalLeaveHoursF;
+	}
+	public void setTotalLeaveHoursF(Double totalLeaveHoursF) {
+		this.totalLeaveHoursF = totalLeaveHoursF;
+	}
+	public double getOtSalary() {
+		return otSalary;
+	}
+	public void setOtSalary(double otSalary) {
+		this.otSalary = otSalary;
+	}
+	public double getLeaveDeduction() {
+		return leaveDeduction;
+	}
+	public void setLeaveDeduction(double leaveDeduction) {
+		this.leaveDeduction = leaveDeduction;
+	}
 	
-	
-	
-
 }

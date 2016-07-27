@@ -1,5 +1,7 @@
 package utility;
 
+import org.appsquad.bean.RunPayRollBean;
+
 public class OtCalculation {
 
 	public static Double otAmount(Double totaAmount,Integer totalWorkingDays ,Double hourPerday, Double otHour){
@@ -7,15 +9,23 @@ public class OtCalculation {
 		
 		otAmount = (totaAmount/(totalWorkingDays * hourPerday))*otHour;
 		
-		/*if(otAmount != null){
-			String str = null;
-			str = new Double(otAmount).toString().substring(0, str.indexOf('0'));
-			Double v = Double.valueOf(str);
-			otAmount = v;
-		}*/
-		
 		return  otAmount;
 	}
+	
+	public static double otAmount(RunPayRollBean bean){
+		double a=0.0;
+		
+		a = bean.getTotalSalary()/bean.getTotalOtHoursF();
+		
+		System.out.println("A A A " + a);
+		
+	    //a = (bean.getTotalSalary()/(bean.getTotalWorkingDays()*hourPerDay))*bean.getOtHoursF();
+		
+		return  a;
+	}
+	
+	
+	
 	
 	
 }

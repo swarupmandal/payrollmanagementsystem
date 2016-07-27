@@ -8,9 +8,12 @@ import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.dao.RunPayRollDao;
 import org.zkoss.zul.Messagebox;
 
+import com.itextpdf.text.log.SysoCounter;
+
 import utility.CheckFriDay;
 import utility.CheckMonDayCount;
 import utility.CheckSaturday;
+import utility.CheckSunDayDates;
 import utility.CheckSunday;
 import utility.CheckThursDay;
 import utility.CheckWednesDay;
@@ -22,8 +25,8 @@ public class RunPayRollService {
 		RunPayRollDao.loadMonthList(monthList);
 	}
 	
-	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId){
-		RunPayRollDao.loadEmpDetails(beanList, companyId, unitId);
+	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId, int workingDay){
+		RunPayRollDao.loadEmpDetails(beanList, companyId, unitId, workingDay);
 	}
 
 	public static boolean totalWorkingDaysisNull(Integer totalWorkingDays, Double workinghoursPerDay){
@@ -186,6 +189,31 @@ public class RunPayRollService {
 		
 		return noOfGeneralHoliday;
 	}
+	
+	public static Double hoursPerDay(int companyId, int unitId, RunPayRollBean bean){
+		Double hours = RunPayRollDao.loadHoursPerDay(companyId, unitId, bean);
+		System.out.println("Hours service " + hours);
+		
+		return hours; 
+		
+	}
+	
+	public static ArrayList<String> loadholiDayListPerMonth(int companyId, int unitId, RunPayRollBean bean, int currentMonthId, int year){
+		ArrayList<String> list = new ArrayList<String>();
+		list = RunPayRollDao.generalHoliDayDateList(companyId, unitId, bean, currentMonthId);
+		System.out.println("sunday date lists >>> >> > " + list);
+		if(list.size()>0){
+			
+			ArrayList<Integer> list1 = new ArrayList<Integer>();
+			
+			System.out.println("YEAR -- " + year + " MONTH -- " +currentMonthId);
+			list1 = CheckSunDayDates.checkSatDates(year, currentMonthId);
+			System.out.println("LIST 1 " + list1);
+		}
+		
+		return list;
+	}
+	
 	
 	
 	
