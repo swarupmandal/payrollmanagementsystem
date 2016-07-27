@@ -144,6 +144,7 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickTabExisting(){
+		System.out.println("Tab 2 clicked!");
 		loadExistingEmployeeData();
 	}
 	
@@ -261,7 +262,7 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickEdit(@BindingParam("bean")EmployeeMasterBean bean){
-		System.out.println(bean.getEmployeeCode());
+		System.out.println("on edit: "+bean.getEmployeeCode()+" "+bean.getEmployeeid());
 		Map<String, Integer> parentMap = new HashMap<String, Integer>();
 		parentMap.put("parentBean", bean.getEmployeeid());
 		Window window = (Window) Executions.createComponents("/WEB-INF/view/employeeedit.zul", null, parentMap);

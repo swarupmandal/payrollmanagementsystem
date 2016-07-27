@@ -4,11 +4,11 @@
 		viewModel="@id('vm') @init('org.appsquad.viewmodel.EmployeeMasterViewModel')">
 	<tabbox>
 		<tabs>
-			<tab label="New Employee Data"/>
-			<tab label="Existing Employee Data"/>
+			<tab label=" Create New Employee "/>
+			<tab label=" Show Existing Employees " onClick="@command('onClickTabExisting')"/>
 		</tabs>
 		
-		<tabpanels>
+		<tabpanels >
 			<tabpanel>
 					<hlayout>
 						<div width="300px" align="center">
@@ -472,7 +472,7 @@
 
 			</tabpanel>
 			
-			<tabpanel onClick="@command('onClickTabExisting')">
+			<tabpanel >
 					
 					<grid model="@bind(vm.employeeMasterBeanList)"  mold="paging" pageSize="5" emptyMessage="No employee found">
 						<auxhead>

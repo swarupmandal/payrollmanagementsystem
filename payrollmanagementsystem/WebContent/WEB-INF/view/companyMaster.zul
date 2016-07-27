@@ -6,8 +6,8 @@
 		
 		<tabbox>
 			<tabs>
-				<tab label=" New Company data "/>
-				<tab label=" Existing Company data"/>
+				<tab label=" Create New Company "/>
+				<tab label=" Show Existing Companies" onClick="@command('onClickTabExisting')"/>
 			</tabs>
 			
 			<tabpanels>
