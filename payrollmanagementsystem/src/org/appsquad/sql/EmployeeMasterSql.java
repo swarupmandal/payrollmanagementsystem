@@ -3,7 +3,7 @@ package org.appsquad.sql;
 public class EmployeeMasterSql {
 
 	public static final String employeeInsertQuery= "insert into pms_employee_master (employee_code,employee_name,company_id,unit_id,employee_phone_number,employee_email,gender,"
-													 + " created_by,updatetd_by) values(?,?,?,?,?,?,?,?,?)";
+													 + " created_by,updatetd_by, dob) values(?,?,?,?,?,?,?,?,?,?)";
 	
 	public static final String loadCompanyListQuery = "select company_name, company_id from pms_company_master ";
 	
