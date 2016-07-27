@@ -209,16 +209,16 @@ public class RunPayRollService {
 			
 		}
 		if(list.size()>0){
-			/*String str ="";
-			if(list.size()!=0){
-			StringBuilder builder = new StringBuilder();
-			String temp = list.toString();
-			String fb = temp.replace("[", "");
-			String bb =  fb.replace("]", "");
-			builder.append(bb);
-			str = builder.toString();
-			str = str.trim();
-			System.out.println("STR " + str);*/
+			
+			System.out.println("... .. .. >>> >> > " +list);
+			
+			
+			
+			
+			
+			
+			
+			
 		}
 		
 		

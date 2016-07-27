@@ -608,6 +608,7 @@ public class RunPayRollDao {
 
 		ArrayList<String> holidayDateList = new ArrayList<String>();
 		
+		
 		if(holidayDateList.size()>0){
 			holidayDateList.clear();
 		}
@@ -623,10 +624,10 @@ public class RunPayRollDao {
 							ResultSet resultSet = preparedStatement.executeQuery();
 							while (resultSet.next()) {
 								
-								holidayDateList.add(resultSet.getString("date"));
+								holidayDateList.add(resultSet.getString("holiday_date"));
 								
 							}
-							System.out.println("General Holiday Dates DAO " + holidayDateList);
+							
 						}finally{
 							if(preparedStatement != null){
 								preparedStatement.close();
