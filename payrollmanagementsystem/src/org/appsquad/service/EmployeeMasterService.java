@@ -70,7 +70,9 @@ public class EmployeeMasterService {
 		return list;
 	}
 	
-	
+	public static void updateEmployeeInfo(EmployeeMasterBean employeeMasterBean){
+		EmployeeDao.upDateEmployee(employeeMasterBean);
+	}
 	
 	public static boolean isValid(EmployeeMasterBean bean,CompanyMasterBean companyMasterBean, UnitMasterBean unitMasterBean, String userName){
 		

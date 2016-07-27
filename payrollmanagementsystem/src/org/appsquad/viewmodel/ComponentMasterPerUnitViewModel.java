@@ -59,10 +59,6 @@ public class ComponentMasterPerUnitViewModel {
 		System.out.println(componentPerUnitMasterBean.getCompanyId());
 		
 		unitMasterBeanList = ComponentPerUnitMasterService.loadUnitBeanList(componentPerUnitMasterBean.getCompanyId());
-		
-		
-		
-		
 	}
 	
 	@Command

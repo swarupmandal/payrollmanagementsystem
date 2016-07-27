@@ -14,9 +14,11 @@ import org.appsquad.bean.StateMasterBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.service.EmployeeMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
@@ -59,12 +61,11 @@ public class EmployeeEditViewModel {
 		
 		session = Sessions.getCurrent();
 		userName =  (String) session.getAttribute("userId");
-		System.out.println("employee data loading. . . ");
+	
 		if(empId != null){
+			System.out.println("employee data loading. . . "+empId);
 			loadEmployeeInfo(empId);
 		}
-		
-		
 		EmployeeMasterService.loadStateBeanList(stateMasterBeanList);
 		EmployeeMasterService.loadBloodGroupList(bloodGroupBeanList);
 		EmployeeMasterService.loadDesignationList(designationBeanList);
@@ -72,9 +73,58 @@ public class EmployeeEditViewModel {
 		EmployeeMasterService.loadBankList(bankAccountBeanList);
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void oClickUpdate(){
+		EmployeeMasterService.updateEmployeeInfo(employeeMasterBean);
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectStateName(){
+		System.out.println("selected state name >>> >> > " + stateMasterBean.getStateName());
+		System.out.println("Selected state id >>> >> > " + stateMasterBean.getStateId());
+		employeeMasterBean.setEmpStateId(stateMasterBean.getStateId());
+		
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectBooldGroup(){
+		System.out.println("selected Blood geoup name >>> >> > " + bloodGroupBean.getBloodGroupName());
+		System.out.println("Selected Blood id >>> >> > " + bloodGroupBean.getBloodGroupId());
+		employeeMasterBean.setEmpBloodGroupId(bloodGroupBean.getBloodGroupId());
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectDesignation(){
+		System.out.println("selected designation name >>> >> > " + designationBean.getDesignation());
+		System.out.println("Selected designation id >>> >> > " + designationBean.getDesignationId());
+		employeeMasterBean.setEmpDesignationId(designationBean.getDesignationId());
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectPaymentMode(){
+		System.out.println("selected Payment name >>> >> > " + paymentModeMasterBean.getPaymentMode());
+		System.out.println("Selected Payment id >>> >> > " + paymentModeMasterBean.getPaymentModeId());
+		employeeMasterBean.setPaymentModeId(paymentModeMasterBean.getPaymentModeId());
+	}
+	
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectBankAccount(){
+		System.out.println("selected Bank name >>> >> > " + bankAccountBean.getBankName());
+		System.out.println("Selected Bank id >>> >> > " + bankAccountBean.getBankId());
+		employeeMasterBean.setEmpBankId(bankAccountBean.getBankId());
+	}
+	
 	public void loadEmployeeInfo(Integer empId){
 		employeeMasterBean = EmployeeMasterService.fetchEmployeeInfo(empId);
 		employeeMasterBean.setUserId(userName);
+		employeeMasterBean.setEmployeeid(empId);
 	}
 
 	public EmployeeMasterBean getEmployeeMasterBean() {

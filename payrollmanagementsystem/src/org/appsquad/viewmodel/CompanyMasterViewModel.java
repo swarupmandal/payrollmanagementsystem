@@ -61,6 +61,12 @@ public class CompanyMasterViewModel {
 		loadSavedCompanyList();
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onClickTabExisting(){
+		loadSavedCompanyList();
+	}
+	
 	public void fetchStateNameList(){
 		if(stateBeanList.size()>0){
 			stateBeanList.clear();

@@ -77,5 +77,28 @@ public class EmployeeMasterSql {
 	
 	public  static final String fetchComponentsQuery = "SELECT * FROM vw_salary_component_employee where employee_id = ?";
 	
+	public static final String updateEmployeeMasterQuery = "UPDATE pms_employee_master SET  employee_name=?, employee_phone_number=?,"
+			+ " employee_email=?, gender=?,employee_state_id=?, dob=?,updatetd_by=? WHERE employee_id=? ";
+	
+	public static final String updateEmployeePersonalQuery = "UPDATE pms_employee_personal_information SET employee_address=?, employee_city=?, "
+       +" emp_state_id=?, employee_pincode=?, emp_blood_group_id=?, emp_pan=?, "
+       +" emp_marital_status=?, updatetd_by=? WHERE employee_id=?";
+
+	public static final String getEmployeePersonalDataQuery = "select count(employee_id) AS employee_count from  pms_employee_personal_information "
+			+ " where employee_id = ? ";
+	
+	public static final String updateEmployeeOfficeQuery = "UPDATE pms_employee_office_details "
+									   		+" SET emp_joining_date=?, emp_designation=?, emp_location=?, "
+									   		+" payment_mode_id=?, bank_account_id=?, emp_bank_account_number=?, "
+									       +" ifsc=?, increment_date=?, registration_date=?, last_working_date=?, " 
+									       +" emp_designation_id=?, updatetd_by=? WHERE employee_id=?";
+	
+	public static final String getEmployeeOfficeDataQuery = "select count(employee_id) AS employee_count from  pms_employee_office_details "
+			+ " where employee_id = ? ";
+	
+	public static final String updatePfEsiQuery = "UPDATE pms_employee_pf_esi_details SET  uan=?, esi=?, updatetd_by=? WHERE employee_id=?";
+	
+	public static final String getEmployeeEsiDataQuery = "select count(employee_id) AS employee_count from  pms_employee_pf_esi_details "
+			+ " where employee_id = ? ";
 	
 }

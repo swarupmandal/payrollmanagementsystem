@@ -15,6 +15,7 @@ import org.appsquad.bean.PaymentModeMasterBean;
 import org.appsquad.bean.StateMasterBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.EmployeeDao;
+import org.appsquad.service.ComponentPerUnitMasterService;
 import org.appsquad.service.EmployeeMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
@@ -93,6 +94,17 @@ public class EmployeeMasterViewModel {
 			loadExistingEmployeeData();
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onClickClear(){
+		employeeCode = null;
+		employeeMasterBean.setCompanyName(null);
+		employeeMasterBean.setUnitName(null);
+		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
+		unitMasterBeanList.clear();
+		loadExistingEmployeeData();
+	}
+	
 	
 	/*
 	 * @author: Swarup Mondol
@@ -139,11 +151,16 @@ public class EmployeeMasterViewModel {
 		System.out.println("selected company name >>> >> > " + companyMasterBean.getCompanyName());
 		System.out.println("Selected company ID >>> >> > " + companyMasterBean.getCompanyId());
 		employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
+		unitMasterBeanList = ComponentPerUnitMasterService.loadUnitBeanList(employeeMasterBean.getCompanyId());
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onClickTabExisting(){
+		System.out.println("Tab 2 clicked!");
+		employeeCode = null;
+		employeeMasterBean.setCompanyName(null);
+		employeeMasterBean.setUnitName(null);
 		loadExistingEmployeeData();
 	}
 	
@@ -261,7 +278,7 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickEdit(@BindingParam("bean")EmployeeMasterBean bean){
-		System.out.println(bean.getEmployeeCode());
+		System.out.println("on edit: "+bean.getEmployeeCode()+" "+bean.getEmployeeid());
 		Map<String, Integer> parentMap = new HashMap<String, Integer>();
 		parentMap.put("parentBean", bean.getEmployeeid());
 		Window window = (Window) Executions.createComponents("/WEB-INF/view/employeeedit.zul", null, parentMap);

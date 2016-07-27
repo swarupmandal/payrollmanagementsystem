@@ -30,8 +30,8 @@
 					  </template>
 				    </combobox>
 				
-				<button label="Save" onClick="@command('onClickSave')"/>
-					<button label="Update"/>
+				<button label="Save" onClick="@command('onClickSave')"  sclass="bb_button"/>
+					<button label="Update" sclass="bb_button" visible="false"/>
 				</row>
 				
 			</rows>
@@ -43,11 +43,12 @@
 	
 	<div>
 	
-		<grid model="@bind(vm.componentMasterBeanList)">
+		<grid model="@bind(vm.componentMasterBeanList)"
+		mold="paging" pageSize="6">
 			<columns>
 				<column label="Component" align="center"></column>
 				
-				<column label="Action" align="center"></column>
+				<column label="Action" align="center" visible="false"></column>
 			</columns>
 			<rows>
 			
@@ -59,9 +60,9 @@
 				  <textbox value="@bind(v.componentType)"></textbox>
 				</hlayout>
 				
-				<hlayout spacing="20px">
-				   <button label="Edit"></button>
-				    <button label="Delete"></button>
+				<hlayout spacing="20px" visible="false">
+				   <button label="Edit"  sclass="bb_button"></button>
+				    <button label="Delete"  sclass="bb_button"></button>
 				</hlayout>
 				</row>
 				</template>

@@ -72,5 +72,7 @@ public class SqlQuery {
 	public static final String updateBloodGroupQuery = "update pms_bloodgroup_master set bloodgroup_name = ?,updated_by=? where bloodgroup_id = ? ";
 	public static final String deleteBloodGroupQuery = "update pms_bloodgroup_master set is_delete = 'Y' where bloodgroup_id = ? ";
 
-	
+	/*---------------------------------------- Change Password  -----------------------------*/
+	public static final String updatePasswordQuery = "UPDATE pms_admin_users SET  password=? WHERE user_id = ?";
+
 }

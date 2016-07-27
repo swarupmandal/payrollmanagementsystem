@@ -4,11 +4,11 @@
 		viewModel="@id('vm') @init('org.appsquad.viewmodel.EmployeeMasterViewModel')">
 	<tabbox>
 		<tabs>
-			<tab label="New Employee Data"/>
-			<tab label="Existing Employee Data"/>
+			<tab label=" Create New Employee "/>
+			<tab label=" Show Existing Employees " onClick="@command('onClickTabExisting')"/>
 		</tabs>
 		
-		<tabpanels>
+		<tabpanels >
 			<tabpanel>
 					<hlayout>
 						<div width="300px" align="center">
@@ -85,14 +85,17 @@
 										</row>
 										<row>
 											<label value="Gender"></label>
-											<textbox
-												value="@bind(vm.employeeMasterBean.gender)">
-											</textbox>
+									
+											<combobox value="@bind(vm.employeeMasterBean.gender)" width="80%">
+												<comboitem label="Male" value="Male"/>
+												<comboitem label="Female" value="Female"/>
+												<comboitem label="Other" value="Other"/>
+											</combobox>
 
 											<label
 												value="Date Of Birth">
 											</label>
-											<datebox width="160px"
+											<datebox width="90%" format="dd-MMM-yyyy"
 												value="@bind(vm.employeeMasterBean.empDob)">
 											</datebox>
 										</row>
@@ -160,7 +163,7 @@
 														value="State">
 													</label>
 													<combobox
-														width="160px" model="@bind(vm.stateMasterBeanList)"
+														width="80%" model="@bind(vm.stateMasterBeanList)"
 														onSelect="@command('onSelectStateName')"
 														selectedItem="@bind(vm.stateMasterBean)"
 														autocomplete="true" readonly="true">
@@ -186,7 +189,7 @@
 														value="Blood Group">
 													</label>
 													<combobox
-														width="160px" model="@bind(vm.bloodGroupBeanList)"
+														width="80%" model="@bind(vm.bloodGroupBeanList)"
 														onSelect="@command('onSelectBooldGroup')"
 														selectedItem="@bind(vm.bloodGroupBean)"
 														autocomplete="true" readonly="true">
@@ -246,7 +249,7 @@
 														value="Joining Date">
 													</label>
 													<datebox
-														width="160px"
+														width="90%"
 														value="@bind(vm.employeeMasterBean.empDoj)">
 													</datebox>
 
@@ -254,7 +257,7 @@
 														value="Designation">
 													</label>
 													<combobox
-														width="160px" model="@bind(vm.designationBeanList)"
+														width="90%" model="@bind(vm.designationBeanList)"
 														onSelect="@command('onSelectDesignation')"
 														selectedItem="@bind(vm.designationBean)"
 														autocomplete="true" readonly="true">
@@ -282,7 +285,7 @@
 														value="Payment Mode">
 													</label>
 													<combobox
-														width="160px" model="@bind(vm.paymentModeMasterBeanList)"
+														width="90%" model="@bind(vm.paymentModeMasterBeanList)"
 														onSelect="@command('onSelectPaymentMode')"
 														selectedItem="@bind(vm.paymentModeMasterBean)"
 														autocomplete="true" readonly="true">
@@ -298,7 +301,7 @@
 														value="Employee Bank Account">
 													</label>
 													<combobox
-														width="160px" model="@bind(vm.bankAccountBeanList)"
+														width="90%" model="@bind(vm.bankAccountBeanList)"
 														onSelect="@command('onSelectBankAccount')"
 														selectedItem="@bind(vm.bankAccountBean)"
 														autocomplete="true" readonly="true">
@@ -332,7 +335,7 @@
 														value="Increment Date">
 													</label>
 													<datebox
-														width="160px"
+														width="90%"
 														value="@bind(vm.employeeMasterBean.incrementDate)">
 													</datebox>
 
@@ -341,7 +344,7 @@
 														value="Registration Date">
 													</label>
 													<datebox
-														width="160px"
+														width="90%"
 														value="@bind(vm.employeeMasterBean.registrationDate)">
 													</datebox>
 
@@ -354,7 +357,7 @@
 														value="Last Working Date">
 													</label>
 													<datebox
-														width="160px"
+														width="90%"
 														value="@bind(vm.employeeMasterBean.lastWorkingDate)">
 													</datebox>
 
@@ -454,13 +457,12 @@
 											</textbox>
 										</hlayout>
 
-										<div height="50px">
-
-										</div>
-
-										<button label="Save"
+										<div align="center">
+											<button label="Save"
 											sclass="bb_button" onClick="@command('onClickPfEsiSave')">
 										</button>
+										</div>
+										
 									</div>
 
 
@@ -472,7 +474,7 @@
 
 			</tabpanel>
 			
-			<tabpanel onClick="@command('onClickTabExisting')">
+			<tabpanel >
 					
 					<grid model="@bind(vm.employeeMasterBeanList)"  mold="paging" pageSize="5" emptyMessage="No employee found">
 						<auxhead>
@@ -504,6 +506,7 @@
 											label="@bind(v.unitName)" value="@bind(v.unitId)" />
 									</template>
 								</combobox>
+								<button label="Clear" sclass="bb_button" onClick="@command('onClickClear')"/>
 							</auxheader>
 						</auxhead>
 						<columns>

@@ -46,7 +46,7 @@ public class EmployeeDao {
 							employeeMasterBean.setEmpPhone(resultSet.getString("employee_phone_number"));
 							employeeMasterBean.setEmpEmail(resultSet.getString("employee_email"));
 							employeeMasterBean.setGender(resultSet.getString("gender"));
-						//	employeeMasterBean.setEmpDob(resultSet.getString(columnIndex));
+							employeeMasterBean.setEmpDob(resultSet.getDate("dob"));
 							
 							employeeMasterBean.setEmpAddress(resultSet.getString("employee_address"));
 							employeeMasterBean.setEmpCity(resultSet.getString("employee_city"));
@@ -89,6 +89,284 @@ public class EmployeeDao {
 		return employeeMasterBean;
 	}
 	
+	public static void upDateEmployee(EmployeeMasterBean employeeMasterBean){
+		boolean masterUpdate=false,personalUpdate=false,officeUpdate=false,pfEsiUpdate=false;
+		System.out.println("emp dob - "+employeeMasterBean.getEmpStateId());
+		try {
+			Connection connection = DbConnection.createConnection();
+			SQL:{
+				PreparedStatement preparedStatement = null;
+				try {
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.updateEmployeeMasterQuery, 
+								Arrays.asList(employeeMasterBean.getEmployeeName(),
+										employeeMasterBean.getEmpPhone(),employeeMasterBean.getEmpEmail(),
+										employeeMasterBean.getGender(),employeeMasterBean.getEmpStateId(),
+										employeeMasterBean.getEmpDob(), employeeMasterBean.getUserId(),employeeMasterBean.getEmployeeid()));
+						int count = preparedStatement.executeUpdate();
+						if(count > 0){
+							masterUpdate = true;
+							System.out.println("Master data updated!");
+						}
+						
+				} catch (Exception e) {
+						// TODO: handle exception
+					e.printStackTrace();
+					Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+				}finally{
+					if(preparedStatement!=null){
+						preparedStatement.close();
+					}
+				}
+			}
+			
+			if(masterUpdate){
+				int countrow =0;
+				SQL:{
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.getEmployeePersonalDataQuery, 
+								Arrays.asList(employeeMasterBean.getEmployeeid() ));
+						resultSet = preparedStatement.executeQuery();
+						if(resultSet.next()){
+							countrow = resultSet.getInt(1);	
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+					}finally{
+						if(preparedStatement!=null){
+							preparedStatement.close();
+						}
+					}
+				}
+				System.out.println("Getting emp id in personal data :"+countrow);
+				if(countrow!=0){//if employee id exists then update
+					SQL:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.updateEmployeePersonalQuery, 
+									Arrays.asList(employeeMasterBean.getEmpAddress(),employeeMasterBean.getEmpCity(),
+											employeeMasterBean.getEmpStateId(),employeeMasterBean.getPinCode(),
+											employeeMasterBean.getEmpBloodGroupId(),employeeMasterBean.getEmpPan(),
+											employeeMasterBean.getEmpMaritalStatus(),employeeMasterBean.getUserId(),employeeMasterBean.getEmployeeid()
+											));
+							int count = preparedStatement.executeUpdate();
+							if(count > 0){
+								personalUpdate = true;
+								System.out.println("Personal data updated!");
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+							Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+						}finally{
+							if(preparedStatement!=null){
+								preparedStatement.close();
+							}
+						}
+					}
+				}else{
+					SQL:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertPersoalInformationQuery, 
+									Arrays.asList(employeeMasterBean.getEmployeeid(),employeeMasterBean.getEmpAddress(),
+											employeeMasterBean.getEmpCity(),employeeMasterBean.getEmpStateId(),
+											employeeMasterBean.getPinCode(),employeeMasterBean.getEmpBloodGroupId(),employeeMasterBean.getEmpPan(),
+											employeeMasterBean.getEmpMaritalStatus(),employeeMasterBean.getUserId(),employeeMasterBean.getUserId()
+											));
+							int count = preparedStatement.executeUpdate();
+							if(count > 0){
+								personalUpdate = true;
+								System.out.println("Personal data inserted!");
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+							Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+						}finally{
+							if(preparedStatement!=null){
+								preparedStatement.close();
+							}
+						}
+					}
+				}	
+			}
+			
+			if(personalUpdate){
+				int countrow =0;
+				SQL:{
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.getEmployeeOfficeDataQuery, 
+								Arrays.asList(employeeMasterBean.getEmployeeid() ));
+						resultSet = preparedStatement.executeQuery();
+						if(resultSet.next()){
+							countrow = resultSet.getInt(1);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+					}finally{
+						if(preparedStatement!=null){
+							preparedStatement.close();
+						}
+					}
+				}
+				System.out.println("Official emp id in personal data :"+countrow);
+				if(countrow!=0){
+					SQL:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.updateEmployeeOfficeQuery, 
+									Arrays.asList(employeeMasterBean.getEmpDoj(),employeeMasterBean.getEmpDesignation(),
+											employeeMasterBean.getEmpLocation(),employeeMasterBean.getPaymentModeId(),
+											employeeMasterBean.getEmpBankId(),employeeMasterBean.getEmpAccountNo(),
+											employeeMasterBean.getIfscCode(),employeeMasterBean.getIncrementDate(),
+											employeeMasterBean.getRegistrationDate(),employeeMasterBean.getLastWorkingDate(),
+											employeeMasterBean.getEmpDesignationId(),
+											employeeMasterBean.getUserId(),employeeMasterBean.getEmployeeid()
+											));
+							int count = preparedStatement.executeUpdate();
+							if(count > 0){
+								officeUpdate = true;
+								System.out.println("Officail data updated!");
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+							Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+						}finally{
+							if(preparedStatement!=null){
+								preparedStatement.close();
+							}
+						}
+					}	
+				}else{
+					SQL:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertEmployeeOfficialDetails, 
+									Arrays.asList(employeeMasterBean.getEmployeeid(),employeeMasterBean.getEmpDoj(),
+											employeeMasterBean.getEmpDesignationId(),employeeMasterBean.getEmpLocation(),
+											employeeMasterBean.getPaymentModeId(),employeeMasterBean.getEmpBankId(),
+											employeeMasterBean.getEmpAccountNo(),employeeMasterBean.getIfscCode(),
+											employeeMasterBean.getIncrementDate(),employeeMasterBean.getRegistrationDate(),
+											employeeMasterBean.getLastWorkingDate(),employeeMasterBean.getUserId(),
+											employeeMasterBean.getUserId()
+											));
+							int count = preparedStatement.executeUpdate();
+							if(count > 0){
+								officeUpdate = true;
+								System.out.println("Officail data inserted!");
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+							Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+						}finally{
+							if(preparedStatement!=null){
+								preparedStatement.close();
+							}
+						}
+					}	
+					
+				}	
+			}
+			
+			if(officeUpdate){
+				int countrow =0;
+				SQL:{
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.getEmployeeEsiDataQuery, 
+								Arrays.asList(employeeMasterBean.getEmployeeid() ));
+						resultSet = preparedStatement.executeQuery();
+						if(resultSet.next()){
+							countrow = resultSet.getInt(1);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+					}finally{
+						if(preparedStatement!=null){
+							preparedStatement.close();
+						}
+					}
+				}
+				System.out.println("Getting emp id in pfesi data :"+countrow);
+				if(countrow!=0){
+					SQL:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.updatePfEsiQuery, 
+									Arrays.asList(employeeMasterBean.getUan(),employeeMasterBean.getEsi(),
+											employeeMasterBean.getUserId(),employeeMasterBean.getEmployeeid()
+											));
+							int count = preparedStatement.executeUpdate();
+							if(count > 0){
+								pfEsiUpdate = true;
+								System.out.println("PfEsi data updated!");
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+							Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+						}finally{
+							if(preparedStatement!=null){
+								preparedStatement.close();
+							}if(connection!=null){
+								connection.close();
+							}
+						}
+					}
+				}else{
+					SQL:{
+						PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.empPfEsiInsertQuery, 
+									Arrays.asList(employeeMasterBean.getEmployeeid(),employeeMasterBean.getUan(),
+											employeeMasterBean.getEsi(),employeeMasterBean.getUserId(),employeeMasterBean.getUserId()
+											));
+							int count = preparedStatement.executeUpdate();
+							if(count > 0){
+								pfEsiUpdate = true;
+								System.out.println("PfEsi data inserted!");
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+							Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+						}finally{
+							if(preparedStatement!=null){
+								preparedStatement.close();
+							}if(connection!=null){
+								connection.close();
+							}
+						}
+					}	
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			Messagebox.show("Error due to: "+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+		}
+		if(pfEsiUpdate){
+			Messagebox.show("Employee data updated successfully!","Successful Information",Messagebox.OK,Messagebox.INFORMATION);
+		}else{
+			Messagebox.show("Employee data updation failed!","Failed Information",Messagebox.OK,Messagebox.ERROR);
+		}
+	}
+	
+	
 	public static ArrayList<ComponentMasterBean> fetchComponentList(Integer empId , Connection connection){
 		ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
 		try {
@@ -123,7 +401,6 @@ public class EmployeeDao {
 		}
 		return componentMasterBeanList;
 	}
-	
 	
 	public static ArrayList<EmployeeMasterBean> loadSavedEmployeeList(){
 		ArrayList<EmployeeMasterBean> employeeMasterBeanList = new ArrayList<EmployeeMasterBean>();

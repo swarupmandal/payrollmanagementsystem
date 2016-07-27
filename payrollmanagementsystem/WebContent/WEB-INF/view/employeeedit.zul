@@ -45,7 +45,7 @@ apply="org.zkoss.bind.BindComposer"
 						</textbox>
 
 						<label value="Date Of Birth"></label>
-						<datebox width="160px"
+						<datebox width="160px" format="dd-MMM-yyyy"
 							value="@bind(vm.employeeMasterBean.empDob)">
 						</datebox>
 					</row>
@@ -209,7 +209,7 @@ apply="org.zkoss.bind.BindComposer"
 							<datebox width="160px"
 								value="@bind(vm.employeeMasterBean.incrementDate)">
 							</datebox>
-							<label value="Registration Date"></label>
+							<label value="Resignation Date"></label>
 							<datebox width="160px"
 								value="@bind(vm.employeeMasterBean.registrationDate)">
 							</datebox>
@@ -293,7 +293,7 @@ apply="org.zkoss.bind.BindComposer"
 		</div>
 		
 		<div align="center">
-			<button label="Update" sclass="bb_button"/>
+			<button label="Update" sclass="bb_button" onClick="@command('oClickUpdate')"/>
 		</div>
 		
 		
