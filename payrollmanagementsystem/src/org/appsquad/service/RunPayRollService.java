@@ -201,15 +201,28 @@ public class RunPayRollService {
 	public static ArrayList<String> loadholiDayListPerMonth(int companyId, int unitId, RunPayRollBean bean, int currentMonthId, int year){
 		ArrayList<String> list = new ArrayList<String>();
 		list = RunPayRollDao.generalHoliDayDateList(companyId, unitId, bean, currentMonthId);
-		System.out.println("sunday date lists >>> >> > " + list);
+		
 		if(list.size()>0){
-			
 			ArrayList<Integer> list1 = new ArrayList<Integer>();
+			int i = currentMonthId-1;
+			list1 = CheckSunDayDates.checkSatDates(year, i);
 			
-			System.out.println("YEAR -- " + year + " MONTH -- " +currentMonthId);
-			list1 = CheckSunDayDates.checkSatDates(year, currentMonthId);
-			System.out.println("LIST 1 " + list1);
 		}
+		if(list.size()>0){
+			/*String str ="";
+			if(list.size()!=0){
+			StringBuilder builder = new StringBuilder();
+			String temp = list.toString();
+			String fb = temp.replace("[", "");
+			String bb =  fb.replace("]", "");
+			builder.append(bb);
+			str = builder.toString();
+			str = str.trim();
+			System.out.println("STR " + str);*/
+		}
+		
+		
+		
 		
 		return list;
 	}

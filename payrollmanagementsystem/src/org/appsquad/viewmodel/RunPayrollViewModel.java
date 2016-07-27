@@ -321,6 +321,8 @@ public class RunPayrollViewModel {
 				ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 				ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 				
+				
+				System.out.println("COMPANY " + companyMasterBean.getCompanyName());
 				//System.out.println("MMMMMMMMMM " +rBean.otSalary);
 				//System.out.println("deddc  " + rBean.leaveDeduction);
 				//System.out.println("NETs >>> >> > " + rBean.getNetSalary());
@@ -354,7 +356,7 @@ public class RunPayrollViewModel {
 				String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 				System.out.println("pdf_path >>> >> > " + pdfPath);
 				PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
-			    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean);
+			    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean, companyMasterBean.getCompanyName(), unitMasterBean.getUnitName());
 			}
 			
 			//System.out.println(">>> >> > " + stringBuilder.toString());

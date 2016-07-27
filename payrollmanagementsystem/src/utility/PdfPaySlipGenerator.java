@@ -27,6 +27,11 @@ public class PdfPaySlipGenerator {
 		private Document document = null;
 		private PdfWriter writer = null;
 		private static String tab = "\t\t\t\t\t\t\t\t";
+		private String companyName;
+		private String unitname;
+		private String pdfMonth;
+		
+		
 		
 		private static Font catFont = new Font(Font.getFamily("TIMES NEW ROMAN"), 22, Font.BOLD);
 		private static Font headfont = new Font(Font.getFamily("TIMES NEW ROMAN"), 13, Font.NORMAL);
@@ -35,10 +40,15 @@ public class PdfPaySlipGenerator {
 		ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 		
 		public void getDetails(String data,String path, ArrayList<RunPayRollBean> runPayRollBeanList,
-				RunPayRollBean bean) throws Exception, DocumentException{
+				RunPayRollBean bean, String company, String unit) throws Exception, DocumentException{
+			
+			
 			
 			filePath = path+"pay.pdf";
 			System.out.println("My file path :: "+filePath);
+			unitname = unit;
+			companyName = company;
+			System.out.println("COMPA " + companyName);
 			/*document = new Document(PageSize.A4, 2, 2, 60, 40);
 			document.setMargins(-40, -60, 2, 2);*/
 			Rectangle pagesize = new Rectangle(216f, 720f);
@@ -72,18 +82,35 @@ public class PdfPaySlipGenerator {
 			String space2 = String.format("%120s", "");
 			String space3 = String.format("%60s", "");
 			String space4 = String.format("%80s", "");
-			String text = "\nSALARY MONTH YEAR: JULY 2016\nCompany Name :ABCD"+space4
-					+ "\t\tUnit Name: UNITPQRS";
+			//String text = "\nSALARY MONTH YEAR: JULY 2016\nCompany Name :ABCD"+space4
+				//	+ "\t\tUnit Name: UNITPQRS";
 
-			Paragraph para = new Paragraph(text, new Font(Font.getFamily("HELVETICA"), 16f));
-			document.add(para);
+		//	Paragraph para = new Paragraph(text, new Font(Font.getFamily("HELVETICA"), 16f));
+		//	document.add(para);
 			
-			addEmptyLine(para, 2);
+		//	addEmptyLine(para, 2);
 			Paragraph pa = new Paragraph(line);
 			pa.setAlignment(Element.ALIGN_CENTER);
 			document.add(pa);
 		
 			for(RunPayRollBean bean : runPayRollBeanList){
+				
+				//System.out.println("OOOOOOOO" +bean.leaveDeduction);
+				
+				Paragraph companyInfo = new Paragraph();
+				p.add(new Paragraph("BLACKBOY DETECTIVE AGENCY", catFont));
+				p.setAlignment(Element.ALIGN_CENTER);
+				p.add(new Paragraph(line));
+				document.add(companyInfo);
+				
+				String text = "\nSALARY MONTH YEAR : "  +pdfMonth+space3  
+							  + "\t\nCompany Name : "+companyName+space3
+						      + "\t\nUnit Name: "+ unitname;
+
+				Paragraph para = new Paragraph(text, new Font(Font.getFamily("HELVETICA"), 16f));
+				document.add(para);
+				
+				addEmptyLine(para, 2);
 				
 				String empDetails = "\nEmployee Details : -" + space3
 						+"\t\t\nEmployee Name : "+bean.getEmpName()+space3
@@ -114,8 +141,8 @@ public class PdfPaySlipGenerator {
 					earningDetails += "\t\t\n"+earn.getComponentName()+": "+space4+earn.getComponentAmount();
 					totalearning += earn.getComponentAmount();
 				}
-				earningDetails += "\t\t\nOT EARNINGS : "+space4+"200.00$";
-				earningDetails += "\t\t\nTOTAL EARNINGS : "+space4+totalearning;
+				earningDetails += "\t\t\nOT EARNINGS : "+space4+bean.otSalary;
+				earningDetails += "\t\t\nTOTAL EARNINGS : "+space4+(totalearning+bean.otSalary);
 				
 				Paragraph earningDetailsP = new Paragraph(earningDetails, new Font(Font.getFamily("VERDANA"), 14f));
 				document.add(earningDetailsP);	
@@ -129,13 +156,14 @@ public class PdfPaySlipGenerator {
 					deductionDetails += "\t\t\n"+deduct.getComponentName()+": "+space4+deduct.getComponentAmount();
 					totaldeduction += deduct.getComponentAmount();
 				}
-				deductionDetails += "\t\t\nTOTAL DEDUCTIONS : "+space4+totaldeduction;
+				deductionDetails += "\t\t\nLeave DEDUCTIONS : "+space4+ bean.leaveDeduction;
+				deductionDetails += "\t\t\nTOTAL DEDUCTIONS : "+space4+(totaldeduction+bean.leaveDeduction);
 				
 				Paragraph deduction = new Paragraph(deductionDetails, new Font(Font.getFamily("VERDANA"), 14f));
 				document.add(deduction);	
 				pa2.setAlignment(Element.ALIGN_CENTER);
 				document.add(pa2);
-				Double netsalary = totalearning - totaldeduction ;
+				Double netsalary = (totalearning+bean.otSalary) - (totaldeduction+bean.leaveDeduction) ;
 				pa2.setAlignment(Element.ALIGN_CENTER);
 				document.add(pa2);
 				String netSal = space3+"\nNET SALARY : "+netsalary;

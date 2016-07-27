@@ -46,7 +46,7 @@
 									
 									<label value="State"></label>
 									<combobox  width="160px" model="@bind(vm.stateBeanList)"
-									   onSelect="@command('onSelectStateName')"
+									   onSelect="@command('onSelectStateName')" value="@bind(vm.companyMasterBean.stateName)"
 										selectedItem="@bind(vm.stateMasterBean)" autocomplete="true" readonly="true">
 										  <template name="model" var="v">
 										     <comboitem label="@bind(v.stateName)" value="@bind(v.stateId)" />
