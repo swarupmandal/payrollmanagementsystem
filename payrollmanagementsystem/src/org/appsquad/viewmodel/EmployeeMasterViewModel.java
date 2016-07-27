@@ -143,17 +143,29 @@ public class EmployeeMasterViewModel {
 	
 	@Command
 	@NotifyChange("*")
-	public void onSelectUnitName(){
-		System.out.println("selected unit name >>> >> > " + unitMasterBean.getUnitName());
-		System.out.println("Selected unit id >>> >> > " + unitMasterBean.getUnitId());
-		employeeMasterBean.setUnitId(unitMasterBean.getUnitId());
-		if(employeeMasterBean.getCompanyId()>0 && employeeMasterBean.getUnitId()>0){
-			componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
-			System.out.println("comp 0 >>> >> > " +componentMasterBeanList);
-		}
-		
+	public void onClickTabExisting(){
+		loadExistingEmployeeData();
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onSelectUnitName(){
+		System.out.println("selected company id >>> >> > " + companyMasterBean.getCompanyId());
+		System.out.println("Selected unit id >>> >> > " + unitMasterBean.getUnitId());
+		employeeMasterBean.setUnitId(unitMasterBean.getUnitId());
+		employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
+		if(employeeMasterBean.getCompanyId()>0 && employeeMasterBean.getUnitId()>0){
+			componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
+			//System.out.println("comp 0 >>> >> > " +componentMasterBeanList);
+		}
+		loadSearchedEmployeeFromCompany(employeeMasterBean);
+		employeeMasterBean.setCompanyName(null);
+		employeeMasterBean.setUnitName(null);
+	}
+	
+	public void loadSearchedEmployeeFromCompany(EmployeeMasterBean employeeMasterBean){
+		employeeMasterBeanList = EmployeeMasterService.searchEmployeeFromCompany(employeeMasterBean);
+	}
 
 	@Command
 	@NotifyChange("*")
@@ -252,7 +264,7 @@ public class EmployeeMasterViewModel {
 		System.out.println(bean.getEmployeeCode());
 		Map<String, Integer> parentMap = new HashMap<String, Integer>();
 		parentMap.put("parentBean", bean.getEmployeeid());
-		Window window = (Window) Executions.createComponents("/WEB-INF/view/employeeedit.zul", null, null);
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/employeeedit.zul", null, parentMap);
 		window.doModal();
 	}
 	

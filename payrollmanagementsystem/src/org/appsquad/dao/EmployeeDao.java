@@ -20,12 +20,110 @@ import org.appsquad.database.DbConnection;
 import org.appsquad.sql.ComponentMasterSql;
 import org.appsquad.sql.ComponentPerUnitMasterSql;
 import org.appsquad.sql.EmployeeMasterSql;
+import org.zkoss.zhtml.Pre;
 import org.zkoss.zul.Flash;
 import org.zkoss.zul.Messagebox;
 
 import utility.Util1;
 
 public class EmployeeDao {
+	
+	public static EmployeeMasterBean getEmployeeInformation(Integer empId){
+		EmployeeMasterBean employeeMasterBean = new EmployeeMasterBean();
+		try {
+			SQL:{
+					Connection connection = DbConnection.createConnection();
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+				    try {
+				    	preparedStatement = Util1.createQuery(connection, 
+								EmployeeMasterSql.loadEmployeeInfoQuery,
+								Arrays.asList(empId));
+						resultSet = preparedStatement.executeQuery();
+						while (resultSet.next()) {
+							employeeMasterBean.setEmployeeCode(resultSet.getString("employee_code"));
+							employeeMasterBean.setEmployeeName(resultSet.getString("employee_name"));
+							employeeMasterBean.setEmpPhone(resultSet.getString("employee_phone_number"));
+							employeeMasterBean.setEmpEmail(resultSet.getString("employee_email"));
+							employeeMasterBean.setGender(resultSet.getString("gender"));
+						//	employeeMasterBean.setEmpDob(resultSet.getString(columnIndex));
+							
+							employeeMasterBean.setEmpAddress(resultSet.getString("employee_address"));
+							employeeMasterBean.setEmpCity(resultSet.getString("employee_city"));
+							employeeMasterBean.setEmpState(resultSet.getString("state_name"));
+							employeeMasterBean.setEmpStateId(resultSet.getInt("emp_state_id"));
+							employeeMasterBean.setPinCode(resultSet.getString("employee_pincode"));
+							employeeMasterBean.setEmpBloodGroupId(resultSet.getInt("emp_blood_group_id"));
+							employeeMasterBean.setEmpBloodGroup(resultSet.getString("bloodgroup_name"));
+							employeeMasterBean.setEmpPan(resultSet.getString("emp_pan"));
+							employeeMasterBean.setEmpMaritalStatus(resultSet.getString("emp_marital_status"));
+							employeeMasterBean.setEmpDoj(resultSet.getDate("emp_joining_date"));
+							employeeMasterBean.setEmpDesignation(resultSet.getString("emp_designation"));
+							employeeMasterBean.setEmpLocation(resultSet.getString("emp_location"));
+							employeeMasterBean.setPaymentMode(resultSet.getString("payment_mode"));
+							employeeMasterBean.setEmpBankAccount(resultSet.getString("bank_name"));
+							employeeMasterBean.setEmpAccountNo(resultSet.getString("emp_bank_account_number"));
+							employeeMasterBean.setIfscCode(resultSet.getString("ifsc"));
+							employeeMasterBean.setIncrementDate(resultSet.getDate("increment_date"));
+							employeeMasterBean.setRegistrationDate(resultSet.getDate("registration_date"));
+							employeeMasterBean.setLastWorkingDate(resultSet.getDate("last_working_date"));
+							employeeMasterBean.setComponentMasterBeanList(fetchComponentList(empId, connection));
+							employeeMasterBean.setUan(resultSet.getString("uan"));
+							employeeMasterBean.setEsi(resultSet.getString("esi"));
+						}
+					} catch (Exception e) {
+						Messagebox.show("Error due to:"+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+						e.printStackTrace();
+					}finally{
+						if(preparedStatement!=null){
+							preparedStatement.close();
+						}
+						if(connection!=null){
+							connection.close();
+						}
+					}
+			}	
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return employeeMasterBean;
+	}
+	
+	public static ArrayList<ComponentMasterBean> fetchComponentList(Integer empId , Connection connection){
+		ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
+		try {
+			SQL:{
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						preparedStatement = Util1.createQuery(connection, 
+								EmployeeMasterSql.fetchComponentsQuery, 
+								Arrays.asList(empId));
+						resultSet = preparedStatement.executeQuery();
+						while (resultSet.next()) {
+							ComponentMasterBean bean = new ComponentMasterBean();
+							bean.setComponentId(resultSet.getInt("component_id"));
+							bean.setComponentName(resultSet.getString("component_name"));
+							bean.setComponentTypeId(resultSet.getInt("component_type_id"));
+							bean.setComponentType(resultSet.getString("component_type"));
+							bean.setComponentAmount(resultSet.getDouble("component_amount"));
+							componentMasterBeanList.add(bean);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						
+					}finally{
+						if(preparedStatement!=null){
+							preparedStatement.close();
+						}
+					}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return componentMasterBeanList;
+	}
+	
 	
 	public static ArrayList<EmployeeMasterBean> loadSavedEmployeeList(){
 		ArrayList<EmployeeMasterBean> employeeMasterBeanList = new ArrayList<EmployeeMasterBean>();
@@ -86,6 +184,51 @@ public class EmployeeDao {
 						resultSet = preparedStatement.executeQuery();
 						while (resultSet.next()) {
 							EmployeeMasterBean bean = new EmployeeMasterBean();
+							bean.setCompanyName(resultSet.getString("company_name"));
+							bean.setCompanyId(resultSet.getInt("company_id"));
+							bean.setUnitName(resultSet.getString("unit_name"));
+							bean.setUnitId(resultSet.getInt("unit_id"));
+							bean.setEmployeeCode(resultSet.getString("employee_code"));
+							
+							employeeMasterBeanList.add(bean);
+						}
+						
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						Messagebox.show("Error due to:"+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+					}finally{
+						if(connection!=null){
+							connection.close();
+						}
+					}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} 
+		return employeeMasterBeanList;
+	}
+	
+	public static ArrayList<EmployeeMasterBean> searchEmployeeFromCompanyList(EmployeeMasterBean employeeMasterBean){
+		ArrayList<EmployeeMasterBean> employeeMasterBeanList = new ArrayList<EmployeeMasterBean>();
+		if(employeeMasterBeanList.size()>0){
+			employeeMasterBeanList.clear();
+		}
+		try {
+			SQL:{
+					Connection connection = DbConnection.createConnection();
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						
+						preparedStatement = Util1.createQuery(connection, 
+								EmployeeMasterSql.loadSavedEmployeeFromCompanyQuery, 
+								Arrays.asList(employeeMasterBean.getCompanyId(),
+										employeeMasterBean.getUnitId()));
+						resultSet = preparedStatement.executeQuery();
+						while (resultSet.next()) {
+							EmployeeMasterBean bean = new EmployeeMasterBean();
+							bean.setEmployeeid(resultSet.getInt("employee_id"));
 							bean.setCompanyName(resultSet.getString("company_name"));
 							bean.setCompanyId(resultSet.getInt("company_id"));
 							bean.setUnitName(resultSet.getString("unit_name"));
@@ -617,7 +760,7 @@ public class EmployeeDao {
 		
 	}
 	
-public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanList){
+    public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanList){
 		
 		if(beanList.size()>0){
 			beanList.clear();
@@ -670,7 +813,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 		
 	}
 	
-public static final ArrayList<ComponentMasterBean> loadComponentDetails(int companyId, int unitId){
+    public static final ArrayList<ComponentMasterBean> loadComponentDetails(int companyId, int unitId){
 	ArrayList<ComponentMasterBean> list = new ArrayList<ComponentMasterBean>();
 	if(list.size()>0){
 		list.clear();
@@ -726,7 +869,7 @@ public static final ArrayList<ComponentMasterBean> loadComponentDetails(int comp
 	return list;
 }
 
-public static void insertComponentPerEmployee(ArrayList<ComponentMasterBean> list,int empId, Integer companyId, Integer unitId, String userName){
+    public static void insertComponentPerEmployee(ArrayList<ComponentMasterBean> list,int empId, Integer companyId, Integer unitId, String userName){
 	boolean falg = false;
 	int c = 0;
 	

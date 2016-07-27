@@ -1,7 +1,9 @@
 <?page title="Edit Employee Information" contentType="text/html;charset=UTF-8"?>
 <zk>
 <window title="Edit Employee Information" border="normal" 
-closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
+closable="true" height="100%" width="90%" contentStyle="overflow:scroll;"
+apply="org.zkoss.bind.BindComposer" 
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.EmployeeEditViewModel')">
 		<div>
 			<label value="Employee Profile" sclass="seactionHead"></label>
 		</div>
@@ -16,7 +18,7 @@ closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
 				<rows>
 					<row>
 						<label value="Employee Code"></label>
-						<textbox
+						<textbox readonly="true"
 							value="@bind(vm.employeeMasterBean.employeeCode)">
 						</textbox>
 						<label value="Name"></label>
@@ -77,7 +79,7 @@ closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
 						</textbox>
 
 						<label value="State"></label>
-						<combobox width="160px"
+						<combobox width="160px" value="@bind(vm.employeeMasterBean.empState)"
 							model="@bind(vm.stateMasterBeanList)"
 							onSelect="@command('onSelectStateName')"
 							selectedItem="@bind(vm.stateMasterBean)" autocomplete="true"
@@ -97,7 +99,7 @@ closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
 						</textbox>
 
 						<label value="Blood Group"></label>
-						<combobox width="160px"
+						<combobox width="160px" value="@bind(vm.employeeMasterBean.empBloodGroup)"
 							model="@bind(vm.bloodGroupBeanList)"
 							onSelect="@command('onSelectBooldGroup')"
 							selectedItem="@bind(vm.bloodGroupBean)" autocomplete="true"
@@ -148,7 +150,7 @@ closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
 							</datebox>
 
 							<label value="Designation"></label>
-							<combobox width="160px"
+							<combobox width="160px" value="@bind(vm.employeeMasterBean.empDesignation)"
 								model="@bind(vm.designationBeanList)"
 								onSelect="@command('onSelectDesignation')"
 								selectedItem="@bind(vm.designationBean)" autocomplete="true"
@@ -169,7 +171,7 @@ closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
 
 
 							<label value="Payment Mode"></label>
-							<combobox width="160px"
+							<combobox width="160px" value="@bind(vm.employeeMasterBean.paymentMode)"
 								model="@bind(vm.paymentModeMasterBeanList)"
 								onSelect="@command('onSelectPaymentMode')"
 								selectedItem="@bind(vm.paymentModeMasterBean)"
@@ -182,7 +184,7 @@ closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
 
 							<label value="Employee Bank Account">
 							</label>
-							<combobox width="160px"
+							<combobox width="160px" value="@bind(vm.employeeMasterBean.empBankAccount)"
 								model="@bind(vm.bankAccountBeanList)"
 								onSelect="@command('onSelectBankAccount')"
 								selectedItem="@bind(vm.bankAccountBean)" autocomplete="true"
@@ -228,7 +230,7 @@ closable="true" height="100%" width="90%" contentStyle="overflow:scroll;">
 			</label>
 		</div>
 		<div style="background:#394446;">
-			<grid model="@bind(vm.componentMasterBeanList)" style="margin-left:20px">
+			<grid model="@bind(vm.employeeMasterBean.componentMasterBeanList)" style="margin-left:20px">
 				<columns>
 					<column label="Sl no"></column>
 					<column label="Component Name"></column>

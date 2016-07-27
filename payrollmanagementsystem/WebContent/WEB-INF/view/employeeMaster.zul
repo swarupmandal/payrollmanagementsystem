@@ -472,13 +472,38 @@
 
 			</tabpanel>
 			
-			<tabpanel>
+			<tabpanel onClick="@command('onClickTabExisting')">
 					
-					<grid model="@bind(vm.employeeMasterBeanList)"  mold="paging" pageSize="5">
+					<grid model="@bind(vm.employeeMasterBeanList)"  mold="paging" pageSize="5" emptyMessage="No employee found">
 						<auxhead>
 							<auxheader colspan="4">
 								<textbox placeholder="Search by Employee Code" width="160px" 
 								onChange="@command('onChangeEmployeeCode')" value="@bind(vm.employeeCode)"/>
+								<label value="Company Name"></label>
+								<combobox width="160px" value="
+								@bind(vm.employeeMasterBean.companyName)"
+									model="@bind(vm.companyBeanList)"
+									onSelect="@command('onSelectCompanyName')"
+									selectedItem="@bind(vm.companyMasterBean)" autocomplete="true"
+									readonly="true">
+									<template name="model" var="v">
+										<comboitem
+											label="@bind(v.companyName)" value="@bind(v.companyId)" />
+									</template>
+								</combobox>
+								<space></space>
+
+								<label value="Unit Name"></label>
+								<combobox width="160px"
+									model="@bind(vm.unitMasterBeanList)" value="@bind(vm.employeeMasterBean.unitName)"
+									onSelect="@command('onSelectUnitName')"
+									selectedItem="@bind(vm.unitMasterBean)" autocomplete="true"
+									readonly="true">
+									<template name="model" var="v">
+										<comboitem
+											label="@bind(v.unitName)" value="@bind(v.unitId)" />
+									</template>
+								</combobox>
 							</auxheader>
 						</auxhead>
 						<columns>

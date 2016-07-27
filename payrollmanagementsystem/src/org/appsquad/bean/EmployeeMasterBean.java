@@ -1,10 +1,11 @@
 package org.appsquad.bean;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class EmployeeMasterBean {
 
-	private String companyName;
+	private String companyName,userId;
 	private int companyId;
 	private String UnitName;
 	private int unitId;
@@ -63,6 +64,8 @@ public class EmployeeMasterBean {
 	private String esi;
 	private boolean esiFieldDisabled = true;
 	
+	
+	private ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
 	
 	
 	public EmployeeMasterBean(){
@@ -625,6 +628,23 @@ public class EmployeeMasterBean {
 
 	public void setEmployeeid(Integer employeeid) {
 		this.employeeid = employeeid;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public ArrayList<ComponentMasterBean> getComponentMasterBeanList() {
+		return componentMasterBeanList;
+	}
+
+	public void setComponentMasterBeanList(
+			ArrayList<ComponentMasterBean> componentMasterBeanList) {
+		this.componentMasterBeanList = componentMasterBeanList;
 	}
 	
 	
