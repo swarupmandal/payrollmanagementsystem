@@ -7,6 +7,7 @@ public class RunPayRollBean {
     private String empName;
     private int empId;
     private String empCode;
+    private String comapnyName,UnitName;
     private String empPf;
     private String empEsi;
     private String empDesignation;
@@ -245,6 +246,18 @@ public class RunPayRollBean {
 	}
 	public void setLeaveDeduction(double leaveDeduction) {
 		this.leaveDeduction = leaveDeduction;
+	}
+	public String getComapnyName() {
+		return comapnyName;
+	}
+	public void setComapnyName(String comapnyName) {
+		this.comapnyName = comapnyName;
+	}
+	public String getUnitName() {
+		return UnitName;
+	}
+	public void setUnitName(String unitName) {
+		UnitName = unitName;
 	}
 	
 }
