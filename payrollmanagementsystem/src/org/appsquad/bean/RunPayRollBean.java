@@ -7,9 +7,9 @@ public class RunPayRollBean {
     private String empName;
     private int empId;
     private String empCode;
-    private String comapnyName,UnitName;
+    private String comapnyName,UnitName,year,monthName;
     private String empPf;
-    private String empEsi;
+    private String empEsi,empUan;
     private String empDesignation;
     private int empcount;
     private double totalDeduction;
@@ -258,6 +258,24 @@ public class RunPayRollBean {
 	}
 	public void setUnitName(String unitName) {
 		UnitName = unitName;
+	}
+	public String getEmpUan() {
+		return empUan;
+	}
+	public void setEmpUan(String empUan) {
+		this.empUan = empUan;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getMonthName() {
+		return monthName;
+	}
+	public void setMonthName(String monthName) {
+		this.monthName = monthName;
 	}
 	
 }
