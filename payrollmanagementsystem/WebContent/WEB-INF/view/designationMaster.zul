@@ -7,16 +7,18 @@
 			<columns>
 				<column align="right"/>
 				<column align="left"/>
+				<column ></column>
 			</columns>
 			<rows>
 				<row>
-					<label value="Designation"/>
+					<!-- <label value="Designation"/> -->
+					<hlayout spacing="10px">
 					<textbox placeholder="Designation" value="@bind(vm.designationMasterBean.designation)"/>
+					<button label="Save" onClick="@command('onClickSave')" sclass="bb_button"/>
+					<button label="Update" sclass="bb_button"/>
+					</hlayout>
 				</row>
-				<row>
-					<button label="Save" onClick="@command('onClickSave')"/>
-					<button label="Update"/>
-				</row>
+				
 			</rows>
 		</grid>
 		
@@ -36,8 +38,8 @@
 				<row>
 				<textbox value="@bind(v.designation)"></textbox>
 				<hlayout spacing="20px">
-				<button label="Edit"></button>
-				<button label="Delete"></button>
+				<a  ><image src="images/ico_edit.png" ></image> </a>
+				<a  ><image src="images/ico_delete.png" ></image> </a>
 				</hlayout>
 				</row>
 			</template>	

@@ -129,7 +129,7 @@ public class CompanyMasterViewModel {
 		
 		int i = 0;
 		Integer maxcompanyId = 0;
-		if(fieldValidation()){
+		if(companyMasterBean.getCompanyName() != null && companyMasterBean.getCompanyName().trim().length()>0){
 		
 		int contactinfoUpdate,pfinfoUpdate,esiinfoUpdate,ptinfoUpdate,itinfoUpdate;
 		try {
@@ -198,7 +198,7 @@ public class CompanyMasterViewModel {
 				 
 			 }
 			
-			sqlpfinfo3:{
+			/*sqlpfinfo3:{
 			     PreparedStatement preparedStatement = null;
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertPfInfo, Arrays.asList(companyMasterBean.getCompanyPfNumber(), companyMasterBean.getPfRegistrationDate(), companyMasterBean.getPfSignatoryName(), 
@@ -210,9 +210,9 @@ public class CompanyMasterViewModel {
 						preparedStatement.close();
 					}
 				}
-			 }
+			 }*/
 			
-			 sqlesiinfo4:{
+			 /*sqlesiinfo4:{
 			     PreparedStatement preparedStatement = null;
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertEsiInfo, Arrays.asList(companyMasterBean.getCompanyEsiNumber(), companyMasterBean.getEsiRegistrationDate(), companyMasterBean.getEsiSignatoryName(), 
@@ -224,9 +224,9 @@ public class CompanyMasterViewModel {
 						preparedStatement.close();
 					}
 				}
-			 }
+			 }*/
 			
-			 sqlptinfo5:{
+			 /*sqlptinfo5:{
 			     PreparedStatement preparedStatement = null;
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertPtInfo, Arrays.asList(companyMasterBean.getCompanyPtNumber(), companyMasterBean.getPtRegistrationDate(), companyMasterBean.getPtSignatoryName(), 
@@ -238,9 +238,9 @@ public class CompanyMasterViewModel {
 						preparedStatement.close();
 					}
 				}
-			 } 
+			 } */
 			 
-			 sqlitinfo6:{
+			 /*sqlitinfo6:{
 			     PreparedStatement preparedStatement = null;
 			     try {
 					preparedStatement = Util1.createQuery(connection, SqlQuery.insertItInfo, Arrays.asList(companyMasterBean.getPanNumber(), companyMasterBean.getTan(), companyMasterBean.getTanCircle(), 
@@ -252,16 +252,17 @@ public class CompanyMasterViewModel {
 						preparedStatement.close();
 					}
 				}
-			 }
+			 }*/
 			connection.commit();
-			if(itinfoUpdate>0 && contactinfoUpdate>0 && pfinfoUpdate>0 && esiinfoUpdate > 0 && ptinfoUpdate>0 && i>0){
-				Messagebox.show("Saved Succesfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			if(contactinfoUpdate>0 && i>0){
+			
+				Messagebox.show("Saved Succesfully", "Successful", Messagebox.OK, Messagebox.INFORMATION);
 			}
 			
 			
 		} catch (Exception e) {
 			
-			System.out.println(">>> >> > ");
+			
 			Messagebox.show("Already Exist","ERROR",Messagebox.OK,Messagebox.ERROR);
 			try {
 				connection.rollback();
@@ -276,14 +277,17 @@ public class CompanyMasterViewModel {
 					connection.setAutoCommit(true);
 					connection.close();
 				} catch (SQLException e) {
-					System.out.println("--------------- ");
+					
 					Messagebox.show("Already Exist","ERROR",Messagebox.OK,Messagebox.ERROR);
-					System.out.println("GET MESSAGE 2 " + e.getMessage());
+					
 					e.printStackTrace();
 				}
 			}
 		}
-	  }
+		}
+		else {
+			Messagebox.show("Enter Company Name","Alert",Messagebox.OK,Messagebox.EXCLAMATION);
+			}
 		
 	}
 	

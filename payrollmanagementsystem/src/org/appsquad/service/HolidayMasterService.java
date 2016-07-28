@@ -81,9 +81,9 @@ public class HolidayMasterService {
 		return list;
 	}
 	
-	public static ArrayList<HolidayMasterBean> loadWeeklyHolidayMasterData(){
+	public static ArrayList<HolidayMasterBean> loadWeeklyHolidayMasterData(int leaveYrId, int companyId, int unitId){
 		ArrayList<HolidayMasterBean> list = new ArrayList<HolidayMasterBean>();
-		list = HolidayMasterDao.LoadWeekDayMasterData();
+		list = HolidayMasterDao.LoadWeekDayMasterData(leaveYrId, companyId, unitId);
 		return list;
 		
 	}
@@ -104,9 +104,9 @@ public class HolidayMasterService {
 		}
 	}
 	
-	public static ArrayList<HolidayMasterGeneralHolidayBean> loadGenerealHoliDayList(){
+	public static ArrayList<HolidayMasterGeneralHolidayBean> loadGenerealHoliDayList(int leaveYrId, int companyId, int unitId){
 		ArrayList<HolidayMasterGeneralHolidayBean> list = new ArrayList<HolidayMasterGeneralHolidayBean>();
-		list = HolidayMasterDao.loadGenerealHoliDayMasterData();
+		list = HolidayMasterDao.loadGenerealHoliDayMasterData(leaveYrId, companyId, unitId);
 		return list;
 	}
 	

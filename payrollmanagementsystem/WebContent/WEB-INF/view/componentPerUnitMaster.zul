@@ -4,16 +4,21 @@
 		viewModel="@id('vm') @init('org.appsquad.viewmodel.ComponentMasterPerUnitViewModel')">
 		
 		<div align="center" height="40px">
-			<label value="Company Name"></label>	
+		
+		<hlayout spacing="150px">
+			
+		  
+		  <vbox>
+		  <label value="Company Name"></label>
 		  <combobox  width="160px" model="@bind(vm.companyBeanList)"
 				   onSelect="@command('onSelectCompanyName')"
 					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
 					     <comboitem label="@bind(v.companyName)" value="@bind(v.companyId)" />
 					  </template>
-				</combobox>
-		  <space></space>
-		  
+		  </combobox>
+		  </vbox>
+		  <vbox>
 		  <label value="Unit Name"></label>
 		  <combobox  width="160px" model="@bind(vm.unitMasterBeanList)"
 				   onSelect="@command('onSelectUnitName')"
@@ -22,21 +27,26 @@
 					     <comboitem label="@bind(v.unitName)" value="@bind(v.unitId)" />
 					  </template>
 		</combobox>
+		</vbox>
+	
+		<vbox>  
+		<label value="Designation"></label>
+		<combobox width="160px" model="@bind(vm.designationBeanList)"
+			onSelect="@command('onSelectDesignation')" selectedItem="@bind(vm.designationBean)"
+				autocomplete="true" readonly="true">
+				<template name="model" var="v">
+				   <comboitem label="@bind(v.designation)" value="@bind(v.designationId)" />
+				</template>
+	    </combobox>
+	    </vbox>
+	    
+		</hlayout>
 		
-		<!-- <button label="Save" onClick="@command('onClickSave')"></button> -->
 		</div>
-		
+		<space></space>
 		<div>
-			<tabbox>
-				<tabs>
-					<tab label="New Component add" onClick="@command('onClickTab1')"></tab>
-					<!-- <tab label="Saved Component" onClick="@command('onClickTab2')"></tab> -->
-					
-				</tabs>
-				
-				<tabpanels>
-					<tabpanel>
-						<grid model="@bind(vm.componentPerUnitMasterBeanList)">	
+			
+						<grid model="@bind(vm.componentPerUnitMasterBeanList)" mold="paging" pageSize="5">	
 							<columns>
 								<column label="Sl no" value=""></column>
 								<column label="Component Name"></column>
@@ -61,15 +71,11 @@
 					</grid>
 					
 					<div align="center">
-						<button label="Save" onClick="@command('onClickSave')"></button>
+						<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; "></button>
 					
 					</div>
 					
-					</tabpanel>
-				
-				</tabpanels>
 			
-			</tabbox>
 		</div>	
 
 

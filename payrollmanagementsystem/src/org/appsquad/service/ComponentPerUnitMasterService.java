@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.ComponentPerUnitMasterBean;
+import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.ComponentPerUnitMasterDao;
 import org.appsquad.dao.EmployeeDao;
@@ -23,11 +24,17 @@ public class ComponentPerUnitMasterService {
 		return list;
 	}
 	
-	public static boolean isEmptyLocationField(ComponentPerUnitMasterBean bean){
+	public static boolean isEmptyLocationField(ComponentPerUnitMasterBean bean, int designationId){
 		boolean flag = false;
 		if(bean.getCompanyId()>0){
 			if(bean.getUnitId()>0){
+				if(designationId >0){
+				
 				return true;
+				
+				}else {
+					Messagebox.show("Select Designation", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+				}
 			}else {
 				Messagebox.show("Select Unit", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 			}	return false;
@@ -38,8 +45,8 @@ public class ComponentPerUnitMasterService {
 		
 	}
 	
-	public static void saveComponentPerUnit(ArrayList<ComponentPerUnitMasterBean> list, Integer companyId, Integer unitId, String userName){
-		ComponentPerUnitMasterDao.insertComponentPerUnit(list, companyId, unitId, userName);
+	public static void saveComponentPerUnit(ArrayList<ComponentPerUnitMasterBean> list, Integer companyId, Integer unitId, String userName ,int designationId){
+		ComponentPerUnitMasterDao.insertComponentPerUnit(list, companyId, unitId, userName, designationId);
 		
 		
 	}

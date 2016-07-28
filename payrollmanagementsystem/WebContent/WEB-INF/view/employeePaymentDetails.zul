@@ -44,7 +44,7 @@
 	  
 	  <hlayout>
 	   <label value="ESI : " style="color:black;"></label>	
-	   <label value="@bind(vm.payRollBean.empPf)" style="color:black"></label>
+	   <label value="@bind(vm.payRollBean.empEsi)" style="color:black"></label>
 	  </hlayout>
 	  </div>
 	  

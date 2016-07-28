@@ -3,16 +3,6 @@
 
 /* ====== Zurich LtCn BT ========= */
 @font-face {
-    font-family: 'ZurichBT-LightCondensed';
-    src: url('zurchlc.eot');
-    src: url('zurchlc.eot?#iefix') format('embedded-opentype'),
-         url('zurchlc.woff') format('woff'),
-         url('zurchlc.ttf') format('truetype'),
-         url('zurchlc.svg#zurchlc') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
   font-family: 'Zurich LtCn BT';
   src: url('fonts/zurchlc.eot');
   src: url('fonts/zurchlc?#iefix') format('embedded-opentype'), url('fonts/zurchlc.woff') format('woff'), url('fonts/zurchlc.ttf') format('truetype'), url('fonts/zurchlc.svg') format('svg');
@@ -43,13 +33,6 @@
   font-style: normal;
 }
 @font-face {
-  font-family: 'Zurich BlkEx BT';
-  src: url('fonts/Zurich BlkEx BT.eot');
-  src: url('fonts/Zurich BlkEx BT.eot?#iefix') format('embedded-opentype'), url('fonts/Zurich BlkEx BT.woff') format('woff'), url('fonts/Zurich BlkEx BT.ttf') format('truetype'), url('fonts/Zurich BlkEx BT.svg') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
   font-family: 'zurich_lt_btlight';
   src: url('fonts/zurchl-webfont.eot');
   src: url('fonts/zurchl-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/zurchl-webfont.woff') format('woff'), url('fonts/zurchl-webfont.ttf') format('truetype'), url('fonts/zurchl-webfont.svg#zurich_lt_btlight') format('svg');
@@ -57,7 +40,6 @@
   font-style: normal;
 }
 /* ====== Zurich End ========= */
-
 body {
   margin: 0;
   padding: 0;
@@ -122,6 +104,9 @@ a {
 a:hover {
  	color: #64c5cf;
 }
+.txtAlignCenter {
+	text-align: center;
+}
 .bb_logo {
 	float: left;
 	margin: 1vh 2vw;
@@ -130,7 +115,7 @@ a:hover {
 	background: url('images/bb_logo.png') no-repeat; 
 }
 .headText {
-	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-family: 'Zurich LtCn BT' !important;
 	color: #64c5cf;
 	font-size: 36px;
 	line-height: 36px;
@@ -139,13 +124,14 @@ a:hover {
 .bb_button {
 	font-family: 'Zurich LtCn BT';
 	color:#333333;
-	font-size:20px;
+	font-size:18px;
 	font-weight: bold;
 	background:#64c5cf;
 	border:none;
 	letter-spacing:3px;
 	box-shadow: 0px 0px 5px #000;
 	border-radius: 0px;
+	cursor: pointer;
 }
 .bb_buttonSml {
 	font-family: 'Zurich LtCn BT';
@@ -157,7 +143,6 @@ a:hover {
 	letter-spacing:3px;
 	box-shadow: 0px 0px 5px #000;
 	border-radius: 0px;
-	
 }
 .bgLogin {
 	width:100vw;
@@ -258,9 +243,9 @@ label {
     color: rgba(100, 197, 207, 0.3);
 }
 div.z-treefooter-cnt, div.z-treecell-cnt, div.z-treecol-cnt {
-	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-family: 'Zurich LtCn BT' !important;
 	color: #FFFFFF;
-	font-size: 18px;
+	font-size: 1.0vw;
 	line-height: 30px;
 	letter-spacing: 1px;
 }
@@ -268,7 +253,7 @@ span.z-tree-root-open, span.z-tree-tee-open, span.z-tree-last-open, span.z-tree-
 	margin-top:6px;
 }
 .z-window-embedded-header, .z-window-modal-header, .z-window-popup-header, .z-window-highlighted-header, .z-window-overlapped-header {
-	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-family: 'Zurich LtCn BT' !important;
 	color: #64c5cf;
 	font-size: 32px;
 	line-height: 32px;
@@ -278,14 +263,14 @@ span.z-tree-root-open, span.z-tree-tee-open, span.z-tree-last-open, span.z-tree-
 	margin-bottom: 20px;
 }
 .z-label {
-	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-family: 'Zurich LtCn BT' !important;
 	color: #FFFFFF;
 	font-size: 16px;
 	letter-spacing: 1px;
 	margin-bottom: 10px;
 }
 .seactionHead {
-	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-family: 'Zurich LtCn BT' !important;
 	color: #64c5cf;
 	font-size: 20px;
 	letter-spacing: 1px;
@@ -305,10 +290,47 @@ span.z-tree-root-open, span.z-tree-tee-open, span.z-tree-last-open, span.z-tree-
 	font-size: 16px;
 	padding:2px;
 }
+.z-combobox-pp .z-comboitem {
+	color: #FFFFFF;
+}
+.z-comboitem .z-comboitem-over{
+	background: #333333;
+	color: #FFFFFF;
+}
+.z-combobox-readonly {
+	border: none !important;
+	background: none !important;
+	color: #FFFFFF;
+}
+.z-combobox-real-readonly, .z-combobox {
+	border-radius: 0px;
+	border: 2px solid #EEE;
+	background: rgba(0, 0, 0, 0.5);
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+	font-family: 'Zurich LtCn BT';
+	line-height:20px !important;
+	color:#FFFFFF;
+	font-size: 16px;
+	padding:2px;
+}
+.z-combobox .z-combobox-btn  {
+	border: none !important;
+}
+.z-combobox .z-combobox-btn-over {
+	border: none !important;
+	background: url('images/combobtn.png') no-repeat; 
+}
+.z-combobox-inp {
+	font-family: 'Zurich LtCn BT' !important;
+	line-height:20px !important;
+	color:#FFFFFF !important;
+	font-size: 16px;
+	padding:2px;
+}
 tr.z-row td.z-row-inner {
 	padding: 4px 0px;
 }
-
 tr.z-treerow-over>td.z-treecell {
 	border-top: none !important;
 	border-bottom: none !important;
@@ -319,14 +341,146 @@ tr.z-treerow-over, tr.z-treerow-seld {
 	border: none !important;
 }
 /*-- tabs and ros and columns */
-
 div.z-grid-header tr.z-columns, div.z-grid-header tr.z-auxhead {
 	border: none !important;
 	background: none !important; 
 }
 div.z-column-cnt, div.z-row-cnt {
-	font-family: 'Zurich LtCn BT', 'Arial'  !important;
+	font-family: 'Zurich LtCn BT' !important;
 	color: #64c5cf;
 	font-size: 18px;
 	letter-spacing: 1px;
+}
+div.z-grid-header th.z-column {
+	border: none !important;
+}
+.z-tab-hr, .z-tab-hl, .z-tab-hm {
+	background: none !important; 
+}
+.z-tabs-cnt li {
+	font-family: 'Zurich LtCn BT';
+	color:#333333;
+	font-size:18px;
+	font-weight: bold;
+	background:#64c5cf;
+	border:none;
+	letter-spacing:2px;
+	border-radius: 0px;
+	cursor: pointer;
+	margin-right:1px;
+}
+.z-tabpanel {
+	border-color: #64c5cf;
+	border-width: 1px;
+	border-style: solid;
+}
+/*-- Accordion ---------------------------------------------- */
+.z-groupbox-header span.z-caption-cnt {
+	background: none !important;
+}
+.z-groupbox-header {
+	font-family: 'Zurich LtCn BT';
+	color:#333333;
+	font-size:18px;
+	font-weight: bold;
+	line-height: 28px;
+	background:#64c5cf;
+	border:none;
+	letter-spacing:2px;
+	border-radius: 0px;
+	cursor: pointer;
+	margin-right:0px;
+}
+.z-groupbox-colpsd .z-groupbox-hr {
+	border: none !important;
+}
+.z-groupbox-cnt {
+	padding: 1vw;
+	border: 1px solid #64c5cf;
+}
+.z-groupbox-hm {
+	top: 0px;
+}
+.z-groupbox-hr {
+	border: 1px solid #64c5cf;
+}
+
+/*-- Calendar ---------------------------------------------- */
+.z-calendar-left-icon, .z-calendar-right-icon {
+	border: none !important;
+	background: none !important;
+}
+.z-calendar-left-icon {
+	background: url('images/arrow_left.png') no-repeat center; 
+}
+.z-calendar-right-icon {
+	background: url('images/arrow_right.png') no-repeat center; 
+}
+.z-datebox-inp {
+	border-radius: 0px;
+	border: 2px solid #EEE;
+	background: rgba(0, 0, 0, 0.5);
+	opacity: 0.5;
+	filter: alpha(opacity=5x`x`0);
+	font-family: 'Zurich LtCn BT';
+	line-height:20px !important;
+	color:#FFFFFF;
+	font-size: 16px;
+	padding:2px;
+}
+.z-datebox .z-datebox-btn {
+	border: none !important;
+	background: none !important;
+}
+.z-combobox-rounded-shadow, .z-bandbox-rounded-shadow, .z-datebox-rounded-shadow, .z-combobox-shadow, .z-bandbox-shadow, .z-datebox-shadow {
+	border-radius: 0px;
+	background-color: rgba(0, 0, 0, 0.95);
+}
+.z-datebox-rounded-pp, .z-datebox-pp {
+    border: 1px solid #64c5cf;
+    font-family: 'Zurich LtCn BT' !important;
+    letter-spacing: 1px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.z-calendar, .z-calendar-title-over {
+	border-radius: 0px;
+	border: none !important;
+	background: none !important;
+}
+.z-calendar-caldow .z-calendar-wkend {
+    color: #64c5cf;
+}
+.z-calendar-calday td.z-calendar-seld, .z-calendar-over {
+	border-radius: 0px !important;
+	border: 1px solid #64c5cf;
+	background: none !important;
+}
+td.z-calendar-wkend {
+	background: none !important;
+}
+.z-calendar-left-icon {
+	background: url('images/arrow_left.png') no-repeat center; 
+}
+.z-calendar-right-icon {
+	background: url('images/arrow_right.png') no-repeat center; 
+}
+.z-datebox {
+	background: none !important;
+}
+.z-datebox .z-datebox-btn, .z-datebox .z-datebox-btn-over {
+ background: url('images/datebtn.png') no-repeat !important;
+ right: 0px; 
+}
+/* =========== Modal =================== */
+z-window-modal {
+	margin:0 auto;
+	width: 90%;
+	height: 95vh;
+}
+.z-window-modal-hm {
+	background: #000000;
+}
+.z-window-modal-cnt {
+	background:#394446;
 }

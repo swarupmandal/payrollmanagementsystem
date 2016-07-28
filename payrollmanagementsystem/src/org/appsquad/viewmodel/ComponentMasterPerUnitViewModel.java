@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.ComponentPerUnitMasterBean;
+import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.service.ComponentMasterService;
 import org.appsquad.service.ComponentPerUnitMasterService;
@@ -26,9 +27,12 @@ public class ComponentMasterPerUnitViewModel {
 	ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	ArrayList<ComponentPerUnitMasterBean> componentPerUnitMasterBeanList = new ArrayList<ComponentPerUnitMasterBean>();
+	private ArrayList<DesignationBean> designationBeanList = new ArrayList<DesignationBean>();
+	
 	CompanyMasterBean companyMasterBean = new CompanyMasterBean();
 	UnitMasterBean unitMasterBean = new UnitMasterBean();
 	ComponentPerUnitMasterBean componentPerUnitMasterBean = new ComponentPerUnitMasterBean();
+	private DesignationBean designationBean = new DesignationBean();
 	
 	private Connection connection = null;
 	Session session = null;
@@ -44,6 +48,7 @@ public class ComponentMasterPerUnitViewModel {
 		userName = (String) session.getAttribute("userId");
 		
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
+		EmployeeMasterService.loadDesignationList(designationBeanList);
 		componentPerUnitMasterBeanList = ComponentPerUnitMasterService.loadData();
 		
 		//EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
@@ -85,9 +90,9 @@ public class ComponentMasterPerUnitViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickSave(){
-	if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean)){
+	if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean, designationBean.getDesignationId())){
 		
-		ComponentPerUnitMasterService.saveComponentPerUnit(componentPerUnitMasterBeanList, componentPerUnitMasterBean.getCompanyId(), componentPerUnitMasterBean.getUnitId(), userName);
+		ComponentPerUnitMasterService.saveComponentPerUnit(componentPerUnitMasterBeanList, componentPerUnitMasterBean.getCompanyId(), componentPerUnitMasterBean.getUnitId(), userName, designationBean.getDesignationId());
 		System.out.println("SAVED " + companyMasterBean);
 		
 		
@@ -95,6 +100,11 @@ public class ComponentMasterPerUnitViewModel {
 		
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onSelectDesignation(){
+		
+	}
 	
 	
 	
@@ -173,6 +183,23 @@ public class ComponentMasterPerUnitViewModel {
 	public void setComponentPerUnitMasterBean(
 			ComponentPerUnitMasterBean componentPerUnitMasterBean) {
 		this.componentPerUnitMasterBean = componentPerUnitMasterBean;
+	}
+
+	public ArrayList<DesignationBean> getDesignationBeanList() {
+		return designationBeanList;
+	}
+
+	public void setDesignationBeanList(
+			ArrayList<DesignationBean> designationBeanList) {
+		this.designationBeanList = designationBeanList;
+	}
+
+	public DesignationBean getDesignationBean() {
+		return designationBean;
+	}
+
+	public void setDesignationBean(DesignationBean designationBean) {
+		this.designationBean = designationBean;
 	}
 
 }

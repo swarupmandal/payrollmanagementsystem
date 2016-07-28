@@ -181,7 +181,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 		return list;
 	}
 	
-	public static void insertComponentPerUnit(ArrayList<ComponentPerUnitMasterBean> list, Integer companyId, Integer unitId, String userName){
+	public static void insertComponentPerUnit(ArrayList<ComponentPerUnitMasterBean> list, Integer companyId, Integer unitId, String userName, int designationId){
 		boolean falg = false;
 		int c = 0;
 		
@@ -197,7 +197,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 						
 						if(bean.isCheckVal()==true){
 						System.out.println("INSIDE CHECK---------------------------------- >>> >> > ");	
-						preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.insertComponentPerUnitQuery, Arrays.asList(bean.getComponentId(), bean.getComponet(),bean.getComponentTypeId(),companyId,unitId,userName,userName));
+						preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.insertComponentPerUnitQuery, Arrays.asList(bean.getComponentId(), bean.getComponet(),bean.getComponentTypeId(),companyId,unitId,userName,userName, designationId));
 						System.out.println("Batch Query >>> >> > " + preparedStatement);
 						//preparedStatement.addBatch(); 
 						c = preparedStatement.executeUpdate();

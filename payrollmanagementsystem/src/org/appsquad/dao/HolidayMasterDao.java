@@ -159,7 +159,7 @@ public class HolidayMasterDao {
 			}
 			} catch (Exception e) {
 				
-				Messagebox.show("Already Exist","ERROR",Messagebox.OK,Messagebox.ERROR);
+				Messagebox.show("Already Exists","ERROR",Messagebox.OK,Messagebox.ERROR);
 				e.printStackTrace();
 			}finally{
 				if(connection != null){
@@ -287,7 +287,7 @@ public class HolidayMasterDao {
 	
 	
 	
-	public static ArrayList<HolidayMasterBean> LoadWeekDayMasterData(){
+	public static ArrayList<HolidayMasterBean> LoadWeekDayMasterData(int leaveYrId, int companyId, int unitId){
 
 		ArrayList<HolidayMasterBean> beanList = new ArrayList<HolidayMasterBean>();
         
@@ -302,13 +302,11 @@ public class HolidayMasterDao {
 			try {
 				sql:{
 				   PreparedStatement preparedStatement = null;
-				   
-				  
-						
+				   	
 						ResultSet resultSet = null;
 					
 						try {
-							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.loadWeeklyHollyDayMasterData, null);
+							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.loadWeeklyHollyDayMasterData, Arrays.asList(leaveYrId, companyId, unitId));
 							
 							resultSet = preparedStatement.executeQuery();
 							while (resultSet.next()) {
@@ -433,7 +431,7 @@ public class HolidayMasterDao {
 	}
 	
 	
-	public static ArrayList<HolidayMasterGeneralHolidayBean> loadGenerealHoliDayMasterData(){
+	public static ArrayList<HolidayMasterGeneralHolidayBean> loadGenerealHoliDayMasterData(int leaveYrId, int companyId, int unitId){
 
 		ArrayList<HolidayMasterGeneralHolidayBean> beanList = new ArrayList<HolidayMasterGeneralHolidayBean>();
         
@@ -454,7 +452,7 @@ public class HolidayMasterDao {
 						ResultSet resultSet = null;
 					
 						try {
-							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.loadGeneralHoliDayMasterData, null);
+							preparedStatement = Util1.createQuery(connection, HolidayMasterSql.loadGeneralHoliDayMasterData, Arrays.asList(leaveYrId,companyId,unitId));
 							
 							resultSet = preparedStatement.executeQuery();
 							while (resultSet.next()) {
@@ -462,8 +460,8 @@ public class HolidayMasterDao {
 								count = count+1;
 								bean.setGeneralCount(count);
 								bean.setGeneralHolidayNameId(resultSet.getInt("id"));
-								bean.setGeneralHolidayDate(resultSet.getDate("date"));
-								bean.setGeneralHolidayDateValue(resultSet.getString("date"));
+								bean.setGeneralHolidayDate(resultSet.getDate("holiday_date"));
+								bean.setGeneralHolidayDateValue(resultSet.getString("holiday_date"));
 								bean.generalHolidayString = DateFormatter.toStringDate(bean.getGeneralHolidayDateValue());
 								bean.setGeneralHolidayName(resultSet.getString("holiday_name"));
 								bean.setLeaveYearId(resultSet.getInt("leave_year_id"));

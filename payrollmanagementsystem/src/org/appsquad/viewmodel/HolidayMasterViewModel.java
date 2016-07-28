@@ -70,12 +70,22 @@ public class HolidayMasterViewModel {
 		weekList.add(new Week(false, "5th week", "5"));
 		
 		currentDate = DateFormatter.date();
+		
 		System.out.println("Current " + currentDate);
-		holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
-		generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList();
+		
+		
+		
 		loadLeaveYrDate();
+		
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
+		
 		EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
+	}
+	
+
+	public void loadLeaveYrDate(){
+		HolidayMasterService.loadLeaveYr(holidayMasterBean);
+		
 	}
 	
 	@Command
@@ -87,15 +97,18 @@ public class HolidayMasterViewModel {
 		//employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
 	}
 	
-	
-	
-	
-	
-	public void loadLeaveYrDate(){
-		HolidayMasterService.loadLeaveYr(holidayMasterBean);
+	@Command
+	@NotifyChange("*")
+	public void onSelectUnit(){
+		if(unitMasterBean.getUnitId()>0){
+			
+			holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData(holidayMasterBean.getLeaveYrId(), companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+			generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList(holidayMasterBean.getLeaveYrId(), companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+			
+		}
+		
 		
 	}
-	
 	
 	
 	
@@ -157,7 +170,7 @@ public class HolidayMasterViewModel {
 						
 							HolidayMasterService.saveHolidayMasterData(noOfDays,str,holidayMasterBean,userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 						
-							holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
+							holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData(holidayMasterBean.getLeaveYrId(), companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 						
 					     }else{
 					
@@ -181,17 +194,29 @@ public class HolidayMasterViewModel {
 			Messagebox.show("Select Leave Year ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 		}
 		
-		
 	}
 
 	@Command
 	@NotifyChange("*")
 	public void onOkHourPerDay(){
 		if(holidayMasterBean.getLeaveYrId()>0){
-			if(holidayMasterBean.getHourPerDay() != null){
-			HolidayMasterService.saveHourPerDay(holidayMasterBean, userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
-			}else {
-				Messagebox.show("Eneter Working Hours Per Day ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+			 
+			if(companyMasterBean.getCompanyId()>0){
+			    
+				if(unitMasterBean.getUnitId()>0){
+			    	
+					if(holidayMasterBean.getHourPerDay() != null){
+			    		
+			    		HolidayMasterService.saveHourPerDay(holidayMasterBean, userName, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+			    	 
+			    	}else {
+			    		 Messagebox.show("Eneter Working Hours Per Day ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+			    	 }
+			    }else {
+			    	Messagebox.show("Select Unit ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);	
+				}
+			 }else {
+				 Messagebox.show("Select Company Name ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);	
 			}
 		}else {
 			Messagebox.show("First save Leave Year ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
@@ -202,8 +227,8 @@ public class HolidayMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void deleteWeekMasterData(@BindingParam("bean") HolidayMasterBean bean){
-		HolidayMasterService.deleteHolidayMasterData(bean);
-		holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
+		//HolidayMasterService.deleteHolidayMasterData(bean);
+		//holidayMasterBeanList = HolidayMasterService.loadWeeklyHolidayMasterData();
 	}
 	
 	@Command
@@ -212,7 +237,7 @@ public class HolidayMasterViewModel {
 		if(holidayMasterBean.getLeaveYrId()>0){
 			HolidayMasterService.saveGeneralHoliDayMasterData(generalHolidayBean, generalHolidayBean.getGeneralHolidayDate(), 
 															  generalHolidayBean.getGeneralHolidayName(), userName, holidayMasterBean.getLeaveYrId(), companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
-			generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList();
+			generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList(holidayMasterBean.getLeaveYrId(), companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 		}
 	}
 	
@@ -221,7 +246,7 @@ public class HolidayMasterViewModel {
 	public void onClickDeleteGeneralHoliday(@BindingParam("bean") HolidayMasterGeneralHolidayBean bean){
 	
 		HolidayMasterService.deleteGeneralHoliDayMasterData(bean);
-		generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList();
+		generalHoliDayBeanList = HolidayMasterService.loadGenerealHoliDayList(holidayMasterBean.getLeaveYrId(), companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 	}
 	
 	@Command

@@ -1,7 +1,7 @@
 <?page title="COMPANY" contentType="text/html;charset=UTF-8"?>
 <zk>
 <window title="Company Master" border="normal" height="100%" apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('org.appsquad.viewmodel.CompanyMasterViewModel')" contentStyle="overflow:scroll;">
+		viewModel="@id('vm') @init('org.appsquad.viewmodel.CompanyMasterViewModel')">
 	
 		
 		<tabbox>
@@ -107,7 +107,7 @@
 						
 						</div>
 						
-						<div height="10px"></div>
+						<!-- <div height="10px"></div>
 						<label value="PF Info" sclass="seactionHead"></label>
 						<div>
 						<grid>
@@ -239,9 +239,12 @@
 						</grid>
 						<space></space>
 						<div height="10px"></div>
-						</div>
+						</div>-->
+					<space></space>	
 						<div align="center">
-						<button label="Save Details" width="150px" height="30px" sclass="bb_button" onClick="@command('onclickSave')"></button>
+						
+						<button label="Save Details" width="150px" height="30px" sclass="bb_button" onClick="@command('onclickSave')" 
+											style="cursor: pointer; cursor: hand; width:60px;" ></button>
 						
 						</div> 
 				</tabpanel>
@@ -249,7 +252,7 @@
 				
 				
 				<tabpanel>
-						<grid model="@bind(vm.companyBeanList)">
+						<grid model="@bind(vm.companyBeanList)" mold="paging" pageSize="5">
 							<columns>
 								<column label="Company Name" align="center"/>
 								<column label="Action" align="center"/>
@@ -258,7 +261,7 @@
 								<template name="model" var="v">
 									<row>
 										<textbox readonly="true" value="@bind(v.companyName)"/>
-										<button label="Edit" sclass="bb_button" onClick="@command('onClickEdit',bean = v)"/>
+										<button label="Edit" style="cursor: pointer; cursor: hand; width:60px;" sclass="bb_button" onClick="@command('onClickEdit',bean = v)"/>
 									</row>
 								</template>
 							</rows>

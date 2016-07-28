@@ -1,6 +1,7 @@
 package org.appsquad.viewmodel;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -58,7 +59,8 @@ public class RunPayrollViewModel {
 	Session session = null;
 	String userName;
 	String date;
-	int day, month,year;
+	int month;
+	int day,year;
 	int second, minute, hour;
 	String currentDate;
 	String currentTime;
@@ -139,29 +141,34 @@ public class RunPayrollViewModel {
 			nextButtonVisibility = false;
 		}*/
 		
-		runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(month, year));
+		//runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(month, year));
+		
+		runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(monthMasterBean.getMonthId(), year));
 		
 		//System.out.println("NO OF DAYS MONTH VIEW MODEL " + runPayRollBean.getTotalNumberOfDayseveryMonth());
 		
 		int s = sunDayCheck();
-		//System.out.println("TOTtal no of sun deed " + s);
+		System.out.println("TOTtal no of sun deed " + s);
 		
 		int t = satDayCheck();
-		//System.out.println("TOTtal no of sat deed " + t);
+		System.out.println("TOTtal no of sat deed " + t);
 		
 		int u = monDayCheck();
-		//System.out.println("TOTtal no of mon deed " + u);
+		System.out.println("TOTtal no of mon deed " + u);
 		
 		int v = tuesDayCheck();
-		//System.out.println("TOTtal no of mon deed " + v);
+		System.out.println("TOTtal no of mon deed " + v);
 		
 		int w = generalHolidaysCheck();
-		//System.out.println("TOTtal no of general deed " + w);
+		System.out.println("TOTtal no of general deed " + w);
 		
 		runPayRollBean.totalNumberOfHolidays = s+t+u+v+w;
 		
-		//System.out.println("Total Number Of Holidays " + runPayRollBean.totalNumberOfHolidays);
+		System.out.println("Total Number Of Holidays " + runPayRollBean.totalNumberOfHolidays);
+		
 		int x = sundayDateCheck();
+		System.out.println("Total Number of sunday check " + x);
+		
 		runPayRollBean.totalNumberOfHolidays = runPayRollBean.totalNumberOfHolidays - x;
 		
 		runPayRollBean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfDayseveryMonth() - runPayRollBean.totalNumberOfHolidays);
@@ -193,7 +200,11 @@ public class RunPayrollViewModel {
 		noOfSundayallocated = runPayRollBean.getSunDayCountPerMonth();
 		//System.out.println("no OF SUNDAY " + noOfSundayallocated);
 		if(noOfSundayallocated==5){
-			runPayRollBean.setSunDayCountPerMonth(RunPayRollService.sundayDeduction(runPayRollBean, month, year));
+			
+			//runPayRollBean.setSunDayCountPerMonth(RunPayRollService.sundayDeduction(runPayRollBean, month, year));
+			
+			runPayRollBean.setSunDayCountPerMonth(RunPayRollService.sundayDeduction(runPayRollBean, monthMasterBean.getMonthId(), year));
+			
 			runPayRollBean.setTotalNumberOfHolidayseveryMonth(runPayRollBean.getSunDayCountPerMonth());
 			//System.out.println("Sunday Count 5 aMonth >>> >> > " + runPayRollBean.getSunDayCountPerMonth());
 		}if(noOfSundayallocated <= 4){
@@ -210,7 +221,9 @@ public class RunPayrollViewModel {
 		noOfSatDayAllocated = runPayRollBean.getSatDayCountPerMonth();
 		//System.out.println("no OF SATDAY " + noOfSatDayAllocated);
 		if(noOfSatDayAllocated ==5){
-			runPayRollBean.setSatDayCountPerMonth(RunPayRollService.satdayDeduction(runPayRollBean, month, year));
+			//runPayRollBean.setSatDayCountPerMonth(RunPayRollService.satdayDeduction(runPayRollBean, month, year));
+			
+			runPayRollBean.setSatDayCountPerMonth(RunPayRollService.satdayDeduction(runPayRollBean, monthMasterBean.getMonthId(), year));
 			runPayRollBean.setTotalNumberOfHolidayseveryMonth(runPayRollBean.getSatDayCountPerMonth());
 			//System.out.println("SadDay Count 5 aMonth >>> >> > " + runPayRollBean.getSatDayCountPerMonth());
 			
@@ -227,7 +240,9 @@ public class RunPayrollViewModel {
 		noOfMonDayAllocated = runPayRollBean.getMonDayCountPerMonth();
 		//System.out.println("no OF MONDAY " + noOfMonDayAllocated);
 		if(noOfMonDayAllocated == 5){
-			runPayRollBean.setMonDayCountPerMonth(RunPayRollService.monDayDeduction(runPayRollBean, month, year));
+			//runPayRollBean.setMonDayCountPerMonth(RunPayRollService.monDayDeduction(runPayRollBean, month, year));
+			
+			runPayRollBean.setMonDayCountPerMonth(RunPayRollService.monDayDeduction(runPayRollBean, monthMasterBean.getMonthId(), year));
 			runPayRollBean.setTotalNumberOfHolidayseveryMonth(runPayRollBean.getMonDayCountPerMonth());
 			//System.out.println("MonDay Count 5 aMonth >>> >> > " + runPayRollBean.getMonDayCountPerMonth());
 		}if(noOfMonDayAllocated <= 4){
@@ -244,7 +259,10 @@ public class RunPayrollViewModel {
 		noOfTuesDayAllocated= runPayRollBean.getTuesDayCountPerMonth();
 		//System.out.println("no OF TUESDAY " + noOfTuesDayAllocated);
 		if(noOfTuesDayAllocated == 5){
-			runPayRollBean.setTuesDayCountPerMonth(RunPayRollService.tuesDayDeduction(runPayRollBean, month, year));
+			//runPayRollBean.setTuesDayCountPerMonth(RunPayRollService.tuesDayDeduction(runPayRollBean, month, year));
+			
+			runPayRollBean.setTuesDayCountPerMonth(RunPayRollService.tuesDayDeduction(runPayRollBean, monthMasterBean.getMonthId(), year));
+			
 			runPayRollBean.setTotalNumberOfHolidayseveryMonth(runPayRollBean.getTuesDayCountPerMonth());
 			//System.out.println("TuesDay Count 5 aMonth >>> >> > " + runPayRollBean.getTuesDayCountPerMonth());
 		}if(noOfTuesDayAllocated <= 4){
@@ -262,7 +280,8 @@ public class RunPayrollViewModel {
 		
 		runPayRollBean.setSunDayCountPerMonth(RunPayRollService.sunDayCount(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean));
 		
-		noOfDateMatchs = RunPayRollService.loadholiDayListPerMonth(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean, month, year, runPayRollBean.getSunDayCountPerMonth());
+		noOfDateMatchs = RunPayRollService.loadholiDayListPerMonth(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean, monthMasterBean.getMonthId(), year, runPayRollBean.getSunDayCountPerMonth());
+		//noOfDateMatchs = RunPayRollService.loadholiDayListPerMonth(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean, month, year, runPayRollBean.getSunDayCountPerMonth());
 		
 		return noOfDateMatchs;
 	}
@@ -272,7 +291,9 @@ public class RunPayrollViewModel {
 	
 	public int generalHolidaysCheck(){
 		int noOfHolidays;
-		noOfHolidays = RunPayRollService.generalHolidayDeduction(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean, month);
+		//noOfHolidays = RunPayRollService.generalHolidayDeduction(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean, month);
+		
+		noOfHolidays = RunPayRollService.generalHolidayDeduction(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean, monthMasterBean.getMonthId());
 		
 		return noOfHolidays;
 		
@@ -421,19 +442,35 @@ public class RunPayrollViewModel {
 		if(bean.getOtDaysF() == null){
 			bean.setOtDaysF(0);
 		}
+		
+		
 		bean.setTotalOtHoursF(bean.getOtHoursF()+(bean.getOtDaysF()*hourPerDay));
+		
+		
 		
 		//double otSalary = 0;
 		//bean.otSalary = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
 		
-		bean.otSalary = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
-		String decimalformat = new DecimalFormat("#.##").format(bean.otSalary);
+		if(bean.getTotalOtHoursF()>0.0){
+			
+			bean.otSalary = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
+			
+			//System.out.println(" >>> >> >" + bean.otSalary);
+			
+			NumberFormat formatter = new DecimalFormat("#0.00");  
+			double d = Double.parseDouble(formatter.format(bean.otSalary));
+			System.out.println(" >>> >> >" + bean.otSalary);
+			
+			//String decimalformat = new DecimalFormat("#.##").format(bean.otSalary);
+			//double d = Double.parseDouble(decimalformat);
+			bean.otSalary = d;
+			
+			bean.setNetSalary(bean.getNetSalary()+bean.otSalary);
 		
-		double d = Double.parseDouble(decimalformat);
+		}
 		
-		bean.otSalary = d;
 		
-		bean.setNetSalary(bean.getNetSalary()+bean.otSalary);
+		
 		
 		/************************************LEAVE CALCULATION*************************************************/
 		
@@ -445,22 +482,31 @@ public class RunPayrollViewModel {
 		}
 		bean.setTotalLeaveHoursF(bean.getLeaveHoursF()+(bean.getLeaveDaysF()*hourPerDay));
 		
-		
-		//bean.leaveDeduction = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
+		if(bean.getTotalLeaveHoursF()>0.0){
+			
+			//bean.leaveDeduction = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
 
-		bean.leaveDeduction = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
+			bean.leaveDeduction = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
+			
+			System.out.println("Leave deduction >>> >> > " + bean.leaveDeduction);
+			
+			NumberFormat formatter1 = new DecimalFormat("#0.00");  
+			double d2 = Double.parseDouble(formatter1.format(bean.leaveDeduction));
+			
+			//String decimalformat2 = new DecimalFormat("#.##").format(bean.leaveDeduction);
+			//double d2 = Double.parseDouble(decimalformat2);
+			bean.leaveDeduction = d2;
+			
+			bean.setNetSalary(bean.getNetSalary()-bean.leaveDeduction);
+			
+			bean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()-bean.getLeaveDaysF());
+			
+			System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());
+			
+			
+		}
 		
-		String decimalformat2 = new DecimalFormat("#.##").format(bean.leaveDeduction);
 		
-		double d2 = Double.parseDouble(decimalformat2);
-		
-		bean.leaveDeduction = d2;
-		
-		bean.setNetSalary(bean.getNetSalary()-bean.leaveDeduction);
-		
-		bean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()-bean.getLeaveDaysF());
-		
-		System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());
 		
 	}
 	

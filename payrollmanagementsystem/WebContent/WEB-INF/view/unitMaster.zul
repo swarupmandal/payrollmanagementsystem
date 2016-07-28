@@ -27,7 +27,7 @@
 					<textbox placeholder="unit name" value="@bind(vm.unitMasterBean.unitName)"></textbox>
 					
 					
-					<button label="Save" onClick="@command('onClickSave')" sclass="bb_button"/>
+					<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; width:60px;"/>
 					<button label="Update" onClick="@command('onClickUpdate')" visible="false"/>
 				</row>
 			</rows>
@@ -39,7 +39,7 @@
 	<space></space>
 	<div>
 	
-		<grid model="@bind(vm.unitMasterBeanList)">
+		<grid model="@bind(vm.unitMasterBeanList)" mold="paging">
 			<columns>
 				<column label="Company Name" align="center"></column>
 				<column label="Unit Name" align="center"></column>

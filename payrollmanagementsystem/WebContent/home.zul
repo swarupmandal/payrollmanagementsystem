@@ -40,7 +40,7 @@
             </treeitem>
              <treeitem open="false">
             	<treerow>
-            	 <treecell label="Component Master Unit Allocation"
+            	 <treecell label="Designation Allocation"
             	  onClick='inclResults.setSrc("/WEB-INF/view/componentPerUnitMaster.zul");'>
             	</treecell>
             	</treerow>
