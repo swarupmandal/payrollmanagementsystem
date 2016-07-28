@@ -93,7 +93,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		<rows>
   		<template name="model" var="v">
   			<row>
-  			  <checkbox checked="@bind(v.checked)"/>
+  			  <checkbox checked="@bind(v.checked)" style="cursor: pointer; cursor: hand;"/>
   		      <textbox readonly="true" value="@bind(v.empcount)"></textbox>
   		      <textbox value="@bind(v.empCode)"></textbox>
   		      <textbox width="99%" value="@bind(v.empName)" ></textbox>
@@ -140,7 +140,12 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   	</grid>
   </div>
   <div align="center">
-  <button label="Confirm" onClick="@command('onclickConfirm')"></button>	
+  <button label="Generate salary slip" onClick="@command('onclickConfirm')" 
+  style="cursor: pointer; cursor: hand; " 
+  sclass="bb_button" />	
+   <button label="Generate salary sheet" onClick="@command('onclickGenerateSheet')"
+    style="cursor: pointer; cursor: hand; " 
+    sclass="bb_button"/>	
   </div>
   </div>
   
@@ -180,7 +185,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		</grid>
   		<div align="center">
   			<vbox>
-  				<button label="Next" sclass="bb_button" onClick="@command('onClickNext')" visible="@bind(vm.nextButtonVisibility)"/>
+  				<button label="Next" sclass="bb_button"  style="cursor: pointer; cursor: hand;" onClick="@command('onClickNext')" visible="@bind(vm.nextButtonVisibility)"/>
   				<button label="Previous" sclass="bb_button" onClick="@command('onClickPrevious')" visible="@bind(vm.prevButtonVisibility)"/>
   			</vbox>
   			

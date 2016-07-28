@@ -71,6 +71,8 @@ public class EmployeeEditViewModel {
 		EmployeeMasterService.loadDesignationList(designationBeanList);
 		EmployeeMasterService.loadpaymentmodeList(paymentModeMasterBeanList);
 		EmployeeMasterService.loadBankList(bankAccountBeanList);
+	    componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
+
 	}
 	
 	@Command

@@ -119,6 +119,7 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectMonth(){
 		//System.out.println("MONTH " + monthMasterBean.getMonthName() + " - ID - " + monthMasterBean.getMonthId());
+		runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 	}
 	@Command
 	@NotifyChange("*")
@@ -171,7 +172,8 @@ public class RunPayrollViewModel {
 		
 		if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
 			//RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
-			
+			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+			runPayRollBean.setYear(String.valueOf(year));
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth());
 		}
 		if(runPayRollBeanList.size()>0){
@@ -321,7 +323,7 @@ public class RunPayrollViewModel {
 				//System.out.println("Workingssss " + rBean.getTotalNumberOfDayseveryMonth());
 				//System.out.println("Working days " + rBean.getTotalNumberOfWorkingDaysEveryMonth());
 				
-				stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() + " : " + companyMasterBean.getCompanyName() + unitMasterBean.getUnitId() +" : " + monthMasterBean.getMonthName() +" : " + year + " : "+ rBean.getTotalNumberOfWorkingDaysEveryMonth()  +"\n");
+				/*stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() + " : " + companyMasterBean.getCompanyName() + unitMasterBean.getUnitId() +" : " + monthMasterBean.getMonthName() +" : " + year + " : "+ rBean.getTotalNumberOfWorkingDaysEveryMonth()  +"\n");
 				
 				 for(EmployeeSalaryComponentAmountBean sBean : rBean.getComponentAmountBeanList()){
 					 
@@ -343,11 +345,13 @@ public class RunPayrollViewModel {
 				 for(EmployeeSalaryComponentAmountBean sBean : deductList){
 					 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
 					 }
-				 stringBuilder.append("--------------------------------------------" +"\n");
+				 stringBuilder.append("--------------------------------------------" +"\n");*/
 				
 				String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
-				System.out.println("pdf_path >>> >> > " + pdfPath);
+				//System.out.println("pdf_path >>> >> > " + pdfPath);
 				PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+				runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+				runPayRollBean.setYear(String.valueOf(year));
 			    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean, companyMasterBean.getCompanyName(), unitMasterBean.getUnitName());
 			}
 			
@@ -358,6 +362,17 @@ public class RunPayrollViewModel {
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
 	    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, runPayRollBeanList, runPayRollBean);*/
 	
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onclickGenerateSheet() throws Exception{
+		String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+		runPayRollBean.setComapnyName(companyMasterBean.getCompanyName());
+		runPayRollBean.setUnitName(unitMasterBean.getUnitName());
+		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+	    paySlipGenerator.getSheetDetails(pdfPath, runPayRollBeanList, runPayRollBean);
+
 	}
 	
 	@Command
@@ -463,6 +478,8 @@ public class RunPayrollViewModel {
 		System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());
 		
 	}
+	
+	
 	
 	
 	public String getCurrentDate() {
