@@ -623,9 +623,7 @@ public class RunPayRollDao {
 							System.out.println("PREPared statemt General Holy day Dates " +preparedStatement);
 							ResultSet resultSet = preparedStatement.executeQuery();
 							while (resultSet.next()) {
-								
 								holidayDateList.add(resultSet.getString("holiday_date"));
-								
 							}
 							
 						}finally{

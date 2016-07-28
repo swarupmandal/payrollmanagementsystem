@@ -2,6 +2,8 @@ package org.appsquad.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.RunPayRollBean;
@@ -198,34 +200,58 @@ public class RunPayRollService {
 		
 	}
 	
-	public static ArrayList<String> loadholiDayListPerMonth(int companyId, int unitId, RunPayRollBean bean, int currentMonthId, int year){
-		ArrayList<String> list = new ArrayList<String>();
-		list = RunPayRollDao.generalHoliDayDateList(companyId, unitId, bean, currentMonthId);
+	public static int loadholiDayListPerMonth(int companyId, int unitId, RunPayRollBean bean, int currentMonthId, int year, int sundayCount){
+		int matchingdayCount =0;
+		Set<Integer> setToReturnn = new HashSet<Integer>();
+		ArrayList<String> generalholidaylist = new ArrayList<String>();
+		ArrayList<Integer> sundayDateList = new ArrayList<Integer>();
+		ArrayList<Integer> NewGeneralholidayDayList = new  ArrayList<Integer>();
+		generalholidaylist = RunPayRollDao.generalHoliDayDateList(companyId, unitId, bean, currentMonthId);
 		
-		if(list.size()>0){
-			ArrayList<Integer> list1 = new ArrayList<Integer>();
+		if(generalholidaylist.size()>0){
+			
 			int i = currentMonthId-1;
-			list1 = CheckSunDayDates.checkSatDates(year, i);
-			
-		}
-		if(list.size()>0){
-			
-			System.out.println("... .. .. >>> >> > " +list);
-			
-			
-			
-			
-			
-			
-			
+			sundayDateList = CheckSunDayDates.checkSatDates(year, i);
 			
 		}
 		
+		System.out.println("bean.getS " +sundayCount);
+		if(generalholidaylist.size()>0 && sundayCount>0){
+			
+			
+			for(String j : generalholidaylist){
+				String part = j.replaceFirst ("^0*", "");
+				int k = Integer.parseInt(part);
+				
+				NewGeneralholidayDayList.add(k);
+			}
+			
+			
+			NewGeneralholidayDayList.addAll(sundayDateList);
+			
+			setToReturnn = findDuplicates(NewGeneralholidayDayList);
+			matchingdayCount=setToReturnn.size();
+			
+			
+		}
+		return matchingdayCount;
 		
-		
-		
-		return list;
 	}
+	
+	public static Set<Integer> findDuplicates(ArrayList<Integer> listContainingDuplicates) {
+		   
+		  final Set<Integer> setToReturn = new HashSet<Integer>();
+		  final Set<Integer> set1 = new HashSet<Integer>();
+		 
+		  for (Integer yourInt : listContainingDuplicates) {
+		   if (!set1.add(yourInt)) {
+		    setToReturn.add(yourInt);
+		   }
+		  }
+		
+		  return setToReturn;
+		 }
+	
 	
 	
 	
