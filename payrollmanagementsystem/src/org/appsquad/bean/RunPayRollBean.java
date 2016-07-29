@@ -10,7 +10,7 @@ public class RunPayRollBean {
     private String comapnyName,UnitName,year,monthName;
     private String empPf;
     private String empEsi,empUan;
-    private String empDesignation;
+    private String empDesignation,unitDesignation;
     private int empcount;
     private double totalDeduction;
     private double netSalary;
@@ -30,7 +30,7 @@ public class RunPayRollBean {
     private int totalNumberOfWorkingDaysEveryMonth;
     public int totalNumberOfHolidays;
     
-    private Integer otDaysF;
+    private Integer otDaysF,presentDay,baseDay;
     private Double otHoursF;
     private Double totalOtHoursF;
     
@@ -276,6 +276,24 @@ public class RunPayRollBean {
 	}
 	public void setMonthName(String monthName) {
 		this.monthName = monthName;
+	}
+	public String getUnitDesignation() {
+		return unitDesignation;
+	}
+	public void setUnitDesignation(String unitDesignation) {
+		this.unitDesignation = unitDesignation;
+	}
+	public Integer getPresentDay() {
+		return presentDay;
+	}
+	public void setPresentDay(Integer presentDay) {
+		this.presentDay = presentDay;
+	}
+	public Integer getBaseDay() {
+		return baseDay;
+	}
+	public void setBaseDay(Integer baseDay) {
+		this.baseDay = baseDay;
 	}
 	
 }

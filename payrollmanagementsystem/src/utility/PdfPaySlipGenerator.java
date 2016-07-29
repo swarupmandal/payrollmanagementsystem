@@ -141,7 +141,7 @@ public class PdfPaySlipGenerator {
 		
 		public static PdfPTable createTableForSheet(Document document, RunPayRollBean bean) throws Exception{
 		//	PdfPTable table = new PdfPTable(4);
-			float[] columnWidths = {13, 25, 13,7};
+			float[] columnWidths = {13, 5,25, 13,7};
 	        PdfPTable table = new PdfPTable(columnWidths);
 	        table.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        table.setWidthPercentage(90);
@@ -151,8 +151,10 @@ public class PdfPaySlipGenerator {
 			table.addCell(createLabelCell(""));
 			table.addCell(createLabelCell(""));
 			table.addCell(createLabelCell(""));
+			table.addCell(createLabelCell(""));
 			
 			table.addCell( createTableForEmployeeOnSheet(document, bean) );
+			table.addCell(createTableWithSingleColumn(document, bean));
 			table.addCell( createTableForEarningOnSheet(document, bean) );
 			table.addCell( createTableForDeductionOnSheet(document, bean) );
 			table.addCell( createTableForSignatureSheet(document, bean) );
@@ -168,7 +170,7 @@ public class PdfPaySlipGenerator {
 	        table.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        table.setWidthPercentage(12);
 	        Font white = new Font();
-	        Font font = new Font(Font.getFamily("HELVETICA"), 20, Font.BOLD);
+	        Font font = new Font(Font.getFamily("HELVETICA"), 25, Font.BOLD);
 	        white.setColor(BaseColor.WHITE); 
 			PdfPCell cell = new PdfPCell(new Phrase(" BDA" , font));
 	        cell.setBackgroundColor(BaseColor.WHITE);
@@ -191,7 +193,8 @@ public class PdfPaySlipGenerator {
 			table.addCell(createLabelCellLeftBold("BLACKBOY DETECTIVE AGENCY PVT. LTD.\n"));
 			table.addCell(createLabelCellBold("SALARY SHEET"));
 			table.addCell(createLabelCellRightFont(bean.getComapnyName()+"\n"+bean.getUnitName()+"\n"+
-								bean.getMonthName()+"      "+bean.getYear()+"     "+dateInString));
+								bean.getMonthName()+"      "+bean.getYear()+"     "+dateInString+"\n"+
+								bean.getUnitDesignation()));
 			table.getDefaultCell().setBorder(0);
 			table.setTotalWidth(90);
 			return table;
@@ -360,7 +363,7 @@ public class PdfPaySlipGenerator {
 				//table.addCell(createLabelCellRight(String.valueOf(formatter.format(netsalary))));
 				
 				
-				table.addCell(createValueCellRight(String.valueOf(formatter.format(netsalary))));
+				table.addCell(createValueCellRightFont(String.valueOf(formatter.format(netsalary))));
 				return table;
 			}else{
 				PdfPTable table1 = new PdfPTable(2);
@@ -394,7 +397,7 @@ public class PdfPaySlipGenerator {
 				table1.addCell(createValueCellRight("0.00"));
 				table1.addCell(createValueCellRight("0.00"));
 				table1.addCell(createLabelCellLeftBoldFont("Net Salary:"));
-				table1.addCell(createValueCellRight(String.valueOf(formatter.format(netsalary))));
+				table1.addCell(createValueCellRightFont(String.valueOf(formatter.format(netsalary))));
 				return table1;
 			}
 			
@@ -434,6 +437,24 @@ public class PdfPaySlipGenerator {
 			return table;
 		}
 		
+		public static PdfPTable createTableWithSingleColumn(Document document, RunPayRollBean bean )
+				throws DocumentException {
+		   PdfPTable table = new PdfPTable(1);
+		   
+			PdfPCell cell;
+
+			cell = new PdfPCell(new Phrase());
+			table.addCell(createLabelCell("Present"));
+			if(bean.getPresentDay()!=null){
+				table.addCell(createValueCell(bean.getPresentDay().toString()));
+			}else{
+				table.addCell(createValueCell("00.00"));
+			}
+			
+			//table.setTableEvent(new BorderEvent());
+			table.setWidthPercentage(5);
+			return table;
+		}
 		
 		
 		void createPdfHeader(ArrayList<RunPayRollBean> runPayRollBeanList) throws Exception{
@@ -591,7 +612,7 @@ public class PdfPaySlipGenerator {
 			
 		//	document = new Document(PageSize.A4_LANDSCAPE, 2, 2, 60, 40);
 			document = new Document(PageSize._11X17.rotate());
-		    document.setMargins(40,40, 60, 10);
+		    document.setMargins(80,5, 10, 10);
 		//	document.setMargins(10,60, 5,80);
 			document.setMarginMirroring(true);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
@@ -891,6 +912,16 @@ public class PdfPaySlipGenerator {
 		
 		private static PdfPCell createValueCellRight(String text) {
 			Font font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+			Paragraph right = new Paragraph(text,font);
+			right.setAlignment(Element.ALIGN_RIGHT);
+			PdfPCell cell = new PdfPCell(new Phrase(text, font));
+			cell.addElement(right);
+			cell.setBorder(Rectangle.NO_BORDER);
+			return cell;
+		}
+		
+		private static PdfPCell createValueCellRightFont(String text) {
+			Font font = new Font(Font.getFamily("HELVETICA"), 10, Font.BOLD);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_RIGHT);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
