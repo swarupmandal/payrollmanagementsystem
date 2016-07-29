@@ -9,11 +9,13 @@ import java.util.Arrays;
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.bean.ComponentPerUnitMasterBean;
+import org.appsquad.bean.HolidayMasterBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.database.DbConnection;
 import org.appsquad.sql.ComponentMasterSql;
 import org.appsquad.sql.ComponentPerUnitMasterSql;
 import org.appsquad.sql.EmployeeMasterSql;
+import org.appsquad.sql.HolidayMasterSql;
 import org.zkoss.zul.Messagebox;
 
 import utility.Util1;
@@ -197,7 +199,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 						
 						if(bean.isCheckVal()==true){
 						System.out.println("INSIDE CHECK---------------------------------- >>> >> > ");	
-						preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.insertComponentPerUnitQuery, Arrays.asList(bean.getComponentId(), bean.getComponet(),bean.getComponentTypeId(),companyId,unitId,userName,userName, designationId));
+						preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.insertComponentPerUnitQuery, Arrays.asList(bean.getComponentId(), bean.getComponet(),bean.getComponentTypeId(),companyId,unitId,userName,userName, designationId, bean.getDesCompoAmount()));
 						System.out.println("Batch Query >>> >> > " + preparedStatement);
 						//preparedStatement.addBatch(); 
 						c = preparedStatement.executeUpdate();
@@ -236,7 +238,51 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 			e.printStackTrace();
 		}
 		
+	}
+	
+public static void saveHourPerDay(int companyId, int unitId ,int designationId, double workingHour, String userName){
+		
+
+		int id = 0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			try {
+				sql:{
+				   PreparedStatement preparedStatement = null;
+				   
+						try {
+							preparedStatement = Util1.createQuery(connection, ComponentMasterSql.saveWorkingHour, 
+									                Arrays.asList(companyId, unitId, workingHour, userName, userName, designationId));
+							int i = preparedStatement.executeUpdate();
+							if(i>0){
+								//Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+								
+							}
+							
+							 
+						} finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+				
+			}
+			} catch (Exception e) {
+				
+				Messagebox.show("Already Exists","ERROR",Messagebox.OK,Messagebox.ERROR);
+				e.printStackTrace();
+			}finally{
+				if(connection != null){
+					connection.close();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
+	
+	
 	
 }

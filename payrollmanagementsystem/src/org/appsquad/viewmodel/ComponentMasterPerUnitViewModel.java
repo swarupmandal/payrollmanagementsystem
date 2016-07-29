@@ -10,6 +10,7 @@ import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.service.ComponentMasterService;
 import org.appsquad.service.ComponentPerUnitMasterService;
 import org.appsquad.service.EmployeeMasterService;
+import org.appsquad.service.HolidayMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -92,8 +93,11 @@ public class ComponentMasterPerUnitViewModel {
 	public void onClickSave(){
 	if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean, designationBean.getDesignationId())){
 		
+		if(componentPerUnitMasterBean.getWorkinghour() != null){
+		ComponentMasterService.saveHourPerDesignation(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(),designationBean.getDesignationId(), componentPerUnitMasterBean.getWorkinghour(), userName);
+		}
+		
 		ComponentPerUnitMasterService.saveComponentPerUnit(componentPerUnitMasterBeanList, componentPerUnitMasterBean.getCompanyId(), componentPerUnitMasterBean.getUnitId(), userName, designationBean.getDesignationId());
-		System.out.println("SAVED " + companyMasterBean);
 		
 		
 	    }

@@ -11,8 +11,8 @@
 		<tabpanels >
 			<tabpanel>
 					<hlayout>
-						<div width="300px" align="center">
-							<vbox>
+						<div width="350px" align="center">
+							<vbox spacing="2px">
 
 								<label value="Company Name"></label>
 								<combobox width="160px"
@@ -38,6 +38,23 @@
 											label="@bind(v.unitName)" value="@bind(v.unitId)" />
 									</template>
 								</combobox>
+								
+								<space></space>
+
+								<label value="Unit Designation"></label>
+								<combobox width="160px"
+									model="@bind(vm.unitDesignationBeanList)"
+									onSelect="@command('onSelectUnitDesignation')"
+									selectedItem="@bind(vm.unitDesignationBean)" autocomplete="true"
+									readonly="true">
+									<template name="model" var="v">
+										<comboitem
+											label="@bind(v.unitDesignation)" value="@bind(v.unitDesignationId)" />
+									</template>
+								</combobox>
+								
+								
+								
 							</vbox>
 						</div>
 
@@ -360,7 +377,10 @@
 														width="90%"
 														value="@bind(vm.employeeMasterBean.lastWorkingDate)">
 													</datebox>
-
+													
+													
+													
+												
 
 												</row>
 

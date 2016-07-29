@@ -13,6 +13,7 @@ import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
 import org.appsquad.bean.StateMasterBean;
+import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.EmployeeDao;
 import org.appsquad.service.ComponentPerUnitMasterService;
@@ -22,6 +23,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.CookieParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -42,9 +44,11 @@ public class EmployeeMasterViewModel {
 	private ArrayList<DesignationBean> designationBeanList = new ArrayList<DesignationBean>();
 	private ArrayList<PaymentModeMasterBean> paymentModeMasterBeanList = new ArrayList<PaymentModeMasterBean>();
 	private ArrayList<BankAccountBean> bankAccountBeanList = new ArrayList<BankAccountBean>();
-	ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
+	private ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
+	ArrayList<UnitDesignationBean> unitDesignationBeanList = new ArrayList<UnitDesignationBean>();
 	
 	
+	private UnitDesignationBean unitDesignationBean = new UnitDesignationBean();
 	public CompanyMasterBean companyMasterBean = new CompanyMasterBean();
 	public UnitMasterBean unitMasterBean = new UnitMasterBean();
 	private StateMasterBean stateMasterBean = new StateMasterBean();
@@ -167,12 +171,17 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnitName(){
-		System.out.println("selected company id >>> >> > " + companyMasterBean.getCompanyId());
-		System.out.println("Selected unit id >>> >> > " + unitMasterBean.getUnitId());
+		/*System.out.println("selected company id >>> >> > " + companyMasterBean.getCompanyId());
+		System.out.println("Selected unit id >>> >> > " + unitMasterBean.getUnitId());*/
 		employeeMasterBean.setUnitId(unitMasterBean.getUnitId());
 		employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
+		employeeMasterBean.setUnitDesignationId(unitDesignationBean.getUnitDesignationId());
 		if(employeeMasterBean.getCompanyId()>0 && employeeMasterBean.getUnitId()>0){
-			componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
+			
+			unitDesignationBeanList = EmployeeMasterService.loadUnitDesignation(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
+			
+			
+			//componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
 			//System.out.println("comp 0 >>> >> > " +componentMasterBeanList);
 		}
 		loadSearchedEmployeeFromCompany(employeeMasterBean);
@@ -302,6 +311,16 @@ public class EmployeeMasterViewModel {
 		}
 		
 	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectUnitDesignation(){
+		
+		componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId(),unitDesignationBean.getUnitDesignationId() );
+	
+	}
+	
+	
 	
 	public void loadExistingEmployeeData(){
 		employeeMasterBeanList = EmployeeMasterService.loadSavedEmployeeData();
@@ -540,16 +559,7 @@ public class EmployeeMasterViewModel {
 
 
 
-	public ArrayList<ComponentMasterBean> getComponentMasterBeanList() {
-		return componentMasterBeanList;
-	}
-
-
-
-	public void setComponentMasterBeanList(
-			ArrayList<ComponentMasterBean> componentMasterBeanList) {
-		this.componentMasterBeanList = componentMasterBeanList;
-	}
+	
 
 
 
@@ -585,6 +595,32 @@ public class EmployeeMasterViewModel {
 
 	public void setEmployeeCode(String employeeCode) {
 		this.employeeCode = employeeCode;
+	}
+
+	public ArrayList<UnitDesignationBean> getUnitDesignationBeanList() {
+		return unitDesignationBeanList;
+	}
+
+	public void setUnitDesignationBeanList(
+			ArrayList<UnitDesignationBean> unitDesignationBeanList) {
+		this.unitDesignationBeanList = unitDesignationBeanList;
+	}
+
+	public UnitDesignationBean getUnitDesignationBean() {
+		return unitDesignationBean;
+	}
+
+	public void setUnitDesignationBean(UnitDesignationBean unitDesignationBean) {
+		this.unitDesignationBean = unitDesignationBean;
+	}
+
+	public ArrayList<ComponentMasterBean> getComponentMasterBeanList() {
+		return componentMasterBeanList;
+	}
+
+	public void setComponentMasterBeanList(
+			ArrayList<ComponentMasterBean> componentMasterBeanList) {
+		this.componentMasterBeanList = componentMasterBeanList;
 	}
 	
 }

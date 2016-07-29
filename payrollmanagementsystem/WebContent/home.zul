@@ -38,6 +38,13 @@
             	</treecell>
             	</treerow>
             </treeitem>
+              <treeitem open="false">
+            	<treerow>
+            	 <treecell label="Designation Master"
+            	  onClick='inclResults.setSrc("/WEB-INF/view/designationMaster.zul");'>
+            	</treecell>
+            	</treerow>
+            </treeitem>
              <treeitem open="false">
             	<treerow>
             	 <treecell label="Designation Allocation"
@@ -53,13 +60,7 @@
              </treerow>
             </treeitem>
             
-             <treeitem open="false">
-            	<treerow>
-            	 <treecell label="Designation Master"
-            	  onClick='inclResults.setSrc("/WEB-INF/view/designationMaster.zul");'>
-            	</treecell>
-            	</treerow>
-            </treeitem>
+            
              <treeitem open="false">
             	<treerow>
             	 <treecell label="Employee Bank Master"

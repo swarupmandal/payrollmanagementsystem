@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.dao.ComponentMasterDao;
+import org.appsquad.dao.ComponentPerUnitMasterDao;
 import org.zkoss.zul.Messagebox;
 
 public class ComponentMasterService {
@@ -46,7 +47,9 @@ public class ComponentMasterService {
 	}
 	
 	
-	
+	public static void saveHourPerDesignation(int companyId, int unitId ,int designationId, double workingHour, String username){
+		ComponentPerUnitMasterDao.saveHourPerDay(companyId, unitId, designationId, workingHour, username);
+	}
 	
 	
 	

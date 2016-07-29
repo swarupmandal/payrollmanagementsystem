@@ -3,7 +3,7 @@ package org.appsquad.sql;
 public class EmployeeMasterSql {
 
 	public static final String employeeInsertQuery= "insert into pms_employee_master (employee_code,employee_name,company_id,unit_id,employee_phone_number,employee_email,gender,"
-													 + " created_by,updatetd_by, dob) values(?,?,?,?,?,?,?,?,?,?)";
+													 + " created_by,updatetd_by, dob, unit_designation_id) values(?,?,?,?,?,?,?,?,?,?,?)";
 	
 	public static final String loadCompanyListQuery = "select company_name, company_id from pms_company_master ";
 	
@@ -59,11 +59,11 @@ public class EmployeeMasterSql {
 																
 	public static final String empPfEsiInsertQuery = "INSERT INTO pms_employee_pf_esi_details(employee_id, uan, esi, created_by, updatetd_by)VALUES (?, ?, ?, ?, ?) ";
 	
-	public static final String loadComponentDetailsQuery =  " SELECT pcm.component_id, pcm.component_name, pcm.component_type_id, pcmp.company_id, pcmp.unit_id, pctm.component_type " +     
+	public static final String loadComponentDetailsQuery =  " SELECT pcm.component_id, pcm.component_name, pcm.component_type_id, pcmp.company_id, pcmp.unit_id, pctm.component_type, pcmp.amount " +     
 																 " FROM pms_component_master pcm, pms_component_master_per_unit pcmp, pms_component_type_master pctm " +
 																 " where pcm.component_id = pcmp.component_id " +
 																 " and pcmp.component_type_id = pctm.component_type_id" +
-																 " and pcmp.company_id = ? and pcmp.unit_id =? " ;
+																 " and pcmp.company_id = ? and pcmp.unit_id =? and pcmp.designation_id = ? " ;
 	public static final String insertComponentsPerEmpQuery = "INSERT INTO pms_employee_salary_components(employee_id, component_id, component_name, component_type_id, company_id, unit_id, created_by, updatetd_by,component_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?) ";
 	
 
@@ -100,5 +100,8 @@ public class EmployeeMasterSql {
 	
 	public static final String getEmployeeEsiDataQuery = "select count(employee_id) AS employee_count from  pms_employee_pf_esi_details "
 			+ " where employee_id = ? ";
+
+	
+	public static final String loadUnitDesignationQuery = "SELECT DISTINCT id, designation from vw_unit_designation where company_id = ? and unit_id = ? ";
 	
 }

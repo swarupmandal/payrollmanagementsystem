@@ -11,6 +11,7 @@ import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
 import org.appsquad.bean.StateMasterBean;
+import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.ComponentMasterDao;
 import org.appsquad.dao.EmployeeDao;
@@ -64,11 +65,13 @@ public class EmployeeMasterService {
 		EmployeeDao.loadBankList(bankList);
 	}
 	
-	public static ArrayList<ComponentMasterBean> loadComponentDetatils(int companyId, int unitId){
+	public static ArrayList<ComponentMasterBean> loadComponentDetatils(int companyId, int unitId, int unitdesignationId){
 		ArrayList<ComponentMasterBean> list = new ArrayList<ComponentMasterBean>();
-		list = EmployeeDao.loadComponentDetails(companyId, unitId);
+		list = EmployeeDao.loadComponentDetails(companyId, unitId, unitdesignationId);
 		return list;
 	}
+	
+	
 	
 	public static void updateEmployeeInfo(EmployeeMasterBean employeeMasterBean){
 		EmployeeDao.upDateEmployee(employeeMasterBean);
@@ -90,7 +93,18 @@ public class EmployeeMasterService {
 								
 								if(bean.getEmpDob() != null){
 									
-									return true;
+									if(bean.getUnitDesignationId() != null){
+									
+										return true;
+										
+									}else {
+										
+										Messagebox.show("Select Unit Designation","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
+										return false;
+									}
+									
+									
+									
 									
 								}else {
 									Messagebox.show("Entetr Employee Date of Birth","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
@@ -204,6 +218,17 @@ public class EmployeeMasterService {
 		EmployeeDao.onloadComponentDetails(beanList);
 		
 	}*/
+	
+	public static ArrayList<UnitDesignationBean> loadUnitDesignation(int companyId, int unitId){
+		ArrayList<UnitDesignationBean> list = new ArrayList<UnitDesignationBean>();
+		list = EmployeeDao.loadUnitDesignationList(companyId, unitId);
+		
+		
+		
+		return list;
+	}
+	
+	
 	
 	public static boolean isEmptyLocationField(EmployeeMasterBean bean){
 		boolean flag = false;

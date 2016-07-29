@@ -5,12 +5,12 @@
 		
 		<div align="center" height="40px">
 		
-		<hlayout spacing="150px">
+		<hlayout spacing="100px">
 			
 		  
 		  <vbox>
 		  <label value="Company Name"></label>
-		  <combobox  width="160px" model="@bind(vm.companyBeanList)"
+		  <combobox  width="120px" model="@bind(vm.companyBeanList)"
 				   onSelect="@command('onSelectCompanyName')"
 					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -20,7 +20,7 @@
 		  </vbox>
 		  <vbox>
 		  <label value="Unit Name"></label>
-		  <combobox  width="160px" model="@bind(vm.unitMasterBeanList)"
+		  <combobox  width="120px" model="@bind(vm.unitMasterBeanList)"
 				   onSelect="@command('onSelectUnitName')"
 					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -31,7 +31,7 @@
 	
 		<vbox>  
 		<label value="Designation"></label>
-		<combobox width="160px" model="@bind(vm.designationBeanList)"
+		<combobox width="120px" model="@bind(vm.designationBeanList)"
 			onSelect="@command('onSelectDesignation')" selectedItem="@bind(vm.designationBean)"
 				autocomplete="true" readonly="true">
 				<template name="model" var="v">
@@ -40,6 +40,11 @@
 	    </combobox>
 	    </vbox>
 	    
+	    <vbox>
+	    <label value="Working Hour"></label>
+	    <textbox value="@bind(vm.componentPerUnitMasterBean.workinghour)" width="120px"></textbox>
+	    
+	    </vbox>
 		</hlayout>
 		
 		</div>
@@ -51,6 +56,7 @@
 								<column label="Sl no" value=""></column>
 								<column label="Component Name"></column>
 								<column label="Component Type"></column>
+								<column label="Amout"></column>
 								<column label="Check"></column>
 							</columns>
 					
@@ -60,6 +66,7 @@
 								<label value="@bind(v.count)"></label>
 								<textbox value="@bind(v.componet)"></textbox>
 								<textbox value="@bind(v.componentType)"></textbox>
+								<textbox value="@bind(v.desCompoAmount)"></textbox>
 								<checkbox value="@bind(v.checkVal)" checked="@bind(v.checkVal)" ></checkbox>
 							
 							

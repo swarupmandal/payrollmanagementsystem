@@ -12,9 +12,18 @@ public class ComponentPerUnitMasterBean {
 	private String componentType;
 	private int componentTypeId;
 	
+	private double desCompoAmount;
+	private Double workinghour;
+	private double avd;
+	
+	
+	private String unitDesignation;
+	
 	private boolean checkVal = false;
 	
 	private Integer count;
+	
+	
 	
 	
 	
@@ -66,6 +75,31 @@ public class ComponentPerUnitMasterBean {
 	}
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+	
+	public Double getWorkinghour() {
+		return workinghour;
+	}
+	public void setWorkinghour(Double workinghour) {
+		this.workinghour = workinghour;
+	}
+	public String getUnitDesignation() {
+		return unitDesignation;
+	}
+	public void setUnitDesignation(String unitDesignation) {
+		this.unitDesignation = unitDesignation;
+	}
+	public double getDesCompoAmount() {
+		return desCompoAmount;
+	}
+	public void setDesCompoAmount(double desCompoAmount) {
+		this.desCompoAmount = desCompoAmount;
+	}
+	public double getAvd() {
+		return avd;
+	}
+	public void setAvd(double avd) {
+		this.avd = avd;
 	}
 
 }

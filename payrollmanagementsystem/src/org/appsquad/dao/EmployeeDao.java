@@ -15,6 +15,7 @@ import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
 import org.appsquad.bean.StateMasterBean;
+import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.database.DbConnection;
 import org.appsquad.sql.ComponentMasterSql;
@@ -849,7 +850,7 @@ public class EmployeeDao {
 				try {
 
 					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.employeeInsertQuery, Arrays.asList(bean.getEmployeeCode(),bean.getEmployeeName(),bean.getCompanyId(),bean.getUnitId(),bean.getEmpPhone(),
-										bean.getEmpEmail(),bean.getGender(), userName,userName, bean.getEmpDob()));
+										bean.getEmpEmail(),bean.getGender(), userName,userName, bean.getEmpDob(), bean.getUnitDesignationId()));
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
 						isInserted = true;
@@ -1091,7 +1092,7 @@ public class EmployeeDao {
 		
 	}
 	
-    public static final ArrayList<ComponentMasterBean> loadComponentDetails(int companyId, int unitId){
+    public static final ArrayList<ComponentMasterBean> loadComponentDetails(int companyId, int unitId, int unitdesignationId){
 	ArrayList<ComponentMasterBean> list = new ArrayList<ComponentMasterBean>();
 	if(list.size()>0){
 		list.clear();
@@ -1107,8 +1108,8 @@ public class EmployeeDao {
 					PreparedStatement preparedStatement = null;
 					try {
 					
-						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.loadComponentDetailsQuery, Arrays.asList(companyId, unitId));
-						System.out.println("preparedStatement >>> >> > " + preparedStatement);
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.loadComponentDetailsQuery, Arrays.asList(companyId, unitId, unitdesignationId));
+						System.out.println("preparedStatement ssss ssss >>> >> > " + preparedStatement);
 						ResultSet resultSet = preparedStatement.executeQuery();
 						
 						while (resultSet.next()) {
@@ -1120,6 +1121,7 @@ public class EmployeeDao {
 							bean.setComponentId(resultSet.getInt("component_id"));
 							bean.setComponentType(resultSet.getString("component_type"));
 							bean.setComponentTypeId(resultSet.getInt("component_type_id"));
+							bean.setComponentAmount(resultSet.getDouble("amount"));
 							bean.setCheckVal(false);
 							System.out.println("C C O U N T >>> >> > " + count);
 							list.add(bean);
@@ -1202,6 +1204,63 @@ public class EmployeeDao {
 	
 }
 
+    
+    public static ArrayList<UnitDesignationBean> loadUnitDesignationList(int companyId, int unitId){
+
+    	ArrayList<UnitDesignationBean> list = new ArrayList<UnitDesignationBean>();
+    	
+		if(list.size()>0){
+			list.clear();
+		}
+		
+		try {
+
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				
+				try {
+					
+					sql_block:{
+					
+						PreparedStatement preparedStatement = null;
+						try {
+						
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.loadUnitDesignationQuery, Arrays.asList(companyId,unitId));
+							
+							ResultSet resultSet = preparedStatement.executeQuery();
+							
+							while (resultSet.next()) {
+								UnitDesignationBean bean = new UnitDesignationBean();
+								bean.setUnitDesignation(resultSet.getString("designation"));
+								bean.setUnitDesignationId(resultSet.getInt("id"));
+								list.add(bean);
+							}
+							
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+
+    
+    
 	
 
 }

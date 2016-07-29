@@ -53,6 +53,8 @@ public class EmployeeMasterBean {
 	private String componentType;
 	private Integer componentTypeId;
 	
+	private String unitDesignation;
+	private Integer unitDesignationId;
 	
 	
 	
@@ -645,6 +647,22 @@ public class EmployeeMasterBean {
 	public void setComponentMasterBeanList(
 			ArrayList<ComponentMasterBean> componentMasterBeanList) {
 		this.componentMasterBeanList = componentMasterBeanList;
+	}
+
+	public String getUnitDesignation() {
+		return unitDesignation;
+	}
+
+	public void setUnitDesignation(String unitDesignation) {
+		this.unitDesignation = unitDesignation;
+	}
+
+	public Integer getUnitDesignationId() {
+		return unitDesignationId;
+	}
+
+	public void setUnitDesignationId(Integer unitDesignationId) {
+		this.unitDesignationId = unitDesignationId;
 	}
 	
 	
