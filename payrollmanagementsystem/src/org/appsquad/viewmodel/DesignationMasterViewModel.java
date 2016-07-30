@@ -19,10 +19,14 @@ import org.zkoss.zk.ui.select.Selectors;
 public class DesignationMasterViewModel {
 
 	DesignationMasterBean designationMasterBean = new DesignationMasterBean();
-	EmployeeDesignationMaster employeeDesignationMaster = new EmployeeDesignationMaster();
+	
+	//DesignationMasterBean unitDesignationMasterBean = new DesignationMasterBean();
+	
+	DesignationMasterBean empDesignationMasterBean = new DesignationMasterBean();
+	
 	
 	ArrayList<DesignationMasterBean> designationMasterBeanList = new ArrayList<DesignationMasterBean>();
-	ArrayList<EmployeeDesignationMaster> empDesignationList = new ArrayList<EmployeeDesignationMaster>();
+	ArrayList<DesignationMasterBean> empDesignationList= new ArrayList<DesignationMasterBean>();
 	
 	
 	Session session = null;
@@ -40,6 +44,7 @@ public class DesignationMasterViewModel {
 		designationMasterBean.setUserName(userName);
 		
 		designationMasterBeanList = DesignationMasterDao.onLoad();
+		empDesignationList = DesignationMasterDao.onLoadEmpDesignationList();
 		
 	}
 	
@@ -56,8 +61,9 @@ public class DesignationMasterViewModel {
 	@NotifyChange("*")
 	public void onClickSaveEmpDes(){
 		
-		
-		
+		DesignationMasterService.insertEmpDesignationData(empDesignationMasterBean, userName);
+		DesignationMasterService.clearScreen(empDesignationMasterBean);
+		empDesignationList = DesignationMasterDao.onLoadEmpDesignationList();
 	}
 	
 	
@@ -95,26 +101,23 @@ public class DesignationMasterViewModel {
 		this.userName = userName;
 	}
 
-	public EmployeeDesignationMaster getEmployeeDesignationMaster() {
-		return employeeDesignationMaster;
-	}
-
-	public void setEmployeeDesignationMaster(
-			EmployeeDesignationMaster employeeDesignationMaster) {
-		this.employeeDesignationMaster = employeeDesignationMaster;
-	}
-
-	public ArrayList<EmployeeDesignationMaster> getEmpDesignationList() {
+	public ArrayList<DesignationMasterBean> getEmpDesignationList() {
 		return empDesignationList;
 	}
 
 	public void setEmpDesignationList(
-			ArrayList<EmployeeDesignationMaster> empDesignationList) {
+			ArrayList<DesignationMasterBean> empDesignationList) {
 		this.empDesignationList = empDesignationList;
 	}
 	
-	
-	
-	
+	public DesignationMasterBean getEmpDesignationMasterBean() {
+		return empDesignationMasterBean;
+	}
+
+	public void setEmpDesignationMasterBean(
+			DesignationMasterBean empDesignationMasterBean) {
+		this.empDesignationMasterBean = empDesignationMasterBean;
+	}
+
 	
 }

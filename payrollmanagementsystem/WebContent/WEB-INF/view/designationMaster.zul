@@ -71,7 +71,7 @@
 				<row>
 					
 					<hlayout spacing="10px">
-					<textbox placeholder="Employee Designation" value="@bind(vm.employeeDesignationMaster.empDesignation)"/>
+					<textbox placeholder="Employee Designation" value="@bind(vm.empDesignationMasterBean.designation)"/>
 					<button label="Save" onClick="@command('onClickSaveEmpDes')" sclass="bb_button"/>
 					<!-- <button label="Update" sclass="bb_button"/> -->
 					</hlayout>
@@ -86,7 +86,7 @@
 	
 	<div>
 	
-		<grid model="@bind(vm.designationMasterBeanList)">
+		<grid model="@bind(vm.empDesignationList)">
 			<columns>
 				<column label="Employee Designation" align="center"></column>
 				<column label="Action" align="center"></column>

@@ -41,4 +41,17 @@ public class DesignationMasterService {
 		list = DesignationMasterDao.onLoad();
 		return list;
 	}
+	
+	public static void insertEmpDesignationData(DesignationMasterBean bean, String userName){
+		if(isValid(bean)){
+			DesignationMasterDao.insertEmpDesignationData(bean, userName);
+		}
+	}
+	
+	public static ArrayList<DesignationMasterBean> loadEmpDesignation(){
+		ArrayList<DesignationMasterBean> list = new ArrayList<DesignationMasterBean>();
+		list = DesignationMasterDao.onLoadEmpDesignationList();
+		return list;
+	}
+	
 }
