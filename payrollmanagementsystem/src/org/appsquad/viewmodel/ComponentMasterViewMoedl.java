@@ -1,10 +1,8 @@
 package org.appsquad.viewmodel;
 
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.service.ComponentMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -13,12 +11,10 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Window;
 
 public class ComponentMasterViewMoedl {
 
@@ -30,12 +26,12 @@ public class ComponentMasterViewMoedl {
 	
 	ComponentMasterBean componentMasterBean = new ComponentMasterBean();
 	
-	//ComponentMasterBean componentTypeBean = new ComponentMasterBean();
-	
-	private Connection connection = null;
 	Session session = null;
 	private String userName;
 	public String componentName;
+	
+	public static Logger logger = Logger.getLogger(ComponentMasterViewMoedl.class);
+	
 	@AfterCompose
 	public void initSetUp(@ContextParam(ContextType.VIEW) Component view) throws Exception{
 
@@ -56,30 +52,17 @@ public class ComponentMasterViewMoedl {
 	@NotifyChange("*")
 	public void onClickSave(){
 		componentMasterBean.setComponentName(componentName);
-		System.out.println(" name ::"+componentMasterBean.getComponentName());
-		
-		if(ComponentMasterService.isEmptyFieldCheck(componentMasterBean)){
-		    if(ComponentMasterService.insertComponentDetails(componentMasterBean, userName)){
+		 if(ComponentMasterService.isEmptyFieldCheck(componentMasterBean)){
+			
+			if(ComponentMasterService.insertComponentDetails(componentMasterBean, userName)){
+				 logger.info("1 name ::"+componentMasterBean.getComponentName());
+				
 		    	componentName=null;
 		    	ComponentMasterService.loadComponentDetails(componentMasterBeanList);
 		    	Messagebox.show("Saved successfully", "InforMation", Messagebox.OK, Messagebox.INFORMATION);
 		    }
 		}
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public ComponentMasterBean getComponentMasterBean() {
 		return componentMasterBean;

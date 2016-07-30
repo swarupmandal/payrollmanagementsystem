@@ -56,6 +56,7 @@ public class EmployeeMasterBean {
 	private String unitDesignation;
 	private Integer unitDesignationId;
 	
+	private BloodGroupBean bloodGroupBean;
 	
 	
 	private boolean pfCheckValue = false;
@@ -663,6 +664,14 @@ public class EmployeeMasterBean {
 
 	public void setUnitDesignationId(Integer unitDesignationId) {
 		this.unitDesignationId = unitDesignationId;
+	}
+
+	public BloodGroupBean getBloodGroupBean() {
+		return bloodGroupBean;
+	}
+
+	public void setBloodGroupBean(BloodGroupBean bloodGroupBean) {
+		this.bloodGroupBean = bloodGroupBean;
 	}
 	
 	

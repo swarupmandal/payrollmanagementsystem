@@ -68,9 +68,7 @@ public class ComponentMasterDao {
 	}
 	
 	
-	public static boolean saveComponentDetails(ComponentMasterBean bean, String userName){
-
-		
+	public static boolean saveComponentDetails(ComponentMasterBean bean, String userName){	
 		int count = 0;
 		boolean isInserted = false;
 		try {
@@ -111,6 +109,30 @@ public class ComponentMasterDao {
 		
 		return isInserted;
 	
+	}
+	
+	
+	public static void addNewComponentColumnInPayrollTable(String columnName){	
+		try {
+			Connection connection = DbConnection.createConnection();
+					sql:{
+					PreparedStatement preparedStatement = null;
+					String query =  ComponentMasterSql.addColumnQuery.replace("columnname", columnName);
+						try {
+							preparedStatement = Util1.createQuery(connection,query, null);
+							int count = preparedStatement.executeUpdate();
+							if(count>0){
+								System.out.println("Column "+columnName+" added!");
+							}
+						  }finally{
+						  if(preparedStatement != null){
+							  preparedStatement.close();
+						  }
+						}	
+				      }	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

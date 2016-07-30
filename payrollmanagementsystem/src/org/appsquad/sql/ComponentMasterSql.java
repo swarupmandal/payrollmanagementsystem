@@ -11,4 +11,5 @@ public class ComponentMasterSql {
 															+ " WHERE pcm.component_type_id = pctm.component_type_id";
 	public static final String saveWorkingHour = "INSERT INTO pms_working_hours_per_unit(company_id, unit_id, hour_per_day, created_by,updated_by, unit_designation) VALUES (?, ?,  ?, ?, ?, ?) "; 
 	
+	public static final String addColumnQuery = "ALTER TABLE pms_payroll ADD COLUMN columnname character varying;";
 }

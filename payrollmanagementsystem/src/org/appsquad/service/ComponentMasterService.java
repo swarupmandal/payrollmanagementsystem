@@ -16,6 +16,7 @@ public class ComponentMasterService {
 	
 	public static boolean insertComponentDetails(ComponentMasterBean bean, String userName){
 		if(ComponentMasterDao.saveComponentDetails(bean, userName)){
+			 ComponentMasterService.addNewColumn(bean.getComponentName());
 			bean.setComponentName(null);
 			bean.setComponentTypeId(null);
 			bean.setComponentType(null);
@@ -25,6 +26,10 @@ public class ComponentMasterService {
 			return false;
 		}
 		
+	}
+	
+	public static void addNewColumn(String columnName){
+		ComponentMasterDao.addNewComponentColumnInPayrollTable(columnName);
 	}
 	
 	public static boolean isEmptyFieldCheck(ComponentMasterBean bean){
