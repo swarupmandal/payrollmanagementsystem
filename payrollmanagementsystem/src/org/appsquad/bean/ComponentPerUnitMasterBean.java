@@ -17,12 +17,14 @@ public class ComponentPerUnitMasterBean {
 	private double avd;
 	
 	
-	private String unitDesignation;
+	private int unitDesignationId;
+	private int baseDays;
+	
 	
 	private boolean checkVal = false;
 	
 	private Integer count;
-	
+	public String userName;
 	
 	
 	
@@ -83,12 +85,7 @@ public class ComponentPerUnitMasterBean {
 	public void setWorkinghour(Double workinghour) {
 		this.workinghour = workinghour;
 	}
-	public String getUnitDesignation() {
-		return unitDesignation;
-	}
-	public void setUnitDesignation(String unitDesignation) {
-		this.unitDesignation = unitDesignation;
-	}
+	
 	public double getDesCompoAmount() {
 		return desCompoAmount;
 	}
@@ -100,6 +97,24 @@ public class ComponentPerUnitMasterBean {
 	}
 	public void setAvd(double avd) {
 		this.avd = avd;
+	}
+	public int getBaseDays() {
+		return baseDays;
+	}
+	public void setBaseDays(int baseDays) {
+		this.baseDays = baseDays;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public int getUnitDesignationId() {
+		return unitDesignationId;
+	}
+	public void setUnitDesignationId(int unitDesignationId) {
+		this.unitDesignationId = unitDesignationId;
 	}
 
 }

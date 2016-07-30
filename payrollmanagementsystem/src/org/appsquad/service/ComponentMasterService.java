@@ -48,14 +48,4 @@ public class ComponentMasterService {
 		
 	}
 	
-	
-	public static void saveHourPerDesignation(int companyId, int unitId ,int designationId, double workingHour, String username){
-		ComponentPerUnitMasterDao.saveHourPerDay(companyId, unitId, designationId, workingHour, username);
-	}
-	
-	
-	
-	
-	
-	
 }

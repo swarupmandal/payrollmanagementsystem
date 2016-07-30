@@ -5,7 +5,7 @@
 		
 		<div align="center" height="40px">
 		
-		<hlayout spacing="100px">
+		<hlayout spacing="50px">
 			
 		  
 		  <vbox>
@@ -42,9 +42,14 @@
 	    
 	    <vbox>
 	    <label value="Working Hour"></label>
-	    <textbox value="@bind(vm.componentPerUnitMasterBean.workinghour)" width="120px"></textbox>
-	    
+	    <textbox value="@bind(vm.componentPerUnitMasterBean.workinghour)" width="90%"></textbox>
 	    </vbox>
+	    
+	    <vbox>
+	    <label value="Base Days"></label>
+	    <textbox value="@bind(vm.componentPerUnitMasterBean.baseDays)" width="90%"></textbox>
+	    </vbox>
+	    
 		</hlayout>
 		
 		</div>

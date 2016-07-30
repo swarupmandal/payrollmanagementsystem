@@ -7,6 +7,8 @@ public class DesignationMasterBean {
 	private String userName;
 	
 	
+	
+	
 	public int getDesignationId() {
 		return designationId;
 	}
