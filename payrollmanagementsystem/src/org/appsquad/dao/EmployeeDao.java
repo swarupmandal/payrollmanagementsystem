@@ -851,6 +851,8 @@ public class EmployeeDao {
 
 					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.employeeInsertQuery, Arrays.asList(bean.getEmployeeCode(),bean.getEmployeeName(),bean.getCompanyId(),bean.getUnitId(),bean.getEmpPhone(),
 										bean.getEmpEmail(),bean.getGender(), userName,userName, bean.getEmpDob(), bean.getUnitDesignationId()));
+					
+					System.out.println("Prep a b c >>> >> > " + preparedStatement);
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
 						isInserted = true;

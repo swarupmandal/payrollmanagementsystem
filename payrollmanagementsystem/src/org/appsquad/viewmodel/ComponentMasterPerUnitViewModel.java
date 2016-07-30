@@ -35,9 +35,10 @@ public class ComponentMasterPerUnitViewModel {
 	ComponentPerUnitMasterBean componentPerUnitMasterBean = new ComponentPerUnitMasterBean();
 	private DesignationBean designationBean = new DesignationBean();
 	
+	
 	private Connection connection = null;
 	Session session = null;
-	private String userName;
+	
 	
 	@AfterCompose
 	public void initSetUp(@ContextParam(ContextType.VIEW) Component view) throws Exception{
@@ -46,13 +47,12 @@ public class ComponentMasterPerUnitViewModel {
 		
 		session = Sessions.getCurrent();
 		
-		userName = (String) session.getAttribute("userId");
+		componentPerUnitMasterBean.userName = (String) session.getAttribute("userId");
 		
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
 		EmployeeMasterService.loadDesignationList(designationBeanList);
 		componentPerUnitMasterBeanList = ComponentPerUnitMasterService.loadData();
 		
-		//EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
 		
 		
 	}
@@ -74,6 +74,15 @@ public class ComponentMasterPerUnitViewModel {
 		System.out.println(componentPerUnitMasterBean.getUnitId());
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onSelectDesignation(){
+		
+		componentPerUnitMasterBean.setUnitDesignationId(designationBean.getDesignationId());
+		System.out.println(componentPerUnitMasterBean.getUnitDesignationId());
+		
+	}
+	
 	
 	@Command
 	@NotifyChange("*")
@@ -88,27 +97,40 @@ public class ComponentMasterPerUnitViewModel {
 		System.out.println("TAB2 SELECTED");
 	}
 	
-	@Command
+	/*@Command
 	@NotifyChange("*")
 	public void onClickSave(){
-	if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean, designationBean.getDesignationId())){
-		
+	if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean)){
 		if(componentPerUnitMasterBean.getWorkinghour() != null){
-		ComponentMasterService.saveHourPerDesignation(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(),designationBean.getDesignationId(), componentPerUnitMasterBean.getWorkinghour(), userName);
+			ComponentPerUnitMasterService.saveHourPerDesignation(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(),designationBean.getDesignationId(), componentPerUnitMasterBean.getWorkinghour(), userName);
 		}
-		
+		if(componentPerUnitMasterBean.getBaseDays()>0){
+			ComponentPerUnitMasterService.saveBaseDaysPerUnit(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(),componentPerUnitMasterBean.getBaseDays(), componentPerUnitMasterBean.getWorkinghour(), userName);
+		}
 		ComponentPerUnitMasterService.saveComponentPerUnit(componentPerUnitMasterBeanList, componentPerUnitMasterBean.getCompanyId(), componentPerUnitMasterBean.getUnitId(), userName, designationBean.getDesignationId());
-		
 		
 	    }
 		
-	}
+	}*/
 	
 	@Command
 	@NotifyChange("*")
-	public void onSelectDesignation(){
+	public void onClickSave(){
+		
+		if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean)){
+			
+			ComponentPerUnitMasterService.saveComponentPerUnit2(getComponentPerUnitMasterBeanList(), componentPerUnitMasterBean);
+			
+			
+			
+			
+		}
 		
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -145,14 +167,6 @@ public class ComponentMasterPerUnitViewModel {
 
 	public void setSession(Session session) {
 		this.session = session;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 
 	public CompanyMasterBean getCompanyMasterBean() {

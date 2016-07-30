@@ -93,15 +93,15 @@ public class EmployeeMasterService {
 								
 								if(bean.getEmpDob() != null){
 									
-									if(bean.getUnitDesignationId() != null){
+									//if(bean.getUnitDesignationId() != null){
 									
 										return true;
 										
-									}else {
+									/*}else {
 										
 										Messagebox.show("Select Unit Designation","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
 										return false;
-									}
+									}*/
 									
 									
 									

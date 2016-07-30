@@ -3,6 +3,7 @@ package org.appsquad.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -213,7 +214,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 					for(int i : count){
 						insertCount +=i;
 					}
-					System.out.println("INSERT COUNT >>> >> > " + insertCount);
+		
 					if(c>0){
 						Messagebox.show("Saved successfully", "Information", Messagebox.OK, Messagebox.INFORMATION);
 					}else {
@@ -240,9 +241,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 		
 	}
 	
-public static void saveHourPerDay(int companyId, int unitId ,int designationId, double workingHour, String userName){
-		
-
+	public static void saveHourPerDay(int companyId, int unitId ,int designationId, double workingHour, String userName){
 		int id = 0;
 		try {
 			Connection connection = DbConnection.createConnection();
@@ -251,7 +250,7 @@ public static void saveHourPerDay(int companyId, int unitId ,int designationId, 
 				   PreparedStatement preparedStatement = null;
 				   
 						try {
-							preparedStatement = Util1.createQuery(connection, ComponentMasterSql.saveWorkingHour, 
+							preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.saveWorkingHour, 
 									                Arrays.asList(companyId, unitId, workingHour, userName, userName, designationId));
 							int i = preparedStatement.executeUpdate();
 							if(i>0){
@@ -283,6 +282,133 @@ public static void saveHourPerDay(int companyId, int unitId ,int designationId, 
 		
 	}
 	
+	public static void saveBaseDayPerUnit(int companyId, int unitId ,int baseDays, double workingHour, String userName){
+		int id = 0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			try {
+				sql:{
+				   PreparedStatement preparedStatement = null;
+				   
+						try {
+							preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.saveBaseDays, 
+									                Arrays.asList(companyId, unitId, workingHour, userName, userName, baseDays));
+							int i = preparedStatement.executeUpdate();
+							if(i>0){
+								//Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+								
+							}
+							
+							 
+						} finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+				
+			}
+			} catch (Exception e) {
+				
+				Messagebox.show("Already Exists","ERROR",Messagebox.OK,Messagebox.ERROR);
+				e.printStackTrace();
+			}finally{
+				if(connection != null){
+					connection.close();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public static void insertComponentPerUnit2(ArrayList<ComponentPerUnitMasterBean> list, ComponentPerUnitMasterBean bean){
+		
+			int i =0;
+			int j = 0;
+		
+			Connection connection = DbConnection.createConnection();
+			
+		try {
+			connection.setAutoCommit(false);
+			
+			
+			sql_component:{
+
+				PreparedStatement preparedStatement = null;
+				
+				try {
+					
+					for(ComponentPerUnitMasterBean bean1 : list){
+					
+					if(bean1.isCheckVal()){									
+					
+					preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.insertComponentPerUnitQuery, 
+							Arrays.asList(bean1.getComponentId(), bean1.getComponet(),bean1.getComponentTypeId(),
+									bean.getCompanyId(),bean.getUnitId(),bean.getUserName(),bean.getUserName(), 
+									bean.getUnitDesignationId(), bean1.getDesCompoAmount()));
+					
+					
+					
+					i = preparedStatement.executeUpdate();
+					
+					}
+					
+				}
+
+			
+		} finally {
+			if(preparedStatement != null){
+				preparedStatement.close();
+			}
+		}
+		
+		
+	}
 	
-	
-}
+		sql2:{
+		PreparedStatement preparedStatement = null;
+			   try {
+				
+				preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.saveWorkingHour,
+						Arrays.asList(bean.getCompanyId(), bean.getUnitId(), bean.getWorkinghour(), bean.getUserName(),bean.getUserName(), 
+								bean.getUnitDesignationId(), bean.getBaseDays()));
+				j = preparedStatement.executeUpdate();
+				
+				
+			} finally{
+				   if(preparedStatement !=null){
+					   	preparedStatement.close();
+				 }
+			}
+		}
+			
+		connection.commit();
+		if(i>0 && j>0){
+			Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);
+		}
+		
+		} catch (Exception e) {
+			if(e.getMessage().contains("duplicate")){
+			Messagebox.show("Already Exists","ERROR",Messagebox.OK,Messagebox.ERROR);
+			}
+			e.printStackTrace();
+			
+		}finally{
+			if(connection != null){
+				try {
+					connection.setAutoCommit(true);
+					connection.close();
+				} catch (SQLException e) {
+					
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	}
+		
+		
+	}

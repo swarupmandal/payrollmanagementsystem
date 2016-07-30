@@ -3,6 +3,7 @@ package org.appsquad.viewmodel;
 import java.util.ArrayList;
 
 import org.appsquad.bean.DesignationMasterBean;
+import org.appsquad.bean.EmployeeDesignationMaster;
 import org.appsquad.dao.DesignationMasterDao;
 import org.appsquad.service.DesignationMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -18,8 +19,11 @@ import org.zkoss.zk.ui.select.Selectors;
 public class DesignationMasterViewModel {
 
 	DesignationMasterBean designationMasterBean = new DesignationMasterBean();
+	EmployeeDesignationMaster employeeDesignationMaster = new EmployeeDesignationMaster();
 	
 	ArrayList<DesignationMasterBean> designationMasterBeanList = new ArrayList<DesignationMasterBean>();
+	ArrayList<EmployeeDesignationMaster> empDesignationList = new ArrayList<EmployeeDesignationMaster>();
+	
 	
 	Session session = null;
 	String userName;
@@ -33,9 +37,10 @@ public class DesignationMasterViewModel {
 		session = Sessions.getCurrent();
 		
 		userName = (String) session.getAttribute("userId");
+		designationMasterBean.setUserName(userName);
 		
 		designationMasterBeanList = DesignationMasterDao.onLoad();
-		//designationMasterBeanList = DesignationMasterService.loadAllDataOfDesignationMaster();
+		
 	}
 	
 	@Command
@@ -47,7 +52,13 @@ public class DesignationMasterViewModel {
 		designationMasterBeanList = DesignationMasterDao.onLoad();
 	}
 
-	
+	@Command
+	@NotifyChange("*")
+	public void onClickSaveEmpDes(){
+		
+		
+		
+	}
 	
 	
 	
@@ -82,6 +93,24 @@ public class DesignationMasterViewModel {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public EmployeeDesignationMaster getEmployeeDesignationMaster() {
+		return employeeDesignationMaster;
+	}
+
+	public void setEmployeeDesignationMaster(
+			EmployeeDesignationMaster employeeDesignationMaster) {
+		this.employeeDesignationMaster = employeeDesignationMaster;
+	}
+
+	public ArrayList<EmployeeDesignationMaster> getEmpDesignationList() {
+		return empDesignationList;
+	}
+
+	public void setEmpDesignationList(
+			ArrayList<EmployeeDesignationMaster> empDesignationList) {
+		this.empDesignationList = empDesignationList;
 	}
 	
 	

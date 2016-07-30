@@ -316,6 +316,12 @@ public class EmployeeMasterViewModel {
 	@NotifyChange("*")
 	public void onSelectUnitDesignation(){
 		
+		System.out.println("unit designetionId " + unitDesignationBean.getUnitDesignationId() );
+		
+		employeeMasterBean.setUnitDesignationId(unitDesignationBean.getUnitDesignationId());
+		
+		System.out.println("" + employeeMasterBean.getUnitDesignationId());
+		
 		componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId(),unitDesignationBean.getUnitDesignationId() );
 	
 	}

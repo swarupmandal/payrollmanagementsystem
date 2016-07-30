@@ -24,23 +24,35 @@ public class ComponentPerUnitMasterService {
 		return list;
 	}
 	
-	public static boolean isEmptyLocationField(ComponentPerUnitMasterBean bean, int designationId){
+	public static boolean isEmptyLocationField(ComponentPerUnitMasterBean bean){
 		boolean flag = false;
 		if(bean.getCompanyId()>0){
 			if(bean.getUnitId()>0){
-				if(designationId >0){
-				
-				return true;
-				
+				   if(bean.getUnitDesignationId()>0){
+					 if(bean.getBaseDays()>0){
+						 if(bean.getWorkinghour() !=null){
+						 
+							 return true;
+						
+						 }else {
+							 Messagebox.show("Enter Hour", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+							return false;
+						}
+						
+					}else {
+						Messagebox.show("Enter Base Days", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+						return false;
+					}
 				}else {
 					Messagebox.show("Select Designation", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+					return false;
 				}
 			}else {
 				Messagebox.show("Select Unit", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 			}	return false;
-			}else {
-				Messagebox.show("Select Company Name ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
-				return false;
+		}else {
+			Messagebox.show("Select Company Name ", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
+			return false;
 		}
 		
 	}
@@ -50,8 +62,19 @@ public class ComponentPerUnitMasterService {
 		
 		
 	}
+	public static void saveHourPerDesignation(int companyId, int unitId ,int designationId, double workingHour, String username){
+		ComponentPerUnitMasterDao.saveHourPerDay(companyId, unitId, designationId, workingHour, username);
+	}
 	
+	public static void saveBaseDaysPerUnit(int companyId, int unitId ,int baseDays, double workingHour, String userName){
+		ComponentPerUnitMasterDao.saveBaseDayPerUnit(companyId, unitId, baseDays, workingHour, userName);
+	}
 	
+	public static void saveComponentPerUnit2(ArrayList<ComponentPerUnitMasterBean> list, ComponentPerUnitMasterBean bean){
+		
+		ComponentPerUnitMasterDao.insertComponentPerUnit2(list, bean);
+		
+	}
 	
 	
 }
