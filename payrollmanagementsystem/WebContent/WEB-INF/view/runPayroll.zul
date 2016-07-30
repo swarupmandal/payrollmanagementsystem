@@ -44,14 +44,11 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		<intbox placeholder="Total Working Days" readonly="true" width="120px" value="@bind(vm.runPayRollBean.totalNumberOfWorkingDaysEveryMonth)"></intbox>
 		</vbox> -->
 		
-		<vbox>
-		<label value="Current Date"></label>
-		<label value="@bind(vm.currentDate)"></label>
-		</vbox>
+		
 		
 		<vbox>
 		 <label value="Unit Designation	"></label>
-		 <combobox  width="130px" model="@bind(vm.unitMasterBeanList)"
+		 <combobox  width="130px" model="@bind(vm.unitDesignationBeanList)"
 				   onSelect="@command('onSelectUnit')"
 					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -61,7 +58,10 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	
 		</vbox>
 		
-		
+		<vbox>
+		<label value="Current Date"></label>
+		<label value="@bind(vm.currentDate)"></label>
+		</vbox>
 		
 		
 		<!-- <vbox>
@@ -172,6 +172,9 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   			<columns>
   				<column label="Emp Code" align="center"/>
   				<column label="Emp Name" align="center"/>
+  				
+  				<column label="Present" align="center"/>
+  				<column label="Wages" align="center"/>
   				<column label="OT Days" align="center"/>
   				<column label="OT hours" align="center"/>
   				<column label="Leave Days" align="center"/>
@@ -186,6 +189,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  				<row>
 	  					<textbox value="@bind(v.empCode)" readonly="true"/>
 	  					<textbox value="@bind(v.empName)"  readonly="true"/>
+	  					<textbox value="@bind(v.presentDay)"></textbox>
+	  					<textbox value="@bind(v.wages)"></textbox>
 	  					<textbox value="@bind(v.otDaysF)"/>
 	  					<textbox value="@bind(v.otHoursF)"/>
 	  					<textbox value="@bind(v.leaveDaysF)"/>

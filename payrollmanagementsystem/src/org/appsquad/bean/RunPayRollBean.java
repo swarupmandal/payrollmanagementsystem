@@ -42,6 +42,10 @@ public class RunPayRollBean {
     public double otSalary = 0;
     public double leaveDeduction = 0;
     
+    private int present; 
+    
+    private double wages;
+    
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
     
@@ -294,6 +298,18 @@ public class RunPayRollBean {
 	}
 	public void setBaseDay(Integer baseDay) {
 		this.baseDay = baseDay;
+	}
+	public int getPresent() {
+		return present;
+	}
+	public void setPresent(int present) {
+		this.present = present;
+	}
+	public double getWages() {
+		return wages;
+	}
+	public void setWages(double wages) {
+		this.wages = wages;
 	}
 	
 }

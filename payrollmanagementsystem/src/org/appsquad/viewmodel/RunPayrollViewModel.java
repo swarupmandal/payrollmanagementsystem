@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.appsquad.bean.CompanyMasterBean;
+import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.HolidayMasterBean;
 import org.appsquad.bean.MonthMasterBean;
@@ -47,12 +48,14 @@ public class RunPayrollViewModel {
 	private MonthMasterBean monthMasterBean = new MonthMasterBean();
 	private EmployeeSalaryComponentAmountBean amountBean = new EmployeeSalaryComponentAmountBean();
 	private HolidayMasterBean holidayMasterBean =new HolidayMasterBean();
+	private DesignationBean unitDesignationBean = new DesignationBean();
 	
 	
 	private ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
+	private ArrayList<DesignationBean> unitDesignationBeanList = new ArrayList<DesignationBean>();
 	
 	
 	
@@ -734,6 +737,23 @@ public class RunPayrollViewModel {
 
 	public void setHolidayMasterBean(HolidayMasterBean holidayMasterBean) {
 		this.holidayMasterBean = holidayMasterBean;
+	}
+
+	public DesignationBean getUnitDesignationBean() {
+		return unitDesignationBean;
+	}
+
+	public void setUnitDesignationBean(DesignationBean unitDesignationBean) {
+		this.unitDesignationBean = unitDesignationBean;
+	}
+
+	public ArrayList<DesignationBean> getUnitDesignationBeanList() {
+		return unitDesignationBeanList;
+	}
+
+	public void setUnitDesignationBeanList(
+			ArrayList<DesignationBean> unitDesignationBeanList) {
+		this.unitDesignationBeanList = unitDesignationBeanList;
 	}
 
 	
