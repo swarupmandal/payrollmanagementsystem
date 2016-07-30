@@ -56,8 +56,9 @@ public class ComponentMasterViewMoedl {
 			
 			if(ComponentMasterService.insertComponentDetails(componentMasterBean, userName)){
 				 logger.info("1 name ::"+componentMasterBean.getComponentName());
-				
-		    	componentName=null;
+				 componentName = null;
+				 componentMasterBean.setComponentType(null);
+				 componetTypeList= ComponentMasterService.loadComponents();
 		    	ComponentMasterService.loadComponentDetails(componentMasterBeanList);
 		    	Messagebox.show("Saved successfully", "InforMation", Messagebox.OK, Messagebox.INFORMATION);
 		    }

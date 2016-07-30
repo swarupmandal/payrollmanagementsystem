@@ -22,7 +22,7 @@
 					<textbox placeholder="Component" value="@bind(vm.componentName)"/>
 					
 					<label value="Component Type"></label>
-					<combobox  width="120px" model="@bind(vm.componetTypeList)" placeholder="Select E/D"
+					<combobox  width="90%" model="@bind(vm.componetTypeList)" placeholder="Select E/D"
 				    value="@bind(vm.componentMasterBean.componentType)"
 					selectedItem="@bind(vm.componentMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
