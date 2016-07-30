@@ -10,4 +10,5 @@ public class ComponentMasterSql {
 															+ " FROM pms_component_master pcm, pms_component_type_master pctm "
 															+ " WHERE pcm.component_type_id = pctm.component_type_id";
 	
+	public static final String addColumnQuery = "ALTER TABLE pms_payroll ADD COLUMN columnname character varying;";
 }
