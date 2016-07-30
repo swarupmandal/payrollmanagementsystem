@@ -236,7 +236,7 @@ apply="org.zkoss.bind.BindComposer"
 					<column label="Component Name"></column>
 					<column label="Component Type"></column>
 					<column label="Amount"></column>
-					<column label="Check"></column>
+					<column label="Check" visible="false"></column>
 				</columns>
 
 				<rows>
