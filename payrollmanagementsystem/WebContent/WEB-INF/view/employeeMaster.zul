@@ -11,7 +11,7 @@
 		<tabpanels >
 			<tabpanel>
 					<hlayout>
-						<div width="350px" align="center">
+						<div width="100%" align="center">
 							<vbox spacing="2px">
 
 								<label value="Company Name"></label>
@@ -59,9 +59,9 @@
 						</div>
 
 						<vbox>
-							<label value="Employee Information"
+							<!-- <label value="Employee Information"
 								style="font-weight:bold; color:black">
-							</label>
+							</label> -->
 							<div>
 								<grid width="100%">
 									<columns>
@@ -106,7 +106,7 @@
 											<combobox value="@bind(vm.employeeMasterBean.gender)" width="80%">
 												<comboitem label="Male" value="Male"/>
 												<comboitem label="Female" value="Female"/>
-												<comboitem label="Other" value="Other"/>
+												<comboitem label="General" value="Other"/>
 											</combobox>
 
 											<label
@@ -124,7 +124,7 @@
 
 								</grid>
 								<space></space>
-								<div>
+								<div style="margin-left:150px">
 									<!-- <button label="Save" onClick="@command('saveEmpInfo')"></button> -->
 									<button label="Save"
 										sclass="bb_button" onClick="@command('saveEmpInfo2')">
@@ -496,13 +496,14 @@
 			
 			<tabpanel >
 					
-					<grid model="@bind(vm.employeeMasterBeanList)"  mold="paging" pageSize="5" emptyMessage="No employee found">
+					<grid model="@bind(vm.employeeMasterBeanList)"  mold="paging" pageSize="5" 
+					emptyMessage="No employee found" width="100%">
 						<auxhead>
 							<auxheader colspan="4">
 								<textbox placeholder="Search by Employee Code" width="160px" 
 								onChange="@command('onChangeEmployeeCode')" value="@bind(vm.employeeCode)"/>
 								<label value="Company Name"></label>
-								<combobox width="160px" value="
+								<combobox width="20%" value="
 								@bind(vm.employeeMasterBean.companyName)"
 									model="@bind(vm.companyBeanList)"
 									onSelect="@command('onSelectCompanyName')"
@@ -516,7 +517,7 @@
 								<space></space>
 
 								<label value="Unit Name"></label>
-								<combobox width="160px"
+								<combobox  width="20%"
 									model="@bind(vm.unitMasterBeanList)" value="@bind(vm.employeeMasterBean.unitName)"
 									onSelect="@command('onSelectUnitName')"
 									selectedItem="@bind(vm.unitMasterBean)" autocomplete="true"
@@ -533,6 +534,7 @@
 							<column label="Company Name" align="center"/>
 							<column label="Unit Name" align="center"/>
 							<column label="Employee code" align="center"/>
+							<column label="Employee name" align="center"/>
 							<column label="Action" align="center"/>
 						</columns>
 						
@@ -542,7 +544,9 @@
 								<textbox value="@bind(v.companyName)" readonly="true"/>
 								<textbox value="@bind(v.unitName)" readonly="true"/>
 								<textbox value="@bind(v.employeeCode)" readonly="true"/>
-								<button label="Edit" sclass="bb_button" onClick="@command('onClickEdit',bean = v)"/>
+								<textbox value="@bind(v.employeeName)" readonly="true"/>
+								<!-- <button label="Edit" sclass="bb_button" onClick="@command('onClickEdit',bean = v)"/> -->
+								<a  onClick="@command('onClickEdit',bean = v)"><image src="images/ico_edit.png" ></image> </a>
 								</row>
 							</template>
 						</rows>

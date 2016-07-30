@@ -77,6 +77,29 @@ public class EmployeeEditViewModel {
 	
 	@Command
 	@NotifyChange("*")
+	public void onCheckPf(){
+		
+		if(employeeMasterBean.isPfCheckValue()==true){
+			employeeMasterBean.setUanFieldDisabled(false);
+			}else if (employeeMasterBean.isPfCheckValue()==false) {
+			employeeMasterBean.setUan(null);
+			employeeMasterBean.setUanFieldDisabled(true);
+		}
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onCheckEsi(){
+		if(employeeMasterBean.isEsiCheckValue()){
+			employeeMasterBean.setEsiFieldDisabled(false);
+		}else if (!employeeMasterBean.isEsiCheckValue()) {
+			employeeMasterBean.setEsi(null);
+			employeeMasterBean.setEsiFieldDisabled(true);
+		}
+	}
+	
+	@Command
+	@NotifyChange("*")
 	public void oClickUpdate(){
 		EmployeeMasterService.updateEmployeeInfo(employeeMasterBean);
 	}

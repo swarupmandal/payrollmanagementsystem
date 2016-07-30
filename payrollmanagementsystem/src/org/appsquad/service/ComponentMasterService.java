@@ -17,9 +17,6 @@ public class ComponentMasterService {
 	public static boolean insertComponentDetails(ComponentMasterBean bean, String userName){
 		if(ComponentMasterDao.saveComponentDetails(bean, userName)){
 			 ComponentMasterService.addNewColumn(bean.getComponentName());
-			bean.setComponentName(null);
-			bean.setComponentTypeId(null);
-			bean.setComponentType(null);
 			
 			return true;
 		}else {

@@ -421,6 +421,7 @@ public class EmployeeDao {
 						while (resultSet.next()) {
 							EmployeeMasterBean bean = new EmployeeMasterBean();
 							bean.setEmployeeid(resultSet.getInt("employee_id"));
+							bean.setEmployeeName(resultSet.getString("employee_name"));
 							bean.setCompanyName(resultSet.getString("company_name"));
 							bean.setCompanyId(resultSet.getInt("company_id"));
 							bean.setUnitName(resultSet.getString("unit_name"));
