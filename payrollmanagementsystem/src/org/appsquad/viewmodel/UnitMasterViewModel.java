@@ -6,6 +6,7 @@ import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.CompanyDao;
+import org.appsquad.dao.UnitMasterDao;
 import org.appsquad.service.BloodGroupService;
 import org.appsquad.service.UnitMasterService;
 import org.zkoss.bind.BindUtils;
@@ -25,6 +26,8 @@ import org.zkoss.zul.Messagebox;
 
 public class UnitMasterViewModel {
 	public UnitMasterBean unitMasterBean = new UnitMasterBean();
+	
+	public UnitMasterBean baseDaysTypeBean = new UnitMasterBean();
 
 	Session session = null;
 	
@@ -35,6 +38,8 @@ public class UnitMasterViewModel {
 	private CompanyMasterBean companyMasterBean = new CompanyMasterBean();
 	
 	public ArrayList<CompanyMasterBean> companyMasterBeanList = new ArrayList<CompanyMasterBean>();
+	
+	public ArrayList<UnitMasterBean> baseDaysList = new ArrayList<UnitMasterBean>();
 	
 	public boolean saveDisability = false;
 	
@@ -57,6 +62,8 @@ public class UnitMasterViewModel {
 		
 		companyMasterBeanList = CompanyDao.loadCompanyList();
 		
+		baseDaysList = UnitMasterDao.loadDayType();
+		
 	}
 	
 	@Command
@@ -77,9 +84,11 @@ public class UnitMasterViewModel {
 	@NotifyChange("*")
 	public void onClickSave(){
 		unitMasterBean.setCompanyId(companyId);
-		UnitMasterService.insertUnitMasterData(unitMasterBean);
-		UnitMasterService.clearScreen(unitMasterBean);
+		UnitMasterService.insertUnitMasterData(unitMasterBean, baseDaysTypeBean);
+		UnitMasterService.clearScreen(unitMasterBean, baseDaysTypeBean);
+		baseDaysList = UnitMasterDao.loadDayType();
 		UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
+		
 	}
 	
 	@Command
@@ -113,6 +122,12 @@ public class UnitMasterViewModel {
 		bean.setReadOnly(true);
 	}
 
+	@Command
+	@NotifyChange("*")
+	public void onSelectBasedaysType(){
+		System.out.println("Base Days Type Id " + baseDaysTypeBean.getBaseDaysTypeId());
+	}
+	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
@@ -195,5 +210,21 @@ public class UnitMasterViewModel {
 	public void setCompanyMasterBeanList(
 			ArrayList<CompanyMasterBean> companyMasterBeanList) {
 		this.companyMasterBeanList = companyMasterBeanList;
+	}
+
+	public UnitMasterBean getBaseDaysTypeBean() {
+		return baseDaysTypeBean;
+	}
+
+	public void setBaseDaysTypeBean(UnitMasterBean baseDaysTypeBean) {
+		this.baseDaysTypeBean = baseDaysTypeBean;
+	}
+
+	public ArrayList<UnitMasterBean> getBaseDaysList() {
+		return baseDaysList;
+	}
+
+	public void setBaseDaysList(ArrayList<UnitMasterBean> baseDaysList) {
+		this.baseDaysList = baseDaysList;
 	}
 }

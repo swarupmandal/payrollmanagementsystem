@@ -29,7 +29,7 @@ public class UnitMasterDao {
 			
 				try {
 					preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.onLoadUnitMasterQuery, null);
-					System.out.println("u ni t " + preparedStatement);
+					
 					resultSet = preparedStatement.executeQuery();
 					while (resultSet.next()) {
 						int unitId = resultSet.getInt("unit_id");
@@ -58,7 +58,51 @@ public class UnitMasterDao {
 			}
 	}
 	
-	public static void insertBloodGroupData(UnitMasterBean unitMasterBean){
+	public static ArrayList<UnitMasterBean> loadDayType(){
+		ArrayList<UnitMasterBean> dayTypeList = new ArrayList<UnitMasterBean>();
+		if(dayTypeList.size()>0){
+			dayTypeList.clear();
+		}
+			Connection connection = null;
+		try {
+			connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			try {
+				preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.loadDayTypeQuery, null);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					UnitMasterBean bean = new UnitMasterBean();
+					bean.setBaseDaysTypeId(resultSet.getInt("id"));
+					bean.setBaseDaysType(resultSet.getString("days_type"));
+					
+					dayTypeList.add(bean);
+				}
+				
+			} finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return dayTypeList;
+	}
+	
+	
+	public static void insertUnitMasterData(UnitMasterBean unitMasterBean, int bdid){
+		
 		boolean isInserted = false;
 		Connection connection = DbConnection.createConnection();
 		try {
@@ -68,7 +112,7 @@ public class UnitMasterDao {
 				try {
 					preparedStatement = Util1.createQuery(connection, 
 							UnitMasterSqlQuery.insertUnitMasterQuery, Arrays.asList(unitMasterBean.getUnitName().toUpperCase(),unitMasterBean.getUnitAddress(),
-									unitMasterBean.getCompanyId(),unitMasterBean.getUserName()) );
+									unitMasterBean.getCompanyId(),unitMasterBean.getUserName(), bdid, unitMasterBean.getWorkingHour()));
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
 						isInserted = true;	
@@ -86,7 +130,7 @@ public class UnitMasterDao {
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 		}finally{
@@ -94,15 +138,15 @@ public class UnitMasterDao {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			}
 		}
 		if( isInserted){
-			Messagebox.show("Unit Saved successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
+			Messagebox.show("Saved successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
 		}else{
-			Messagebox.show("Unit Saving failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
+			Messagebox.show("Saving failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
 		}
 	}
 	
@@ -118,7 +162,7 @@ public class UnitMasterDao {
 							UnitMasterSqlQuery.updateUnitMasterQuery, Arrays.asList(unitMasterBean.getUnitName(),unitMasterBean.getUnitAddress(),
 									unitMasterBean.getUserName(),unitMasterBean.getUnitId()) );
 					
-					System.out.println("UPDATE >>> >> > " + preparedStatement);
+					
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
 						isUpdated = true;
@@ -149,9 +193,9 @@ public class UnitMasterDao {
 			}
 		}
 		if( isUpdated){
-			Messagebox.show("Unit updated successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
+			Messagebox.show("Updated successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
 		}else{
-			Messagebox.show("Unit updating failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
+			Messagebox.show("Updation failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
 		}
 	}
 	
@@ -194,9 +238,9 @@ public class UnitMasterDao {
 			}
 		}
 		if( isDeleted){
-			Messagebox.show("Unit isDeleted successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
+			Messagebox.show("Deleted successfully!","Information",Messagebox.OK,Messagebox.INFORMATION);
 		}else{
-			Messagebox.show("Unit deletion failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
+			Messagebox.show("Deletion failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
 		}
 	}
 }

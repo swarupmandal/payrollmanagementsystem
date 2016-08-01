@@ -40,7 +40,7 @@
 	    </combobox>
 	    </vbox>
 	    
-	    <vbox>
+	    <!-- <vbox>
 	    <label value="Working Hour"></label>
 	    <textbox value="@bind(vm.componentPerUnitMasterBean.workinghour)" width="90%"></textbox>
 	    </vbox>
@@ -48,7 +48,7 @@
 	    <vbox>
 	    <label value="Base Days"></label>
 	    <textbox value="@bind(vm.componentPerUnitMasterBean.baseDays)" width="90%"></textbox>
-	    </vbox>
+	    </vbox> -->
 	    
 		</hlayout>
 		
@@ -56,7 +56,7 @@
 		<space></space>
 		<div>
 			
-						<grid model="@bind(vm.componentPerUnitMasterBeanList)" mold="paging" pageSize="5">	
+						<grid model="@bind(vm.componentPerUnitMasterBeanList)" mold="paging" pageSize="9">	
 							<columns>
 								<column label="Sl no" value=""></column>
 								<column label="Component Name"></column>

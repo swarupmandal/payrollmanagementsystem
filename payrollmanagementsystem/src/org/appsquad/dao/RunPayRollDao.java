@@ -91,7 +91,7 @@ public class RunPayRollDao {
 						try {
 						
 							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadEmpDetailsQuery, Arrays.asList(companyId,unitId));
-							
+							System.out.println(">>> >> > ----------------------------------------------------------------------------------" + preparedStatement);
 							ResultSet resultSet = preparedStatement.executeQuery();
 							
 							while (resultSet.next()) {

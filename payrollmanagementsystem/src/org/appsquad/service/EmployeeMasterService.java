@@ -224,7 +224,6 @@ public class EmployeeMasterService {
 		list = EmployeeDao.loadUnitDesignationList(companyId, unitId);
 		
 		
-		
 		return list;
 	}
 	

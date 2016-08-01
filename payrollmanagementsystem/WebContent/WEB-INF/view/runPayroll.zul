@@ -49,10 +49,10 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		<vbox>
 		 <label value="Unit Designation	"></label>
 		 <combobox  width="130px" model="@bind(vm.unitDesignationBeanList)"
-				   onSelect="@command('onSelectUnit')"
-					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
+				   onSelect="@command('onSelectUnitDesignation')"
+					selectedItem="@bind(vm.unitDesignationBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
-					     <comboitem label="@bind(v.unitName)" value="@bind(v.unitId)" />
+					     <comboitem label="@bind(v.unitDesignation)" value="@bind(v.unitDesignationId)"/>
 					  </template>
 		</combobox>
 	

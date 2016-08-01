@@ -29,21 +29,9 @@ public class ComponentPerUnitMasterService {
 		if(bean.getCompanyId()>0){
 			if(bean.getUnitId()>0){
 				   if(bean.getUnitDesignationId()>0){
-					 if(bean.getBaseDays()>0){
-						 if(bean.getWorkinghour() !=null){
-						 
-							 return true;
-						
-						 }else {
-							 Messagebox.show("Enter Hour", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
-							return false;
-						}
-						
-					}else {
-						Messagebox.show("Enter Base Days", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
-						return false;
-					}
-				}else {
+					   return true; 
+					   
+				   }else {
 					Messagebox.show("Select Designation", "Information", Messagebox.OK, Messagebox.EXCLAMATION);
 					return false;
 				}

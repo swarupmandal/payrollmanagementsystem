@@ -1112,21 +1112,23 @@ public class EmployeeDao {
 					try {
 					
 						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.loadComponentDetailsQuery, Arrays.asList(companyId, unitId, unitdesignationId));
-						System.out.println("preparedStatement ssss ssss >>> >> > " + preparedStatement);
+						//System.out.println("preparedStatement ssss ssss >>> >> > " + preparedStatement);
 						ResultSet resultSet = preparedStatement.executeQuery();
 						
 						while (resultSet.next()) {
 							count = count+1;
 							
 							ComponentMasterBean bean = new ComponentMasterBean();
+							
+							bean.setCheckVal(true);
 							bean.setCount(count);
 							bean.setComponentName(resultSet.getString("component_name"));
 							bean.setComponentId(resultSet.getInt("component_id"));
 							bean.setComponentType(resultSet.getString("component_type"));
 							bean.setComponentTypeId(resultSet.getInt("component_type_id"));
 							bean.setComponentAmount(resultSet.getDouble("amount"));
-							bean.setCheckVal(false);
-							System.out.println("C C O U N T >>> >> > " + count);
+							//bean.setCheckVal(false);
+							//System.out.println("C C O U N T >>> >> > " + count);
 							list.add(bean);
 						}
 					}finally{
@@ -1166,11 +1168,12 @@ public class EmployeeDao {
 					
 					for(ComponentMasterBean bean : list){
 					
-					if(bean.isCheckVal()==true && bean.getComponentAmount()>0){
+					//if(bean.isCheckVal()==true && bean.getComponentAmount()>0){
 			
-					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertComponentsPerEmpQuery, Arrays.asList(empId, bean.getComponentId(), bean.getComponentName(),bean.getComponentTypeId(),companyId,unitId,userName,userName, bean.getComponentAmount()));
+					if(bean.isCheckVal()){	
 					
-					//preparedStatement.addBatch(); 
+					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertComponentsPerEmpQuery, Arrays.asList(empId, bean.getComponentId(), bean.getComponentName(),bean.getComponentTypeId(),companyId,unitId,userName,userName, bean.getComponentAmount()));
+					 
 					c = preparedStatement.executeUpdate();
 					
 					}
