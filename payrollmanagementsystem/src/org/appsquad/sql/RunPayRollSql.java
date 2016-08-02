@@ -24,6 +24,9 @@ public class RunPayRollSql {
 													  + " and unit_designation_id = ? ";
 	
 	
+	public static final String loadWagesQuery = "SELECT component_amount from pms_employee_salary_components where employee_id = ? and component_name = 'WAGES'";
+	
+	
 	
 	public static final String loadEmpSalaryDetails = " SELECT pesc.component_name, pesc.component_type_id, " +
 													  " pesc.component_amount, pctm.component_type " +

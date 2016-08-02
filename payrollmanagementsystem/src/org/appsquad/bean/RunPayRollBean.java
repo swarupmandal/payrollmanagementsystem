@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class RunPayRollBean {
 	
     private String empName;
-    private int empId, selectedMonthId,selectedUnitId;
+    private int empId, selectedMonthId,selectedUnitId, selectedCurrentYr, baseDays;
     private String empCode;
     private String comapnyName,UnitName,year,monthName;
     private String empPf;
@@ -322,6 +322,18 @@ public class RunPayRollBean {
 	}
 	public void setSelectedUnitId(int selectedUnitId) {
 		this.selectedUnitId = selectedUnitId;
+	}
+	public int getSelectedCurrentYr() {
+		return selectedCurrentYr;
+	}
+	public void setSelectedCurrentYr(int selectedCurrentYr) {
+		this.selectedCurrentYr = selectedCurrentYr;
+	}
+	public int getBaseDays() {
+		return baseDays;
+	}
+	public void setBaseDays(int baseDays) {
+		this.baseDays = baseDays;
 	}
 	
 }

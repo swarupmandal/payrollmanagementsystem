@@ -314,6 +314,9 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnitDesignation(){
+		
+		runPayRollBean.setSelectedCurrentYr(year);
+		
 		//System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
 		
 		System.out.println("SELECTED MONTH ID >>> >> > " + runPayRollBean.getSelectedMonthId());
@@ -324,7 +327,10 @@ public class RunPayrollViewModel {
 			
 			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 			runPayRollBean.setYear(String.valueOf(year));
-			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), unitDesignationBean.getUnitDesignationId());
+			
+			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
+					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
+					unitDesignationBean.getUnitDesignationId());
 		}
 		if(runPayRollBeanList.size()>0){
 			nextButtonVisibility = true;
@@ -557,7 +563,17 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickCalculate(){
-		int baseDays, presentDays;
+		int baseDays;
+		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
+		for(RunPayRollBean bean : runPayRollBeanList ){
+			bean.setBaseDays(baseDays);
+			System.out.println("Base days: "+bean.getBaseDays()+" Present :: "+bean.getPresentDay() + " WAGES  "+bean.getWages());
+			
+			for(EmployeeSalaryComponentAmountBean employeeSalBean : bean.getComponentAmountBeanList()){
+			
+			}
+		}
+	
 	}
 	
 	

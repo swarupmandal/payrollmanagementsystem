@@ -663,12 +663,15 @@ public class RunPayRollDao {
 		int baseDays = 0,baseDayType=0;
 		try {
 			SQL:{
-					Connection connection = null;
+					Connection connection = DbConnection.createConnection();
 					PreparedStatement preparedStatement = null;
 					ResultSet resultSet = null;
 					try {
 						preparedStatement = Util1.createQuery(connection, RunPayRollSql.getUnitDayTypeQuery,
 								Arrays.asList(unitId));
+						
+						System.out.println("BASE DUAS CAL " + preparedStatement);
+						
 						resultSet = preparedStatement.executeQuery();
 						while (resultSet.next()) {
 							baseDayType = resultSet.getInt("base_days_type_id");
@@ -701,7 +704,39 @@ public class RunPayRollDao {
 		return baseDays;
 	}
 	
-	
+	public double getEmpWages(int empId ){
+		double wages = 0;
+		Connection connection = null;
+		try {
+			
+			PreparedStatement preparedStatement = null;
+			
+			try {
+				connection = DbConnection.createConnection();
+				
+				preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadWagesQuery, Arrays.asList(empId));
+			} finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+				
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return wages;
+	}
 	
 	
 }

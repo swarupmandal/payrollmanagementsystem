@@ -299,5 +299,12 @@ public class RunPayRollService {
     	return totalNoOfWorkingDays;
     	
     }
-	
+
+    public static final double getEmpWages(int empId){
+    	double wages;
+    	wages = RunPayRollService.getEmpWages(empId);
+    	return wages;
+    	
+    }
+    
 }
