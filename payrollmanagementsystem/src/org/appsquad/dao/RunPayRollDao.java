@@ -113,7 +113,7 @@ public class RunPayRollDao {
 								bean.setEmpUan(resultSet.getString("uan_number"));
 								bean.setEmpEsi(resultSet.getString("esi"));
 								bean.setEmpDesignation(resultSet.getString("emp_designation"));
-								//bean.setWages(getEmpWages(bean.getEmpId()));
+								bean.setWages(getEmpWages(bean.getEmpId()));
 								bean.setTotalNumberOfDayseveryMonth(workingDay);
 								
 								beanList.add(bean);
@@ -259,11 +259,6 @@ public class RunPayRollDao {
 		}
 		
 	}
-	
-	
-	
-	
-	
 	
 	public static Integer sunDayCount(int companyId, int unitId, RunPayRollBean bean){
 		Integer sundayCount =0;
@@ -705,7 +700,7 @@ public class RunPayRollDao {
 		return baseDays;
 	}
 	
-	public double getEmpWages(int empId ){
+	public static double getEmpWages(int empId ){
 		double wages = 0;
 		Connection connection = null;
 		try {
