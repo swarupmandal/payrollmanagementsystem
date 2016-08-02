@@ -711,6 +711,14 @@ public class RunPayRollDao {
 				connection = DbConnection.createConnection();
 				
 				preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadWagesQuery, Arrays.asList(empId));
+				
+				ResultSet resultSet = preparedStatement.executeQuery();
+				
+				while (resultSet.next()) {
+					wages = resultSet.getDouble("component_amount");
+				}
+				
+				
 			} finally{
 				if(preparedStatement != null){
 					preparedStatement.close();

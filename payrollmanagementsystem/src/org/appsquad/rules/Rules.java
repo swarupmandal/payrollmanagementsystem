@@ -22,6 +22,10 @@ public class Rules {
 		}
 		return washing;
 	}
+	
+	public static double getOtSalary(double wages, int baseDays, double otHours){
+		return (wages*otHours)/baseDays;  
+	}
 		
 	public static double getHra(double hra, int baseDay , int presentDays){
 		System.out.println("Hra called. . .");
@@ -70,4 +74,24 @@ public class Rules {
 		return ( (wages*otime)/baseDays ); 
 	}
 	
+	public static double getPtAmount(double gross){
+		if(gross > 8500 && gross < 10001 ){
+			return 90.0;
+		}else if (gross > 10000 && gross < 15001 ) {
+			return 110.0;
+		}else if (gross > 15000 && gross < 25001 ) {
+			return 130.0; 
+		}else if (gross > 25000 && gross < 40001 ) {
+			return 150.0; 
+		}else if (gross>40001) {
+			return 200.0;
+		}else {
+			return 0.0;
+		}
+	}
+	
+	
+	/******************************************************************* ITC *************************************************************************/
+	
+
 }
