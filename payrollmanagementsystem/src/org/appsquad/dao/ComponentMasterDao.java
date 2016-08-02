@@ -117,9 +117,11 @@ public class ComponentMasterDao {
 			Connection connection = DbConnection.createConnection();
 					sql:{
 					PreparedStatement preparedStatement = null;
+					
 					String query =  ComponentMasterSql.addColumnQuery.replace("columnname", columnName);
 						try {
 							preparedStatement = Util1.createQuery(connection,query, null);
+							System.out.println("COLUMN NAMe " + preparedStatement);
 							int count = preparedStatement.executeUpdate();
 							if(count>0){
 								System.out.println("Column "+columnName+" added!");

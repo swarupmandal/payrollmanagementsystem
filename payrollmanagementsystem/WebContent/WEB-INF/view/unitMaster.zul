@@ -5,17 +5,17 @@
 <div align="center">
 		<grid>
 			<columns>
-				<column align="right"/>
-				<column align="left"/>
-				<column align="right"/>
-				<column align="left"/>
-				<column align="right"/>
-				<column align="left"/>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+				<column align="center"/>
+				
 			</columns>
 			<rows>
 				<row>
-					<label value="Company Name"/>
-					<combobox placeholder="Select Company" width="90%" model="@bind(vm.companyMasterBeanList)" readonly="true"
+					
+					<combobox placeholder="Select Company Name" model="@bind(vm.companyMasterBeanList)" readonly="true"
 					selectedItem="@bind(vm.companyMasterBean)" onSelect="@command('onSelectCompanyName')">
 						<template name="model" var="v">
 							<comboitem label="@bind(v.companyName)" value="@bind(v.companyId)"/>
@@ -23,12 +23,19 @@
 					</combobox>
 					
 					
-					<label value="Unit Name"></label>
-					<textbox placeholder="unit name" value="@bind(vm.unitMasterBean.unitName)"></textbox>
+					<textbox placeholder="Enter Unit Name" value="@bind(vm.unitMasterBean.unitName)"></textbox>
 					
+					<combobox placeholder="Select Base Days Type" model="@bind(vm.baseDaysList)" readonly="true"
+					selectedItem="@bind(vm.baseDaysTypeBean)" onSelect="@command('onSelectBasedaysType')" value="@bind(vm.baseDaysTypeBean.baseDaysType)">
+						<template name="model" var="v">
+						 <comboitem label="@bind(v.baseDaysType)" value="@bind(v.baseDaysTypeId)" />
+						</template>
+					</combobox>
+					
+					<doublebox placeholder="Enter Hour" value="@bind(vm.unitMasterBean.workingHour)"></doublebox>
 					
 					<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; width:60px;"/>
-					<button label="Update" onClick="@command('onClickUpdate')" visible="false"/>
+					<!-- <button label="Update" onClick="@command('onClickUpdate')" visible="false"/> -->
 				</row>
 			</rows>
 		</grid>
@@ -39,7 +46,7 @@
 	<space></space>
 	<div>
 	
-		<grid model="@bind(vm.unitMasterBeanList)" mold="paging">
+		<grid model="@bind(vm.unitMasterBeanList)" mold="paging" pageSize="7">
 			<columns>
 				<column label="Company Name" align="center"></column>
 				<column label="Unit Name" align="center"></column>
@@ -51,7 +58,8 @@
 					<textbox placeholder="Company Name" value="@bind(v.companyName)" readonly="true" />
 					<textbox placeholder="Unit Name" value="@bind(v.unitName)" readonly="@bind(v.readOnly)"/>
 					<hlayout spacing="20px">
-					<button label="Edit" sclass="bb_button" onClick="@command('onClickEdit',bean = v)"></button>
+					
+					<a><image src="images/ico_edit.png" onClick="@command('onClickEdit',bean = v)"></image> </a>
 					<button label="Update" sclass="bb_button" onClick="@command('onClickUpdate',bean = v)"></button>
 					</hlayout>
 				</row>

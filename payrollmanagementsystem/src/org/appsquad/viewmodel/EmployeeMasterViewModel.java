@@ -10,11 +10,13 @@ import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.bean.DesignationBean;
+import org.appsquad.bean.DesignationMasterBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
 import org.appsquad.bean.StateMasterBean;
 import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.dao.DesignationMasterDao;
 import org.appsquad.dao.EmployeeDao;
 import org.appsquad.service.ComponentPerUnitMasterService;
 import org.appsquad.service.EmployeeMasterService;
@@ -46,6 +48,8 @@ public class EmployeeMasterViewModel {
 	private ArrayList<BankAccountBean> bankAccountBeanList = new ArrayList<BankAccountBean>();
 	private ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
 	ArrayList<UnitDesignationBean> unitDesignationBeanList = new ArrayList<UnitDesignationBean>();
+	ArrayList<DesignationMasterBean> empDesignationList = new ArrayList<DesignationMasterBean>();
+	
 	
 	
 	private UnitDesignationBean unitDesignationBean = new UnitDesignationBean();
@@ -57,6 +61,7 @@ public class EmployeeMasterViewModel {
 	private PaymentModeMasterBean paymentModeMasterBean = new PaymentModeMasterBean();
 	private BankAccountBean bankAccountBean = new BankAccountBean();
 	private ComponentMasterBean componentMasterBean = new ComponentMasterBean();
+	private DesignationMasterBean designationMasterBean = new DesignationMasterBean();
 	private int maxEmpId =0;
 
 	private Connection connection = null;
@@ -81,6 +86,7 @@ public class EmployeeMasterViewModel {
 		EmployeeMasterService.loadDesignationList(designationBeanList);
 		EmployeeMasterService.loadpaymentmodeList(paymentModeMasterBeanList);
 		EmployeeMasterService.loadBankList(bankAccountBeanList);
+		empDesignationList = DesignationMasterDao.onLoadEmpDesignationList();
 		
 		
 	}
@@ -171,8 +177,6 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnitName(){
-		/*System.out.println("selected company id >>> >> > " + companyMasterBean.getCompanyId());
-		System.out.println("Selected unit id >>> >> > " + unitMasterBean.getUnitId());*/
 		employeeMasterBean.setUnitId(unitMasterBean.getUnitId());
 		employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
 		employeeMasterBean.setUnitDesignationId(unitDesignationBean.getUnitDesignationId());
@@ -180,9 +184,6 @@ public class EmployeeMasterViewModel {
 			
 			unitDesignationBeanList = EmployeeMasterService.loadUnitDesignation(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
 			
-			
-			//componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
-			//System.out.println("comp 0 >>> >> > " +componentMasterBeanList);
 		}
 		loadSearchedEmployeeFromCompany(employeeMasterBean);
 		employeeMasterBean.setCompanyName(null);
@@ -197,7 +198,7 @@ public class EmployeeMasterViewModel {
 	@NotifyChange("*")
 	public void insertPersonalInfo(){
 		if(EmployeeMasterService.insertPersonelInfoService(employeeMasterBean, maxEmpId, userName)){
-			System.out.println("userName >>> >> > " + userName);
+			
 			Messagebox.show("Saved successfully \n procceed to next tab", "Information", Messagebox.OK, Messagebox.INFORMATION);
 		}
 	}
@@ -205,8 +206,7 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectStateName(){
-		System.out.println("selected state name >>> >> > " + stateMasterBean.getStateName());
-		System.out.println("Selected state id >>> >> > " + stateMasterBean.getStateId());
+		
 		employeeMasterBean.setEmpStateId(stateMasterBean.getStateId());
 		
 	}
@@ -214,8 +214,6 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectBooldGroup(){
-		System.out.println("selected Blood geoup name >>> >> > " + bloodGroupBean.getBloodGroupName());
-		System.out.println("Selected Blood id >>> >> > " + bloodGroupBean.getBloodGroupId());
 		employeeMasterBean.setEmpBloodGroupId(bloodGroupBean.getBloodGroupId());
 	}
 	
@@ -223,16 +221,18 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectDesignation(){
-		System.out.println("selected designation name >>> >> > " + designationBean.getDesignation());
-		System.out.println("Selected designation id >>> >> > " + designationBean.getDesignationId());
-		employeeMasterBean.setEmpDesignationId(designationBean.getDesignationId());
+		
+		employeeMasterBean.setEmpDesignationId(designationMasterBean.getDesignationId());
+		
 	}
+	
+	
+	
 	
 	@Command
 	@NotifyChange("*")
 	public void onSelectPaymentMode(){
-		System.out.println("selected Payment name >>> >> > " + paymentModeMasterBean.getPaymentMode());
-		System.out.println("Selected Payment id >>> >> > " + paymentModeMasterBean.getPaymentModeId());
+		
 		employeeMasterBean.setPaymentModeId(paymentModeMasterBean.getPaymentModeId());
 	}
 	
@@ -240,8 +240,7 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectBankAccount(){
-		System.out.println("selected Bank name >>> >> > " + bankAccountBean.getBankName());
-		System.out.println("Selected Bank id >>> >> > " + bankAccountBean.getBankId());
+		
 		employeeMasterBean.setEmpBankId(bankAccountBean.getBankId());
 	}
 	
@@ -627,6 +626,25 @@ public class EmployeeMasterViewModel {
 	public void setComponentMasterBeanList(
 			ArrayList<ComponentMasterBean> componentMasterBeanList) {
 		this.componentMasterBeanList = componentMasterBeanList;
+	}
+
+	
+
+	public DesignationMasterBean getDesignationMasterBean() {
+		return designationMasterBean;
+	}
+
+	public void setDesignationMasterBean(DesignationMasterBean designationMasterBean) {
+		this.designationMasterBean = designationMasterBean;
+	}
+
+	public void setEmpDesignationList(
+			ArrayList<DesignationMasterBean> empDesignationList) {
+		this.empDesignationList = empDesignationList;
+	}
+
+	public ArrayList<DesignationMasterBean> getEmpDesignationList() {
+		return empDesignationList;
 	}
 	
 }

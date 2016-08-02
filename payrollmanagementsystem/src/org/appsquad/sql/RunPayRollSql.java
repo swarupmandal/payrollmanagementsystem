@@ -17,6 +17,14 @@ public class RunPayRollSql {
 														" and peped.employee_id = pem.employee_id " +
 														" and pem.company_id = ? and pem.unit_id = ?";
 	
+	
+	public static final String loadEmpDetailsQuery2 = " select employee_id, employee_code, employee_name, "
+													  + " emp_designation, unit_designation, pf_number, uan_number, "
+													  + " esi from vw_employee_information where company_id = ? and unit_id = ? "
+													  + " and unit_designation_id = ? ";
+	
+	
+	
 	public static final String loadEmpSalaryDetails = " SELECT pesc.component_name, pesc.component_type_id, " +
 													  " pesc.component_amount, pctm.component_type " +
 													  " FROM pms_employee_salary_components pesc, " +

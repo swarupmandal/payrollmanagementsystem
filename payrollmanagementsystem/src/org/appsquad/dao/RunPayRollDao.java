@@ -72,7 +72,7 @@ public class RunPayRollDao {
 	
 	
 	
-	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId, int workingDay){
+	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId, int workingDay, int unitDesignationId){
 		
 		if(beanList.size()>0){
 			beanList.clear();
@@ -90,8 +90,8 @@ public class RunPayRollDao {
 						PreparedStatement preparedStatement = null;
 						try {
 						
-							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadEmpDetailsQuery, Arrays.asList(companyId,unitId));
-							
+							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadEmpDetailsQuery2, Arrays.asList(companyId,unitId,unitDesignationId));
+							System.out.println("LOAD EMP DE " + preparedStatement);
 							ResultSet resultSet = preparedStatement.executeQuery();
 							
 							while (resultSet.next()) {
@@ -104,9 +104,10 @@ public class RunPayRollDao {
 								bean.setComponentAmountBeanList(loadComponentAmountDetails(bean.getEmpId(), bean));
 								bean.setEmpCode(resultSet.getString("employee_code"));
 								bean.setEmpName(resultSet.getString("employee_name"));
-								bean.setEmpPf(resultSet.getString("uan"));
+								bean.setEmpPf(resultSet.getString("pf_number"));
+								bean.setEmpUan(resultSet.getString("uan_number"));
 								bean.setEmpEsi(resultSet.getString("esi"));
-								bean.setEmpDesignation(resultSet.getString("designation"));
+								bean.setEmpDesignation(resultSet.getString("emp_designation"));
 								bean.setTotalNumberOfDayseveryMonth(workingDay);
 								
 								beanList.add(bean);

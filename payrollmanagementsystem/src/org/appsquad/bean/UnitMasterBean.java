@@ -1,9 +1,10 @@
 package org.appsquad.bean;
 
 public class UnitMasterBean {
-	private int unitId,companyId;
-	private String unitName,unitAddress,userName,companyName;
+	private int unitId,companyId, baseDaysTypeId;
+	private String unitName,unitAddress,userName,companyName,baseDaysType;
 	private boolean readOnly = true;
+	private Double workingHour;
 	
 	public UnitMasterBean() {
 		// TODO Auto-generated constructor stub
@@ -74,5 +75,31 @@ public class UnitMasterBean {
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 	}
+
+	public int getBaseDaysTypeId() {
+		return baseDaysTypeId;
+	}
+
+	public void setBaseDaysTypeId(int baseDaysTypeId) {
+		this.baseDaysTypeId = baseDaysTypeId;
+	}
+
+	public String getBaseDaysType() {
+		return baseDaysType;
+	}
+
+	public void setBaseDaysType(String baseDaysType) {
+		this.baseDaysType = baseDaysType;
+	}
+
+	public Double getWorkingHour() {
+		return workingHour;
+	}
+
+	public void setWorkingHour(Double workingHour) {
+		this.workingHour = workingHour;
+	}
+
+	
 
 }

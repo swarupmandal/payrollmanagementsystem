@@ -271,12 +271,12 @@
 													</datebox>
 
 													<label
-														value="Designation">
+														value="Employee Designation">
 													</label>
 													<combobox
-														width="90%" model="@bind(vm.designationBeanList)"
+														width="90%" model="@bind(vm.empDesignationList)"
 														onSelect="@command('onSelectDesignation')"
-														selectedItem="@bind(vm.designationBean)"
+														selectedItem="@bind(vm.designationMasterBean)"
 														autocomplete="true" readonly="true">
 														<template
 															name="model" var="v">
@@ -369,7 +369,6 @@
 												</row>
 												<row>
 
-
 													<label
 														value="Last Working Date">
 													</label>
@@ -378,10 +377,6 @@
 														value="@bind(vm.employeeMasterBean.lastWorkingDate)">
 													</datebox>
 													
-													
-													
-												
-
 												</row>
 
 											</rows>
@@ -395,7 +390,6 @@
 										</button>
 									</div>
 								</tabpanel>
-
 
 
 								<tabpanel>

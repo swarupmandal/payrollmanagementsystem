@@ -290,6 +290,18 @@ span.z-tree-root-open, span.z-tree-tee-open, span.z-tree-last-open, span.z-tree-
 	font-size: 16px;
 	padding:2px;
 }
+.z-doublebox {
+	border-radius: 0px;
+	border: 2px solid #EEE;
+	background: rgba(0, 0, 0, 0.5);
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+	font-family: 'Zurich LtCn BT';
+	line-height:20px !important;
+	color:#FFFFFF;
+	font-size: 16px;
+	padding:2px;
+}
 .z-combobox-pp .z-comboitem {
 	color: #FFFFFF;
 }

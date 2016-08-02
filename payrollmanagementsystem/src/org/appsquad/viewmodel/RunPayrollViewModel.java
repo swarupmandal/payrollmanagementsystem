@@ -14,6 +14,7 @@ import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.HolidayMasterBean;
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.RunPayRollBean;
+import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.RunPayRollDao;
 import org.appsquad.service.EmployeeMasterService;
@@ -48,14 +49,14 @@ public class RunPayrollViewModel {
 	private MonthMasterBean monthMasterBean = new MonthMasterBean();
 	private EmployeeSalaryComponentAmountBean amountBean = new EmployeeSalaryComponentAmountBean();
 	private HolidayMasterBean holidayMasterBean =new HolidayMasterBean();
-	private DesignationBean unitDesignationBean = new DesignationBean();
+	private UnitDesignationBean unitDesignationBean = new UnitDesignationBean();
 	
 	
 	private ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
-	private ArrayList<DesignationBean> unitDesignationBeanList = new ArrayList<DesignationBean>();
+	private ArrayList<UnitDesignationBean> unitDesignationBeanList = new ArrayList<UnitDesignationBean>();
 	
 	
 	
@@ -147,7 +148,9 @@ public class RunPayrollViewModel {
 		
 		//runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(month, year));
 		
-		runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(monthMasterBean.getMonthId(), year));
+		unitDesignationBeanList = EmployeeMasterService.loadUnitDesignation(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+		
+		/*runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(monthMasterBean.getMonthId(), year));
 		
 		//System.out.println("NO OF DAYS MONTH VIEW MODEL " + runPayRollBean.getTotalNumberOfDayseveryMonth());
 		
@@ -175,12 +178,12 @@ public class RunPayrollViewModel {
 		
 		runPayRollBean.totalNumberOfHolidays = runPayRollBean.totalNumberOfHolidays - x;
 		
-		runPayRollBean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfDayseveryMonth() - runPayRollBean.totalNumberOfHolidays);
+		runPayRollBean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfDayseveryMonth() - runPayRollBean.totalNumberOfHolidays);*/
 		//System.out.println("TOTAL WORKING DAYS " + runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth());
 		
 		/********************************************LOAD EMPLOYEE DETAILS*******************************************************************************/
 		
-		if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
+		/*if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
 			//RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 			runPayRollBean.setYear(String.valueOf(year));
@@ -190,7 +193,7 @@ public class RunPayrollViewModel {
 			nextButtonVisibility = true;
 		}else{
 			nextButtonVisibility = false;
-		}
+		}*/
 		
 		//runPayRollBean.setSunDayCountPerMonth(RunPayRollService.sunDayCount(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean));
 		//runPayRollBean.setSatDayCountPerMonth(RunPayRollService.satDayCount(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean));
@@ -305,7 +308,24 @@ public class RunPayrollViewModel {
 		
 	}
 	
-	
+	@Command
+	@NotifyChange("*")
+	public void onSelectUnitDesignation(){
+		System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
+		
+		if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
+			
+			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+			runPayRollBean.setYear(String.valueOf(year));
+			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), unitDesignationBean.getUnitDesignationId());
+		}
+		if(runPayRollBeanList.size()>0){
+			nextButtonVisibility = true;
+		}else{
+			nextButtonVisibility = false;
+		}
+		
+	}
 	
 	
 	
@@ -331,8 +351,6 @@ public class RunPayrollViewModel {
 		
 		StringBuilder stringBuilder = new StringBuilder();
 		for(RunPayRollBean rBean: runPayRollBeanList){
-			
-			
 			
 			if(rBean.isChecked()){
 				
@@ -739,22 +757,24 @@ public class RunPayrollViewModel {
 		this.holidayMasterBean = holidayMasterBean;
 	}
 
-	public DesignationBean getUnitDesignationBean() {
+	public UnitDesignationBean getUnitDesignationBean() {
 		return unitDesignationBean;
 	}
 
-	public void setUnitDesignationBean(DesignationBean unitDesignationBean) {
+	public void setUnitDesignationBean(UnitDesignationBean unitDesignationBean) {
 		this.unitDesignationBean = unitDesignationBean;
 	}
 
-	public ArrayList<DesignationBean> getUnitDesignationBeanList() {
+	public ArrayList<UnitDesignationBean> getUnitDesignationBeanList() {
 		return unitDesignationBeanList;
 	}
 
 	public void setUnitDesignationBeanList(
-			ArrayList<DesignationBean> unitDesignationBeanList) {
+			ArrayList<UnitDesignationBean> unitDesignationBeanList) {
 		this.unitDesignationBeanList = unitDesignationBeanList;
 	}
+
+	
 
 	
 	

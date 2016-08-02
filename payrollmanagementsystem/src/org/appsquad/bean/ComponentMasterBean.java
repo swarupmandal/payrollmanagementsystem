@@ -6,7 +6,7 @@ public class ComponentMasterBean {
 	private Integer componentTypeId;
 	private String componentName;
 	private int componentId;
-	private boolean checkVal;
+	private boolean checkVal = false;
 	private Integer count;
 	private double componentAmount;
 	
@@ -34,12 +34,7 @@ public class ComponentMasterBean {
 	public void setComponentTypeId(Integer componentTypeId) {
 		this.componentTypeId = componentTypeId;
 	}
-	public boolean isCheckVal() {
-		return checkVal;
-	}
-	public void setCheckVal(boolean checkVal) {
-		this.checkVal = checkVal;
-	}
+	
 	public Integer getCount() {
 		return count;
 	}
@@ -57,6 +52,12 @@ public class ComponentMasterBean {
 	}
 	public void setComponentAmount(double componentAmount) {
 		this.componentAmount = componentAmount;
+	}
+	public boolean isCheckVal() {
+		return checkVal;
+	}
+	public void setCheckVal(boolean checkVal) {
+		this.checkVal = checkVal;
 	}
 	
 	
