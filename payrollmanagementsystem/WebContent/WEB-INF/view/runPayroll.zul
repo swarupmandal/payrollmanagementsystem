@@ -173,13 +173,11 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   				<column label="Emp Code" align="center"/>
   				<column label="Emp Name" align="center"/>
   				<column label="Present" align="center"/>
-  				<column label="Wages" align="center"/>
-  				<column label="OT Days" align="center"/>
-  				<column label="OT hours" align="center"/>
+  				
   				<column label="Salary Total" align="center"/>
   				<column label="Deduction" align="center"/>
   				<column label="Net Salary" align="left"/>
-  				<column align="left"></column>
+  				<!-- <column align="left"></column> -->
   			</columns>
   			<rows>
   				<template name="model" var="v">
@@ -187,13 +185,11 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  					<textbox value="@bind(v.empCode)" readonly="true"/>
 	  					<textbox value="@bind(v.empName)"  readonly="true"/>
 	  					<textbox value="@bind(v.presentDay)"></textbox>
-	  					<textbox value="@bind(v.wages)"></textbox>
-	  					<textbox value="@bind(v.otDaysF)"/>
-	  					<textbox value="@bind(v.otHoursF)"/>
+	  					
 	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
 	  					<textbox value="@bind(v.netSalary)" readonly="true"/>
-	  					<button label="Save" onClick="@command('onClcikOtandLeaveSave', bean = v)"></button>
+	  					<!-- <button label="Save" onClick="@command('onClcikOtandLeaveSave', bean = v)"></button> -->
 	  				</row>
   				</template>
   			</rows>

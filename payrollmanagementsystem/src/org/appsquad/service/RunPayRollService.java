@@ -27,8 +27,8 @@ public class RunPayRollService {
 		RunPayRollDao.loadMonthList(monthList);
 	}
 	
-	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId, int workingDay){
-		RunPayRollDao.loadEmpDetails(beanList, companyId, unitId, workingDay);
+	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId, int workingDay, int unitDesignationId){
+		RunPayRollDao.loadEmpDetails(beanList, companyId, unitId, workingDay, unitDesignationId);
 	}
 
 	public static boolean totalWorkingDaysisNull(Integer totalWorkingDays, Double workinghoursPerDay){
