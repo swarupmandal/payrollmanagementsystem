@@ -9,12 +9,17 @@ import java.util.Arrays;
 
 import javax.print.attribute.standard.Sides;
 
+import org.apache.log4j.Logger;
 import org.appsquad.bean.EmployeePaymentDetailsBean;
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.database.DbConnection;
+import org.appsquad.service.RunPayRollService;
 import org.appsquad.sql.RunPayRollSql;
+import org.zkoss.zul.Messagebox;
+
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import utility.Util1;
 
@@ -649,7 +654,47 @@ public class RunPayRollDao {
 	}
 	
 	
-	
+	public static int getBaseDays(int monthId, int unitId, int year){
+		int baseDays = 0,baseDayType=0;
+		try {
+			SQL:{
+					Connection connection = null;
+					PreparedStatement preparedStatement = null;
+					ResultSet resultSet = null;
+					try {
+						preparedStatement = Util1.createQuery(connection, RunPayRollSql.getUnitDayTypeQuery,
+								Arrays.asList(unitId));
+						resultSet = preparedStatement.executeQuery();
+						while (resultSet.next()) {
+							baseDayType = resultSet.getInt("base_days_type_id");
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+						Messagebox.show("Error due to:"+e.getMessage(),"ERROR",Messagebox.OK,Messagebox.ERROR);
+					}finally{
+						if(preparedStatement!=null){
+							preparedStatement.close();
+						}if(connection!=null){
+							connection.close();
+						}
+					}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		if(baseDayType == 2){
+			// calculate month day and minus 4 in baseDays
+			baseDays = RunPayRollService.totnoOfDaysInMonth(monthId, year);
+			baseDays = baseDays-4;
+		}else{
+			// calculate month days in baseDayss
+			baseDays = RunPayRollService.totnoOfDaysInMonth(monthId, year);
+		}
+		System.out.println("Calculated Base days: "+baseDays);
+		return baseDays;
+	}
 	
 	
 	

@@ -58,10 +58,7 @@ public class RunPayRollSql {
 	
 	public static final String loadGeneralHoliDayDates = "select (select extract(day from holiday_date)) as holiday_date from pms_general_holiday_master where leave_year_id = ? and company_id = ? and unit_id = ? and month_id = ? ";
 	
-	
-	
-	
-	
 	public static final String loadHoursPerDay = "select hour_per_day from pms_working_hours_per_unit where company_id = ? and unit_id = ? and leave_year_id = ? " ; 
 	
+	public static final String getUnitDayTypeQuery = "select base_days_type_id from pms_unit_master where unit_id = ?";
 }
