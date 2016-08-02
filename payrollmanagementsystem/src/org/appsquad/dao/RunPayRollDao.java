@@ -254,6 +254,11 @@ public class RunPayRollDao {
 		
 	}
 	
+	
+	
+	
+	
+	
 	public static Integer sunDayCount(int companyId, int unitId, RunPayRollBean bean){
 		Integer sundayCount =0;
 		

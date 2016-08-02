@@ -125,6 +125,7 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectMonth(){
 		//System.out.println("MONTH " + monthMasterBean.getMonthName() + " - ID - " + monthMasterBean.getMonthId());
+		runPayRollBean.setSelectedMonthId(monthMasterBean.getMonthId());
 		runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 	}
 	@Command
@@ -136,6 +137,8 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnit(){
+		
+		runPayRollBean.setSelectedUnitId(unitMasterBean.getUnitId());
 		
 		/*if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
@@ -311,7 +314,11 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnitDesignation(){
-		System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
+		//System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
+		
+		System.out.println("SELECTED MONTH ID >>> >> > " + runPayRollBean.getSelectedMonthId());
+		System.out.println("SELECTED UNIT ID >>> >> > " + runPayRollBean.getSelectedUnitId());
+		System.out.println("CURRENT YR >>> >> >  " + year);
 		
 		if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
 			
@@ -545,6 +552,15 @@ public class RunPayrollViewModel {
 		
 		
 	}
+	
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickCalculate(){
+		int baseDays, presentDays;
+	}
+	
+	
 	
 	
 	
