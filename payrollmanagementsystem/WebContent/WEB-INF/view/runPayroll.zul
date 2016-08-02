@@ -196,6 +196,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		</grid>
   		<div align="center">
   			<vbox>
+  				<button label="Save" onClick="@command('onClickCalculate')"></button>
   				<button label="Next" sclass="bb_button"  style="cursor: pointer; cursor: hand;" onClick="@command('onClickNext')" visible="@bind(vm.nextButtonVisibility)"/>
   				<button label="Previous" sclass="bb_button" onClick="@command('onClickPrevious')" visible="@bind(vm.prevButtonVisibility)"/>
   			</vbox>

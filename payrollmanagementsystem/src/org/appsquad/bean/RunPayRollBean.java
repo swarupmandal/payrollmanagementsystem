@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class RunPayRollBean {
 	
     private String empName;
-    private int empId;
+    private int empId, selectedMonthId,selectedUnitId;
     private String empCode;
     private String comapnyName,UnitName,year,monthName;
     private String empPf;
@@ -310,6 +310,18 @@ public class RunPayRollBean {
 	}
 	public void setWages(double wages) {
 		this.wages = wages;
+	}
+	public int getSelectedMonthId() {
+		return selectedMonthId;
+	}
+	public void setSelectedMonthId(int selectedMonthId) {
+		this.selectedMonthId = selectedMonthId;
+	}
+	public int getSelectedUnitId() {
+		return selectedUnitId;
+	}
+	public void setSelectedUnitId(int selectedUnitId) {
+		this.selectedUnitId = selectedUnitId;
 	}
 	
 }
