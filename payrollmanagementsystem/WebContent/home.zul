@@ -68,7 +68,7 @@
             	</treecell>
             	</treerow>
             </treeitem>
-             <treeitem open="false">
+             <treeitem open="false" visible="false">
             	<treerow>
             	 <treecell label="Holiday Master"
             	  onClick='inclResults.setSrc("/WEB-INF/view/holidayMaster.zul");'>

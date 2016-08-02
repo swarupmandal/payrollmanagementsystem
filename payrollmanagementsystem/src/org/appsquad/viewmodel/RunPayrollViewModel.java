@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.DesignationBean;
@@ -17,6 +18,7 @@ import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.RunPayRollDao;
+import org.appsquad.rules.Rules;
 import org.appsquad.service.EmployeeMasterService;
 import org.appsquad.service.HolidayMasterService;
 import org.appsquad.service.RunPayRollService;
@@ -331,6 +333,7 @@ public class RunPayrollViewModel {
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
 					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
 					unitDesignationBean.getUnitDesignationId());
+			runPayRollBean.setBaseDays( RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr()));
 		}
 		if(runPayRollBeanList.size()>0){
 			nextButtonVisibility = true;
@@ -559,20 +562,253 @@ public class RunPayrollViewModel {
 		
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onChangePresentDays(@BindingParam("bean") RunPayRollBean bean){
+		Integer otDays = 0 ;
+		int basedays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(),
+				runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
+		
+		if(basedays < bean.getPresentDay() ){
+			otDays = bean.getPresentDay() - basedays ;
+		}
+			bean.setOtHoursF(otDays.doubleValue());
+	}
+	
 	
 	@Command
 	@NotifyChange("*")
 	public void onClickCalculate(){
 		int baseDays;
 		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
-		for(RunPayRollBean bean : runPayRollBeanList ){
-			bean.setBaseDays(baseDays);
-			System.out.println("Base days: "+bean.getBaseDays()+" Present :: "+bean.getPresentDay() + " WAGES  "+bean.getWages());
+		
+		if(companyMasterBean.getCompanyId()==36 || companyMasterBean.getCompanyId() == 37){
 			
-			for(EmployeeSalaryComponentAmountBean employeeSalBean : bean.getComponentAmountBeanList()){
-			
+			for(RunPayRollBean bean : runPayRollBeanList){
+				
+				if(bean.getPresentDay()!=null){
+					bean.setBaseDays(baseDays);
+					double grossTotal=0.0,deduction=0.0;
+					ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+					ArrayList<EmployeeSalaryComponentAmountBean> deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+					
+					//if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN SUPERVISOR") || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
+						for(EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()){
+							
+							if(salBean.getComponentTypeId()==1){
+								if( ! salBean.getComponentName().equalsIgnoreCase("WAGES"))
+								earningList.add(salBean);
+							}else{
+								deductionList.add(salBean);
+							}
+								
+						}
+						for(EmployeeSalaryComponentAmountBean earn: earningList){
+							
+							if(earn.getComponentName().equalsIgnoreCase("BASIC")){
+								earn.setComponentAmount(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()));
+							}
+							if(earn.getComponentName().equalsIgnoreCase("HRA")){
+								
+								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
+										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
+									earn.setComponentAmount(bean.getWages()*0.15);
+								}else{
+									earn.setComponentAmount(bean.getWages()*0.05);
+								}	
+							}
+							
+							if(earn.getComponentName().equalsIgnoreCase("CONVEYENCE")){
+								earn.setComponentAmount(20*bean.getPresentDay());
+							}
+							if(earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES")){
+								earn.setComponentAmount(5*bean.getPresentDay());
+							}
+							if(!bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || !bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") || !bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
+						                              || !bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") || !bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER")
+						                              || !bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
+								if(earn.getComponentName().equalsIgnoreCase("ALLOWANCES")){
+									earn.setComponentAmount(50*bean.getPresentDay());
+								}
+							}
+							if(bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
+								if(earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES")){
+									earn.setComponentAmount(50*bean.getPresentDay());
+								}
+							}
+							
+							if(bean.getSelectedMonthId()==10){
+								if(earn.getComponentName().equalsIgnoreCase("BONUS")){
+									earn.setComponentAmount(bean.getWages()*0.0833);
+								}
+							}
+							if(bean.getComapnyName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());
+							}
+							if(!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") 
+									&& !earn.getComponentName().equalsIgnoreCase("CONVEYENCE")
+									&& !earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCES")
+									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS") 
+									&& !bean.getComapnyName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());
+							}
+							grossTotal += earn.getComponentAmount();
+						}
+						if(bean.getOtHoursF()!=null)
+							
+							bean.otSalary = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
+							System.out.println("OT S A L >>> >> > " + bean.otSalary);		
+							grossTotal = grossTotal+bean.otSalary;
+							System.out.println("Earnigs: "+grossTotal);
+					
+							for(EmployeeSalaryComponentAmountBean deduct: deductionList){
+
+								if(deduct.getComponentName().equalsIgnoreCase("PF")){
+									deduct.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
+								}
+								if(deduct.getComponentName().equalsIgnoreCase("PROF TAX")){
+									deduct.setComponentAmount(Rules.getPtAmount(grossTotal));
+								}
+								
+								if(deduct.getComponentName().equalsIgnoreCase("ESI")){
+									if(grossTotal <= 15000.00){
+										for(EmployeeSalaryComponentAmountBean escb: earningList){
+											if(escb.getComponentName().equalsIgnoreCase("WASHING")){
+												deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+											}else{
+												deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+											}
+										}
+									}
+								}
+								System.out.println("Deduction: "+deduct.getComponentName()+" Amount: "+deduct.getComponentAmount());
+								deduction += deduct.getComponentAmount();
+							
+						
+							}
+					
+				
+				
+				}
 			}
+			
+			
+		}else {
+		
+		for(RunPayRollBean bean : runPayRollBeanList ){
+			
+			if(bean.getPresentDay()!=null){
+						
+				bean.setBaseDays(baseDays);
+				System.out.println("Base days: "+bean.getBaseDays()+" Present :: "+bean.getPresentDay() + " WAGES  "+bean.getWages());
+				double grossTotal=0.0,deduction=0.0;
+				ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+				ArrayList<EmployeeSalaryComponentAmountBean> deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+				for (EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()) {
+					
+					if(salBean.getComponentTypeId()==1){
+						if( ! salBean.getComponentName().equalsIgnoreCase("WAGES"))
+						earningList.add(salBean);
+					}else{
+						deductionList.add(salBean);
+					}
+					
+					/*if(salBean.getComponentName().equalsIgnoreCase("BASIC")){
+						salBean.setComponentAmount(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()));
+					}
+					if(salBean.getComponentName().equalsIgnoreCase("HRA")){
+						salBean.setComponentAmount(Rules.getHra(salBean.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+					}
+					if(salBean.getComponentName().equalsIgnoreCase("PF")){
+						salBean.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
+					}
+					
+					if(salBean.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
+						
+						salBean.setComponentAmount(Rules.getSpecialAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
+								bean.getBaseDays(), bean.getPresentDay()));	
+					}
+					
+					if (!salBean.getComponentName().equalsIgnoreCase("BASIC") && !salBean.getComponentName().equalsIgnoreCase("HRA") && 
+							!salBean.getComponentName().equalsIgnoreCase("PF") && !salBean.getComponentName().equalsIgnoreCase("ESI") &&
+							!salBean.getComponentName().equalsIgnoreCase("WAGES") && !salBean.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")) {
+						salBean.setComponentAmount(Rules.getGeneral(salBean.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+						
+						//System.out.println("sal >>> >> > " + salBean.getComponentName());
+					}
+					grossTotal += salBean.getComponentAmount();
+					if(salBean.getComponentName().equalsIgnoreCase("ESI")){
+						
+						salBean.setComponentAmount(Rules.getGeneral(salBean.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+					
+					}*/
+				}
+				
+				for (EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()) {
+					System.out.println("Com: "+salBean.getComponentName()+" Amount : "+salBean.getComponentAmount());
+				}
+				for(EmployeeSalaryComponentAmountBean earn: earningList){
+					
+					if(earn.getComponentName().equalsIgnoreCase("BASIC")){
+						earn.setComponentAmount(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()));
+					}
+					if(earn.getComponentName().equalsIgnoreCase("HRA")){
+						earn.setComponentAmount(Rules.getHra(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+					}
+					
+					if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
+						
+						earn.setComponentAmount(Rules.getSpecialAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
+								bean.getBaseDays(), bean.getPresentDay()));	
+					}
+					
+					if (!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") && 
+							!earn.getComponentName().equalsIgnoreCase("WAGES") && !earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")) {
+						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+						
+					}
+					
+					System.out.println("Earning: "+earn.getComponentName()+" Amount: "+earn.getComponentAmount());
+					grossTotal += earn.getComponentAmount();
+				}
+				
+				
+				if(bean.getOtHoursF()!=null)
+				
+				bean.otSalary = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
+				System.out.println("OT S A L >>> >> > " + bean.otSalary);		
+				grossTotal = grossTotal+bean.otSalary;
+				System.out.println("Earnigs: "+grossTotal);
+				
+				for(EmployeeSalaryComponentAmountBean deduct: deductionList){
+					if(deduct.getComponentName().equalsIgnoreCase("PF")){
+						deduct.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
+					}
+					if(deduct.getComponentName().equalsIgnoreCase("PROF TAX")){
+						deduct.setComponentAmount(Rules.getPtAmount(grossTotal));
+					}
+					
+					if(deduct.getComponentName().equalsIgnoreCase("ESI")){
+						if(grossTotal <= 15000.00){
+							for(EmployeeSalaryComponentAmountBean escb: earningList){
+								if(escb.getComponentName().equalsIgnoreCase("WASHING")){
+									deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+								}else{
+									deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+								}
+							}
+						}
+					}
+					System.out.println("Deduction: "+deduct.getComponentName()+" Amount: "+deduct.getComponentAmount());
+					deduction += deduct.getComponentAmount();
+				}
+				System.out.println("Gross:: "+grossTotal+" deduction : "+deduction);
+				System.out.println("----------------------------------------------------------------------------------------------------------");
+				
+			}
+			
 		}
+	}
 	
 	}
 	

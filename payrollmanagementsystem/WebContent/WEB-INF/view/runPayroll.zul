@@ -173,7 +173,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   				<column label="Emp Code" align="center"/>
   				<column label="Emp Name" align="center"/>
   				<column label="Present" align="center"/>
-  				
+  				<column label="Over Time"></column>
   				<column label="Salary Total" align="center"/>
   				<column label="Deduction" align="center"/>
   				<column label="Net Salary" align="left"/>
@@ -184,8 +184,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  				<row>
 	  					<textbox value="@bind(v.empCode)" readonly="true"/>
 	  					<textbox value="@bind(v.empName)"  readonly="true"/>
-	  					<textbox value="@bind(v.presentDay)"></textbox>
-	  					
+	  					<textbox value="@bind(v.presentDay)" onChange="@command('onChangePresentDays',bean = v)"/>
+	  					<textbox value="@bind(v.otHoursF)"></textbox>
 	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
 	  					<textbox value="@bind(v.netSalary)" readonly="true"/>
