@@ -19,7 +19,7 @@ public class CheckNoOfDaysInMonth {
 
 	// Get the number of days in that month
 	int daysInMonth = mycal.getActualMaximum(Calendar.DAY_OF_MONTH); // 28
-	
+	System.out.println(daysInMonth);
 	
 	}
 	
