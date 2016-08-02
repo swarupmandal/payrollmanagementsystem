@@ -3,14 +3,17 @@ package org.appsquad.rules;
 public class Rules {
 
 	public static double getBasic(double wages, int baseDays, int presentDays){
+		System.out.println("Basic: "+(wages/baseDays) * presentDays);
 		return ( (wages/baseDays) * presentDays );
 	}
 	
 	public static double getPf(double basic){
+		System.out.println("Pf called. . .");
 		return ( basic * 0.12 );
 	}
 	
 	public static double getEsi(double gross, double washing){
+		System.out.println("Esi called. . .");
 		if( washing==0.0){
 			return (gross * 0.0175);
 		}
@@ -19,14 +22,14 @@ public class Rules {
 		}
 		return washing;
 	}
-	
-	
-	
+		
 	public static double getHra(double hra, int baseDay , int presentDays){
+		System.out.println("Hra called. . .");
 		return ( (hra*presentDays)/baseDay ); 
 	}
 	
 	public static double getConveyence(double conveyence, int baseDay , int presentDays){
+		System.out.println("conveyence called. . .");
 		return ( (conveyence*presentDays)/baseDay ); 
 	}
 	
@@ -59,10 +62,12 @@ public class Rules {
 	}
 	
 	public static double getGeneral(double component, int baseDay , int presentDays){
+		System.out.println("general called. . .");
 		return ( (component*presentDays)/baseDay ); 
 	}
 	
 	public static double getOtSalary(double wages, double otime , int baseDays){
 		return ( (wages*otime)/baseDays ); 
 	}
+	
 }
