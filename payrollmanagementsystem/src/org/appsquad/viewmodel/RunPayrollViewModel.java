@@ -18,6 +18,7 @@ import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
 import org.appsquad.dao.RunPayRollDao;
+import org.appsquad.research.DoubleFormattor;
 import org.appsquad.rules.Rules;
 import org.appsquad.service.EmployeeMasterService;
 import org.appsquad.service.HolidayMasterService;
@@ -584,9 +585,10 @@ public class RunPayrollViewModel {
 							
 						
 							}
-					
-				
-				
+						bean.setTotalSalary(grossTotal);
+						bean.setTotalDeduction(deduction);
+						bean.setNetSalary(grossTotal-deduction);
+						System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
 				}
 			}
 			
@@ -701,6 +703,10 @@ public class RunPayrollViewModel {
 					deduction += deduct.getComponentAmount();
 				}
 				System.out.println("Gross:: "+grossTotal+" deduction : "+deduction);
+				bean.setTotalSalary( DoubleFormattor.setDoubleFormat(grossTotal));
+				bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
+				bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
+				System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
 				System.out.println("----------------------------------------------------------------------------------------------------------");
 				
 			}
