@@ -554,7 +554,7 @@ public class RunPayrollViewModel {
 							/*if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
 								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());*/
 
-							if(bean.getComapnyName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+							if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()));
 
 							}
