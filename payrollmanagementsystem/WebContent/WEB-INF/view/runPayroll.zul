@@ -76,14 +76,14 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   <label value="Employee Salary Components"></label>
   <div>
   	
-  	<grid width="1500px" mold="paging" pageSize="5" 
+  	<grid width="100%" mold="paging" height="250px" pageSize="5" 
   	model="@bind(vm.runPayRollBeanList)">	
   		<auxhead>
   			<auxheader colspan="2">
   				<checkbox checked="@bind(vm.allChecked)" onCheck="@command('onCheckAll')"/><label value="Select"/>
   			</auxheader>
-  			<auxheader label="Employee Details" colspan="6" style="font-weight:bold;" align="center"/>
-  			<auxheader label="Salary Details" colspan="5" style="font-weight:bold;" align="center"></auxheader>
+  			<auxheader label="Employee Details" colspan="3" style="font-weight:bold;" align="center"/>
+  			<auxheader label="Salary Details" colspan="4" style="font-weight:bold;" align="center"></auxheader>
   			
   			
   		</auxhead>
@@ -93,14 +93,14 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   			<column label="Emp Code" width="120px"></column>
   			<column label="Emp Name" width="180px"></column>
   			<column label="Designation" width="180px"></column>
-  			<column label="Pf Number" width="180px"></column>
-  			<column label="Esi Number" width="150px"></column>
+  			<column label="Pf Number" width="180px" visible="false"></column>
+  			<column label="Esi Number" width="150px" visible="false"></column>
   			
   			
   			<column label="Components" width="500px" visible="false"></column>
-  			<column label="Total Salary" width="150px"></column>
-  			<column label="Total Deduction" width="150px"></column>
-  			<column label="Net Salary" width="150px"></column>
+  			<column label="Total Salary" width="100px"></column>
+  			<column label="Total Deduction" width="120px"></column>
+  			<column label="Net Salary" width="100px"></column>
   			<column label="Details" width="150px"></column>
   			
   		</columns>
@@ -113,8 +113,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		      <textbox value="@bind(v.empCode)"></textbox>
   		      <textbox width="99%" value="@bind(v.empName)" ></textbox>
   		      <textbox width="99%" value="@bind(v.empDesignation)"></textbox>
-  		      <textbox width="99%" value="@bind(v.empPf)"></textbox>
-  		      <textbox width="99%" value="@bind(v.empEsi)"></textbox>
+  		      <textbox width="99%" value="@bind(v.empPf)" visible="false"></textbox>
+  		      <textbox width="99%" value="@bind(v.empEsi)" visible="false"></textbox>
   		      
   		      <groupbox open="false" visible="false">
   		      <caption label="Components" style="font-weight:bold;"></caption>
@@ -154,6 +154,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   
   	</grid>
   </div>
+  
   <div align="center">
   <button label="Generate salary slip" onClick="@command('onclickConfirm')" 
   style="cursor: pointer; cursor: hand; " 
@@ -168,7 +169,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   	<space/>
   	<space/>
   		<grid mold="paging" pageSize="5" model="@bind(vm.runPayRollBeanList)"
-  		visible="@bind(vm.salaryAdjustmentVisibility)">
+  		visible="@bind(vm.salaryAdjustmentVisibility)" height="270px">
   			<columns>
   				<column label="Emp Code" align="center"/>
   				<column label="Emp Name" align="center"/>
@@ -196,7 +197,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		</grid>
   		<div align="center">
   			<vbox>
-  				<button label="Save" onClick="@command('onClickCalculate')" sclass="bb_button"  
+  				<button label="Calculate" onClick="@command('onClickCalculate')" sclass="bb_button"  
   				style="cursor: pointer; cursor: hand;" visible="@bind(vm.calculateButtonVisibility)" />
   				<button label="Next" sclass="bb_button"  
   				style="cursor: pointer; cursor: hand;" onClick="@command('onClickNext')" visible="@bind(vm.nextButtonVisibility)"/>

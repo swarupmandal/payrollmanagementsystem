@@ -101,6 +101,8 @@ public class RunPayrollViewModel {
 	    for(MonthMasterBean monthbean: monthList){
 	    	if(monthbean.getMonthId()==monthId){
 	    		monthMasterBean.setMonthName(monthbean.getMonthName());
+	    		runPayRollBean.setSelectedMonthId(monthMasterBean.getMonthId());
+	    		runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 	    	}
 	    }
 		
@@ -348,6 +350,7 @@ public class RunPayrollViewModel {
 		salaryComponentVisibility = true;
 		nextButtonVisibility = false;
 		prevButtonVisibility = true;
+		calculateButtonVisibility = false;
 	}
 	
 	@Command
@@ -357,6 +360,7 @@ public class RunPayrollViewModel {
 		salaryComponentVisibility = false;
 		nextButtonVisibility = true;
 		prevButtonVisibility = false;
+		calculateButtonVisibility = true;
 	}
 	
 	
