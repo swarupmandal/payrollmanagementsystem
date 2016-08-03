@@ -27,7 +27,7 @@ public class DoubleFormattor {
 		if( upInput != downInput){
 			System.out.println("Converted : "+(upInput+1.0));
 		}*/
-		setDoubleFormat(721.23000000);
+		setDoubleFormat(4405.833333333333);
 	}
 
 	public static double setDoubleFormat(double value){
@@ -35,7 +35,7 @@ public class DoubleFormattor {
 		double partValue = value - intValue;
 		System.out.println("Part val: "+partValue);
 		DecimalFormat decim = new DecimalFormat("0.00");
-		if(partValue > 0.0){
+		if(partValue > 0.50){
 			value = (value+1.0)-partValue;
 			value = Double.parseDouble(decim.format(value));
 		}else{

@@ -6,7 +6,7 @@ public class RunPayRollBean {
 	
     private String empName;
     private int empId, selectedMonthId,selectedUnitId, selectedCurrentYr, baseDays;
-    private String empCode;
+    private String empCode,currentDate;
     private String comapnyName,UnitName,year,monthName;
     private String empPf;
     private String empEsi,empUan;
@@ -31,7 +31,7 @@ public class RunPayRollBean {
     public int totalNumberOfHolidays;
     
     private Integer otDaysF,presentDay,baseDay;
-    private Double otHoursF;
+    private Double otHoursF,specialTime;
     private Double totalOtHoursF;
     
     
@@ -47,6 +47,8 @@ public class RunPayRollBean {
     private double wages;
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+    private ArrayList<EmployeeSalaryComponentAmountBean> earningCompList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+    private ArrayList<EmployeeSalaryComponentAmountBean> deductionCompList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
     
 	public String getEmpName() {
@@ -334,6 +336,32 @@ public class RunPayRollBean {
 	}
 	public void setBaseDays(int baseDays) {
 		this.baseDays = baseDays;
+	}
+	public String getCurrentDate() {
+		return currentDate;
+	}
+	public void setCurrentDate(String currentDate) {
+		this.currentDate = currentDate;
+	}
+	public ArrayList<EmployeeSalaryComponentAmountBean> getEarningCompList() {
+		return earningCompList;
+	}
+	public void setEarningCompList(
+			ArrayList<EmployeeSalaryComponentAmountBean> earningCompList) {
+		this.earningCompList = earningCompList;
+	}
+	public ArrayList<EmployeeSalaryComponentAmountBean> getDeductionCompList() {
+		return deductionCompList;
+	}
+	public void setDeductionCompList(
+			ArrayList<EmployeeSalaryComponentAmountBean> deductionCompList) {
+		this.deductionCompList = deductionCompList;
+	}
+	public Double getSpecialTime() {
+		return specialTime;
+	}
+	public void setSpecialTime(Double specialTime) {
+		this.specialTime = specialTime;
 	}
 	
 }

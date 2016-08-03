@@ -57,6 +57,7 @@ public class RunPayrollViewModel {
 	
 	
 	private ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
+	private ArrayList<RunPayRollBean> pdfBeanList = new ArrayList<RunPayRollBean>();
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
@@ -118,7 +119,14 @@ public class RunPayrollViewModel {
 		//System.out.println("MONTH " + monthMasterBean.getMonthName() + " - ID - " + monthMasterBean.getMonthId());
 		runPayRollBean.setSelectedMonthId(monthMasterBean.getMonthId());
 		runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+		//companyMasterBean.setCompanyName(null);
+		unitMasterBean.setUnitName(null);
+		unitDesignationBean.setUnitDesignation(null);
+		calculateButtonVisibility = false;
+		nextButtonVisibility = false;
+		runPayRollBeanList.clear();
 	}
+	
 	@Command
 	@NotifyChange("*")
 	public void onSelectCompany(){
@@ -134,7 +142,7 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnit(){
-		
+		System.out.println("Compny id: "+companyMasterBean.getCompanyId()+" Unit ID: "+unitMasterBean.getUnitId());
 		runPayRollBean.setSelectedUnitId(unitMasterBean.getUnitId());
 		
 		/*if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
@@ -220,7 +228,7 @@ public class RunPayrollViewModel {
 			
 			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 			runPayRollBean.setYear(String.valueOf(year));
-			
+			pdfBeanList.clear();
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
 					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
 					unitDesignationBean.getUnitDesignationId());
@@ -234,8 +242,6 @@ public class RunPayrollViewModel {
 			calculateButtonVisibility = false;
 		}	
 	}
-	
-	
 	
 	@Command
 	@NotifyChange
@@ -472,7 +478,7 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onChangeOt(@BindingParam("bean")RunPayRollBean bean){
-		Messagebox.show("Ot changed!");
+		//Messagebox.show("Ot changed!");
 	}
 	
 	@Command
@@ -486,6 +492,9 @@ public class RunPayrollViewModel {
 			for(RunPayRollBean bean : runPayRollBeanList){
 				
 				if(bean.getPresentDay()!=null){
+					
+					RunPayRollBean pdfBean = new RunPayRollBean();
+					
 					bean.setBaseDays(baseDays);
 					double grossTotal=0.0,deduction=0.0;
 					ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -505,57 +514,62 @@ public class RunPayrollViewModel {
 						for(EmployeeSalaryComponentAmountBean earn: earningList){
 							
 							if(earn.getComponentName().equalsIgnoreCase("BASIC")){
-								earn.setComponentAmount(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()));
+								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())) );
 							}
 							if(earn.getComponentName().equalsIgnoreCase("HRA")){
 								
 								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
-									earn.setComponentAmount(bean.getWages()*0.15);
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat( bean.getWages()*0.15) );
 								}else{
-									earn.setComponentAmount(bean.getWages()*0.05);
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(bean.getWages()*0.05) );
 								}	
 							}
 							
 							if(earn.getComponentName().equalsIgnoreCase("CONVEYENCE")){
-								earn.setComponentAmount(20*bean.getPresentDay());
+								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(20*bean.getPresentDay()) );
 							}
 							if(earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES")){
-								earn.setComponentAmount(5*bean.getPresentDay());
+								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
 							}
 							if(!bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || !bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") || !bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
 						                              || !bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") || !bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER")
 						                              || !bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
 								if(earn.getComponentName().equalsIgnoreCase("ALLOWANCES")){
-									earn.setComponentAmount(50*bean.getPresentDay());
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(50*bean.getPresentDay()) );
 								}
 							}
 							if(bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
 								if(earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES")){
-									earn.setComponentAmount(50*bean.getPresentDay());
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(50*bean.getPresentDay()) );
 								}
 							}
 							
 							if(bean.getSelectedMonthId()==10){
 								if(earn.getComponentName().equalsIgnoreCase("BONUS")){
-									earn.setComponentAmount(bean.getWages()*0.0833);
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(bean.getWages()*0.0833) );
 								}
 							}
-							if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
-								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());
+
+							/*if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());*/
+
+							if(bean.getComapnyName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()));
+
 							}
 							if(!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") 
 									&& !earn.getComponentName().equalsIgnoreCase("CONVEYENCE")
 									&& !earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCES")
 									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS") 
 									&& !bean.getComapnyName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
-								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());
+								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()) );
 							}
 							grossTotal += earn.getComponentAmount();
 						}
 						if(bean.getOtHoursF()!=null)
 							
-							bean.otSalary = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
+							bean.otSalary = DoubleFormattor.setDoubleFormat( Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF()) );
 							System.out.println("OT S A L >>> >> > " + bean.otSalary);		
 							grossTotal = grossTotal+bean.otSalary;
 							System.out.println("Earnigs: "+grossTotal);
@@ -563,19 +577,19 @@ public class RunPayrollViewModel {
 							for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 
 								if(deduct.getComponentName().equalsIgnoreCase("PF")){
-									deduct.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
+									deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())) ));
 								}
 								if(deduct.getComponentName().equalsIgnoreCase("PROF TAX")){
-									deduct.setComponentAmount(Rules.getPtAmount(grossTotal));
+									deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getPtAmount(grossTotal)) );
 								}
 								
 								if(deduct.getComponentName().equalsIgnoreCase("ESI")){
 									if(grossTotal <= 15000.00){
 										for(EmployeeSalaryComponentAmountBean escb: earningList){
 											if(escb.getComponentName().equalsIgnoreCase("WASHING")){
-												deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+												deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getEsi(grossTotal, escb.getComponentAmount()) ));
 											}else{
-												deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+												deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getEsi(grossTotal, escb.getComponentAmount()) ) );
 											}
 										}
 									}
@@ -585,10 +599,32 @@ public class RunPayrollViewModel {
 							
 						
 							}
-						bean.setTotalSalary(grossTotal);
-						bean.setTotalDeduction(deduction);
-						bean.setNetSalary(grossTotal-deduction);
+						bean.setTotalSalary( DoubleFormattor.setDoubleFormat(grossTotal));
+						bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
+						bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
 						System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
+						//Setting new bean values for pdf generation 
+						pdfBean.setPresentDay(bean.getPresentDay());
+						pdfBean.setWages(bean.getWages());
+						pdfBean.setComapnyName(bean.getComapnyName());
+						pdfBean.setUnitName(bean.getUnitName());
+						pdfBean.setUnitDesignation(bean.getUnitDesignation());
+						pdfBean.setMonthName(bean.getMonthName());
+						pdfBean.setYear(bean.getYear());
+						pdfBean.setCurrentDate(currentDate);
+						pdfBean.setOtHoursF(bean.getOtHoursF());
+						pdfBean.setTotalSalary(bean.getTotalSalary() );
+						pdfBean.setTotalDeduction(bean.getTotalDeduction());
+						pdfBean.setNetSalary(bean.getNetSalary());
+						pdfBean.setEmpName(bean.getEmpName());
+						pdfBean.setEmpCode(bean.getEmpCode());
+						pdfBean.setEmpDesignation(bean.getEmpDesignation());
+						pdfBean.setEmpPf(bean.getEmpPf());
+						pdfBean.setEmpEsi(bean.getEmpEsi());
+						pdfBean.setEmpUan(bean.getEmpUan());
+						pdfBean.setEarningCompList(earningList);
+						pdfBean.setDeductionCompList(deductionList);
+						pdfBeanList.add(pdfBean);
 				}
 			}
 			
@@ -598,7 +634,8 @@ public class RunPayrollViewModel {
 		for(RunPayRollBean bean : runPayRollBeanList ){
 			
 			if(bean.getPresentDay()!=null){
-						
+			
+				RunPayRollBean pdfBean = new RunPayRollBean();
 				bean.setBaseDays(baseDays);
 				System.out.println("Base days: "+bean.getBaseDays()+" Present :: "+bean.getPresentDay() + " WAGES  "+bean.getWages());
 				double grossTotal=0.0,deduction=0.0;
@@ -658,8 +695,8 @@ public class RunPayrollViewModel {
 					
 					if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
 						
-						earn.setComponentAmount(Rules.getSpecialAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
-								bean.getBaseDays(), bean.getPresentDay()));	
+						earn.setComponentAmount(Rules.getSpecialWorkAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
+								bean.getBaseDays(), bean.getSpecialTime()));	
 					}
 					
 					if (!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") && 
@@ -707,6 +744,28 @@ public class RunPayrollViewModel {
 				bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
 				bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
 				System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
+				//Setting new bean values for pdf generation 
+				pdfBean.setPresentDay(bean.getPresentDay());
+				pdfBean.setWages(bean.getWages());
+				pdfBean.setComapnyName(bean.getComapnyName());
+				pdfBean.setUnitName(bean.getUnitName());
+				pdfBean.setUnitDesignation(bean.getUnitDesignation());
+				pdfBean.setMonthName(bean.getMonthName());
+				pdfBean.setYear(bean.getYear());
+				pdfBean.setCurrentDate(currentDate);
+				pdfBean.setOtHoursF(bean.getOtHoursF());
+				pdfBean.setTotalSalary(bean.getTotalSalary() );
+				pdfBean.setTotalDeduction(bean.getTotalDeduction());
+				pdfBean.setNetSalary(bean.getNetSalary());
+				pdfBean.setEmpName(bean.getEmpName());
+				pdfBean.setEmpCode(bean.getEmpCode());
+				pdfBean.setEmpDesignation(bean.getEmpDesignation());
+				pdfBean.setEmpPf(bean.getEmpPf());
+				pdfBean.setEmpEsi(bean.getEmpEsi());
+				pdfBean.setEmpUan(bean.getEmpUan());
+				pdfBean.setEarningCompList(earningList);
+				pdfBean.setDeductionCompList(deductionList);
+				pdfBeanList.add(pdfBean);
 				System.out.println("----------------------------------------------------------------------------------------------------------");
 				
 			}
@@ -1088,6 +1147,20 @@ public class RunPayrollViewModel {
 
 	public void setCalculateButtonVisibility(boolean calculateButtonVisibility) {
 		this.calculateButtonVisibility = calculateButtonVisibility;
+	}
+
+
+
+
+	public ArrayList<RunPayRollBean> getPdfBeanList() {
+		return pdfBeanList;
+	}
+
+
+
+
+	public void setPdfBeanList(ArrayList<RunPayRollBean> pdfBeanList) {
+		this.pdfBeanList = pdfBeanList;
 	}
 
 	
