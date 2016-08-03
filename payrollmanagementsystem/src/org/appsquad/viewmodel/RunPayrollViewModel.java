@@ -77,6 +77,7 @@ public class RunPayrollViewModel {
 	
 	public boolean nextButtonVisibility = false;
 	public boolean prevButtonVisibility = false;
+	public boolean calculateButtonVisibility = false;
 	
 	public boolean allChecked = false;
 	
@@ -122,6 +123,8 @@ public class RunPayrollViewModel {
 		unitMasterBean.setUnitName(null);
 		unitDesignationBean.setUnitDesignation(null);
 		runPayRollBeanList.clear();
+		calculateButtonVisibility = false;
+		nextButtonVisibility = false;
 		unitMasterBeanList = EmployeeMasterService.loadUnitBeanListWrtCompany(companyMasterBean.getCompanyId());
 	}
 	
@@ -222,8 +225,10 @@ public class RunPayrollViewModel {
 		}
 		if(runPayRollBeanList.size()>0){
 			nextButtonVisibility = true;
+			calculateButtonVisibility = true;
 		}else{
 			nextButtonVisibility = false;
+			calculateButtonVisibility = false;
 		}	
 	}
 	
@@ -1059,6 +1064,20 @@ public class RunPayrollViewModel {
 	public void setUnitDesignationBeanList(
 			ArrayList<UnitDesignationBean> unitDesignationBeanList) {
 		this.unitDesignationBeanList = unitDesignationBeanList;
+	}
+
+
+
+
+	public boolean isCalculateButtonVisibility() {
+		return calculateButtonVisibility;
+	}
+
+
+
+
+	public void setCalculateButtonVisibility(boolean calculateButtonVisibility) {
+		this.calculateButtonVisibility = calculateButtonVisibility;
 	}
 
 	
