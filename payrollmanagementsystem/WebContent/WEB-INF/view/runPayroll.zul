@@ -8,7 +8,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		<vbox>
 	     <label value="Select Month"></label>
 	     <combobox  width="130px" model="@bind(vm.monthList)"
-				   onSelect="@command('onSelectMonth')" 
+				   onSelect="@command('onSelectMonth')" value="@bind(vm.monthMasterBean.monthName)"
 					selectedItem="@bind(vm.monthMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
 					     <comboitem label="@bind(v.monthName)" value="@bind(v.monthId)" />
@@ -29,7 +29,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		
 		<vbox>
 		 <label value="Select Unit"></label>
-		 <combobox  width="130px" model="@bind(vm.unitMasterBeanList)"
+		 <combobox  width="130px" model="@bind(vm.unitMasterBeanList)" value="@bind(vm.unitMasterBean.unitName)"
 				   onSelect="@command('onSelectUnit')"
 					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -48,7 +48,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		
 		<vbox>
 		 <label value="Unit Designation	"></label>
-		 <combobox  width="130px" model="@bind(vm.unitDesignationBeanList)"
+		 <combobox  width="130px" model="@bind(vm.unitDesignationBeanList)" value="@bind(vm.unitDesignationBean.unitDesignation)"
 				   onSelect="@command('onSelectUnitDesignation')"
 					selectedItem="@bind(vm.unitDesignationBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -185,7 +185,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  					<textbox value="@bind(v.empCode)" readonly="true"/>
 	  					<textbox value="@bind(v.empName)"  readonly="true"/>
 	  					<textbox value="@bind(v.presentDay)" onChange="@command('onChangePresentDays',bean = v)"/>
-	  					<textbox value="@bind(v.otHoursF)"></textbox>
+	  					<textbox value="@bind(v.otHoursF)" onChanging="@command('onChangeOt',bean = v)"></textbox>
 	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
 	  					<textbox value="@bind(v.netSalary)" readonly="true"/>

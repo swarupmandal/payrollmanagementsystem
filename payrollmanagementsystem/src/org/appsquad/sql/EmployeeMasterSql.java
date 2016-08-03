@@ -9,6 +9,8 @@ public class EmployeeMasterSql {
 	
 	public static final String loadUnitListQuery = "select unit_name, unit_id from pms_unit_master ";
 	
+	public static final String loadUnitListWrtCompanyQuery = "select unit_name, unit_id from pms_unit_master where company_id = ?";
+	
 	public static final String insertPersoalInformationQuery = "insert into pms_employee_personal_information (employee_id,employee_address,employee_city,emp_state_id,employee_pincode,emp_blood_group_id,emp_pan,emp_marital_status,created_by,updatetd_by) "
 																+ "	values(?,?,?,?,?,?,?,?,?,?) ";
 	public static final String selectMaxEmployeeID = "select max(employee_id) as employee_id from pms_employee_master ";

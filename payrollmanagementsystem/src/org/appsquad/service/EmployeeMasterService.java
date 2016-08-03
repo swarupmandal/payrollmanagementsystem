@@ -41,6 +41,12 @@ public class EmployeeMasterService {
 		EmployeeDao.loadCompanyList(compBeanList);
 	}
 	
+	public static ArrayList<UnitMasterBean> loadUnitBeanListWrtCompany(int companyId){
+		ArrayList<UnitMasterBean> unitBeanList = new ArrayList<UnitMasterBean>();
+		unitBeanList = EmployeeDao.loadUnitListWrtCompany(companyId);
+		return unitBeanList;
+	}
+	
 	public static void loadUnitBeanList(ArrayList<UnitMasterBean> beanList){
 		EmployeeDao.loadUnitList(beanList);
 	}

@@ -616,8 +616,42 @@ public class EmployeeDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-			
+	}
+	
+	public static ArrayList<UnitMasterBean> loadUnitListWrtCompany(int companyId){
+		ArrayList<UnitMasterBean> unitBeanList = new ArrayList<UnitMasterBean>();
 		
+		if(unitBeanList.size()>0){
+			unitBeanList.clear();
+		}
+
+		try{	
+			Connection connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			try {
+				preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.loadUnitListWrtCompanyQuery, 
+						Arrays.asList(companyId));
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					UnitMasterBean bean = new UnitMasterBean();
+					bean.setUnitName(resultSet.getString("unit_name"));
+					bean.setUnitId(resultSet.getInt("unit_id"));
+					unitBeanList.add(bean);
+				}
+				
+			} finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+				if(connection != null){
+					connection.close();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return unitBeanList;
 	}
 	
 	
