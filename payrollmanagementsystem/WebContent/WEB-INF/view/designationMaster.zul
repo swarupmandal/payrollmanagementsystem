@@ -86,7 +86,7 @@
 	
 	<div>
 	
-		<grid model="@bind(vm.empDesignationList)">
+		<grid model="@bind(vm.empDesignationList)" mold="paging" pageSize="8">
 			<columns>
 				<column label="Employee Designation" align="center"></column>
 				<column label="Action" align="center"></column>

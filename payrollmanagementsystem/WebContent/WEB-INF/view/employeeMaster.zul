@@ -449,11 +449,18 @@
 											</checkbox>
 											<space></space>
 
-											<label value="UAN"></label>
+											<label value="PF Number"></label>
 											<textbox
 												value="@bind(vm.employeeMasterBean.uan)"
 												disabled="@bind(vm.employeeMasterBean.uanFieldDisabled)">
 											</textbox>
+											
+											<label value="UAN"></label>
+											<textbox
+												value="@bind(vm.employeeMasterBean.pfNumber)"
+												disabled="@bind(vm.employeeMasterBean.pfFielddisabled)">
+											</textbox>
+											
 										</hlayout>
 										<space></space>
 										<hlayout>

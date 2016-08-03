@@ -59,7 +59,7 @@ public class EmployeeMasterSql {
 																		"    ? " +
 																		"  )";
 																
-	public static final String empPfEsiInsertQuery = "INSERT INTO pms_employee_pf_esi_details(employee_id, uan, esi, created_by, updatetd_by)VALUES (?, ?, ?, ?, ?) ";
+	public static final String empPfEsiInsertQuery = "INSERT INTO pms_employee_pf_esi_details(employee_id, pf_number, esi, created_by, updatetd_by, uan_number)VALUES (?, ?, ?, ?, ?, ?) ";
 	
 	public static final String loadComponentDetailsQuery =  " SELECT pcm.component_id, pcm.component_name, pcm.component_type_id, pcmp.company_id, pcmp.unit_id, pctm.component_type, pcmp.amount " +     
 																 " FROM pms_component_master pcm, pms_component_master_per_unit pcmp, pms_component_type_master pctm " +

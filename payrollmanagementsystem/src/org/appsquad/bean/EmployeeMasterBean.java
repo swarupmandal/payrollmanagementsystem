@@ -60,6 +60,8 @@ public class EmployeeMasterBean {
 	
 	
 	private boolean pfCheckValue = false;
+	private String pfNumber = "0";
+	private boolean pfFielddisabled = true;
 	private String uan;
 	private boolean uanFieldDisabled = true;
 	
@@ -672,6 +674,22 @@ public class EmployeeMasterBean {
 
 	public void setBloodGroupBean(BloodGroupBean bloodGroupBean) {
 		this.bloodGroupBean = bloodGroupBean;
+	}
+
+	public String getPfNumber() {
+		return pfNumber;
+	}
+
+	public void setPfNumber(String pfNumber) {
+		this.pfNumber = pfNumber;
+	}
+
+	public boolean isPfFielddisabled() {
+		return pfFielddisabled;
+	}
+
+	public void setPfFielddisabled(boolean pfFielddisabled) {
+		this.pfFielddisabled = pfFielddisabled;
 	}
 	
 	

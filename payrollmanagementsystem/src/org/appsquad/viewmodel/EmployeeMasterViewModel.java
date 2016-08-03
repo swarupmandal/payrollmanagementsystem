@@ -258,7 +258,9 @@ public class EmployeeMasterViewModel {
 		
 		if(employeeMasterBean.isPfCheckValue()==true){
 			employeeMasterBean.setUanFieldDisabled(false);
+			employeeMasterBean.setPfFielddisabled(false);
 			}else if (employeeMasterBean.isPfCheckValue()==false) {
+			employeeMasterBean.setPfFielddisabled(true);	
 			employeeMasterBean.setUan(null);
 			employeeMasterBean.setUanFieldDisabled(true);
 		}
@@ -303,10 +305,10 @@ public class EmployeeMasterViewModel {
 				
 				Messagebox.show("Saved succesful", "Information", Messagebox.OK, Messagebox.INFORMATION);
 			}else {
-				Messagebox.show("Fill the details", "Information", Messagebox.OK, Messagebox.INFORMATION);
+				Messagebox.show("Fill Details", "Information", Messagebox.OK, Messagebox.INFORMATION);
 			}
 		}else {
-			Messagebox.show("Fill the details", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Fill Details", "Information", Messagebox.OK, Messagebox.INFORMATION);
 		}
 		
 	}

@@ -1043,7 +1043,7 @@ public class EmployeeDao {
 				sql:{
 					PreparedStatement preparedStatement = null;
 					try {
-						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.empPfEsiInsertQuery, Arrays.asList(empId, bean.getUan(),bean.getEsi(), userName, userName));
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.empPfEsiInsertQuery, Arrays.asList(empId, bean.getUan(),bean.getEsi(), userName, userName, bean.getPfNumber()));
 						int i = preparedStatement.executeUpdate();
 						connection.commit();
 						if(i>0){
