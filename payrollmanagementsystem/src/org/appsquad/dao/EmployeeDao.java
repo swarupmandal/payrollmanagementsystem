@@ -69,7 +69,8 @@ public class EmployeeDao {
 							employeeMasterBean.setRegistrationDate(resultSet.getDate("registration_date"));
 							employeeMasterBean.setLastWorkingDate(resultSet.getDate("last_working_date"));
 							employeeMasterBean.setComponentMasterBeanList(fetchComponentList(empId, connection));
-							employeeMasterBean.setUan(resultSet.getString("uan"));
+							employeeMasterBean.setUan(resultSet.getString("pf_number"));
+							employeeMasterBean.setPfNumber(resultSet.getString("uan_number"));
 							employeeMasterBean.setEsi(resultSet.getString("esi"));
 						}
 					} catch (Exception e) {
@@ -307,7 +308,7 @@ public class EmployeeDao {
 						PreparedStatement preparedStatement = null;
 						try {
 							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.updatePfEsiQuery, 
-									Arrays.asList(employeeMasterBean.getUan(),employeeMasterBean.getEsi(),
+									Arrays.asList(employeeMasterBean.getUan(), employeeMasterBean.getPfNumber() ,employeeMasterBean.getEsi(),
 											employeeMasterBean.getUserId(),employeeMasterBean.getEmployeeid()
 											));
 							int count = preparedStatement.executeUpdate();
@@ -333,7 +334,7 @@ public class EmployeeDao {
 						try {
 							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.empPfEsiInsertQuery, 
 									Arrays.asList(employeeMasterBean.getEmployeeid(),employeeMasterBean.getUan(),
-											employeeMasterBean.getEsi(),employeeMasterBean.getUserId(),employeeMasterBean.getUserId()
+											employeeMasterBean.getEsi(),employeeMasterBean.getUserId(),employeeMasterBean.getUserId(), employeeMasterBean.getPfNumber()
 											));
 							int count = preparedStatement.executeUpdate();
 							if(count > 0){

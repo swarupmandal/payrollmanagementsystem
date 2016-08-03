@@ -556,8 +556,13 @@ public class RunPayrollViewModel {
 									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(bean.getWages()*0.0833) );
 								}
 							}
+
+							/*if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());*/
+
 							if(bean.getComapnyName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()));
+
 							}
 							if(!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") 
 									&& !earn.getComponentName().equalsIgnoreCase("CONVEYENCE")
