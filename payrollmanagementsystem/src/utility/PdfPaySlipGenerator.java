@@ -34,6 +34,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPage;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfCell;
 
 
 
@@ -167,11 +168,37 @@ public class PdfPaySlipGenerator {
 			return table;
 		}
 		
-		public static PdfPTable createTableForLogo(Document document, RunPayRollBean bean){
+		public static PdfPTable createTableForLogo(Document document, RunPayRollBean bean) throws DocumentException{
 		
-			float[] columnWidths = {30, 70};
+			float[] columnWidths = {8,  16};
 			PdfPTable table = new PdfPTable(columnWidths);
+			/*table.setWidths(columnWidths);
+			table.setHorizontalAlignment(Element.ALIGN_LEFT);
+			table.setWidthPercentage(100);
 			
+			PdfPCell cell ;
+			cell = new PdfPCell( new Phrase("BDA"));
+			cell.setRowspan(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell( new Phrase("SALARY SHEET"));
+			cell.setRowspan(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell( new Phrase("COMPANY"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell( new Phrase("UNIT"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell( new Phrase("DATE"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell( new Phrase("BLACK BOY DETECTIVE AGENCY PVT LTD."));
+			table.addCell(cell);
+			
+			cell = new PdfPCell( new Phrase("UNIT DESIGNATION"));
+			table.addCell(cell);*/
 			PdfPTable nxtTable = new PdfPTable(2);
 			nxtTable.setHorizontalAlignment(Element.ALIGN_CENTER);
 			nxtTable.setWidthPercentage(60);
@@ -180,7 +207,7 @@ public class PdfPaySlipGenerator {
 					bean.getMonthName()+"      "+bean.getYear()+"     "+bean.getCurrentDate()+"\n"+
 					bean.getUnitDesignation()));
 			
-			PdfPTable logoTable = new PdfPTable(1);
+			PdfPTable logoTable = new PdfPTable(2);
 			logoTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 			//logoTable.setWidthPercentage(40);
 	        Font white = new Font();
@@ -192,8 +219,18 @@ public class PdfPaySlipGenerator {
 	        cell.setBorderWidth(3f);
 	        cell.setPaddingBottom(3f);
 	        logoTable.addCell(cell);
-	        //logoTable.addCell(createLabelCell(""));
+	        
+	        cell = new PdfPCell(new Phrase());
+	        cell.setBorder(Rectangle.NO_BORDER);
+	        logoTable.addCell(cell);
+	        
+	        
 	        logoTable.addCell(createValueCellBoldLeft("BLACKBOY DETECTIVE AGENCY PVT LTD."));
+	        
+	        
+	        cell = new PdfPCell(new Phrase());
+	        cell.setBorder(Rectangle.NO_BORDER);
+	        logoTable.addCell(cell);
 	       // logoTable.setTotalWidth(10);
 	        
 	        table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
