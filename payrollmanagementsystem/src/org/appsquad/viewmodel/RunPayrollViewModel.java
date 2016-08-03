@@ -75,6 +75,7 @@ public class RunPayrollViewModel {
 	int second, minute, hour;
 	String currentDate;
 	String currentTime;
+	int slNo = 0;
 	
 	public boolean salaryAdjustmentVisibility = true;
 	public boolean salaryComponentVisibility  = false;
@@ -617,7 +618,11 @@ public class RunPayrollViewModel {
 						bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
 						bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
 						System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
-						//Setting new bean values for pdf generation 
+						//Setting new bean values for pdf generation
+						
+						slNo = slNo+1;
+						
+						pdfBean.setEmpcount(slNo);
 						pdfBean.setPresentDay(bean.getPresentDay());
 						pdfBean.setWages(bean.getWages());
 						pdfBean.setComapnyName(bean.getComapnyName());
@@ -763,7 +768,11 @@ public class RunPayrollViewModel {
 				bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
 				bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
 				System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
-				//Setting new bean values for pdf generation 
+				//Setting new bean values for pdf generation
+				
+				slNo = slNo+1;
+				
+				pdfBean.setEmpcount(slNo);
 				pdfBean.setPresentDay(bean.getPresentDay());
 				pdfBean.setWages(bean.getWages());
 				pdfBean.setComapnyName(bean.getComapnyName());
