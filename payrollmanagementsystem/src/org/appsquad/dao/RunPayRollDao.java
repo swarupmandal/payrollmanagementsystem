@@ -15,6 +15,7 @@ import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.database.DbConnection;
+import org.appsquad.research.DayCalculate;
 import org.appsquad.service.RunPayRollService;
 import org.appsquad.sql.RunPayRollSql;
 import org.zkoss.zul.Messagebox;
@@ -690,11 +691,13 @@ public class RunPayRollDao {
 		
 		if(baseDayType == 2){
 			// calculate month day and minus 4 in baseDays
-			baseDays = RunPayRollService.totnoOfDaysInMonth(monthId, year);
+			System.out.println("--Special unit---");
+			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
 			baseDays = baseDays-4;
 		}else{
 			// calculate month days in baseDayss
-			baseDays = RunPayRollService.totnoOfDaysInMonth(monthId, year);
+			System.out.println("--Normal unit---");
+			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
 		}
 		System.out.println("Calculated Base days: "+baseDays);
 		return baseDays;
