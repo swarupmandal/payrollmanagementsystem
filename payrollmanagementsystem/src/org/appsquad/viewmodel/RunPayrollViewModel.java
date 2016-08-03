@@ -538,6 +538,14 @@ public class RunPayrollViewModel {
 							if(earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
 							}
+							if(bean.getSpecialTime() != null){
+								if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
+									
+									earn.setComponentAmount(Rules.getSpecialWorkAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
+											bean.getBaseDays(), bean.getSpecialTime()));	
+								}
+								}
+							
 							if(!bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || !bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") || !bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
 						                              || !bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") || !bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER")
 						                              || !bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
@@ -700,11 +708,15 @@ public class RunPayrollViewModel {
 						earn.setComponentAmount(Rules.getHra(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 					}
 					
+					
+					if(bean.getSpecialTime() != null){
 					if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
 						
 						earn.setComponentAmount(Rules.getSpecialWorkAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
 								bean.getBaseDays(), bean.getSpecialTime()));	
 					}
+					}
+					
 					
 					if (!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") && 
 							!earn.getComponentName().equalsIgnoreCase("WAGES") && !earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")) {
