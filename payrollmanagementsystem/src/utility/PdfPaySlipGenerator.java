@@ -16,6 +16,7 @@ import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.pdfhandler.BorderEvent;
 import org.appsquad.pdfhandler.Rotate;
 import org.appsquad.research.DoubleFormattor;
+import org.zkoss.zul.impl.Padding;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -128,8 +129,8 @@ public class PdfPaySlipGenerator {
 		
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
-			document.add(createTableForLogo(document));
-			document.add(createTableForHeader(document, bean));
+			document.add(createTableForLogo(document, bean));
+			//document.add(createTableForHeader(document, bean));
 			
 			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
 				if(runPayRollBean.isChecked()){
@@ -142,13 +143,10 @@ public class PdfPaySlipGenerator {
 		
 		public static PdfPTable createTableForSheet(Document document, RunPayRollBean bean) throws Exception{
 		//	PdfPTable table = new PdfPTable(4);
-			float[] columnWidths = {55, 20,125, 95,70};
+			float[] columnWidths = {70, 30,225, 75,70};
 	        PdfPTable table = new PdfPTable(columnWidths);
 	        table.setHorizontalAlignment(Element.ALIGN_LEFT);
-	        table.setWidthPercentage(100);
-			PdfPCell cell;
-			cell = new PdfPCell(new Phrase());
-			table.addCell(createLabelCell(""));
+	        table.addCell(createLabelCell(""));
 			table.addCell(createLabelCell(""));
 			table.addCell(createLabelCell(""));
 			table.addCell(createLabelCell(""));
@@ -161,25 +159,47 @@ public class PdfPaySlipGenerator {
 			table.addCell( createTableForSignatureSheet(document, bean) );
 			//table.setWidthPercentage(100);
 			 table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			 table.setWidthPercentage(100);
+		     table.setSpacingBefore(0f);
+		     table.setSpacingAfter(0f);
 			//table.setTableEvent(new BorderEvent());
-			 table.setTotalWidth(90);
+			 table.setTotalWidth(100);
 			return table;
 		}
 		
-		public static PdfPTable createTableForLogo(Document document){
-			PdfPTable table = new PdfPTable(1);
-	        table.setHorizontalAlignment(Element.ALIGN_LEFT);
-	        table.setWidthPercentage(12);
+		public static PdfPTable createTableForLogo(Document document, RunPayRollBean bean){
+		
+			float[] columnWidths = {30, 70};
+			PdfPTable table = new PdfPTable(columnWidths);
+			
+			PdfPTable nxtTable = new PdfPTable(2);
+			nxtTable.setHorizontalAlignment(Element.ALIGN_CENTER);
+			nxtTable.setWidthPercentage(60);
+			nxtTable.addCell(createLabelCellBold("SALARY SHEET"));
+			nxtTable.addCell(createLabelCellRightFont(bean.getComapnyName()+"\n"+bean.getUnitName()+"\n"+
+					bean.getMonthName()+"      "+bean.getYear()+"     "+bean.getCurrentDate()+"\n"+
+					bean.getUnitDesignation()));
+			
+			PdfPTable logoTable = new PdfPTable(1);
+			logoTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+			//logoTable.setWidthPercentage(40);
 	        Font white = new Font();
-	        Font font = new Font(Font.getFamily("HELVETICA"), 25, Font.BOLD);
+	        Font font = new Font(Font.getFamily("HELVETICA"), 23, Font.BOLD);
 	        white.setColor(BaseColor.WHITE); 
 			PdfPCell cell = new PdfPCell(new Phrase(" BDA" , font));
 	        cell.setBackgroundColor(BaseColor.WHITE);
 	        cell.setBorderColor(BaseColor.GRAY);
 	        cell.setBorderWidth(3f);
-	        cell.setPaddingBottom(10);
-	        table.addCell(cell);
-	        table.setTotalWidth(12);
+	        cell.setPaddingBottom(3f);
+	        logoTable.addCell(cell);
+	        //logoTable.addCell(createLabelCell(""));
+	        logoTable.addCell(createValueCellBoldLeft("BLACKBOY DETECTIVE AGENCY PVT LTD."));
+	       // logoTable.setTotalWidth(10);
+	        
+	        table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        table.addCell(logoTable);
+	        table.addCell(nxtTable);
+	        table.setWidthPercentage(100);
 	        /*PdfContentByte canvas = writer.getDirectContent();
 	        table.writeSelectedRows(0, -1, document.right() - 90, document.top(), canvas);*/
 	        return table;
@@ -189,14 +209,14 @@ public class PdfPaySlipGenerator {
 				throws DocumentException {
 		    String pattern = "dd/MM/yyyy";
 			String dateInString =new SimpleDateFormat(pattern).format(new Date());
-			PdfPTable table = new PdfPTable(3);
+			PdfPTable table = new PdfPTable(1);
 			table.setHorizontalAlignment(Element.ALIGN_LEFT);
-			table.setWidthPercentage(97);
+			table.setWidthPercentage(20);
 			table.addCell(createLabelCellLeftBold("BLACKBOY DETECTIVE AGENCY PVT. LTD.\n"));
-			table.addCell(createLabelCellBold("SALARY SHEET"));
+			/*table.addCell(createLabelCellBold("SALARY SHEET"));
 			table.addCell(createLabelCellRightFont(bean.getComapnyName()+"\n"+bean.getUnitName()+"\n"+
 								bean.getMonthName()+"      "+bean.getYear()+"     "+dateInString+"\n"+
-								bean.getUnitDesignation()));
+								bean.getUnitDesignation()));*/
 			table.getDefaultCell().setBorder(0);
 			table.setTotalWidth(90);
 			return table;
@@ -205,15 +225,18 @@ public class PdfPaySlipGenerator {
 		public static PdfPTable createTableForEmployeeOnSheet(Document document, RunPayRollBean bean )
 				throws DocumentException {
 			
-			
-			PdfPTable table2 = new PdfPTable(3);
+			/*float[] columnWidths = {30, 15, 40};
+			PdfPTable table2 = new PdfPTable(columnWidths);
+			table2.setSpacingAfter(0f);
+			table2.setSpacingBefore(0f);
 		//	table2.addCell(createLabelCellLeftUnderLine(bean.getEmpName()));
 		//	table2.addCell(createLabelCellRight(" "));
 		//	table2.addCell(createLabelCellRight(" "));
 			table2.addCell(createValueCellBold(bean.getEmpCode()));
+			
 			if (bean.getEmpUan() != null) {
-				/*table2.addCell(createValueCell("ESI " + bean.getEmpEsi() + "\nPF "
-						+ bean.getEmpPf() + "\nUAN " + bean.getEmpUan()));*/
+				table2.addCell(createValueCell("ESI " + bean.getEmpEsi() + "\nPF "
+						+ bean.getEmpPf() + "\nUAN " + bean.getEmpUan()));
 				table2.addCell(createValueCell("ESI"));
 				table2.addCell(createValueCell(bean.getEmpEsi()));
 				table2.addCell(createValueCell(" "));
@@ -224,12 +247,12 @@ public class PdfPaySlipGenerator {
 				table2.addCell(createValueCell(bean.getEmpUan()));
 			//	table2.addCell(createValueCellLeft(bean.getEmpDesignation()));
 			//	table2.addCell(createLabelCell());
-			} /*else {
+			} else {
 				table2.addCell(createValueCell("ESI " + bean.getEmpEsi() + "\nPF "
 						+ bean.getEmpPf() + "\nUAN " + 0));
 				//table2.addCell(createValueCellLeft(bean.getEmpDesignation()));
 				//table2.addCell(createLabelCell());
-			}*/
+			}
 			
 			PdfPTable tabledesg = new PdfPTable(1);
 			tabledesg.addCell( createLabelCellLeft(bean.getEmpDesignation()) );
@@ -237,9 +260,62 @@ public class PdfPaySlipGenerator {
 			
 			PdfPTable table = new PdfPTable(1);
 			table.addCell(createLabelCellLeftUnderLine(bean.getEmpName()));
+			table.getDefaultCell().setPaddingTop(0);
 			table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			table.setSpacingBefore(0f);
+			table.setSpacingAfter(0f);
 			table.addCell(table2);
-			table.addCell(tabledesg);
+			table.addCell(tabledesg);*/
+			float[] columnWidths = {30, 30,70};
+			PdfPTable table = new PdfPTable(columnWidths);
+			PdfPCell cell ;
+			Font font ;
+			font = new Font(Font.getFamily("HELVETICA"), 10, Font.BOLD);
+			cell = new PdfPCell( new Phrase(bean.getEmpName(),font) );
+			cell.setColspan(3);
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(bean.getEmpCode(),font));
+			cell.setRowspan(3);
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell(new Phrase("PF",font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell) ;
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell(new Phrase(bean.getEmpPf(),font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell) ;
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell(new Phrase("ESI",font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell) ;
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell(new Phrase(bean.getEmpEsi(),font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell) ;
+		
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell(new Phrase("UAN",font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell) ;
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell(new Phrase(bean.getEmpUan(),font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell) ;
+			
+			font = new Font(Font.getFamily("HELVETICA"), 9, Font.BOLD);
+			cell =  new PdfPCell(new Phrase(bean.getEmpDesignation(),font));
+			cell.setColspan(3);
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
 			
 			return table;
 		}
@@ -285,7 +361,7 @@ public class PdfPaySlipGenerator {
 				}
 				
 				//table.setWidthPercentage(60);
-				table.setTotalWidth(160f);
+				table.setTotalWidth(100f);
 				return table;
 			}else{
 				PdfPTable table1 = new PdfPTable(1);
@@ -294,7 +370,7 @@ public class PdfPaySlipGenerator {
 				
 				table1.addCell(createLabelCell("") );
 				table1.addCell(createValueCell("") );
-				table1.setTotalWidth(60f);	
+				table1.setTotalWidth(100f);	
 				//table.setWidthPercentage(60);
 				return table1;
 			}
@@ -302,27 +378,51 @@ public class PdfPaySlipGenerator {
 		}
 		
 		public static PdfPTable createTableForDeductionOnSheet(Document document, RunPayRollBean bean) throws DocumentException{				
-			PdfPTable mainDeductionTable = new PdfPTable(1);
-			
-			PdfPTable deducTable = new PdfPTable(bean.getDeductionCompList().size()+1);
-			for(EmployeeSalaryComponentAmountBean deduct : bean.getDeductionCompList()){
-				deducTable.addCell( createLabelCell(deduct.getComponentName()) );
+			PdfPTable mainDeductionTable ;
+			if(bean.getDeductionCompList().size() > 0){
+				mainDeductionTable = new PdfPTable(1);
+				
+				PdfPTable deducTable = new PdfPTable(bean.getDeductionCompList().size()+1);
+				for(EmployeeSalaryComponentAmountBean deduct : bean.getDeductionCompList()){
+					deducTable.addCell( createLabelCell(deduct.getComponentName()) );
+				}
+				deducTable.addCell(createLabelCell("TOT. DED."));
+				for(EmployeeSalaryComponentAmountBean deduct : bean.getDeductionCompList()){
+					deducTable.addCell( createValueCell(String.valueOf( DoubleFormattor.setDoubleFormat(deduct.getComponentAmount())) ) );
+				}
+				deducTable.addCell(createValueCell( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalDeduction()))));
+				deducTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				
+				PdfPTable netsalTable = new PdfPTable(2);
+				netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
+				netsalTable.addCell(createValueCellRightFont( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()))) );
+				netsalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				
+				mainDeductionTable.addCell( deducTable );
+				mainDeductionTable.addCell( netsalTable );
+				mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				return mainDeductionTable;
+			}else{
+				mainDeductionTable = new PdfPTable(1);
+				
+				PdfPTable deducTable = new PdfPTable(1);
+				
+				deducTable.addCell(createLabelCell("TOT. DED."));
+				deducTable.addCell(createValueCell("0.00") );
+				deducTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				
+				PdfPTable netsalTable = new PdfPTable(2);
+				netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
+				netsalTable.addCell(createValueCellRightFont( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()))) );
+				netsalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				
+				mainDeductionTable.addCell( deducTable );
+				mainDeductionTable.addCell( netsalTable );
+				mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				
+				return mainDeductionTable;
 			}
-			deducTable.addCell(createLabelCell("TOTAL DEDUCTION"));
-			for(EmployeeSalaryComponentAmountBean deduct : bean.getDeductionCompList()){
-				deducTable.addCell( createValueCell(String.valueOf( DoubleFormattor.setDoubleFormat(deduct.getComponentAmount())) ) );
-			}
-			deducTable.addCell(createValueCell( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalDeduction()))));
-			deducTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			
-			PdfPTable netsalTable = new PdfPTable(2);
-			netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
-			netsalTable.addCell(createValueCellRightFont( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()))) );
-			netsalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			
-			mainDeductionTable.addCell( deducTable );
-			mainDeductionTable.addCell( netsalTable );
-			return mainDeductionTable;
 			/*ArrayList<EmployeeSalaryComponentAmountBean> deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 			for(EmployeeSalaryComponentAmountBean empAllowance : bean.getComponentAmountBeanList()){	
 				if(empAllowance.getComponentType().equalsIgnoreCase("DEDUCTION")){
@@ -698,20 +798,43 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean	) throws Exception, DocumentException{
 			filePath = path+"salarysheet.pdf";
 			System.out.println("My file path :: "+filePath);
-			
-		//	document = new Document(PageSize.A4_LANDSCAPE, 2, 2, 60, 40);
-		//	document = new Document(PageSize._11X17.rotate());
-			document = new Document(PageSize.LETTER.rotate());
-		    document.setMargins(15, 15, 20, 10);
-		//	document.setMargins(10,60, 5,80);
-			document.setMarginMirroring(true);
+			document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-			writer.setBoxSize("art", new com.itextpdf.text.Rectangle(36, 54, 59, 788));
 			document.open();
-			
 			generateSheet(runPayRollBeanList , bean);
 			openPdf(filePath);
 			document.close();
+		//	Rectangle pageSize = new Rectangle(516f ,1256f );
+		//	document = new Document(PageSize.A4_LANDSCAPE, 2, 2, 60, 40);
+		//	document = new Document(PageSize._11X17.rotate());
+			
+			//document = new Document(pageSize, 0f, 0f, 0f, 0f);
+		    //document.setMargins(15, 15, 20, 10);
+			//document.setMargins(0, 5, 10, 20);
+		//	document.setMargins(10,60, 5,80);
+		//	document.setMarginMirroring(true);
+			
+		//	writer.setBoxSize("art", new com.itextpdf.text.Rectangle(36, 54, 59, 788));
+		//	writer.setBoxSize("art", new com.itextpdf.text.Rectangle(36, 36, 36, 36));
+		
+			
+			/*PdfPTable table = new PdfPTable(1);
+
+	        table.setWidthPercentage(100);
+	        table.setSpacingBefore(0f);
+	        table.setSpacingAfter(0f);
+
+	        // first row
+	        PdfPCell cell = new PdfPCell(new Phrase("DATATATATe"));
+	        cell.setColspan(10);
+	        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	        cell.setPadding(5.0f);
+	        cell.setBackgroundColor(new BaseColor(140, 221, 8));
+	        table.addCell(cell);
+			
+			table.setWidthPercentage(100f);
+			document.add(table);*/
+			
 		}
 		
 		
@@ -882,7 +1005,7 @@ public class PdfPaySlipGenerator {
 		
 		private static PdfPCell createLabelCell(String text) {
 			
-			Font font = new Font(Font.getFamily("HELVETICA"), 10, Font.BOLD);
+			Font font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_CENTER);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
@@ -894,7 +1017,7 @@ public class PdfPaySlipGenerator {
 		
 		private static PdfPCell createLabelCellBold(String text) {
 			
-			Font font = new Font(Font.getFamily("HELVETICA"), 15, Font.BOLD);
+			Font font = new Font(Font.getFamily("HELVETICA"), 12, Font.BOLD);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_CENTER);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
@@ -917,6 +1040,7 @@ public class PdfPaySlipGenerator {
 			Font font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_LEFT);
+			right.setAlignment(Element.ALIGN_TOP);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
 			cell.addElement(right);
 			cell.setBorder(Rectangle.NO_BORDER);
@@ -925,7 +1049,7 @@ public class PdfPaySlipGenerator {
 		
 		private static PdfPCell createLabelCellLeftBold(String text) {
 			
-			Font font = new Font(Font.getFamily("HELVETICA"), 14, Font.BOLD);
+			Font font = new Font(Font.getFamily("HELVETICA"), 11, Font.BOLD);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
@@ -947,9 +1071,10 @@ public class PdfPaySlipGenerator {
 		
 		private static PdfPCell createLabelCellLeftUnderLine(String text) {
 			
-			Font font = new Font(Font.getFamily("HELVETICA"), 11, Font.UNDERLINE);
+			Font font = new Font(Font.getFamily("HELVETICA"), 9, Font.UNDERLINE);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_LEFT);
+			right.setAlignment(Element.ALIGN_TOP);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
 			cell.addElement(right);
 			cell.setBorder(Rectangle.NO_BORDER);
@@ -970,7 +1095,7 @@ public class PdfPaySlipGenerator {
 		
 		private static PdfPCell createLabelCellRightFont(String text) {
 			
-			Font font = new Font(Font.getFamily("HELVETICA"), 13, Font.BOLD);
+			Font font = new Font(Font.getFamily("HELVETICA"), 11, Font.NORMAL);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_RIGHT);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
@@ -980,7 +1105,7 @@ public class PdfPaySlipGenerator {
 		}
 
 		private static PdfPCell createValueCell(String text) {
-			Font font = new Font(Font.getFamily("HELVETICA"), 12, Font.NORMAL);
+			Font font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_CENTER);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
@@ -991,9 +1116,19 @@ public class PdfPaySlipGenerator {
 		
 
 		private static PdfPCell createValueCellBold(String text) {
-			Font font = new Font(Font.getFamily("HELVETICA"), 11, Font.BOLD);
+			Font font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			Paragraph right = new Paragraph(text,font);
 			right.setAlignment(Element.ALIGN_CENTER);
+			PdfPCell cell = new PdfPCell(new Phrase(text, font));
+			cell.addElement(right);
+			cell.setBorder(Rectangle.NO_BORDER);
+			return cell;
+		}
+		
+		private static PdfPCell createValueCellBoldLeft(String text) {
+			Font font = new Font(Font.getFamily("HELVETICA"), 10, Font.BOLD);
+			Paragraph right = new Paragraph(text,font);
+			right.setAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell = new PdfPCell(new Phrase(text, font));
 			cell.addElement(right);
 			cell.setBorder(Rectangle.NO_BORDER);

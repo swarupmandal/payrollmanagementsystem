@@ -79,6 +79,7 @@ public class RunPayrollViewModel {
 	
 	public boolean salaryAdjustmentVisibility = true;
 	public boolean salaryComponentVisibility  = false;
+	public boolean upperComponentVisibility  = true;
 	
 	public boolean nextButtonVisibility = false;
 	public boolean prevButtonVisibility = false;
@@ -235,10 +236,13 @@ public class RunPayrollViewModel {
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
 					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
 					unitDesignationBean.getUnitDesignationId());
+			runPayRollBean.setTotalSalary(0.0);
+			runPayRollBean.setTotalDeduction(0.0);
+			runPayRollBean.setNetSalary(0.0);
 			runPayRollBean.setBaseDays( RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr()));
 		}
 		if(runPayRollBeanList.size()>0){
-			nextButtonVisibility = true;
+			//nextButtonVisibility = true;
 			calculateButtonVisibility = true;
 		}else{
 			nextButtonVisibility = false;
@@ -359,12 +363,22 @@ public class RunPayrollViewModel {
 	
 	@Command
 	@NotifyChange("*")
-	public void onClickNext(){
+	public void onClickNext() throws DocumentException, Exception{
 		salaryAdjustmentVisibility = false;
 		salaryComponentVisibility = true;
 		nextButtonVisibility = false;
 		prevButtonVisibility = true;
 		calculateButtonVisibility = false;
+		upperComponentVisibility = false;
+		/*String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+		pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
+		pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
+		pdfSheetBean.setCurrentDate(currentDate);
+		pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
+		pdfSheetBean.setYear(String.valueOf(year));
+		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
+		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+	    paySlipGenerator.getSheetDetails(pdfPath, pdfBeanList, pdfSheetBean);*/
 	}
 	
 	@Command
@@ -372,9 +386,15 @@ public class RunPayrollViewModel {
 	public void onClickPrevious(){
 		salaryAdjustmentVisibility = true;
 		salaryComponentVisibility = false;
-		nextButtonVisibility = true;
+		nextButtonVisibility = false;
 		prevButtonVisibility = false;
 		calculateButtonVisibility = true;
+		upperComponentVisibility = true;
+		runPayRollBean.setTotalSalary(0.0);
+		runPayRollBean.setTotalDeduction(0.0);
+		runPayRollBean.setNetSalary(0.0);
+		
+		pdfBeanList.clear();
 	}
 	
 	
@@ -800,7 +820,10 @@ public class RunPayrollViewModel {
 			
 		}
 	}
-	
+		if(pdfBeanList.size() > 0 ){
+			nextButtonVisibility = true;
+			calculateButtonVisibility = false;
+		}
 	}
 	
 	/**************************** initial functions  **********************************************************************************/
@@ -1203,6 +1226,34 @@ public class RunPayrollViewModel {
 
 	public void setPdfSheetBean(RunPayRollBean pdfSheetBean) {
 		this.pdfSheetBean = pdfSheetBean;
+	}
+
+
+
+
+	public int getSlNo() {
+		return slNo;
+	}
+
+
+
+
+	public void setSlNo(int slNo) {
+		this.slNo = slNo;
+	}
+
+
+
+
+	public boolean isUpperComponentVisibility() {
+		return upperComponentVisibility;
+	}
+
+
+
+
+	public void setUpperComponentVisibility(boolean upperComponentVisibility) {
+		this.upperComponentVisibility = upperComponentVisibility;
 	}
 
 	
