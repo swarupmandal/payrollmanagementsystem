@@ -1,35 +1,37 @@
 package org.appsquad.rules;
 
+import org.appsquad.research.DoubleFormattor;
+
 public class Rules {
 
 	public static double getBasic(double wages, int baseDays, int presentDays){
-		System.out.println("Basic: "+(wages/baseDays) * presentDays);
-		return ( (wages/baseDays) * presentDays );
+		System.out.println("Basic: "+DoubleFormattor.setDoubleFormat((wages/baseDays) * presentDays));
+		return ( DoubleFormattor.setDoubleFormat((wages/baseDays) * presentDays) );
 	}
 	
 	public static double getPf(double basic){
 		System.out.println("Pf called. . .");
-		return ( basic * 0.12 );
+		return ( DoubleFormattor.setDoubleFormat(basic * 0.12) );
 	}
 	
 	public static double getEsi(double gross, double washing){
 		System.out.println("Esi called. . .");
 		if( washing==0.0){
-			return (gross * 0.0175);
+			return ( DoubleFormattor.setDoubleFormat(gross * 0.0175));
 		}
 		if( washing > 0.0){
-			return ( (gross - washing) * 0.0175 );
+			return ( DoubleFormattor.setDoubleFormat((gross - washing) * 0.0175) );
 		}
 		return washing;
 	}
 	
 	public static double getOtSalary(double wages, int baseDays, double otHours){
-		return (wages*otHours)/baseDays;  
+		return ( DoubleFormattor.setDoubleFormat((wages*otHours)/baseDays) );  
 	}
 		
 	public static double getHra(double hra, int baseDay , int presentDays){
 		System.out.println("Hra called. . .");
-		return ( (hra*presentDays)/baseDay ); 
+		return ( DoubleFormattor.setDoubleFormat( (hra*presentDays)/baseDay ) ); 
 	}
 	
 	public static double getConveyence(double conveyence, int baseDay , int presentDays){
@@ -58,20 +60,20 @@ public class Rules {
 	}
 	
 	public static double getSpecialAllowance(double specialAllowance, int baseDay , int presentDays){
-		return ( (specialAllowance*presentDays)/baseDay ); 
+		return ( DoubleFormattor.setDoubleFormat((specialAllowance*presentDays)/baseDay) ); 
 	}
 	
-	public static double getSpecialWorkAllowance(double basic, int baseDays, double workHours){
-		return ( (basic / (baseDays/8)) * workHours );
+	public static double getSpecialWorkAllowance(double basic, int baseDays, double specialHours){
+		return ( DoubleFormattor.setDoubleFormat((basic / (baseDays/8)) * specialHours) );
 	}
 	
 	public static double getGeneral(double component, int baseDay , int presentDays){
 		System.out.println("general called. . .");
-		return ( (component*presentDays)/baseDay ); 
+		return ( DoubleFormattor.setDoubleFormat((component*presentDays)/baseDay) ); 
 	}
 	
 	public static double getOtSalary(double wages, double otime , int baseDays){
-		return ( (wages*otime)/baseDays ); 
+		return ( DoubleFormattor.setDoubleFormat((wages*otime)/baseDays) ); 
 	}
 	
 	public static double getPtAmount(double gross){

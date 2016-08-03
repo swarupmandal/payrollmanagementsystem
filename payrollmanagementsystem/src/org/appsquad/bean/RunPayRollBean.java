@@ -31,7 +31,7 @@ public class RunPayRollBean {
     public int totalNumberOfHolidays;
     
     private Integer otDaysF,presentDay,baseDay;
-    private Double otHoursF;
+    private Double otHoursF,specialTime;
     private Double totalOtHoursF;
     
     
@@ -356,6 +356,12 @@ public class RunPayRollBean {
 	public void setDeductionCompList(
 			ArrayList<EmployeeSalaryComponentAmountBean> deductionCompList) {
 		this.deductionCompList = deductionCompList;
+	}
+	public Double getSpecialTime() {
+		return specialTime;
+	}
+	public void setSpecialTime(Double specialTime) {
+		this.specialTime = specialTime;
 	}
 	
 }

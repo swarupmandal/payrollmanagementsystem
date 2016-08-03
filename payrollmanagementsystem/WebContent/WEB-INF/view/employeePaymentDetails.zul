@@ -12,8 +12,9 @@
 	<label value="UNIT" style="color:black; font-weight:bold;"></label>
 	<div >
 		<vbox>
-			<label value="@bind(vm.companyName)" style="color:black; font-size:15px;"></label>
-			<label value="@bind(vm.unitName)" style="color:black; font-size:15px;"></label>
+			<label value="@bind(vm.companyName)" style="color:black; font-size:15px;"/>
+			<label value="@bind(vm.unitName)" style="color:black; font-size:15px;"/>
+			<label value="@bind(vm.payRollBean.unitDesignation)" style="color:black; font-size:15px;"/>
 	    </vbox>
 	</div>
 
@@ -93,7 +94,7 @@
 				<template name="model" var = "payr">
 			<row>
 				<textbox value="@bind(payr.componentName)" readonly="true"></textbox>	
-				<textbox value="@bind(payr.componentAmount)" readonly="true"></textbox>
+				<doublebox value="@bind(payr.componentAmount)" readonly="true" width="120px"/>
 			</row>
 				</template>
 		</grid>
@@ -101,7 +102,7 @@
 		<div>
 		<hlayout spacing="280px">
 			<label value="Total Salary" style="color:black"/>
-			<textbox value="@bind(vm.payRollBean.totalSalary)" readonly="true"></textbox>
+			<doublebox value="@bind(vm.payRollBean.totalSalary)" readonly="true" width="120px"/>
 		</hlayout>	
 		</div>
 		
@@ -116,7 +117,7 @@
 				<template name="model" var = "payr">
 				<row>
 					<textbox value="@bind(payr.componentName)" readonly="true"></textbox>	
-					<textbox value="@bind(payr.componentAmount)" readonly="true"></textbox>
+					<doublebox value="@bind(payr.componentAmount)" readonly="true" width="120px"/>
 				</row>
 				</template>
 		</grid>
@@ -128,7 +129,7 @@
 	<div>
 		<hlayout spacing="258px">
 			<label value="Total Deduction" style="color:black"/>
-			<textbox value="@bind(vm.payRollBean.totalDeduction)" readonly="true"></textbox>
+			<doublebox value="@bind(vm.payRollBean.totalDeduction)" readonly="true"/>
 		</hlayout>	
 	</div>
 	
