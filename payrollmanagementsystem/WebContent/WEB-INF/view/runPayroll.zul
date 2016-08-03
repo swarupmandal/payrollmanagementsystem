@@ -77,7 +77,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   <div>
   	
   	<grid width="100%" mold="paging" height="250px" pageSize="5" 
-  	model="@bind(vm.runPayRollBeanList)">	
+  	model="@bind(vm.pdfBeanList)">	
   		<auxhead>
   			<auxheader colspan="2">
   				<checkbox checked="@bind(vm.allChecked)" onCheck="@command('onCheckAll')"/><label value="Select"/>
@@ -144,8 +144,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		      <textbox width="99%" value="@bind(v.netSalary)"></textbox>
   		      
   		      
-  		      <label style="float:left;cursor: pointer; cursor: hand; width:80px; background-color:blue;" 
-  		      value="Details" width="85%" onClick="@command('onClickAdjment', bean=v)"></label>
+  		      <label style="cursor: pointer; cursor: hand; width:80px; " 
+  		      value="Details" sclass="bb_button" width="85%" onClick="@command('onClickAdjment', bean=v)"></label>
   		        	
   			</row>
   			</template>

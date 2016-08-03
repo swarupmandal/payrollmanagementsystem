@@ -62,7 +62,7 @@ public class Rules {
 	}
 	
 	public static double getSpecialWorkAllowance(double basic, int baseDays, double workHours){
-		return ( (basic / baseDays)/8 * workHours );
+		return ( (basic / (baseDays/8)) * workHours );
 	}
 	
 	public static double getGeneral(double component, int baseDay , int presentDays){

@@ -57,6 +57,7 @@ public class RunPayrollViewModel {
 	
 	
 	private ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
+	private ArrayList<RunPayRollBean> pdfBeanList = new ArrayList<RunPayRollBean>();
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
@@ -119,6 +120,7 @@ public class RunPayrollViewModel {
 		runPayRollBean.setSelectedMonthId(monthMasterBean.getMonthId());
 		runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 	}
+	
 	@Command
 	@NotifyChange("*")
 	public void onSelectCompany(){
@@ -134,7 +136,7 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnit(){
-		
+		System.out.println("Compny id: "+companyMasterBean.getCompanyId()+" Unit ID: "+unitMasterBean.getUnitId());
 		runPayRollBean.setSelectedUnitId(unitMasterBean.getUnitId());
 		
 		/*if(monthMasterBean.getMonthName()!=null && unitMasterBean.getUnitName()!=null && unitMasterBean.getUnitId()>0){
@@ -234,8 +236,6 @@ public class RunPayrollViewModel {
 			calculateButtonVisibility = false;
 		}	
 	}
-	
-	
 	
 	@Command
 	@NotifyChange
@@ -472,7 +472,7 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onChangeOt(@BindingParam("bean")RunPayRollBean bean){
-		Messagebox.show("Ot changed!");
+		//Messagebox.show("Ot changed!");
 	}
 	
 	@Command
@@ -486,6 +486,9 @@ public class RunPayrollViewModel {
 			for(RunPayRollBean bean : runPayRollBeanList){
 				
 				if(bean.getPresentDay()!=null){
+					
+					RunPayRollBean pdfBean = new RunPayRollBean();
+					
 					bean.setBaseDays(baseDays);
 					double grossTotal=0.0,deduction=0.0;
 					ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -589,6 +592,28 @@ public class RunPayrollViewModel {
 						bean.setTotalDeduction(deduction);
 						bean.setNetSalary(grossTotal-deduction);
 						System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
+						//Setting new bean values for pdf generation 
+						pdfBean.setPresentDay(bean.getPresentDay());
+						pdfBean.setWages(bean.getWages());
+						pdfBean.setComapnyName(bean.getComapnyName());
+						pdfBean.setUnitName(bean.getUnitName());
+						pdfBean.setUnitDesignation(bean.getUnitDesignation());
+						pdfBean.setMonthName(bean.getMonthName());
+						pdfBean.setYear(bean.getYear());
+						pdfBean.setCurrentDate(currentDate);
+						pdfBean.setOtHoursF(bean.getOtHoursF());
+						pdfBean.setTotalSalary(bean.getTotalSalary() );
+						pdfBean.setTotalDeduction(bean.getTotalDeduction());
+						pdfBean.setNetSalary(bean.getNetSalary());
+						pdfBean.setEmpName(bean.getEmpName());
+						pdfBean.setEmpCode(bean.getEmpCode());
+						pdfBean.setEmpDesignation(bean.getEmpDesignation());
+						pdfBean.setEmpPf(bean.getEmpPf());
+						pdfBean.setEmpEsi(bean.getEmpEsi());
+						pdfBean.setEmpUan(bean.getEmpUan());
+						pdfBean.setEarningCompList(earningList);
+						pdfBean.setDeductionCompList(deductionList);
+						pdfBeanList.add(pdfBean);
 				}
 			}
 			
@@ -598,7 +623,8 @@ public class RunPayrollViewModel {
 		for(RunPayRollBean bean : runPayRollBeanList ){
 			
 			if(bean.getPresentDay()!=null){
-						
+			
+				RunPayRollBean pdfBean = new RunPayRollBean();
 				bean.setBaseDays(baseDays);
 				System.out.println("Base days: "+bean.getBaseDays()+" Present :: "+bean.getPresentDay() + " WAGES  "+bean.getWages());
 				double grossTotal=0.0,deduction=0.0;
@@ -707,6 +733,28 @@ public class RunPayrollViewModel {
 				bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
 				bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
 				System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
+				//Setting new bean values for pdf generation 
+				pdfBean.setPresentDay(bean.getPresentDay());
+				pdfBean.setWages(bean.getWages());
+				pdfBean.setComapnyName(bean.getComapnyName());
+				pdfBean.setUnitName(bean.getUnitName());
+				pdfBean.setUnitDesignation(bean.getUnitDesignation());
+				pdfBean.setMonthName(bean.getMonthName());
+				pdfBean.setYear(bean.getYear());
+				pdfBean.setCurrentDate(currentDate);
+				pdfBean.setOtHoursF(bean.getOtHoursF());
+				pdfBean.setTotalSalary(bean.getTotalSalary() );
+				pdfBean.setTotalDeduction(bean.getTotalDeduction());
+				pdfBean.setNetSalary(bean.getNetSalary());
+				pdfBean.setEmpName(bean.getEmpName());
+				pdfBean.setEmpCode(bean.getEmpCode());
+				pdfBean.setEmpDesignation(bean.getEmpDesignation());
+				pdfBean.setEmpPf(bean.getEmpPf());
+				pdfBean.setEmpEsi(bean.getEmpEsi());
+				pdfBean.setEmpUan(bean.getEmpUan());
+				pdfBean.setEarningCompList(earningList);
+				pdfBean.setDeductionCompList(deductionList);
+				pdfBeanList.add(pdfBean);
 				System.out.println("----------------------------------------------------------------------------------------------------------");
 				
 			}
@@ -1088,6 +1136,20 @@ public class RunPayrollViewModel {
 
 	public void setCalculateButtonVisibility(boolean calculateButtonVisibility) {
 		this.calculateButtonVisibility = calculateButtonVisibility;
+	}
+
+
+
+
+	public ArrayList<RunPayRollBean> getPdfBeanList() {
+		return pdfBeanList;
+	}
+
+
+
+
+	public void setPdfBeanList(ArrayList<RunPayRollBean> pdfBeanList) {
+		this.pdfBeanList = pdfBeanList;
 	}
 
 	
