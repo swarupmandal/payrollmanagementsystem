@@ -187,7 +187,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  					<textbox value="@bind(v.empCode)" readonly="true"/>
 	  					<textbox value="@bind(v.empName)"  readonly="true"/>
 	  					<textbox value="@bind(v.presentDay)" onChange="@command('onChangePresentDays',bean = v)"/>
-	  					<textbox value="@bind(v.otHoursF)" onFocus ="@command('onChangeOt',bean = v)"/>
+	  					<textbox value="@bind(v.otHoursF)" />
 	  					<textbox value="@bind(v.specialTime)"/>
 	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>

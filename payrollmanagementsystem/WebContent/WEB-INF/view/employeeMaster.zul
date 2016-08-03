@@ -15,7 +15,7 @@
 							<vbox spacing="2px">
 
 								<label value="Company Name"></label>
-								<combobox width="160px"
+								<combobox width="200px"
 									model="@bind(vm.companyBeanList)"
 									onSelect="@command('onSelectCompanyName')"
 									selectedItem="@bind(vm.companyMasterBean)" autocomplete="true"
@@ -28,7 +28,7 @@
 								<space></space>
 
 								<label value="Unit Name"></label>
-								<combobox width="160px"
+								<combobox width="200px"
 									model="@bind(vm.unitMasterBeanList)"
 									onSelect="@command('onSelectUnitName')"
 									selectedItem="@bind(vm.unitMasterBean)" autocomplete="true"
@@ -42,7 +42,7 @@
 								<space></space>
 
 								<label value="Unit Designation"></label>
-								<combobox width="160px"
+								<combobox width="200px"
 									model="@bind(vm.unitDesignationBeanList)"
 									onSelect="@command('onSelectUnitDesignation')"
 									selectedItem="@bind(vm.unitDesignationBean)" autocomplete="true"
@@ -82,7 +82,7 @@
 											</textbox>
 
 											<label value="Name"></label>
-											<textbox
+											<textbox 
 												value="@bind(vm.employeeMasterBean.employeeName)">
 											</textbox>
 										</row>

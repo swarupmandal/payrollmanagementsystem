@@ -567,27 +567,31 @@ public class RunPayrollViewModel {
 							}
 
 							/*if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
-								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());*/
+								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());
+								}*/
 
-							if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+							/*if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()));
 
-							}
+							}*/
 							if(!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") 
 									&& !earn.getComponentName().equalsIgnoreCase("CONVEYENCE")
 									&& !earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCES")
-									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS") 
-									&& !bean.getComapnyName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
+									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()) );
+								
+								System.out.println("TE ST >>> >> > " + earn.getComponentName() + " - AMOUNT - " + earn.getComponentAmount());
+								
 							}
 							grossTotal += earn.getComponentAmount();
 						}
-						if(bean.getOtHoursF()!=null)
-							
+						if(bean.getOtHoursF()!=null){
 							bean.otSalary = DoubleFormattor.setDoubleFormat( Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF()) );
 							System.out.println("OT S A L >>> >> > " + bean.otSalary);		
+						}	
 							grossTotal = grossTotal+bean.otSalary;
-							System.out.println("Earnigs: "+grossTotal);
+							
+							System.out.println("Earnigs G R O S S >>> >> > "+grossTotal);
 					
 							for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 

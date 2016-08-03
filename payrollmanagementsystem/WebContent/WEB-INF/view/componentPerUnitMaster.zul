@@ -10,7 +10,7 @@
 		  
 		  <vbox>
 		  <label value="Company Name"></label>
-		  <combobox  width="120px" model="@bind(vm.companyBeanList)"
+		  <combobox  width="200px" model="@bind(vm.companyBeanList)"
 				   onSelect="@command('onSelectCompanyName')"
 					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -20,7 +20,7 @@
 		  </vbox>
 		  <vbox>
 		  <label value="Unit Name"></label>
-		  <combobox  width="120px" model="@bind(vm.unitMasterBeanList)"
+		  <combobox  width="200px" model="@bind(vm.unitMasterBeanList)"
 				   onSelect="@command('onSelectUnitName')"
 					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -31,7 +31,7 @@
 	
 		<vbox>  
 		<label value="Designation"></label>
-		<combobox width="120px" model="@bind(vm.designationBeanList)"
+		<combobox width="200px" model="@bind(vm.designationBeanList)"
 			onSelect="@command('onSelectDesignation')" selectedItem="@bind(vm.designationBean)"
 				autocomplete="true" readonly="true">
 				<template name="model" var="v">
