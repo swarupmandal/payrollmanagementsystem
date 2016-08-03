@@ -48,6 +48,8 @@ public class RunPayrollViewModel {
 	
 	RunPayRollBean runPayRollBean = new RunPayRollBean();
 	
+	RunPayRollBean pdfSheetBean = new RunPayRollBean();
+	
 	private CompanyMasterBean companyMasterBean = new CompanyMasterBean();
 	private UnitMasterBean unitMasterBean = new UnitMasterBean();
 	private MonthMasterBean monthMasterBean = new MonthMasterBean();
@@ -323,10 +325,14 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onclickGenerateSheet() throws Exception{
 		String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
-		runPayRollBean.setComapnyName(companyMasterBean.getCompanyName());
-		runPayRollBean.setUnitName(unitMasterBean.getUnitName());
+		pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
+		pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
+		pdfSheetBean.setCurrentDate(currentDate);
+		pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
+		pdfSheetBean.setYear(String.valueOf(year));
+		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
-	    paySlipGenerator.getSheetDetails(pdfPath, runPayRollBeanList, runPayRollBean);
+	    paySlipGenerator.getSheetDetails(pdfPath, pdfBeanList, pdfSheetBean);
 
 	}
 	
@@ -334,13 +340,13 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onCheckAll(){
 		
-		if(runPayRollBeanList.size()>0){
+		if(pdfBeanList.size()>0){
 			if(allChecked){
-				for(RunPayRollBean bean : runPayRollBeanList){
+				for(RunPayRollBean bean : pdfBeanList){
 					bean.setChecked(true);	
 				}
 			}else{
-				for(RunPayRollBean bean : runPayRollBeanList){
+				for(RunPayRollBean bean : pdfBeanList){
 					bean.setChecked(false);	
 				}
 			}
@@ -484,17 +490,17 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickCalculate(){
-		int baseDays;
+		int baseDays,empcount=1;
 		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
 		
 		if(companyMasterBean.getCompanyId()==36 || companyMasterBean.getCompanyId() == 37){
-			
+		
 			for(RunPayRollBean bean : runPayRollBeanList){
 				
 				if(bean.getPresentDay()!=null){
 					
 					RunPayRollBean pdfBean = new RunPayRollBean();
-					
+					pdfBean.setEmpcount(empcount);
 					bean.setBaseDays(baseDays);
 					double grossTotal=0.0,deduction=0.0;
 					ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -625,6 +631,7 @@ public class RunPayrollViewModel {
 						pdfBean.setEarningCompList(earningList);
 						pdfBean.setDeductionCompList(deductionList);
 						pdfBeanList.add(pdfBean);
+						empcount++;
 				}
 			}
 			
@@ -1161,6 +1168,20 @@ public class RunPayrollViewModel {
 
 	public void setPdfBeanList(ArrayList<RunPayRollBean> pdfBeanList) {
 		this.pdfBeanList = pdfBeanList;
+	}
+
+
+
+
+	public RunPayRollBean getPdfSheetBean() {
+		return pdfSheetBean;
+	}
+
+
+
+
+	public void setPdfSheetBean(RunPayRollBean pdfSheetBean) {
+		this.pdfSheetBean = pdfSheetBean;
 	}
 
 	
