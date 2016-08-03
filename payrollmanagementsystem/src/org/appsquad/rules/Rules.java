@@ -64,7 +64,7 @@ public class Rules {
 	}
 	
 	public static double getSpecialWorkAllowance(double basic, int baseDays, double specialHours){
-		return ( DoubleFormattor.setDoubleFormat((basic / (baseDays/8)) * specialHours) );
+		return ( DoubleFormattor.setDoubleFormat((basic * 8/ baseDays) * specialHours) );
 	}
 	
 	public static double getGeneral(double component, int baseDay , int presentDays){
