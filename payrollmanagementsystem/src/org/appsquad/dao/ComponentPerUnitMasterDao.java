@@ -368,7 +368,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 	}
 	
 		sql2:{
-		PreparedStatement preparedStatement = null;
+		/*PreparedStatement preparedStatement = null;
 			   try {
 				
 				preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.saveWorkingHour,
@@ -381,11 +381,11 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 				   if(preparedStatement !=null){
 					   	preparedStatement.close();
 				 }
-			}
+			}*/
 		}
 			
 		connection.commit();
-		if(i>0 && j>0){
+		if(i>0){
 			Messagebox.show("Saved SuccessFully", "Information", Messagebox.OK, Messagebox.INFORMATION);
 		}
 		
