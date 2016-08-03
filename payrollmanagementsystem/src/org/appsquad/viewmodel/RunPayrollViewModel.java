@@ -121,6 +121,7 @@ public class RunPayrollViewModel {
 		//System.out.println("MONTH " + companyMasterBean.getCompanyName() + " - ID - " + companyMasterBean.getCompanyId());
 		unitMasterBean.setUnitName(null);
 		unitDesignationBean.setUnitDesignation(null);
+		runPayRollBeanList.clear();
 		unitMasterBeanList = EmployeeMasterService.loadUnitBeanListWrtCompany(companyMasterBean.getCompanyId());
 	}
 	
@@ -223,10 +224,8 @@ public class RunPayrollViewModel {
 			nextButtonVisibility = true;
 		}else{
 			nextButtonVisibility = false;
-		}
-		
+		}	
 	}
-	
 	
 	
 	
