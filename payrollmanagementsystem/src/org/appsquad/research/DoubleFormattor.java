@@ -27,19 +27,23 @@ public class DoubleFormattor {
 		if( upInput != downInput){
 			System.out.println("Converted : "+(upInput+1.0));
 		}*/
-		setDoubleFormat(4405.833333333333);
+		setDoubleFormat(4405.00333333333);
 	}
 
 	public static double setDoubleFormat(double value){
+		System.out.println("Double formatting...");
 		int intValue = (int)value;
+		System.out.println("int part- - > "+intValue);
 		double partValue = value - intValue;
-		System.out.println("Part val: "+partValue);
+		System.out.println("Part val- - > "+partValue);
 		DecimalFormat decim = new DecimalFormat("0.00");
 		if(partValue > 0.50){
 			value = (value+1.0)-partValue;
 			value = Double.parseDouble(decim.format(value));
+			System.out.println("Part > 0.5- - >"+value);
 		}else{
-	
+			value = Double.parseDouble(decim.format(value));
+			System.out.println("Part < 0.5- - >"+value);
 		}
 		System.out.println("Returend: "+Double.parseDouble(decim.format(value)));
 		return value;

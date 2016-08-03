@@ -15,6 +15,7 @@ import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.pdfhandler.BorderEvent;
 import org.appsquad.pdfhandler.Rotate;
+import org.appsquad.research.DoubleFormattor;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -72,7 +73,7 @@ public class PdfPaySlipGenerator {
 			//document.setMargins(20, 20, 20, 20);*/
 			document = new Document(PageSize.LETTER.rotate());
 			//document = new Document(PageSize.LEGAL, 2, 2, 60, 40);	
-			document.setMargins(10,10, 10, 5);
+			document.setMargins(10,4, 10, 5);
 			document.setMarginMirroring(true);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			//writer.setPageEvent(event);
@@ -141,10 +142,10 @@ public class PdfPaySlipGenerator {
 		
 		public static PdfPTable createTableForSheet(Document document, RunPayRollBean bean) throws Exception{
 		//	PdfPTable table = new PdfPTable(4);
-			float[] columnWidths = {13, 5,25, 13,7};
+			float[] columnWidths = {17, 5,45, 16,27};
 	        PdfPTable table = new PdfPTable(columnWidths);
 	        table.setHorizontalAlignment(Element.ALIGN_LEFT);
-	        table.setWidthPercentage(90);
+	        table.setWidthPercentage(97);
 			PdfPCell cell;
 			cell = new PdfPCell(new Phrase());
 			table.addCell(createLabelCell(""));
@@ -189,7 +190,7 @@ public class PdfPaySlipGenerator {
 			String dateInString =new SimpleDateFormat(pattern).format(new Date());
 			PdfPTable table = new PdfPTable(3);
 			table.setHorizontalAlignment(Element.ALIGN_LEFT);
-			table.setWidthPercentage(90);
+			table.setWidthPercentage(97);
 			table.addCell(createLabelCellLeftBold("BLACKBOY DETECTIVE AGENCY PVT. LTD.\n"));
 			table.addCell(createLabelCellBold("SALARY SHEET"));
 			table.addCell(createLabelCellRightFont(bean.getComapnyName()+"\n"+bean.getUnitName()+"\n"+
@@ -229,11 +230,12 @@ public class PdfPaySlipGenerator {
 		
 		public static PdfPTable createTableForEarningOnSheet(Document document, RunPayRollBean bean){				
 			ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
-			for(EmployeeSalaryComponentAmountBean empAllowance : bean.getComponentAmountBeanList()){	
+			/*for(EmployeeSalaryComponentAmountBean empAllowance : bean.getComponentAmountBeanList()){	
 				if(empAllowance.getComponentType().equalsIgnoreCase("EARNING")){
 					earnList.add(empAllowance);
 				}
-			}
+			}*/
+			earnList = bean.getEarningCompList();
 			PdfPTable table;
 			if(earnList.size()>0){
 				if(bean.otSalary>0.0){
@@ -255,7 +257,7 @@ public class PdfPaySlipGenerator {
 				
 				Double total = 0.0;
 				for(EmployeeSalaryComponentAmountBean empAllowance : earnList){	
-					table.addCell(createValueCell( String.valueOf(empAllowance.getComponentAmount()) ));
+					table.addCell(createValueCell( String.valueOf( DoubleFormattor.setDoubleFormat(empAllowance.getComponentAmount()) ) ));
 					total += empAllowance.getComponentAmount();
 				}
 				if(bean.getOtSalary()>0.0){
@@ -284,11 +286,12 @@ public class PdfPaySlipGenerator {
 		
 		public static PdfPTable createTableForDeductionOnSheet(Document document, RunPayRollBean bean){				
 			ArrayList<EmployeeSalaryComponentAmountBean> deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
-			for(EmployeeSalaryComponentAmountBean empAllowance : bean.getComponentAmountBeanList()){	
+			/*for(EmployeeSalaryComponentAmountBean empAllowance : bean.getComponentAmountBeanList()){	
 				if(empAllowance.getComponentType().equalsIgnoreCase("DEDUCTION")){
 					deductionList.add(empAllowance);
 				}
-			}	
+			}	*/
+			deductionList = bean.getDeductionCompList();
 			PdfPTable table;
 			System.out.println("deduction list size:: "+deductionList.size());
 			if(deductionList.size()>0){
@@ -444,7 +447,10 @@ public class PdfPaySlipGenerator {
 			PdfPCell cell;
 
 			cell = new PdfPCell(new Phrase());
-			table.addCell(createLabelCell("Present"));
+			table.addCell(createLabelCell("WAGES"));
+			table.addCell(createValueCell( String.valueOf(bean.getWages())));
+			
+			table.addCell(createLabelCell("PRESENT"));
 			if(bean.getPresentDay()!=null){
 				table.addCell(createValueCell(bean.getPresentDay().toString()));
 			}else{
@@ -611,8 +617,9 @@ public class PdfPaySlipGenerator {
 			System.out.println("My file path :: "+filePath);
 			
 		//	document = new Document(PageSize.A4_LANDSCAPE, 2, 2, 60, 40);
-			document = new Document(PageSize._11X17.rotate());
-		    document.setMargins(80,5, 10, 10);
+		//	document = new Document(PageSize._11X17.rotate());
+			document = new Document(PageSize.LEGAL.rotate());
+		    document.setMargins(15, 15, 20, 10);
 		//	document.setMargins(10,60, 5,80);
 			document.setMarginMirroring(true);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
