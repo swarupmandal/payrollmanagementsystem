@@ -409,6 +409,90 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 		}
 		
 	}
+	
+	public static ArrayList<ComponentPerUnitMasterBean> onSelectExistingDesignation(int companyId, int unitId, int DesId){
+		ArrayList<ComponentPerUnitMasterBean> list = new ArrayList<ComponentPerUnitMasterBean>();
+		if(list.size()>0){
+			list.clear();
+		}
+		
+		int count = 0;
+		try {
+			Connection connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			
+			try {
+				preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.ldExistingComponent, Arrays.asList(companyId, unitId, DesId));
+				
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					count = count+1;
+					
+					ComponentPerUnitMasterBean bean = new ComponentPerUnitMasterBean();
+					
+					bean.setCount(count);
+					bean.setId(resultSet.getInt("id"));
+					
+					bean.setComponet(resultSet.getString("component_name"));
+					bean.setComponentId(resultSet.getInt("component_id"));
+					
+					bean.setComponentType(resultSet.getString("component_type"));
+					bean.setComponentTypeId(resultSet.getInt("component_type_id"));
+					
+					bean.setDesCompoAmount(resultSet.getDouble("amount"));
+					
+					bean.setCheckVal(true);
+					
+					list.add(bean);
+				}
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+				if(connection != null){
+					connection.close();
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+		
+	}
+	
+	public static void upDateExistingComponent(ArrayList<ComponentPerUnitMasterBean> list){
+		
+		try {
+			Connection connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			String sql = "UPDATE pms_component_master_per_unit set amount = ? where id = ?";
+			try {
+				preparedStatement = connection.prepareStatement(sql);
+				for(ComponentPerUnitMasterBean bean : list){
+					
+				}
+				
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
 		
 		
 	}

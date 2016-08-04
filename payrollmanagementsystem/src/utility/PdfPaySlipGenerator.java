@@ -169,6 +169,7 @@ public class PdfPaySlipGenerator {
 			}
 			System.out.println("ernsize - "+earnSize+" ded size - >"+dedSize);
 			//document.add(createTableForHeader(document, bean));
+
 			float[] columnWidths = {100, 100, 85};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);

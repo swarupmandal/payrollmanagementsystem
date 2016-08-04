@@ -64,5 +64,12 @@ public class ComponentPerUnitMasterService {
 		
 	}
 	
+	public static ArrayList<ComponentPerUnitMasterBean> onLoadExistingComponent(int companyId, int unitId, int unitDesId){
+		ArrayList<ComponentPerUnitMasterBean> list = new ArrayList<ComponentPerUnitMasterBean>();
+		list = ComponentPerUnitMasterDao.onSelectExistingDesignation(companyId, unitId, unitDesId);
+		
+		return list;
+	}
+	
 	
 }

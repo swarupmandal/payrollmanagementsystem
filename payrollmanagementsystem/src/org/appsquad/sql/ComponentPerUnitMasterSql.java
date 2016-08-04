@@ -14,5 +14,16 @@ public class ComponentPerUnitMasterSql {
 	
 	public static final String saveBaseDays = "INSERT INTO pms_base_days_per_unit(company_id, unit_id, base_days, created_by,updated_by, unit_designation_id) VALUES (?, ?,  ?, ?, ?, ?) ";
 	
+	public static final String ldExistingComponent = " SELECT pcmpu.id, pcmpu.component_id, pcmpu.component_name, " +
+													  " pcmpu.component_type_id, pcmpu.company_id, " + 
+												      " pcmpu.unit_id, pcmpu.created_date, pcmpu.update_date, pcmpu.created_by, pcmpu.updatetd_by, " +
+												      " pcmpu.is_delete, pcmpu.designation_id, pcmpu.amount, pctm.component_type " +
+												      " FROM pms_component_master_per_unit pcmpu, pms_component_type_master pctm " +
+												      " where pcmpu.component_type_id = pctm.component_type_id " +
+												      " and pcmpu.company_id = ? " +
+												      " and pcmpu.unit_id = ? and pcmpu.designation_id = ? ";
+	
+	public static final String upDateExistingAmountQuery = "UPDATE pms_component_master_per_unit set amount = ? where id = ?";
+	
 	
 }

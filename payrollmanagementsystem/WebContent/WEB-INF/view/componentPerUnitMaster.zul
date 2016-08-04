@@ -83,8 +83,8 @@
 					</grid>
 					
 					<div align="center">
-						<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; "></button>
-					
+						<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; " visible="@bind(vm.componentPerUnitMasterBean.saveButtnVisibles)"></button>
+						<button label="Update" onClick="@command('onClickUpdate')" sclass="bb_button" style="cursor: pointer; cursor: hand; " visible="@bind(vm.componentPerUnitMasterBean.updateButtonVisible)"></button>
 					</div>
 					
 			
