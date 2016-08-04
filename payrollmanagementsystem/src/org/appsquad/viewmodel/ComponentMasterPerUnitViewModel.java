@@ -81,6 +81,8 @@ public class ComponentMasterPerUnitViewModel {
 		componentPerUnitMasterBean.setUnitDesignationId(designationBean.getDesignationId());
 		System.out.println(componentPerUnitMasterBean.getUnitDesignationId());
 		
+		componentPerUnitMasterBeanList = ComponentPerUnitMasterService.onLoadExistingComponent(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), componentPerUnitMasterBean.getUnitDesignationId());
+		
 	}
 	
 	
@@ -121,9 +123,6 @@ public class ComponentMasterPerUnitViewModel {
 			
 			ComponentPerUnitMasterService.saveComponentPerUnit2(getComponentPerUnitMasterBeanList(), componentPerUnitMasterBean);
 			
-			
-			
-			
 		}
 		
 	}
@@ -131,6 +130,14 @@ public class ComponentMasterPerUnitViewModel {
 	
 	
 	
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickUpdate(){
+		
+		
+		
+	}
 	
 	
 	

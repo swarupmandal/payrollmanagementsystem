@@ -89,11 +89,18 @@ public class EmployeeMasterService {
 
 			if(unitMasterBean.getUnitName() != null && unitMasterBean.getUnitName().trim().length()>0){
 				
+				if(bean.getUnitDesignationId() != null){
+				
+				
 				if(bean.getEmployeeCode() != null){
 					
 					if(bean.getEmployeeName() != null){
 						
-						if(bean.getEmpPhone() != null){
+						
+						
+						return true; 
+						
+						/*if(bean.getEmpPhone() != null){
 							
 							if(bean.getGender() != null){
 								
@@ -103,11 +110,11 @@ public class EmployeeMasterService {
 									
 										return true;
 										
-									/*}else {
+									}else {
 										
 										Messagebox.show("Select Unit Designation","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
 										return false;
-									}*/
+									}
 									
 									
 									
@@ -125,7 +132,7 @@ public class EmployeeMasterService {
 						}else {
 							Messagebox.show("Enter Employee Phone Number", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
 							return false;
-						}
+						}*/
 						
 					}else {
 						Messagebox.show("Enter Employee Name", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
@@ -138,7 +145,10 @@ public class EmployeeMasterService {
 					return false;
 					
 				}
-				
+				}else {
+					Messagebox.show("Select Unit Designation","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
+					return false;
+				}
 			}else {
 				Messagebox.show("Select Unit", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
 				return false;

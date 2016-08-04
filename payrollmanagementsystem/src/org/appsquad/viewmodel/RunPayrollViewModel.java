@@ -694,35 +694,6 @@ public class RunPayrollViewModel {
 						deductionList.add(salBean);
 					}
 					
-					/*if(salBean.getComponentName().equalsIgnoreCase("BASIC")){
-						salBean.setComponentAmount(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()));
-					}
-					if(salBean.getComponentName().equalsIgnoreCase("HRA")){
-						salBean.setComponentAmount(Rules.getHra(salBean.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
-					}
-					if(salBean.getComponentName().equalsIgnoreCase("PF")){
-						salBean.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
-					}
-					
-					if(salBean.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
-						
-						salBean.setComponentAmount(Rules.getSpecialAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
-								bean.getBaseDays(), bean.getPresentDay()));	
-					}
-					
-					if (!salBean.getComponentName().equalsIgnoreCase("BASIC") && !salBean.getComponentName().equalsIgnoreCase("HRA") && 
-							!salBean.getComponentName().equalsIgnoreCase("PF") && !salBean.getComponentName().equalsIgnoreCase("ESI") &&
-							!salBean.getComponentName().equalsIgnoreCase("WAGES") && !salBean.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")) {
-						salBean.setComponentAmount(Rules.getGeneral(salBean.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
-						
-						//System.out.println("sal >>> >> > " + salBean.getComponentName());
-					}
-					grossTotal += salBean.getComponentAmount();
-					if(salBean.getComponentName().equalsIgnoreCase("ESI")){
-						
-						salBean.setComponentAmount(Rules.getGeneral(salBean.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
-					
-					}*/
 				}
 				
 				for (EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()) {

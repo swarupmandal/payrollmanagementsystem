@@ -132,7 +132,7 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean) throws Exception{
 			document.add(createTableForLogo(document, bean));
 			//document.add(createTableForHeader(document, bean));
-			
+			MNC:
 			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
 				if(runPayRollBean.isChecked()){
 					document.add(createTableForSheet(document, runPayRollBean));

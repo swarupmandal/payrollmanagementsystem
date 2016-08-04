@@ -26,7 +26,11 @@ public class ComponentPerUnitMasterBean {
 	private Integer count;
 	public String userName;
 	
+	public int id;
 	
+	public boolean saveButtnVisibles = true;
+	
+	public boolean updateButtonVisible = false;
 	
 	
 	
@@ -115,6 +119,24 @@ public class ComponentPerUnitMasterBean {
 	}
 	public void setUnitDesignationId(int unitDesignationId) {
 		this.unitDesignationId = unitDesignationId;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public boolean isSaveButtnVisibles() {
+		return saveButtnVisibles;
+	}
+	public void setSaveButtnVisibles(boolean saveButtnVisibles) {
+		this.saveButtnVisibles = saveButtnVisibles;
+	}
+	public boolean isUpdateButtonVisible() {
+		return updateButtonVisible;
+	}
+	public void setUpdateButtonVisible(boolean updateButtonVisible) {
+		this.updateButtonVisible = updateButtonVisible;
 	}
 
 }
