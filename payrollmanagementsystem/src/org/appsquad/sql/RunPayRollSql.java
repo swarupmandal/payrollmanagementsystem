@@ -21,7 +21,7 @@ public class RunPayRollSql {
 	public static final String loadEmpDetailsQuery2 = " select employee_id, employee_code, employee_name, "
 													  + " emp_designation, unit_designation, pf_number, uan_number, "
 													  + " esi from vw_employee_information where company_id = ? and unit_id = ? "
-													  + " and unit_designation_id = ? and last_working_date IS NULL";
+													  + " and unit_designation_id = ? ";
 	
 	
 	public static final String loadWagesQuery = "SELECT component_amount from pms_employee_salary_components where employee_id = ? and component_name = 'WAGES'";
