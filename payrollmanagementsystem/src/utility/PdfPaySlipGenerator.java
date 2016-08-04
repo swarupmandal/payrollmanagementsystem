@@ -56,14 +56,14 @@ public class PdfPaySlipGenerator {
 		RunPayRollBean runPayRollBean = new RunPayRollBean();
 		ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 		
-		public void getDetails(String data,String path, ArrayList<RunPayRollBean> runPayRollBeanList,
+		/*public void getDetails(String data,String path, ArrayList<RunPayRollBean> runPayRollBeanList,
 				RunPayRollBean bean, String company, String unit) throws Exception, DocumentException{
 			filePath = path+"pay.pdf";
 			System.out.println("My file path :: "+filePath);
 			unitname = unit;
 			companyName = company;
 			System.out.println("COMPA " + companyName);
-			/*document = new Document(PageSize.A4, 2, 2, 60, 40);
+			document = new Document(PageSize.A4, 2, 2, 60, 40);
 			document.setMargins(-40, -60, 2, 2);
 			
 			Rectangle pagesize = new Rectangle(216f, 720f);
@@ -72,7 +72,7 @@ public class PdfPaySlipGenerator {
 			
 		    document = new Document(PageSize.A4.rotate());
 			//document.setMargins(40,40, 60, 10);
-			//document.setMargins(20, 20, 20, 20);*/
+			//document.setMargins(20, 20, 20, 20);
 			document = new Document(PageSize.LETTER.rotate());
 			//document = new Document(PageSize.LEGAL, 2, 2, 60, 40);	
 			document.setMargins(10,4, 10, 5);
@@ -91,6 +91,35 @@ public class PdfPaySlipGenerator {
 			generatePaySlip(runPayRollBeanList, bean);
 			openPdf(filePath);
 			document.close();
+		}*/
+		
+		public void getSlipDetails(String path, ArrayList<RunPayRollBean> runPayRollBeanList,
+				RunPayRollBean bean) throws Exception, DocumentException{
+			filePath = path+"paySlip.pdf";
+			System.out.println("My file path :: "+filePath);
+			document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
+			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+			document.open();
+			generatePaySlip(runPayRollBeanList, bean);
+			openPdf(filePath);
+			document.close();
+			/*document = new Document(PageSize.A4, 2, 2, 60, 40);
+			document.setMargins(-40, -60, 2, 2);
+			
+			Rectangle pagesize = new Rectangle(216f, 720f);
+			
+			document = new Document(PageSize.A4, 2, 2, 60, 40);
+			
+		    document = new Document(PageSize.A4.rotate());
+			//document.setMargins(40,40, 60, 10);
+			//document.setMargins(20, 20, 20, 20);*/
+			
+			//document = new Document(PageSize.LEGAL, 2, 2, 60, 40);	
+			
+			//writer.setPageEvent(event);
+			
+			//createPdfHeader(runPayRollBeanList);
+			//createPdfHeader(data);
 		}
 		
 		
@@ -131,15 +160,44 @@ public class PdfPaySlipGenerator {
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
 			document.add(createTableForLogo(document, bean));
+			double totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0; 
+			int totPresnt = 0,earnSize = 0 ,dedSize = 0;
+			for(RunPayRollBean rollBean : runPayRollBeanList){
+				totPresnt += rollBean.getPresentDay();
+				earnSize += rollBean.getEarningCompList().size();
+				dedSize += rollBean.getDeductionCompList().size();
+			}
+			System.out.println("ernsize - "+earnSize+" ded size - >"+dedSize);
 			//document.add(createTableForHeader(document, bean));
-			MNC:
+
+			float[] columnWidths = {100, 100, 85};
+			PdfPTable bottomTable = new PdfPTable(columnWidths);
+			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
+			PdfPCell cell ;
+			Font font ;
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell( new Phrase("PRESENT\n"+234.00,font) );
+			bottomTable.addCell(cell);
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
+			cell = new PdfPCell( new Phrase("OVERTIME\n"+345.00,font) );
+			bottomTable.addCell(cell);
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+			cell = new PdfPCell( new Phrase("BASIC\n"+3456789.00,font) );
+			bottomTable.addCell(cell);
+			
+			bottomTable.setWidthPercentage(15f);
+			
 			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
 				if(runPayRollBean.isChecked()){
 					document.add(createTableForSheet(document, runPayRollBean));
+					
 				}else{
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
 			}
+			document.add(bottomTable);
 		}
 		
 		public static PdfPTable createTableForSheet(Document document, RunPayRollBean bean) throws Exception{
@@ -165,6 +223,8 @@ public class PdfPaySlipGenerator {
 		     table.setSpacingAfter(0f);
 			//table.setTableEvent(new BorderEvent());
 			 table.setTotalWidth(100);
+			 
+			
 			return table;
 		}
 		
@@ -613,6 +673,7 @@ public class PdfPaySlipGenerator {
 			table.addCell(createTableForBDA(document, bean));	
 			table.addCell(createTableForUnit(document, bean));	
 			table.addCell(createTableForEmployee(document, bean));	
+			table.addCell(createTableForSalary(document , bean));
 			table.addCell(createTableForEarnings(document, bean));	
 			table.addCell(createTableForDeductions(document, bean));
 			table.addCell(createTableForNetSalary(document, bean));
@@ -922,6 +983,52 @@ public class PdfPaySlipGenerator {
 			return table;
 		}
 		
+		public static PdfPTable createTableForSalary(Document document, RunPayRollBean bean )
+				throws DocumentException {
+			PdfPTable table = new PdfPTable(3);
+			table.setWidthPercentage(100);
+			PdfPCell cell;
+
+			cell = new PdfPCell(new Phrase("Salary"));
+			cell.setColspan(3);
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("Wages"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase( String.valueOf(bean.getWages())));
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("Salary"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("Present Att"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(bean.getPresentDay())));
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("pressalay val"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase("Ot Att"));
+			table.addCell(cell);
+			
+			cell = new PdfPCell(new Phrase(String.valueOf(bean.getOtHoursF())));
+			table.addCell(cell);
+			
+			if(bean.getOtSalary() > 0.0 ){
+				cell = new PdfPCell(new Phrase(String.valueOf(bean.getOtSalary())));
+				table.addCell(cell);
+			}else{
+				cell = new PdfPCell(new Phrase("0.00"));
+				table.addCell(cell);
+			}
+			
+			
+			return table;
+		}
+		
 		
 		public static PdfPTable createTableForUnit(Document document, RunPayRollBean bean )
 				throws DocumentException {
@@ -950,19 +1057,19 @@ public class PdfPaySlipGenerator {
 			table.addCell(createLabelCellLeft("Allowance".trim()));
 			table.addCell(createLabelCellRight("Amount(Rs.)".trim()));
 			double total = 0.0;
-				for(EmployeeSalaryComponentAmountBean  index : bean.getComponentAmountBeanList()){
-					if(index.getComponentType().equalsIgnoreCase("EARNING")){
+				for(EmployeeSalaryComponentAmountBean  index : bean.getEarningCompList()){
+					//if(index.getComponentType().equalsIgnoreCase("EARNING")){
 						table.addCell(createValueCellLeft(index.getComponentName()));
 						table.addCell(createValueCellRight(String.valueOf(index.getComponentAmount())));
 						total += index.getComponentAmount();
-					}
+					//}
 				}
 				if(bean.getOtSalary()>0.0){
-					table.addCell(createValueCellLeft("OT earnings"));
+					table.addCell(createValueCellLeft("Extra duty"));
 					table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
 				}
 				table.addCell(createValueCellLeft("Total earnings"));
-				table.addCell(createValueCellRight(String.valueOf(total+bean.otSalary)));
+				table.addCell(createValueCellRight(String.valueOf(bean.getTotalSalary())));
 				
 				Paragraph netSalary = new Paragraph("", new Font(Font.getFamily("VERDANA"), 14f));
 				document.add(netSalary);
@@ -981,12 +1088,12 @@ public class PdfPaySlipGenerator {
 			table.addCell(createLabelCellLeft("Deductions".trim()));
 			table.addCell(createLabelCellRight("Amount(Rs.)".trim()));
 			double total = 0.0;
-				for(EmployeeSalaryComponentAmountBean  index : bean.getComponentAmountBeanList()){
-					if(index.getComponentType().equalsIgnoreCase("DEDUCTION")){
+				for(EmployeeSalaryComponentAmountBean  index : bean.getDeductionCompList()){
+					//if(index.getComponentType().equalsIgnoreCase("DEDUCTION")){
 						table.addCell(createValueCellLeft(index.getComponentName()));
 						table.addCell(createValueCellRight(String.valueOf(index.getComponentAmount())));
 						total += index.getComponentAmount();
-					}
+					//}
 				}
 				if(bean.getLeaveDeduction() >0.0){
 					table.addCell(createValueCellLeft("Leave deductions"));
