@@ -516,8 +516,6 @@ public class RunPayrollViewModel {
 		int baseDays,empcount=1;
 		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
 		
-		
-		
 		if(companyMasterBean.getCompanyId()==36 || companyMasterBean.getCompanyId() == 39){
 		
 			for(RunPayRollBean bean : runPayRollBeanList){
@@ -547,8 +545,6 @@ public class RunPayrollViewModel {
 							if(earn.getComponentName().equalsIgnoreCase("BASIC")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())) );
 								bean.setBasic(earn.getComponentAmount());
-								
-								System.out.println("IIIIIIIIIIIIIIIII bas " + bean.getBasic());
 							}
 							if(earn.getComponentName().equalsIgnoreCase("HRA")){
 								
@@ -605,37 +601,28 @@ public class RunPayrollViewModel {
 									&& !earn.getComponentName().equalsIgnoreCase("CONVEYENCE")
 									&& !earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCES")
 									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS")){
-								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()) );
 								
-								System.out.println("TE ST >>> >> > " + earn.getComponentName() + " - AMOUNT - " + earn.getComponentAmount());
+								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()) );
 								
 							}
 							grossTotal += earn.getComponentAmount();
 						}
 						
-						System.out.println("N O O F H O L I  D A YS >>> >> > " + runPayRollBean.getNoOfHoliDays());
 						if(bean.getHoliDayAmount()>0){
-							
-							System.out.println("w : " + bean.getWages());
-							System.out.println("bd : " + bean.getBaseDays());
-							System.out.println("h : " + runPayRollBean.getNoOfHoliDays());
-							bean.setHoliDayAmount((bean.getWages()/bean.getBaseDays())*runPayRollBean.getNoOfHoliDays());
-							System.out.println("HOLI DAY AMOUNT " + bean.getHoliDayAmount());
+							bean.setBasic(bean.getBasic()+bean.getHoliDayAmount());
 						}
-						
 						
 						if(bean.getOtHoursF()!=null){
 							bean.otSalary = DoubleFormattor.setDoubleFormat( Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF()) );
-							System.out.println("OT S A L >>> >> > " + bean.otSalary);		
+									
 						}	
 							grossTotal = grossTotal+bean.otSalary;
 							
-							System.out.println("Earnigs G R O S S >>> >> > "+grossTotal);
-					
 							for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 
 								if(deduct.getComponentName().equalsIgnoreCase("PF")){
-									deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())) ));
+									//deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())) ));
+									deduct.setComponentAmount(Rules.getPf(bean.getBasic()));
 								}
 								if(deduct.getComponentName().equalsIgnoreCase("PROF TAX")){
 									deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getPtAmount(grossTotal)) );
@@ -652,7 +639,7 @@ public class RunPayrollViewModel {
 										}
 									}
 								}
-								System.out.println("Deduction: "+deduct.getComponentName()+" Amount: "+deduct.getComponentAmount());
+								
 								deduction += deduct.getComponentAmount();
 							
 						
@@ -660,8 +647,6 @@ public class RunPayrollViewModel {
 						bean.setTotalSalary( DoubleFormattor.setDoubleFormat(grossTotal));
 						bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
 						bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
-						System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
-						//Setting new bean values for pdf generation
 						
 						slNo = slNo+1;
 						
@@ -669,7 +654,7 @@ public class RunPayrollViewModel {
 						pdfBean.setPresentDay(bean.getPresentDay());
 						pdfBean.setWages(bean.getWages());
 						pdfBean.setBasic(bean.getBasic());
-						System.out.println("ITC BAsic " + pdfBean.getBasic());
+						
 						pdfBean.setComapnyName(bean.getComapnyName());
 						pdfBean.setUnitName(bean.getUnitName());
 						pdfBean.setUnitDesignation(bean.getUnitDesignation());
@@ -687,7 +672,7 @@ public class RunPayrollViewModel {
 						pdfBean.setEmpEsi(bean.getEmpEsi());
 						pdfBean.setEmpUan(bean.getEmpUan());
 						pdfBean.setHoliDayAmount(DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount()));
-						System.out.println("P D F ssssssssssss ha >>> >> > " + pdfBean.getHoliDayAmount());
+						
 						pdfBean.setEarningCompList(earningList);
 						pdfBean.setDeductionCompList(deductionList);
 						pdfBeanList.add(pdfBean);
@@ -704,7 +689,7 @@ public class RunPayrollViewModel {
 			
 				RunPayRollBean pdfBean = new RunPayRollBean();
 				bean.setBaseDays(baseDays);
-				System.out.println("Base days: "+bean.getBaseDays()+" Present :: "+bean.getPresentDay() + " WAGES  "+bean.getWages());
+				
 				double grossTotal=0.0,deduction=0.0;
 				ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 				ArrayList<EmployeeSalaryComponentAmountBean> deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -726,47 +711,38 @@ public class RunPayrollViewModel {
 					
 					if(earn.getComponentName().equalsIgnoreCase("BASIC")){
 						earn.setComponentAmount(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()));
-						bean.setBasic(earn.getComponentAmount());
+						bean.setBasic(DoubleFormattor.setDoubleFormat(earn.getComponentAmount()));
 					}
 					if(earn.getComponentName().equalsIgnoreCase("HRA")){
 						earn.setComponentAmount(Rules.getHra(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 					}
 					
-					
 					if(bean.getSpecialTime() != null){
-					if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
-						
-						earn.setComponentAmount(Rules.getSpecialWorkAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
-								bean.getBaseDays(), bean.getSpecialTime()));	
+					    if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
+						  earn.setComponentAmount(Rules.getSpecialWorkAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
+						  bean.getBaseDays(), bean.getSpecialTime()));	
+					     }
 					}
-					}
-					
-					
 					if (!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") && 
 							!earn.getComponentName().equalsIgnoreCase("WAGES") && !earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")) {
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
-						
 					}
-					
-					System.out.println("Earning: "+earn.getComponentName()+" Amount: "+earn.getComponentAmount());
 					grossTotal += earn.getComponentAmount();
 				}
-				if(runPayRollBean.getNoOfHoliDays()>0){
-					bean.setHoliDayAmount((bean.getWages()/bean.getBaseDays())*runPayRollBean.getNoOfHoliDays());
-					System.out.println("HOLI DAY AMOUNT NORMAL " + bean.getHoliDayAmount());
-				}
+				if(bean.getHoliDayAmount()>0){
+					bean.setBasic(bean.getBasic()+bean.getHoliDayAmount());
+				  }
 				
 				if(bean.getOtHoursF()!=null){
-				
-				bean.otSalary = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
-				System.out.println("OT S A L >>> >> > " + bean.otSalary);
-				}
+					bean.otSalary = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
+				  }
 				grossTotal = grossTotal+bean.otSalary;
-				System.out.println("Earnigs: "+grossTotal);
 				
 				for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 					if(deduct.getComponentName().equalsIgnoreCase("PF")){
-						deduct.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
+						//deduct.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
+						deduct.setComponentAmount(Rules.getPf(bean.getBasic()));
+						
 					}
 					if(deduct.getComponentName().equalsIgnoreCase("PROF TAX")){
 						deduct.setComponentAmount(Rules.getPtAmount(grossTotal));
@@ -783,14 +759,14 @@ public class RunPayrollViewModel {
 							}
 						}
 					}
-					System.out.println("Deduction: "+deduct.getComponentName()+" Amount: "+deduct.getComponentAmount());
+					
 					deduction += deduct.getComponentAmount();
 				}
-				System.out.println("Gross:: "+grossTotal+" deduction : "+deduction);
+				
 				bean.setTotalSalary( DoubleFormattor.setDoubleFormat(grossTotal));
 				bean.setTotalDeduction( DoubleFormattor.setDoubleFormat(deduction) );
 				bean.setNetSalary( DoubleFormattor.setDoubleFormat( (grossTotal-deduction)) );
-				System.out.println("Final gross:"+bean.getTotalSalary()+" Deduction:"+bean.getTotalDeduction()+" Net:"+bean.getNetSalary());
+				
 				//Setting new bean values for pdf generation
 				
 				slNo = slNo+1;
@@ -799,7 +775,7 @@ public class RunPayrollViewModel {
 				pdfBean.setPresentDay(bean.getPresentDay());
 				pdfBean.setWages(bean.getWages());
 				pdfBean.setBasic(bean.getBasic());
-				System.out.println("Normal BAsic " + pdfBean.getBasic());
+				
 				pdfBean.setComapnyName(bean.getComapnyName());
 				pdfBean.setUnitName(bean.getUnitName());
 				pdfBean.setUnitDesignation(bean.getUnitDesignation());
@@ -817,11 +793,10 @@ public class RunPayrollViewModel {
 				pdfBean.setEmpEsi(bean.getEmpEsi());
 				pdfBean.setEmpUan(bean.getEmpUan());
 				pdfBean.setHoliDayAmount(DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount()));
-				System.out.println("P D F ssssssssssss han >>> >> > " + pdfBean.getHoliDayAmount());
+				
 				pdfBean.setEarningCompList(earningList);
 				pdfBean.setDeductionCompList(deductionList);
 				pdfBeanList.add(pdfBean);
-				System.out.println("----------------------------------------------------------------------------------------------------------");
 				
 			}
 			
@@ -847,10 +822,6 @@ public class RunPayrollViewModel {
 	       
 	      currentDate =day+"-"+month+"-"+year;
 	      currentTime = hour+" : "+minute+" : "+second;
-	      
-	      System.out.println("MON T " + month);
-	      System.out.println("Current Date " +currentDate );
-	      System.out.println("current date "+ currentDate +" - " + currentTime);
 	      
 	}
 

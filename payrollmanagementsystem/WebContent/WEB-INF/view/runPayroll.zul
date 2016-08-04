@@ -41,7 +41,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		
 		<!-- <vbox>
 		<label value="Total Working Days"></label>
-		<intbox placeholder="Total Working Days" readonly="true" width="120px" value="@bind(vm.runPayRollBean.totalNumberOfWorkingDaysEveryMonth)"></intbox>
+		<intbox placeholder="Total Working Days" readonly="true" 
+		width="120px" value="@bind(vm.runPayRollBean.totalNumberOfWorkingDaysEveryMonth)"></intbox>
 		</vbox> -->
 		
 		
