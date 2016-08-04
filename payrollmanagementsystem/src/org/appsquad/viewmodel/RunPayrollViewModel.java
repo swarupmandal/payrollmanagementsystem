@@ -106,7 +106,7 @@ public class RunPayrollViewModel {
 	    int monthId = now.get(Calendar.MONTH) + 1;
 	    for(MonthMasterBean monthbean: monthList){
 	    	if(monthbean.getMonthId()==monthId){
-	    		monthMasterBean.setMonthName(monthbean.getMonthName());
+	    		//monthMasterBean.setMonthName(monthbean.getMonthName());
 	    		runPayRollBean.setSelectedMonthId(monthMasterBean.getMonthId());
 	    		runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 	    	}
@@ -114,9 +114,6 @@ public class RunPayrollViewModel {
 		
 	}
 
-	
-	
-	
 	@Command
 	@NotifyChange("*")
 	public void onSelectMonth(){
@@ -612,7 +609,11 @@ public class RunPayrollViewModel {
 						}
 						
 						System.out.println("N O O F H O L I  D A YS >>> >> > " + runPayRollBean.getNoOfHoliDays());
-						if(runPayRollBean.getNoOfHoliDays()>0){
+						if(bean.getHoliDayAmount()>0){
+							
+							System.out.println("w : " + bean.getWages());
+							System.out.println("bd : " + bean.getBaseDays());
+							System.out.println("h : " + runPayRollBean.getNoOfHoliDays());
 							bean.setHoliDayAmount((bean.getWages()/bean.getBaseDays())*runPayRollBean.getNoOfHoliDays());
 							System.out.println("HOLI DAY AMOUNT " + bean.getHoliDayAmount());
 						}

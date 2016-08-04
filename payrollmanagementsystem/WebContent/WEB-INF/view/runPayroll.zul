@@ -58,10 +58,10 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	
 		</vbox>
 		
-		<vbox>
+		<!-- <vbox>
 		<label value="No Of Holidays"></label>
 		  <intbox value="@bind(vm.runPayRollBean.noOfHoliDays)"></intbox>	
-		</vbox>
+		</vbox> -->
 		
 		<vbox>
 		<label value="Current Date"></label>
@@ -69,10 +69,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		</vbox>
 		
 		
-		<!-- <vbox>
-		<label value="Lock"></label>
-		<button label="LOCK"></button>
-		</vbox> -->
+		
 		
 	 </hlayout>
   </div>
@@ -181,6 +178,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   				<column label="Present" align="center"/>
   				<column label="Over Time" align="center"/>
   				<column label="Special work" align="center"/>
+  				<column label="Holiday Amount" align="center" width="130px"/>
   				<column label="Salary Total" align="center"/>
   				<column label="Deduction" align="center"/>
   				<column label="Net Salary" align="left"/>
@@ -194,6 +192,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  					<textbox value="@bind(v.presentDay)" onChange="@command('onChangePresentDays',bean = v)"/>
 	  					<textbox value="@bind(v.otHoursF)" />
 	  					<textbox value="@bind(v.specialTime)"/>
+	  					<textbox value="@bind(v.holiDayAmount)"/>
 	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
 	  					<textbox value="@bind(v.netSalary)" readonly="true"/>
