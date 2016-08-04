@@ -59,6 +59,11 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		</vbox>
 		
 		<vbox>
+		<label value="No Of Holidays"></label>
+		  <intbox value="@bind(vm.runPayRollBean.noOfHoliDays)"></intbox>	
+		</vbox>
+		
+		<vbox>
 		<label value="Current Date"></label>
 		<label value="@bind(vm.currentDate)"></label>
 		</vbox>
