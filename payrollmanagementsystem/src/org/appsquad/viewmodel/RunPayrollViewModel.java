@@ -314,7 +314,7 @@ public class RunPayrollViewModel {
 				PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
 				runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 				runPayRollBean.setYear(String.valueOf(year));
-			    paySlipGenerator.getDetails(stringBuilder.toString(),pdfPath, pdfBeanList, pdfSheetBean, companyMasterBean.getCompanyName(), unitMasterBean.getUnitName());
+			    paySlipGenerator.getSlipDetails(pdfPath, pdfBeanList, pdfSheetBean);
 			}
 			
 			//System.out.println(">>> >> > " + stringBuilder.toString());
