@@ -309,8 +309,13 @@ public class RunPayrollViewModel {
 				String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 				//System.out.println("pdf_path >>> >> > " + pdfPath);
 				PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
-				runPayRollBean.setMonthName(monthMasterBean.getMonthName());
-				runPayRollBean.setYear(String.valueOf(year));
+				pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
+				pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
+				pdfSheetBean.setCurrentDate(currentDate);
+				pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
+				pdfSheetBean.setYear(String.valueOf(year));
+				pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
+				System.out.println("Month : "+pdfSheetBean.getMonthName()+" Year name: "+pdfSheetBean.getYear());
 			    paySlipGenerator.getSlipDetails(pdfPath, pdfBeanList, pdfSheetBean);
 			}
 			

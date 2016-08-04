@@ -10,6 +10,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
@@ -127,27 +129,34 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean){
 			
 	        try {
-	        	PdfPTable table = new PdfPTable(3);
+	        	PdfPTable table = new PdfPTable(5);
 	        	table.addCell( createLabelCell() );
  	            table.addCell( createLabelCell() );
  	            table.addCell( createLabelCell());
+ 	           table.addCell( createLabelCell() );
+	            table.addCell( createLabelCell());
  	           for(int i=0;i<3;i++){
  	        	   for(RunPayRollBean payRollBean : runPayRollBeanList){
  	        		   if(payRollBean.isChecked()){
+ 	        			 // PdfPTable table = new PdfPTable(1);
  	        			  table.addCell(createTableWithTwoColumn(document, payRollBean));
- 	        			  PdfPCell cell;
- 	      			   	  cell = new PdfPCell(new Phrase());
+ 	        			 table.setSpacingBefore(35f);
+ 	        			table.setWidthPercentage(100);
+ 	        			 table.setSpacingAfter(40f);
+ 	        			table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+ 	        			  /*PdfPCell cell;
+ 	      			   	  cell = new PdfPCell(new Phrase());*/
  	      	              document.add(table);
  	        		   }
  	        	   }
- 	        	  table.setSpacingBefore(35f);
+ 	        	  /*table.setSpacingBefore(35f);*/
  	           }
- 	           table.setWidthPercentage(100);
+ 	           /*table.setWidthPercentage(100);*/
  	           //table.setTableEvent(new BorderEvent());
- 	           table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+ 	           /*table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);*/
  	          
- 	          table.setSpacingAfter(40f);
- 	            document.add(table);
+ 	         /* table.setSpacingAfter(40f);*/
+ 	           // document.add(table);
 	           
 	        } catch (DocumentException e) {
 	            e.printStackTrace();
@@ -162,21 +171,33 @@ public class PdfPaySlipGenerator {
 			document.add(createTableForLogo(document, bean));
 			double totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;
+			Set<EmployeeSalaryComponentAmountBean> ernList = new HashSet<EmployeeSalaryComponentAmountBean>();
+			Set<EmployeeSalaryComponentAmountBean> dedctList = new HashSet<EmployeeSalaryComponentAmountBean>();
 			for(RunPayRollBean rollBean : runPayRollBeanList){
 				totPresnt += rollBean.getPresentDay();
 				earnSize += rollBean.getEarningCompList().size();
 				dedSize += rollBean.getDeductionCompList().size();
+				ernList.addAll(rollBean.getEarningCompList());
+				dedctList.addAll(rollBean.getDeductionCompList());
+				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
+					if(basic.getComponentName().equalsIgnoreCase("BASIC")){
+						totBasic += basic.getComponentAmount();
+					}
+				}
 			}
 			System.out.println("ernsize - "+earnSize+" ded size - >"+dedSize);
 			//document.add(createTableForHeader(document, bean));
-
-			float[] columnWidths = {100, 100, 85};
+			for(EmployeeSalaryComponentAmountBean  amountBean : runPayRollBean.getEarningCompList()){
+				System.out.println("NAme :: : : : : "+amountBean.getComponentName());
+			}
+			
+			float[] columnWidths = {100, 100, 85, 300, 400};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell ;
 			Font font ;
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
-			cell = new PdfPCell( new Phrase("PRESENT\n"+234.00,font) );
+			cell = new PdfPCell( new Phrase("PRESENT\n"+totPresnt,font) );
 			bottomTable.addCell(cell);
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.NORMAL);
@@ -184,10 +205,29 @@ public class PdfPaySlipGenerator {
 			bottomTable.addCell(cell);
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-			cell = new PdfPCell( new Phrase("BASIC\n"+3456789.00,font) );
+			cell = new PdfPCell( new Phrase("BASIC\n"+totBasic,font) );
 			bottomTable.addCell(cell);
 			
-			bottomTable.setWidthPercentage(15f);
+			PdfPTable earnTable = new PdfPTable(earnSize+1);
+			for(EmployeeSalaryComponentAmountBean e : ernList){
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+			cell = new PdfPCell( new Phrase(e.getComponentName()+"\n"+e.getComponentAmount(),font) );
+			cell = new PdfPCell( new Phrase("Salary\n"+2338.00,font) );
+			earnTable.addCell(cell);
+			}
+			
+			PdfPTable dedTable = new PdfPTable(dedSize+1);
+			for(EmployeeSalaryComponentAmountBean e : dedctList){
+				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+				cell = new PdfPCell( new Phrase(e.getComponentName()+"\n"+e.getComponentAmount(),font) );
+				cell = new PdfPCell( new Phrase("Deduction\n"+112.00,font) );
+				dedTable.addCell(cell);
+			}
+			
+			bottomTable.addCell(earnTable);
+			bottomTable.addCell(dedTable);
+			
+			bottomTable.setWidthPercentage(100f);
 			
 			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
 				if(runPayRollBean.isChecked()){
@@ -678,6 +718,7 @@ public class PdfPaySlipGenerator {
 			table.addCell(createTableForDeductions(document, bean));
 			table.addCell(createTableForNetSalary(document, bean));
 			//table.setTableEvent(new BorderEvent());
+			
 			table.setWidthPercentage(5);
 			return table;
 		}
@@ -1033,15 +1074,20 @@ public class PdfPaySlipGenerator {
 		public static PdfPTable createTableForUnit(Document document, RunPayRollBean bean )
 				throws DocumentException {
 			PdfPTable table = new PdfPTable(1);
-			table.setWidthPercentage(100);
+			//table.setWidthPercentage(100);
 			PdfPCell cell;
 
-			cell = new PdfPCell(new Phrase());
-			table.addCell(createLabelCellLeft("Unit".trim()));
+			//cell = new PdfPCell(new Phrase("Unit"));
+			//cell.setColspan(3);
+			table.addCell(createLabelCellLeft("Unit"));
 			
+			//cell = new PdfPCell( new Phrase(bean.getComapnyName()) ); 
 			table.addCell(createValueCellLeft(bean.getComapnyName()));
+			//table.addCell(createLabelCellLeft("Unit".trim()));
+			
+			//table.addCell(createValueCellLeft(bean.getComapnyName()));
 			table.addCell(createValueCellLeft(bean.getUnitName()));
-			table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+			//table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 			//table.setTableEvent(new BorderEvent());
 			return table;
 		}
@@ -1139,7 +1185,7 @@ public class PdfPaySlipGenerator {
 			Double netsalary = (totalearning+bean.otSalary) - (totaldeduction+bean.leaveDeduction) ;
 			NumberFormat formatter = new DecimalFormat("#0.00");     
 			//System.out.println(formatter.format(netsalary));
-			table.addCell(createLabelCellRight(String.valueOf(formatter.format(netsalary))));
+			table.addCell(createLabelCellRight(String.valueOf(formatter.format(bean.getNetSalary()))));
 			table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 			PdfPCell cell2;
 
@@ -1173,7 +1219,7 @@ public class PdfPaySlipGenerator {
 		
 		private static PdfPCell createLabelCell() {
 			PdfPCell cell = new PdfPCell(new Phrase(""));
-			cell.setPadding(25);
+			cell.setPaddingLeft(25);
 		
 			cell.setBorder(Rectangle.NO_BORDER);
 			return cell;
