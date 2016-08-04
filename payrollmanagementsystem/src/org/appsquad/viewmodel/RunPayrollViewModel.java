@@ -270,7 +270,7 @@ public class RunPayrollViewModel {
 	public void onclickConfirm() throws DocumentException, Exception{
 		
 		StringBuilder stringBuilder = new StringBuilder();
-		for(RunPayRollBean rBean: runPayRollBeanList){
+		for(RunPayRollBean rBean: pdfBeanList){
 			
 			if(rBean.isChecked()){
 				

@@ -379,7 +379,7 @@ public class PdfPaySlipGenerator {
 				}
 				
 				if(bean.getOtSalary()>0.0){
-					table.addCell(createLabelCell("OT earnings"));
+					table.addCell(createLabelCell("EX.DUTY"));
 					table.addCell(createLabelCell("Salary Total"));
 				}else{
 					table.addCell(createLabelCell("Salary Total"));
