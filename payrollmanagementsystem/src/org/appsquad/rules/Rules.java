@@ -5,17 +5,17 @@ import org.appsquad.research.DoubleFormattor;
 public class Rules {
 
 	public static double getBasic(double wages, int baseDays, int presentDays){
-		System.out.println("Basic: "+DoubleFormattor.setDoubleFormat((wages/baseDays) * presentDays));
+		//System.out.println("Basic: "+DoubleFormattor.setDoubleFormat((wages/baseDays) * presentDays));
 		return ( DoubleFormattor.setDoubleFormat((wages/baseDays) * presentDays) );
 	}
 	
 	public static double getPf(double basic){
-		System.out.println("Pf called. . .");
+		//System.out.println("Pf called. . .");
 		return ( DoubleFormattor.setDoubleFormat(basic * 0.12) );
 	}
 	
 	public static double getEsi(double gross, double washing){
-		System.out.println("Esi called. . .");
+		//System.out.println("Esi called. . .");
 		if( washing==0.0){
 			return ( DoubleFormattor.setDoubleFormat(gross * 0.0175));
 		}
@@ -30,12 +30,12 @@ public class Rules {
 	}
 		
 	public static double getHra(double hra, int baseDay , int presentDays){
-		System.out.println("Hra called. . .");
+		//System.out.println("Hra called. . .");
 		return ( DoubleFormattor.setDoubleFormat( (hra*presentDays)/baseDay ) ); 
 	}
 	
 	public static double getConveyence(double conveyence, int baseDay , int presentDays){
-		System.out.println("conveyence called. . .");
+		//System.out.println("conveyence called. . .");
 		return ( (conveyence*presentDays)/baseDay ); 
 	}
 	
@@ -68,7 +68,7 @@ public class Rules {
 	}
 	
 	public static double getGeneral(double component, int baseDay , int presentDays){
-		System.out.println("general called. . .");
+		//System.out.println("general called. . .");
 		return ( DoubleFormattor.setDoubleFormat((component*presentDays)/baseDay) ); 
 	}
 	

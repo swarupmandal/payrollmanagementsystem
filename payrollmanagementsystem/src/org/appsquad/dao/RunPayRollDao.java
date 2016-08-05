@@ -694,7 +694,12 @@ public class RunPayRollDao {
 			System.out.println("--Special unit---");
 			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
 			baseDays = baseDays-4;
-		}else{
+		}else if(baseDayType == 3) {
+			System.out.println("--Special 26 unit---");
+			baseDays = 26;
+		}
+		
+		else{
 			// calculate month days in baseDayss
 			System.out.println("--Normal unit---");
 			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);

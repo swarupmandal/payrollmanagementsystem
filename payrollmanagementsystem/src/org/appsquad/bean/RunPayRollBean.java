@@ -47,7 +47,7 @@ public class RunPayRollBean {
     private double wages, basic;
     
     private int noOfHoliDays;
-    private double holiDayAmount;
+    private Double holiDayAmount;
     
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -373,17 +373,18 @@ public class RunPayRollBean {
 	public void setNoOfHoliDays(int noOfHoliDays) {
 		this.noOfHoliDays = noOfHoliDays;
 	}
-	public double getHoliDayAmount() {
-		return holiDayAmount;
-	}
-	public void setHoliDayAmount(double holiDayAmount) {
-		this.holiDayAmount = holiDayAmount;
-	}
+	
 	public double getBasic() {
 		return basic;
 	}
 	public void setBasic(double basic) {
 		this.basic = basic;
+	}
+	public Double getHoliDayAmount() {
+		return holiDayAmount;
+	}
+	public void setHoliDayAmount(Double holiDayAmount) {
+		this.holiDayAmount = holiDayAmount;
 	}
 	
 }
