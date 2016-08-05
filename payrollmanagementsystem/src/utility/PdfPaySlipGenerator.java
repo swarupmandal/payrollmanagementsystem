@@ -233,7 +233,7 @@ public class PdfPaySlipGenerator {
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
 			document.add(createTableForLogo(document, bean));
-			System.out.println("Tot sal ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
+			System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			double totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;
 			LinkedHashSet<String> ernList = new LinkedHashSet<String>();
@@ -248,6 +248,8 @@ public class PdfPaySlipGenerator {
 				totSalTot += rollBean.getTotalSalary();
 				totNetSal += rollBean.getNetSalary();
 				totDed += rollBean.getTotalDeduction();
+				earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
+				deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
 					if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
 						ernList.add(basic.getComponentName());
@@ -257,6 +259,7 @@ public class PdfPaySlipGenerator {
 				
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getDeductionCompList()){
 					dedctList.add(basic.getComponentName());
+					
 				}
 				
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
@@ -268,7 +271,7 @@ public class PdfPaySlipGenerator {
 			//document.add(createTableForHeader(document, bean));
 			System.out.println("Tot sal ::"+totSalTot+" Tot net : "+totNetSal);
 			
-			float[] columnWidths = {50, 70, 45, 500, 500};
+			float[] columnWidths = {60, 70, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell ;
@@ -279,7 +282,12 @@ public class PdfPaySlipGenerator {
 			bottomTable.addCell(cell);
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-			cell = new PdfPCell( new Phrase("EXTRA DUTY\n"+345.00,font) );
+			if(bean.getOtHoursF() != null){
+				cell = new PdfPCell( new Phrase("EXTRA DUTY\n"+bean.getOtHoursF(),font) );
+			}else{
+				cell = new PdfPCell( new Phrase("EXTRA DUTY\n"+0.0,font) );
+			}
+			
 			//cell.setBorder(Rectangle.NO_BORDER);
 			bottomTable.addCell(cell);
 			
@@ -296,7 +304,7 @@ public class PdfPaySlipGenerator {
 			cell.setBorder(Rectangle.NO_BORDER);
 			earnTable.addCell(cell);
 			}
-			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(bean.getTotalSalary()),font));
+			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
 			cell.setBorder(Rectangle.NO_BORDER);
 			earnTable.addCell(cell);
 			earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -310,7 +318,7 @@ public class PdfPaySlipGenerator {
 				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
 			}
-			cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(bean.getNetSalary()),font));
+			cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
 			cell.setBorder(Rectangle.NO_BORDER);
 			dedTable.addCell(cell);
 			dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -1223,6 +1231,16 @@ public class PdfPaySlipGenerator {
 				table.addCell(cell);
 			}else{
 				cell = new PdfPCell(new Phrase("ESI : "));
+				cell.setBorder(Rectangle.NO_BORDER);
+				table.addCell(cell);
+			}
+			
+			if(bean.getEmpUan() != null){
+				cell = new PdfPCell(new Phrase("UAN : "+bean.getEmpUan()));
+				cell.setBorder(Rectangle.NO_BORDER);
+				table.addCell(cell);
+			}else{
+				cell = new PdfPCell(new Phrase("UAN : "+0));
 				cell.setBorder(Rectangle.NO_BORDER);
 				table.addCell(cell);
 			}

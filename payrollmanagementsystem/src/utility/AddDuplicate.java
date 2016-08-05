@@ -9,7 +9,7 @@ import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 
 public class AddDuplicate {
 
-	public static ArrayList<EmployeeSalaryComponentAmountBean> findTotalItemsForStockUpdation(ArrayList<EmployeeSalaryComponentAmountBean> escList){
+	public static Map<String, Double> findTotalAmount(ArrayList<EmployeeSalaryComponentAmountBean> escList){
 		ArrayList<EmployeeSalaryComponentAmountBean> returningKitchenItemList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 		Map<String, Double> empCompMap = new HashMap<String, Double>();	
 		for(EmployeeSalaryComponentAmountBean empSalBean : escList){
@@ -27,6 +27,7 @@ public class AddDuplicate {
 		for(EmployeeSalaryComponentAmountBean finalQty : returningKitchenItemList ){
 			System.out.println(" "+finalQty.getComponentName()+"\t"+finalQty.getComponentAmount());
 		}
-		return returningKitchenItemList;
+		System.out.println("Returning map:: "+empCompMap);
+		return empCompMap;
 	}
 }
