@@ -21,6 +21,7 @@ import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.pdfhandler.BorderEvent;
 import org.appsquad.pdfhandler.DownloadPdf;
+import org.appsquad.pdfhandler.HeaderTable;
 import org.appsquad.pdfhandler.Rotate;
 import org.appsquad.pdfhandler.RoundRectangle;
 import org.appsquad.research.DoubleFormattor;
@@ -62,8 +63,8 @@ public class PdfPaySlipGenerator {
 		private static Font catFont = new Font(Font.getFamily("TIMES NEW ROMAN"), 22, Font.BOLD);
 		private static Font headfont = new Font(Font.getFamily("TIMES NEW ROMAN"), 13, Font.NORMAL);
 		
-		RunPayRollBean runPayRollBean = new RunPayRollBean();
-		ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
+		//RunPayRollBean runPayRollBean = new RunPayRollBean();
+		//ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 		
 		/*public void getDetails(String data,String path, ArrayList<RunPayRollBean> runPayRollBeanList,
 				RunPayRollBean bean, String company, String unit) throws Exception, DocumentException{
@@ -248,15 +249,40 @@ public class PdfPaySlipGenerator {
 				totSalTot += rollBean.getTotalSalary();
 				totNetSal += rollBean.getNetSalary();
 				totDed += rollBean.getTotalDeduction();
-				earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
-				deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
+				
+				String earnName = null;
+				for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
+					if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
+						earnName = earnBean.getComponentName();
+						if(earnMap.containsKey(earnName)){
+							double earnAmount = earnMap.get(earnName);
+							earnMap.put(earnName, earnAmount + earnBean.getComponentAmount());
+						}else{
+							earnMap.put(earnName, earnBean.getComponentAmount());
+						}
+					}
+				}
+				String deductName = null;
+				for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
+					if(!deductBean.getComponentName().equalsIgnoreCase("BASIC")){
+						deductName = deductBean.getComponentName();
+						if(earnMap.containsKey(deductName)){
+							double deductAmount = earnMap.get(deductName);
+							earnMap.put(earnName, deductAmount + deductBean.getComponentAmount());
+						}else{
+							earnMap.put(earnName, deductBean.getComponentAmount());
+						}
+					}
+				}
+				
+			//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
+			//	deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
 					if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
 						ernList.add(basic.getComponentName());
 						
 					}
 				}
-				
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getDeductionCompList()){
 					dedctList.add(basic.getComponentName());
 					
@@ -270,6 +296,8 @@ public class PdfPaySlipGenerator {
 			}
 			//document.add(createTableForHeader(document, bean));
 			System.out.println("Tot sal ::"+totSalTot+" Tot net : "+totNetSal);
+			System.out.println("earn map :: "+earnMap);
+			System.out.println("deduct map :: "+deductMap);
 			
 			float[] columnWidths = {60, 70, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
@@ -1094,10 +1122,19 @@ public class PdfPaySlipGenerator {
 			System.out.println("My file path :: "+filePath);
 			document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+			
+			// HeaderTable event = new HeaderTable(document,bean);
+		        // step 1
+		   //  Document document = new Document(PageSize.LEGAL.rotate(), 35f,5f, 5f + event.getTableHeight(), 5f);
+		        // step 2
+		 //   PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+		  //      writer.setPageEvent(event);
+		     // step 3
+			
 			document.open();
 			System.out.println("Tot sal ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			generateSheet(runPayRollBeanList , bean);
-			//DownloadPdf.download(filePath, "salarysheet.pdf");
+			//DownloadPdf.download(filePath,"salarysheet.pdf");
 			openPdf(filePath);
 			document.close();
 		//	Rectangle pageSize = new Rectangle(516f ,1256f );
