@@ -634,6 +634,7 @@ public class RunPayrollViewModel {
 								
 								if(deduct.getComponentName().equalsIgnoreCase("ESI")){
 									if(grossTotal <= 15000.00){
+										grossTotal = DoubleFormattor.setDoubleFormat(grossTotal);
 										for(EmployeeSalaryComponentAmountBean escb: earningList){
 											if(escb.getComponentName().equalsIgnoreCase("WASHING")){
 												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount()) ));
@@ -760,6 +761,7 @@ public class RunPayrollViewModel {
 					
 					if(deduct.getComponentName().equalsIgnoreCase("ESI")){
 						if(grossTotal <= 15000.00){
+							grossTotal = DoubleFormattor.setDoubleFormat(grossTotal);
 							for(EmployeeSalaryComponentAmountBean escb: earningList){
 								if(escb.getComponentName().equalsIgnoreCase("WASHING")){
 									System.out.println("IF -------------------------------------->>> >> > ");

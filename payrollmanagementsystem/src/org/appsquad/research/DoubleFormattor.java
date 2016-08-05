@@ -27,7 +27,7 @@ public class DoubleFormattor {
 		if( upInput != downInput){
 			//System.out.println("Converted : "+(upInput+1.0));
 		}*/
-		setDoubleFormat(4405.555000);
+		setDoubleFormatEsi(182.0010000000);
 	}
 
 	public static double setDoubleFormat(double value){
@@ -51,21 +51,24 @@ public class DoubleFormattor {
 	}
 	
 	public static double setDoubleFormatEsi(double value){
-		//System.out.println("Double formatting esi...");
-		int intValue = (int)value;
-		//System.out.println("int part- - > "+intValue);
-		double partValue = value - intValue;
-		//System.out.println("Part val- - > "+partValue);
+		System.out.println("Double formatting esi..."+value);
 		DecimalFormat decim = new DecimalFormat("0.00");
-		if(partValue > 0.0){
+		int intValue = (int)value;
+		System.out.println("int part- - > "+intValue);
+		double partValue = value - intValue;
+		System.out.println("Part val- - > "+partValue);
+		double covertValue = Double.parseDouble(decim.format(partValue));
+		System.out.println("con:: "+covertValue);
+		
+		if(covertValue > 0.0){
 			value = (value+1.0)-partValue;
 			value = Double.parseDouble(decim.format(value));
-		//	System.out.println("Part > 0.0- - >"+value);
+			System.out.println("Part > 0.0- - >"+value);
 		}else{
 			value = Double.parseDouble(decim.format(value));
-		//	System.out.println("Part < 0.5- - >"+value);
+			System.out.println("Part < 0.5- - >"+value);
 		}
-		//System.out.println("Returend: "+value);
+		System.out.println("Returend: "+value);
 		return value;
 	}
 }
