@@ -635,9 +635,9 @@ public class RunPayrollViewModel {
 									if(grossTotal <= 15000.00){
 										for(EmployeeSalaryComponentAmountBean escb: earningList){
 											if(escb.getComponentName().equalsIgnoreCase("WASHING")){
-												deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getEsi(grossTotal, escb.getComponentAmount()) ));
+												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount()) ));
 											}else{
-												deduct.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getEsi(grossTotal, escb.getComponentAmount()) ) );
+												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount()) ) );
 											}
 										}
 									}
@@ -761,9 +761,9 @@ public class RunPayrollViewModel {
 						if(grossTotal <= 15000.00){
 							for(EmployeeSalaryComponentAmountBean escb: earningList){
 								if(escb.getComponentName().equalsIgnoreCase("WASHING")){
-									deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+									deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount())) );
 								}else{
-									deduct.setComponentAmount(Rules.getEsi(grossTotal, escb.getComponentAmount()));
+									deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount())) );
 								}
 							}
 						}

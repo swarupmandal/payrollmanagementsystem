@@ -12,6 +12,11 @@ public class EmployeeSalaryComponentAmountBean {
 	
 	private int empId;
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return componentType+"\t"+componentName+"\t"+componentAmount;
+	}
 	public String getComponentName() {
 		return componentName;
 	}

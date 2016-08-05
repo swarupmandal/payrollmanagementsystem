@@ -173,7 +173,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   	<space/>
   		<grid mold="paging" pageSize="5" model="@bind(vm.runPayRollBeanList)"
   		visible="@bind(vm.salaryAdjustmentVisibility)" height="270px">
-  			<columns>
+  			<columns sizable="true">
   				<column label="Emp Code" align="center"/>
   				<column label="Emp Name" align="center"/>
   				<column label="Present" align="center"/>

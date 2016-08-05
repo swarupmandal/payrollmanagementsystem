@@ -1,5 +1,7 @@
 package org.appsquad.pdfhandler;
 
+import org.appsquad.bean.RunPayRollBean;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
@@ -8,13 +10,12 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class HeaderTable extends PdfPageEventHelper {
     protected PdfPTable table;
     protected float tableHeight;
-    public HeaderTable() {
+    public HeaderTable(RunPayRollBean bean) {
         table = new PdfPTable(1);
         table.setTotalWidth(523);
         table.setLockedWidth(true);
-        table.addCell("Header row 1");
-        table.addCell("Header row 2");
-        table.addCell("Header row 3");
+        table.addCell("BDA");
+        
         tableHeight = table.getTotalHeight();
     }
     
