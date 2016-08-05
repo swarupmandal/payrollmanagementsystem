@@ -10,8 +10,10 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -231,19 +233,25 @@ public class PdfPaySlipGenerator {
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
 			document.add(createTableForLogo(document, bean));
-			double totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0; 
+			System.out.println("Tot sal ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
+			double totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;
 			LinkedHashSet<String> ernList = new LinkedHashSet<String>();
 			LinkedHashSet<String> dedctList = new LinkedHashSet<String>();
+			Map<String, Double> earnMap = new HashMap<String, Double>();
+			Map<String, Double> deductMap = new HashMap<String, Double>();
 			
 			for(RunPayRollBean rollBean : runPayRollBeanList){
 				totPresnt += rollBean.getPresentDay();
 				earnSize += rollBean.getEarningCompList().size();
 				dedSize += rollBean.getDeductionCompList().size();
-				
+				totSalTot += rollBean.getTotalSalary();
+				totNetSal += rollBean.getNetSalary();
+				totDed += rollBean.getTotalDeduction();
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
 					if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
 						ernList.add(basic.getComponentName());
+						
 					}
 				}
 				
@@ -257,34 +265,27 @@ public class PdfPaySlipGenerator {
 					}
 				}
 			}
-			System.out.println("ernsize - "+earnSize+" ded size - >"+dedSize);
 			//document.add(createTableForHeader(document, bean));
-			for(String  amountBean : ernList){
-				System.out.println("Earning list :: "+amountBean.toString());
-			}
+			System.out.println("Tot sal ::"+totSalTot+" Tot net : "+totNetSal);
 			
-			for(String  amountBean : dedctList){
-				System.out.println("DEdectionlist :: "+amountBean.toString());
-			}
-			
-			float[] columnWidths = {50, 70, 35, 500, 500};
+			float[] columnWidths = {50, 70, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell ;
 			Font font ;
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			cell = new PdfPCell( new Phrase("PRESENT\n"+totPresnt,font) );
-			cell.setBorder(Rectangle.NO_BORDER);
+			//cell.setBorder(Rectangle.NO_BORDER);
 			bottomTable.addCell(cell);
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			cell = new PdfPCell( new Phrase("EXTRA DUTY\n"+345.00,font) );
-			cell.setBorder(Rectangle.NO_BORDER);
+			//cell.setBorder(Rectangle.NO_BORDER);
 			bottomTable.addCell(cell);
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			cell = new PdfPCell( new Phrase("BASIC\n"+totBasic,font) );
-			cell.setBorder(Rectangle.NO_BORDER);
+			//cell.setBorder(Rectangle.NO_BORDER);
 			bottomTable.addCell(cell);
 			
 			//ernList.add("Tot Sal.");
@@ -298,7 +299,7 @@ public class PdfPaySlipGenerator {
 			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(bean.getTotalSalary()),font));
 			cell.setBorder(Rectangle.NO_BORDER);
 			earnTable.addCell(cell);
-			
+			earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			
 			dedctList.add("TOT.DED");
 			//dedctList.add("TOT.NET SALARY");
@@ -312,6 +313,7 @@ public class PdfPaySlipGenerator {
 			cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(bean.getNetSalary()),font));
 			cell.setBorder(Rectangle.NO_BORDER);
 			dedTable.addCell(cell);
+			dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			
 			bottomTable.addCell(earnTable);
 			bottomTable.addCell(dedTable);
@@ -359,6 +361,7 @@ public class PdfPaySlipGenerator {
 		
 		public static PdfPTable createTableForLogo(Document document, RunPayRollBean bean) throws DocumentException{
 		
+			System.out.println("Tot sal ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			float[] columnWidths = {8,  16};
 			PdfPTable table = new PdfPTable(columnWidths);
 			/*table.setWidths(columnWidths);
@@ -1084,6 +1087,7 @@ public class PdfPaySlipGenerator {
 			document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			document.open();
+			System.out.println("Tot sal ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			generateSheet(runPayRollBeanList , bean);
 			//DownloadPdf.download(filePath, "salarysheet.pdf");
 			openPdf(filePath);

@@ -338,6 +338,7 @@ public class RunPayrollViewModel {
 		pdfSheetBean.setYear(String.valueOf(year));
 		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+		System.out.println("Tot sal ::"+pdfSheetBean.getTotalSalary()+" Tot net : "+pdfSheetBean.getNetSalary());
 	    paySlipGenerator.getSheetDetails(pdfPath, pdfBeanList, pdfSheetBean);
 
 	}

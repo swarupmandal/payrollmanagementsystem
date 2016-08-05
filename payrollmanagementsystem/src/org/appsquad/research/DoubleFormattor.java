@@ -27,7 +27,7 @@ public class DoubleFormattor {
 		if( upInput != downInput){
 			//System.out.println("Converted : "+(upInput+1.0));
 		}*/
-		setDoubleFormatEsi(4405.000000);
+		setDoubleFormat(4405.555000);
 	}
 
 	public static double setDoubleFormat(double value){
@@ -42,6 +42,7 @@ public class DoubleFormattor {
 			value = Double.parseDouble(decim.format(value));
 			//System.out.println("Part > 0.5- - >"+value);
 		}else{
+			value = value-partValue;
 			value = Double.parseDouble(decim.format(value));
 			//System.out.println("Part < 0.5- - >"+value);
 		}

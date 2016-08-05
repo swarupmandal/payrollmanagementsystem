@@ -12,6 +12,16 @@ public class EmployeeSalaryComponentAmountBean {
 	
 	private int empId;
 	
+	
+	public EmployeeSalaryComponentAmountBean() {
+		super();
+	}
+	public EmployeeSalaryComponentAmountBean(String componentName,
+			double componentAmount) {
+		super();
+		this.componentName = componentName;
+		this.componentAmount = componentAmount;
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
