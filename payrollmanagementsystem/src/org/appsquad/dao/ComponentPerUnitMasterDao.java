@@ -472,23 +472,40 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 		try {
 			Connection connection = DbConnection.createConnection();
 			PreparedStatement preparedStatement = null;
-			String sql = "UPDATE pms_component_master_per_unit set amount = ? where id = ?";
+			
 			try {
-				preparedStatement = connection.prepareStatement(sql);
+				preparedStatement = connection.prepareStatement(ComponentPerUnitMasterSql.upDateExistingAmountQuery);
+				
 				for(ComponentPerUnitMasterBean bean : list){
-					
+					System.out.println("AM " + bean.getDesCompoAmount()); 
 				}
 				
+				for(ComponentPerUnitMasterBean bean : list){
+					bean.getDesCompoAmount();
+					bean.getId();
+					//preparedStatement.addBatch();
+				}
 				
+				//int[] i = preparedStatement.executeBatch();
+				int count = 0;
+				//for(int j : i){
+					//count = count+1;
+				//}
+				if(count>0){
+					Messagebox.show("Updated SuccessFully", "INFORMATION", Messagebox.OK,Messagebox.INFORMATION);
+				}
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
+			}finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}if(connection != null){
+					connection.close();
+				}
 			}
 			
-			
-			
-			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 	}

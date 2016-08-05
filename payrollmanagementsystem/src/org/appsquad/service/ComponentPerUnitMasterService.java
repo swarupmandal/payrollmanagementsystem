@@ -71,5 +71,9 @@ public class ComponentPerUnitMasterService {
 		return list;
 	}
 	
+	public static void updateComponents(ArrayList<ComponentPerUnitMasterBean> list){
+		ComponentPerUnitMasterDao.upDateExistingComponent(list);
+	}
+	
 	
 }

@@ -608,6 +608,10 @@ public class RunPayrollViewModel {
 							grossTotal += earn.getComponentAmount();
 						}
 						
+						if(bean.getHoliDayAmount()==null){
+							bean.setHoliDayAmount(0.0);
+						}
+						
 						if(bean.getHoliDayAmount()>0){
 							bean.setBasic(bean.getBasic()+bean.getHoliDayAmount());
 						}
@@ -728,6 +732,9 @@ public class RunPayrollViewModel {
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 					}
 					grossTotal += earn.getComponentAmount();
+				}
+				if(bean.getHoliDayAmount()==null){
+					bean.setHoliDayAmount(0.0);
 				}
 				if(bean.getHoliDayAmount()>0){
 					bean.setBasic(bean.getBasic()+bean.getHoliDayAmount());

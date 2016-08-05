@@ -79,10 +79,16 @@ public class ComponentMasterPerUnitViewModel {
 	public void onSelectDesignation(){
 		
 		componentPerUnitMasterBean.setUnitDesignationId(designationBean.getDesignationId());
-		System.out.println(componentPerUnitMasterBean.getUnitDesignationId());
 		
 		componentPerUnitMasterBeanList = ComponentPerUnitMasterService.onLoadExistingComponent(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), componentPerUnitMasterBean.getUnitDesignationId());
-		
+		if(componentPerUnitMasterBeanList.size()>0){
+			componentPerUnitMasterBean.saveButtnVisibles = false;
+			componentPerUnitMasterBean.updateButtonVisible = true;
+		}else {
+			componentPerUnitMasterBean.saveButtnVisibles = true;
+			componentPerUnitMasterBean.updateButtonVisible = false;
+			componentPerUnitMasterBeanList = ComponentPerUnitMasterService.loadData();
+		}
 	}
 	
 	
@@ -99,22 +105,6 @@ public class ComponentMasterPerUnitViewModel {
 		System.out.println("TAB2 SELECTED");
 	}
 	
-	/*@Command
-	@NotifyChange("*")
-	public void onClickSave(){
-	if(ComponentPerUnitMasterService.isEmptyLocationField(componentPerUnitMasterBean)){
-		if(componentPerUnitMasterBean.getWorkinghour() != null){
-			ComponentPerUnitMasterService.saveHourPerDesignation(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(),designationBean.getDesignationId(), componentPerUnitMasterBean.getWorkinghour(), userName);
-		}
-		if(componentPerUnitMasterBean.getBaseDays()>0){
-			ComponentPerUnitMasterService.saveBaseDaysPerUnit(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(),componentPerUnitMasterBean.getBaseDays(), componentPerUnitMasterBean.getWorkinghour(), userName);
-		}
-		ComponentPerUnitMasterService.saveComponentPerUnit(componentPerUnitMasterBeanList, componentPerUnitMasterBean.getCompanyId(), componentPerUnitMasterBean.getUnitId(), userName, designationBean.getDesignationId());
-		
-	    }
-		
-	}*/
-	
 	@Command
 	@NotifyChange("*")
 	public void onClickSave(){
@@ -127,16 +117,10 @@ public class ComponentMasterPerUnitViewModel {
 		
 	}
 	
-	
-	
-	
-	
 	@Command
 	@NotifyChange("*")
 	public void onClickUpdate(){
-		
-		
-		
+		ComponentPerUnitMasterService.updateComponents(componentPerUnitMasterBeanList);
 	}
 	
 	

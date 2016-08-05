@@ -199,7 +199,7 @@ public class EmployeeMasterViewModel {
 	public void insertPersonalInfo(){
 		if(EmployeeMasterService.insertPersonelInfoService(employeeMasterBean, maxEmpId, userName)){
 			
-			Messagebox.show("Saved successfully \n procceed to next tab", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Saved successfully \n proceed to next tab", "Information", Messagebox.OK, Messagebox.INFORMATION);
 		}
 	}
 	
@@ -248,7 +248,7 @@ public class EmployeeMasterViewModel {
 	@NotifyChange("*")
 	public void onClickOfficialDetails(){
 		if(EmployeeDao.insertEmpOfficialDet(employeeMasterBean, maxEmpId, userName)){
-			Messagebox.show("Saved successfully \n procceed to next tab", "Information", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.show("Saved successfully \n proceed to next tab", "Information", Messagebox.OK, Messagebox.INFORMATION);
 		}
 	}
 	
