@@ -264,15 +264,13 @@ public class PdfPaySlipGenerator {
 				}
 				String deductName = null;
 				for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
-					if(!deductBean.getComponentName().equalsIgnoreCase("BASIC")){
-						deductName = deductBean.getComponentName();
-						if(earnMap.containsKey(deductName)){
-							double deductAmount = earnMap.get(deductName);
-							earnMap.put(earnName, deductAmount + deductBean.getComponentAmount());
+					deductName = deductBean.getComponentName();
+						if(deductMap.containsKey(deductName)){
+							double deductAmount = deductMap.get(deductName);
+							deductMap.put(deductName, deductAmount + deductBean.getComponentAmount());
 						}else{
-							earnMap.put(earnName, deductBean.getComponentAmount());
+							deductMap.put(deductName, deductBean.getComponentAmount());
 						}
-					}
 				}
 				
 			//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
@@ -327,10 +325,12 @@ public class PdfPaySlipGenerator {
 			//ernList.add("Tot Sal.");
 			PdfPTable earnTable = new PdfPTable(ernList.size()+1);
 			for(String e : ernList){
-			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-			cell = new PdfPCell( new Phrase(e+"\n"+5454.00,font) );
-			cell.setBorder(Rectangle.NO_BORDER);
-			earnTable.addCell(cell);
+				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+				if(earnMap.containsKey(e)){
+					cell = new PdfPCell( new Phrase(e+"\n"+String.valueOf(earnMap.get(e)),font) );
+				}
+				cell.setBorder(Rectangle.NO_BORDER);
+				earnTable.addCell(cell);
 			}
 			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
 			cell.setBorder(Rectangle.NO_BORDER);
@@ -342,7 +342,12 @@ public class PdfPaySlipGenerator {
 			PdfPTable dedTable = new PdfPTable(dedctList.size()+1);
 			for(String d : dedctList){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-				cell = new PdfPCell( new Phrase(d+"\n"+334.343,font) );
+				if(deductMap.containsKey(d)){
+					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(deductMap.get(d)) ,font) );
+				}
+				if(d.equalsIgnoreCase("TOT.DED")){
+					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(totDed) ,font) );
+				}
 				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
 			}
