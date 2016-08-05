@@ -267,7 +267,7 @@ public class PdfPaySlipGenerator {
 				System.out.println("DEdectionlist :: "+amountBean.toString());
 			}
 			
-			float[] columnWidths = {50, 70, 30, 500, 400};
+			float[] columnWidths = {50, 70, 35, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell ;
@@ -287,24 +287,31 @@ public class PdfPaySlipGenerator {
 			cell.setBorder(Rectangle.NO_BORDER);
 			bottomTable.addCell(cell);
 			
-			ernList.add("Tot Sal.");
-			PdfPTable earnTable = new PdfPTable(ernList.size());
+			//ernList.add("Tot Sal.");
+			PdfPTable earnTable = new PdfPTable(ernList.size()+1);
 			for(String e : ernList){
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			cell = new PdfPCell( new Phrase(e+"\n"+5454.00,font) );
 			cell.setBorder(Rectangle.NO_BORDER);
 			earnTable.addCell(cell);
 			}
+			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(bean.getTotalSalary()),font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			earnTable.addCell(cell);
+			
 			
 			dedctList.add("TOT.DED");
-			dedctList.add("NET SALARY");
-			PdfPTable dedTable = new PdfPTable(dedctList.size());
+			//dedctList.add("TOT.NET SALARY");
+			PdfPTable dedTable = new PdfPTable(dedctList.size()+1);
 			for(String d : dedctList){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				cell = new PdfPCell( new Phrase(d+"\n"+334.343,font) );
 				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
 			}
+			cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(bean.getNetSalary()),font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			dedTable.addCell(cell);
 			
 			bottomTable.addCell(earnTable);
 			bottomTable.addCell(dedTable);
