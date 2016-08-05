@@ -1211,6 +1211,10 @@ public class PdfPaySlipGenerator {
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
 			
+			cell = new PdfPCell(new Phrase(bean.getEmpCode()));
+			cell.setBorder(Rectangle.NO_BORDER);
+			table.addCell(cell);
+			
 			cell = new PdfPCell(new Phrase(bean.getEmpDesignation()));
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
