@@ -159,35 +159,66 @@ public class PdfPaySlipGenerator {
  	           // table.addCell( createLabelCell() );
 	           // table.addCell( createLabelCell());
  	         //  for(int i=0;i<3;i++){
+	        	int i =0;
+	        	System.out.println("Before loop i: "+i);
  	        	  for(RunPayRollBean payRollBean : runPayRollBeanList){
  	        		   if(payRollBean.isChecked()){
  	        			 // PdfPTable table = new PdfPTable(1);
- 	        			   PdfPTable innertable = new PdfPTable(1);
- 	        				innertable.addCell(createTableForBDA(document, bean));	
- 	        				innertable.addCell(createTableForUnit(document, bean));	
- 	        				innertable.addCell(createTableForEmployee(document, payRollBean));	
- 	        				innertable.addCell(createTableForSalary(document , payRollBean));
- 	        				innertable.addCell(createTableForEarnings(document, payRollBean));	
- 	        				innertable.addCell(createTableForDeductions(document, payRollBean));
- 	        				innertable.addCell(createTableForNetSalary(document, payRollBean));
- 	        				//table.setTableEvent(new BorderEvent());
- 	        				
- 	        				innertable.setWidthPercentage(100);
+ 	        			   if(i < 5){
+ 	        				   	PdfPTable innertable = new PdfPTable(1);
+ 	 	        				innertable.addCell(createTableForBDA(document, bean));	
+ 	 	        				innertable.addCell(createTableForUnit(document, bean));	
+ 	 	        				innertable.addCell(createTableForEmployee(document, payRollBean));	
+ 	 	        				innertable.addCell(createTableForSalary(document , payRollBean));
+ 	 	        				innertable.addCell(createTableForEarnings(document, payRollBean));	
+ 	 	        				innertable.addCell(createTableForDeductions(document, payRollBean));
+ 	 	        				innertable.addCell(createTableForNetSalary(document, payRollBean));
+ 	 	        				//table.setTableEvent(new BorderEvent());
+ 	 	        				
+ 	 	        				innertable.setWidthPercentage(100);
+ 	 	        			    
+ 	 	        			   // table.addCell(createTableWithTwoColumn(document, payRollBean));
+ 	 	        			   
+ 	 	        			   // table.setSpacingBefore(35f);
+ 	 	        			   // table.setWidthPercentage(100);
+ 	 	        			   // table.setSpacingAfter(40f);
+ 	 	        			   // table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+ 	 	        				table.addCell(innertable);
+ 	 		      	           //document.add(table);
+ 	 	        				 document.add(table);
+ 	 	        				i++;
+ 	        			   }else{
+ 	        					PdfPTable innertable = new PdfPTable(1);
+ 	 	        				innertable.addCell(createTableForBDA(document, bean));	
+ 	 	        				innertable.addCell(createTableForUnit(document, bean));	
+ 	 	        				innertable.addCell(createTableForEmployee(document, payRollBean));	
+ 	 	        				innertable.addCell(createTableForSalary(document , payRollBean));
+ 	 	        				innertable.addCell(createTableForEarnings(document, payRollBean));	
+ 	 	        				innertable.addCell(createTableForDeductions(document, payRollBean));
+ 	 	        				innertable.addCell(createTableForNetSalary(document, payRollBean));
+ 	 	        				//table.setTableEvent(new BorderEvent());
+ 	 	        				
+ 	 	        				innertable.setWidthPercentage(100);
+ 	 	        			    
+ 	 	        			   // table.addCell(createTableWithTwoColumn(document, payRollBean));
+ 	 	        			   
+ 	 	        			   // table.setSpacingBefore(35f);
+ 	 	        			   // table.setWidthPercentage(100);
+ 	 	        			   // table.setSpacingAfter(40f);
+ 	 	        			   // table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
+ 	 	        				table.addCell(innertable);
+ 	 		      	           //document.add(table);
+ 	 	        				 document.add(table);
+ 	 	        				 i++;
+ 	        			   }
  	        			    
- 	        			   // table.addCell(createTableWithTwoColumn(document, payRollBean));
- 	        			   
- 	        			   // table.setSpacingBefore(35f);
- 	        			   // table.setWidthPercentage(100);
- 	        			   // table.setSpacingAfter(40f);
- 	        			   // table.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
- 	        				table.addCell(innertable);
- 		      	           //document.add(table);
  	        		   }
  	        		  
- 	        		  table.addCell(new Phrase(""));
+ 	        		 // table.addCell(new Phrase(""));
  	        		 table.setSpacingBefore(30f);
+ 	        		System.out.println("Inside loop i: "+i);
  	        	   }
- 	        	 document.add(table);
+ 	        //	 document.add(table);
  	        	  /*table.setSpacingBefore(35f);*/
  	        //   }
  	           /*table.setWidthPercentage(100);*/
@@ -1158,7 +1189,7 @@ public class PdfPaySlipGenerator {
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
 			
-			cell = new PdfPCell(new Phrase("pressalay val"));
+			cell = new PdfPCell(new Phrase(String.valueOf(bean.getBasic())));
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
 			
