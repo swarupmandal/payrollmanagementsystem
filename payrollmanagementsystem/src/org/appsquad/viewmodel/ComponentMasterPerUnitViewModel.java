@@ -84,6 +84,7 @@ public class ComponentMasterPerUnitViewModel {
 		if(componentPerUnitMasterBeanList.size()>0){
 			componentPerUnitMasterBean.saveButtnVisibles = false;
 			componentPerUnitMasterBean.updateButtonVisible = true;
+			
 		}else {
 			componentPerUnitMasterBean.saveButtnVisibles = true;
 			componentPerUnitMasterBean.updateButtonVisible = false;

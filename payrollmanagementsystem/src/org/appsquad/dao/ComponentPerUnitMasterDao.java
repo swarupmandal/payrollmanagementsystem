@@ -199,7 +199,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 						for(ComponentPerUnitMasterBean bean : list){
 						
 						if(bean.isCheckVal()==true){
-						System.out.println("INSIDE CHECK---------------------------------- >>> >> > ");	
+						
 						preparedStatement = Util1.createQuery(connection, ComponentPerUnitMasterSql.insertComponentPerUnitQuery, Arrays.asList(bean.getComponentId(), bean.getComponet(),bean.getComponentTypeId(),companyId,unitId,userName,userName, designationId, bean.getDesCompoAmount()));
 						System.out.println("Batch Query >>> >> > " + preparedStatement);
 						//preparedStatement.addBatch(); 
@@ -442,7 +442,11 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 					
 					bean.setDesCompoAmount(resultSet.getDouble("amount"));
 					
-					bean.setCheckVal(true);
+					bean.setCheckVal(false);
+					
+					
+					System.out.println("ID -> " + bean.getId() + " -- COMPONENT NAME -- " + bean.getComponet() + " -- AMOUNT -> " + bean.getDesCompoAmount());
+					
 					
 					list.add(bean);
 				}
@@ -477,20 +481,21 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 				preparedStatement = connection.prepareStatement(ComponentPerUnitMasterSql.upDateExistingAmountQuery);
 				
 				for(ComponentPerUnitMasterBean bean : list){
-					System.out.println("AM " + bean.getDesCompoAmount()); 
+					if(bean.isCheckVal()){
+						
+						preparedStatement.setDouble(1, bean.getDesCompoAmount());
+						preparedStatement.setInt(2, bean.getId());
+						preparedStatement.addBatch();
+					}
+					
 				}
 				
-				for(ComponentPerUnitMasterBean bean : list){
-					bean.getDesCompoAmount();
-					bean.getId();
-					//preparedStatement.addBatch();
-				}
-				
-				//int[] i = preparedStatement.executeBatch();
+				int[] i = preparedStatement.executeBatch();
 				int count = 0;
-				//for(int j : i){
-					//count = count+1;
-				//}
+				for(int j : i){
+					count = count+1;
+					
+				}
 				if(count>0){
 					Messagebox.show("Updated SuccessFully", "INFORMATION", Messagebox.OK,Messagebox.INFORMATION);
 				}

@@ -221,9 +221,9 @@ public class RunPayrollViewModel {
 		
 		//System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
 		
-		System.out.println("SELECTED MONTH ID >>> >> > " + runPayRollBean.getSelectedMonthId());
-		System.out.println("SELECTED UNIT ID >>> >> > " + runPayRollBean.getSelectedUnitId());
-		System.out.println("CURRENT YR >>> >> >  " + year);
+		//System.out.println("SELECTED MONTH ID >>> >> > " + runPayRollBean.getSelectedMonthId());
+		//System.out.println("SELECTED UNIT ID >>> >> > " + runPayRollBean.getSelectedUnitId());
+		//System.out.println("CURRENT YR >>> >> >  " + year);
 		
 		if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
 			
@@ -275,7 +275,7 @@ public class RunPayrollViewModel {
 				ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 				
 				
-				System.out.println("COMPANY " + companyMasterBean.getCompanyName());
+				//System.out.println("COMPANY " + companyMasterBean.getCompanyName());
 				//System.out.println("MMMMMMMMMM " +rBean.otSalary);
 				//System.out.println("deddc  " + rBean.leaveDeduction);
 				//System.out.println("NETs >>> >> > " + rBean.getNetSalary());
@@ -467,7 +467,7 @@ public class RunPayrollViewModel {
 
 			bean.leaveDeduction = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
 			
-			System.out.println("Leave deduction >>> >> > " + bean.leaveDeduction);
+			//System.out.println("Leave deduction >>> >> > " + bean.leaveDeduction);
 			
 			NumberFormat formatter1 = new DecimalFormat("#0.00");  
 			double d2 = Double.parseDouble(formatter1.format(bean.leaveDeduction));
@@ -480,7 +480,7 @@ public class RunPayrollViewModel {
 			
 			bean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()-bean.getLeaveDaysF());
 			
-			System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());
+			//System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());
 			
 			
 		}
@@ -664,7 +664,10 @@ public class RunPayrollViewModel {
 						pdfBean.setMonthName(bean.getMonthName());
 						pdfBean.setYear(bean.getYear());
 						pdfBean.setCurrentDate(currentDate);
+						
 						pdfBean.setOtHoursF(bean.getOtHoursF());
+						pdfBean.setOtSalary(bean.getOtSalary());
+						
 						pdfBean.setTotalSalary(bean.getTotalSalary() );
 						pdfBean.setTotalDeduction(bean.getTotalDeduction());
 						pdfBean.setNetSalary(bean.getNetSalary());
@@ -788,7 +791,10 @@ public class RunPayrollViewModel {
 				pdfBean.setMonthName(bean.getMonthName());
 				pdfBean.setYear(bean.getYear());
 				pdfBean.setCurrentDate(currentDate);
+				
 				pdfBean.setOtHoursF(bean.getOtHoursF());
+				pdfBean.setOtSalary(bean.getOtSalary());
+				
 				pdfBean.setTotalSalary(bean.getTotalSalary() );
 				pdfBean.setTotalDeduction(bean.getTotalDeduction());
 				pdfBean.setNetSalary(bean.getNetSalary());
