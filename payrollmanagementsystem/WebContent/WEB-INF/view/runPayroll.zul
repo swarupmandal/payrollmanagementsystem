@@ -175,7 +175,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		visible="@bind(vm.salaryAdjustmentVisibility)" height="270px">
   			<columns sizable="true">
   				<column label="Emp Code" align="center"/>
-  				<column label="Emp Name" align="center"/>
+  				<column label="Emp Name" align="center" width="150px"/>
   				<column label="Present" align="center"/>
   				<column label="Over Time" align="center"/>
   				<column label="Special work" align="center"/>

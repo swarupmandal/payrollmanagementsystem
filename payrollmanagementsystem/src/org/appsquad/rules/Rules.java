@@ -16,13 +16,19 @@ public class Rules {
 	
 	public static double getEsi(double gross, double washing){
 		//System.out.println("Esi called. . .");
+		System.out.println("gro " + gross);
+		System.out.println("was " + washing);
+		
+		double esiVal=0.0;
 		if( washing==0.0){
-			return ( DoubleFormattor.setDoubleFormat(gross * 0.0175));
+			esiVal =  ((gross * 0.0175));
 		}
 		if( washing > 0.0){
-			return ( DoubleFormattor.setDoubleFormat((gross - washing) * 0.0175) );
+			esiVal = ((gross - washing) * 0.0175);
 		}
-		return washing;
+		
+		System.out.println("ESI ----- >>> >> > " + esiVal );
+		return esiVal ;
 	}
 	
 	public static double getOtSalary(double wages, int baseDays, double otHours){
