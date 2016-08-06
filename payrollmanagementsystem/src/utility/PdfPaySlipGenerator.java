@@ -139,13 +139,54 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean){
 	        try {
 	        	PdfPTable table =null ;
-	        	if(runPayRollBeanList.size() > 4){
+	        	//System.out.println("LIST SIZE>>>>>>>>>>>"+runPayRollBeanList.size());
+	        	ArrayList<RunPayRollBean> selectedBeanList = new ArrayList<RunPayRollBean>();
+	        	for(RunPayRollBean payRollBean:runPayRollBeanList){
+	        		if(payRollBean.isChecked()){
+	        			selectedBeanList.add(payRollBean);
+	        		}
+	        	}
+	        	if(selectedBeanList.size() > 4){
+	        		//System.out.println("LIST SIZE>4 "+selectedBeanList.size());
 	        		table = new PdfPTable(9);
 	        		float[] widths = {9, 0.2f ,9 ,0.2f ,9 ,0.2f ,9 ,0.2f , 9};
 	        		table.setWidths(widths);
 	        		table.setWidthPercentage(100);
 	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-	        	}else{
+	        	}
+	        	if(selectedBeanList.size() == 1){
+	        	//	System.out.println("LIST SIZE = 1 "+selectedBeanList.size());
+	        		table = new PdfPTable(2);
+	        		float[] widths = {9, 37f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	if(selectedBeanList.size() == 2 ){
+	        		//System.out.println("LIST SIZE = 2 "+selectedBeanList.size());
+	        		table = new PdfPTable(4);
+	        		float[] widths = {9, 0.2f, 9, 28f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	if(selectedBeanList.size() == 3 ){
+	        		//System.out.println("LIST SIZE = 3 "+selectedBeanList.size());
+	        		table = new PdfPTable(6);
+	        		float[] widths = {9, 0.2f , 9 , 0.2f, 9, 18f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	if(selectedBeanList.size() == 4 ){
+	        		//System.out.println("LIST SIZE = 4 "+selectedBeanList.size());
+	        		table = new PdfPTable(8);
+	        		float[] widths = {9, 0.2f , 9 , 0.2f, 9, 0.2f, 9, 10f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	/*else{
 	        		float[] widths = new float[runPayRollBeanList.size() + (runPayRollBeanList.size()-1)];
 	        		for(int i=0 ; i<widths.length ; i++){
 	        			if(i%2 == 0){
@@ -158,7 +199,7 @@ public class PdfPaySlipGenerator {
 	        		table.setWidths(widths);
 	        		table.setWidthPercentage(100);
 	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-	        	}
+	        	}*/
 	        	
 	        //	table.addCell( createLabelCell() );
  	          //  table.addCell( createLabelCell() );
@@ -168,10 +209,10 @@ public class PdfPaySlipGenerator {
  	         //  for(int i=0;i<3;i++){
 	        	int i =0;
 	        	System.out.println("Before loop i: "+i);
- 	        	  for(RunPayRollBean payRollBean : runPayRollBeanList){
- 	        		   if(payRollBean.isChecked()){
+ 	        	  for(RunPayRollBean payRollBean : selectedBeanList){
+ 	        		  // if(payRollBean.isChecked()){
  	        			// if(i < 4){
- 	        				   System.out.println(i+" bean Name----->(inside if) "+payRollBean.getEmpName());
+ 	        				   //System.out.println(i+" bean Name----->(inside if) "+payRollBean.getEmpName());
  	        				 	PdfPTable innertable = new PdfPTable(1);
  	        				    innertable.addCell(createTableForBDA(document, bean));	
  	 	        				innertable.addCell(createTableForUnit(document, bean));	
@@ -207,7 +248,7 @@ public class PdfPaySlipGenerator {
 	 		      	            document.add(table);
 	 		      	            i++;
  	        			   } */
- 	        		   }
+ 	        		   //}
  	        	  }  
  	        		 // table.addCell(new Phrase(""));
  	        		// table.setSpacingBefore(30f);
