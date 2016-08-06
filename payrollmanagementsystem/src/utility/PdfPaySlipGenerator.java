@@ -1557,7 +1557,20 @@ public class PdfPaySlipGenerator {
 				throws DocumentException {
 			PdfPTable table = new PdfPTable(2);
 			table.setWidthPercentage(100);
-			PdfPCell cell;Font font ;
+			PdfPCell cell;Font font ;boolean otGiven =false, holiDayGiven = false, bothGiven = false,bothNotGiven = false;
+			if(bean.getOtSalary() > 0.0 && bean.getHoliDayAmount() == 0.0){
+				otGiven = true; holiDayGiven = false; bothGiven = false; bothNotGiven = false;
+			}
+			if(bean.getHoliDayAmount() > 0.0 && bean.getOtSalary() == 0.0){
+				otGiven = false; holiDayGiven = true; bothGiven = false; bothNotGiven = false;
+			}
+			if(bean.getHoliDayAmount() > 0.0 && bean.getOtSalary() > 0.0){
+				otGiven = false; holiDayGiven = false; bothGiven = true; bothNotGiven = false;
+			}
+			if(bean.getHoliDayAmount() == 0.0 && bean.getOtSalary() == 0.0){
+				otGiven = false; holiDayGiven = false; bothGiven = false; bothNotGiven = true;
+			}
+			
 			font = new Font(Font.getFamily("HELVETICA"), 14, Font.BOLD);
 			cell = new PdfPCell(new Phrase("Components",font));
 			cell.setBorder(Rectangle.NO_BORDER);
@@ -1579,8 +1592,22 @@ public class PdfPaySlipGenerator {
 					total += index.getComponentAmount();
 				//}
 			}
-			if(bean.getOtSalary()>0.0){
+			/*if(bean.getOtSalary()>0.0){
 				table.addCell(createValueCellLeft("Extra duty"));
+				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
+			}*/
+			if(otGiven){
+				table.addCell(createValueCellLeft("Extra duty"));
+				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
+			}
+			if(holiDayGiven){
+				table.addCell(createValueCellLeft("Holiday"));
+				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
+			}
+			if(bothGiven){
+				table.addCell(createValueCellLeft("Extra duty"));
+				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
+				table.addCell(createValueCellLeft("Holiday"));
 				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
 			}
 			table.addCell(createValueCellLeft("Total"));
