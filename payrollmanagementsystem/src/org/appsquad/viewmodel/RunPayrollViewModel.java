@@ -528,6 +528,7 @@ public class RunPayrollViewModel {
 							}
 							if(earn.getComponentName().equalsIgnoreCase("HRA")){
 								
+								
 								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN") || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")){
 									//earn.setComponentAmount( DoubleFormattor.setDoubleFormat( bean.getWages()*0.15));
@@ -536,7 +537,9 @@ public class RunPayrollViewModel {
 									
 								}else{
 									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(bean.getBasic()*0.05) );
-								}	
+								}
+								
+								
 							}
 							
 							if(earn.getComponentName().equalsIgnoreCase("CONVEYANCE")){
@@ -545,9 +548,9 @@ public class RunPayrollViewModel {
 								
 							}
 							if(earn.getComponentName().equalsIgnoreCase("WASHING")){
-								System.out.println("inside Wash " + bean.getPresentDay());
+								
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
-								System.out.println("earn.get wash " + earn.getComponentAmount());
+								
 							}
 							if(bean.getSpecialTime() != null){
 								if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
@@ -557,8 +560,10 @@ public class RunPayrollViewModel {
 								}
 								}
 							
-							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
-						                              || bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") || bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") 
+							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
+													  || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
+						                              || bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") 
+						                              || bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") 
 						                              || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")
 						                              || bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") 
 						                              ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
@@ -613,7 +618,7 @@ public class RunPayrollViewModel {
 									
 						}	
 							grossTotal = grossTotal+bean.otSalary;
-							System.out.println("GROSS TOT -----------------------------------------------------------------------------------------------  ->>> >> > " + grossTotal);
+							
 							for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 
 								if(deduct.getComponentName().equalsIgnoreCase("PF")){
@@ -630,20 +635,14 @@ public class RunPayrollViewModel {
 									if(grossTotal <= 15000.00){
 										grossTotal = DoubleFormattor.setDoubleFormat(grossTotal);
 										for(EmployeeSalaryComponentAmountBean escb: earningList){
-											
-											System.out.println("ECAB >>> >> > " + escb.getComponentName());
-											
 											//if(escb.getComponentName().equalsIgnoreCase("WASHING")){
 												if(escb.getComponentName().contains("WASHING")){
 												
-												System.out
-														.println("GROSS TOT W " + grossTotal);
 												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount()) ));
 												break;
 												
 											}else{
-												System.out
-												.println("GROSS TOT W w " + grossTotal);
+												
 												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, 0.0) ) );
 											}
 										}
