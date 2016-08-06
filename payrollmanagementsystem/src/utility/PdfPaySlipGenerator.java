@@ -347,6 +347,7 @@ public class PdfPaySlipGenerator {
 				}
 			}else{
 				///*********IF OTSHEET ************/
+				System.out.println("/********** OT SHEET PRINTING *********/");
 				for(RunPayRollBean rollBean : otSheetList){
 					totPresnt += rollBean.getPresentDay();
 					earnSize += rollBean.getEarningCompList().size();
@@ -365,6 +366,7 @@ public class PdfPaySlipGenerator {
 						}
 						totSalTot += earnBean.getComponentAmount();
 					}
+					System.out.println("Total sal: "+totSalTot);
 					String deductName = null;
 					for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
 						deductName = deductBean.getComponentName();
@@ -376,7 +378,7 @@ public class PdfPaySlipGenerator {
 							}
 							totDed += deductBean.getComponentAmount();
 					}
-					
+					System.out.println("Total ded: "+totSalTot);
 				//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
 				//	deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
 					for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
@@ -396,6 +398,7 @@ public class PdfPaySlipGenerator {
 						}
 					}
 					totNetSal += (totSalTot - totDed);
+					System.out.println("Total net sal: "+totSalTot);
 				}
 			}
 			
