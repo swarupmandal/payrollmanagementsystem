@@ -107,7 +107,7 @@ public class RunPayRollDao {
 								
 								bean.setEmpcount(i);
 								bean.setEmpId(resultSet.getInt("employee_id"));
-								bean.setComponentAmountBeanList(loadComponentAmountDetails(bean.getEmpId(), bean));
+								bean.setComponentAmountBeanList(loadComponentAmountDetails(connection,bean.getEmpId(), bean));
 								bean.setEmpCode(resultSet.getString("employee_code"));
 								bean.setEmpName(resultSet.getString("employee_name"));
 								bean.setEmpPf(resultSet.getString("pf_number"));
@@ -143,7 +143,7 @@ public class RunPayRollDao {
 	}
 	
 	
-	public static ArrayList<EmployeeSalaryComponentAmountBean> loadComponentAmountDetails(int empid, RunPayRollBean salBean){
+	public static ArrayList<EmployeeSalaryComponentAmountBean> loadComponentAmountDetails(Connection connection ,int empid, RunPayRollBean salBean){
 		
 		ArrayList<EmployeeSalaryComponentAmountBean> list = new ArrayList<EmployeeSalaryComponentAmountBean>();
 		if(list.size()>0){
@@ -153,7 +153,7 @@ public class RunPayRollDao {
 		double deductions = 0;
 		double netSal = 0;
 		
-		Connection connection = DbConnection.createConnection();
+		//Connection connection = DbConnection.createConnection();
 			try {
 				
 				SQL:{
@@ -190,7 +190,7 @@ public class RunPayRollDao {
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
-			}finally{
+			}finally{/*
 				if(connection != null){
 					try {
 						connection.close();
@@ -199,7 +199,7 @@ public class RunPayRollDao {
 						e.printStackTrace();
 					}
 				}
-			}
+			*/}
 			
 		
 		return list;

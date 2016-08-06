@@ -69,7 +69,7 @@ public class EmployeeMasterSql {
 	public static final String insertComponentsPerEmpQuery = "INSERT INTO pms_employee_salary_components(employee_id, component_id, component_name, component_type_id, company_id, unit_id, created_by, updatetd_by,component_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?) ";
 	
 
-	public  static final String loadSavedEmployeeQuery = "SELECT * FROM vw_employee_information ";
+	public  static final String loadSavedEmployeeQuery = "SELECT * FROM vw_employee_information where is_delete = 'N' ";
 	
 	public  static final String loadSavedEmployeeFromCompanyQuery = "SELECT * FROM vw_employee_company_data where company_id = ? and unit_id = ?";
 	
@@ -105,5 +105,7 @@ public class EmployeeMasterSql {
 
 	
 	public static final String loadUnitDesignationQuery = "SELECT DISTINCT id, designation from vw_unit_designation where company_id = ? and unit_id = ? ";
+	
+	public static final String empInactiveQuery = "UPDATE pms_employee_master SET is_delete='Y' WHERE employee_id = ? ";
 	
 }

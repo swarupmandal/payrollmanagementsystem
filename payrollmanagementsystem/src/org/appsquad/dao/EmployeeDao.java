@@ -1236,6 +1236,11 @@ public class EmployeeDao {
 			if(connection != null){
 				connection.close();
 			}
+			e.printStackTrace();
+			if(e.getMessage().contains("duplicate")){
+			Messagebox.show("Already Exists ", "ERROR", Messagebox.OK, Messagebox.ERROR);
+			}
+			
 		}
 		
 	} catch (Exception e) {

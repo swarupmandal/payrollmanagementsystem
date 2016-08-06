@@ -18,7 +18,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		
   		<vbox>
 	     <label value="Select Company Name"></label>
-	     <combobox  width="130px" model="@bind(vm.companyBeanList)" value="@bind(vm.companyMasterBean.companyName)"
+	     <combobox  width="200px" model="@bind(vm.companyBeanList)" value="@bind(vm.companyMasterBean.companyName)"
 				   onSelect="@command('onSelectCompany')"
 					selectedItem="@bind(vm.companyMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -29,7 +29,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		
 		<vbox>
 		 <label value="Select Unit"></label>
-		 <combobox  width="130px" model="@bind(vm.unitMasterBeanList)" value="@bind(vm.unitMasterBean.unitName)"
+		 <combobox  width="200px" model="@bind(vm.unitMasterBeanList)" value="@bind(vm.unitMasterBean.unitName)"
 				   onSelect="@command('onSelectUnit')"
 					selectedItem="@bind(vm.unitMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -79,7 +79,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   <label value="Employee Salary Components"></label>
   <div>
   	
-  	<grid width="100%" mold="paging" height="250px" pageSize="5" 
+  	<grid width="100%" mold="paging" height="320px" pageSize="5" 
   	model="@bind(vm.pdfBeanList)">	
   		<auxhead>
   			<auxheader colspan="2">
@@ -90,10 +90,10 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   			
   			
   		</auxhead>
-  		<columns>
-  			<column label="Check" width="58px"/>
+  		<columns sizable="true">
+  			<column label="Chk" width="40px"/>
   			<column label="Sl no" width="50px"></column>
-  			<column label="Emp Code" width="120px"></column>
+  			<column label="Emp Code" width="80px"></column>
   			<column label="Emp Name" width="180px"></column>
   			<column label="Designation" width="180px"></column>
   			<column label="Pf Number" width="180px" visible="false"></column>
@@ -102,7 +102,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   			
   			<column label="Components" width="500px" visible="false"></column>
   			<column label="Total Salary" width="100px"></column>
-  			<column label="Total Deduction" width="120px"></column>
+  			<column label="Tot Deduct" width="120px"></column>
   			<column label="Net Salary" width="100px"></column>
   			<column label="Details" width="150px"></column>
   			
@@ -144,11 +144,11 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   		      
   		      <textbox width="99%" value="@bind(v.totalSalary)"></textbox>
   		      <textbox width="99%" value="@bind(v.totalDeduction)"></textbox>
-  		      <textbox width="99%" value="@bind(v.netSalary)"></textbox>
+  		      <textbox width="90%" value="@bind(v.netSalary)"></textbox>
   		      
   		      
   		      <label style="cursor: pointer; cursor: hand; width:80px; " 
-  		      value="Details" sclass="bb_button" width="85%" onClick="@command('onClickAdjment', bean=v)"></label>
+  		      value="Details" sclass="bb_button" width="70px" onClick="@command('onClickAdjment', bean=v)"></label>
   		        	
   			</row>
   			</template>
@@ -157,7 +157,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   
   	</grid>
   </div>
-  
+  <div height="5px"></div>
   <div align="center">
   <button label="Generate salary slip" onClick="@command('onclickConfirm')" 
   style="cursor: pointer; cursor: hand; " 
@@ -172,23 +172,23 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   	<space/>
   	<space/>
   		<grid mold="paging" pageSize="5" model="@bind(vm.runPayRollBeanList)"
-  		visible="@bind(vm.salaryAdjustmentVisibility)" height="270px">
+  		visible="@bind(vm.salaryAdjustmentVisibility)" height="300px">
   			<columns sizable="true">
-  				<column label="Emp Code" align="center"/>
+  				<column label="Emp Code" align="center" width="80px"/>
   				<column label="Emp Name" align="center" width="150px"/>
   				<column label="Present" align="center"/>
   				<column label="Over Time" align="center"/>
-  				<column label="Special work" align="center"/>
-  				<column label="Holiday Amount" align="center" width="130px"/>
+  				<column label="Spcl work" align="center"/>
+  				<column label="Holiday Amt" align="center" width="110px"/>
   				<column label="Salary Total" align="center"/>
-  				<column label="Deduction" align="center"/>
+  				<column label="Deduct" align="center"/>
   				<column label="Net Salary" align="left"/>
   				<!-- <column align="left"></column> -->
   			</columns>
   			<rows>
   				<template name="model" var="v">
 	  				<row>
-	  					<textbox value="@bind(v.empCode)" readonly="true"/>
+	  					<textbox value="@bind(v.empCode)" readonly="true" width="75%"/>      
 	  					<textbox value="@bind(v.empName)"  readonly="true"/>
 	  					<textbox value="@bind(v.presentDay)" onChange="@command('onChangePresentDays',bean = v)"/>
 	  					<textbox value="@bind(v.otHoursF)" />
@@ -196,13 +196,14 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  					<textbox value="@bind(v.holiDayAmount)"/>
 	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
-	  					<textbox value="@bind(v.netSalary)" readonly="true"/>
+	  					<textbox value="@bind(v.netSalary)" readonly="true" width="75%"/>
 	  					<!-- <button label="Save" onClick="@command('onClcikOtandLeaveSave', bean = v)"></button> -->
 	  				</row>
   				</template>
   			</rows>
   		</grid>
   		<div align="center">
+  		<div height="5px"></div>
   			<vbox>
   				<button label="Calculate" onClick="@command('onClickCalculate')" sclass="bb_button"  
   				style="cursor: pointer; cursor: hand;" visible="@bind(vm.calculateButtonVisibility)" />
