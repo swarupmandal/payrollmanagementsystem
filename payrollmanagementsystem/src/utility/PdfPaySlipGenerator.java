@@ -269,7 +269,7 @@ public class PdfPaySlipGenerator {
 			double hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;boolean otSheet = false;
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
-			
+			double otSheetTotSal =0.0,otSheetTotDed =0.0,otSheetNetSal =0.0;
 			for(RunPayRollBean payRollBean : runPayRollBeanList){
 				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && payRollBean.getOtSalary() > 0.0 && payRollBean.getOtHoursF() > 0.0){
 					otSheet = true;
@@ -282,7 +282,16 @@ public class PdfPaySlipGenerator {
 							 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
 							 earn.setComponentAmount(allowance);
 						 }
+						 otSheetTotSal +=  earn.getComponentAmount();
 					 }
+					 
+					 for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
+						 otSheetTotDed += ded.getComponentAmount();
+					 }
+					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
+					 payRollBean.setTotalSalary(otSheetTotSal);
+					 payRollBean.setTotalDeduction(otSheetTotDed);
+					 payRollBean.setNetSalary(otSheetNetSal);
 					 otSheetList.add(payRollBean);
 				}
 			}
@@ -364,9 +373,19 @@ public class PdfPaySlipGenerator {
 								earnMap.put(earnName, earnBean.getComponentAmount());
 							}
 						}
-						totSalTot += earnBean.getComponentAmount();
 					}
-					System.out.println("Total sal: "+totSalTot);
+					
+					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList() ){
+						System.out.println("*****"+earnBean.toString());
+						totSalTot += earnBean.getComponentAmount();
+						System.out.println("TOTAL SAL CALCULATING FOR OTSHEET :: "+totSalTot);
+					}
+					for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList() ){
+						System.out.println("*****"+deductBean.toString());
+						totDed += deductBean.getComponentAmount();
+						System.out.println("TOTAL DEDUCT CALCULATING FOR OTSHEET :: "+totDed);
+					}
+					
 					String deductName = null;
 					for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
 						deductName = deductBean.getComponentName();
@@ -376,9 +395,8 @@ public class PdfPaySlipGenerator {
 							}else{
 								deductMap.put(deductName, deductBean.getComponentAmount());
 							}
-							totDed += deductBean.getComponentAmount();
 					}
-					System.out.println("Total ded: "+totSalTot);
+					
 				//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
 				//	deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
 					for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
@@ -397,8 +415,7 @@ public class PdfPaySlipGenerator {
 							totBasic += basic.getComponentAmount();
 						}
 					}
-					totNetSal += (totSalTot - totDed);
-					System.out.println("Total net sal: "+totSalTot);
+					System.out.println("**NET SAL CALCULATING FOR OTSHEET :: ::"+(totSalTot-totDed));
 				}
 			}
 			
@@ -737,17 +754,17 @@ public class PdfPaySlipGenerator {
 				if(bean.otSalary>0.0){
 					System.out.println("- - Ot given - - -");
 					if(bean.getHoliDayAmount() > 0.0){
-						System.out.println("- - Ot given+holi - - -");
+						//System.out.println("- - Ot given+holi - - -");
 						table = new PdfPTable(earnList.size()+3);
 					}else{
-						System.out.println("- - Ot given only - - -");
+						//System.out.println("- - Ot given only - - -");
 						table = new PdfPTable(earnList.size()+2);
 					}
 				}else if(bean.getHoliDayAmount() > 0.0){
-					System.out.println("- - Holi given - - -");
+					//System.out.println("- - Holi given - - -");
 					table = new PdfPTable(earnList.size()+2);
 				}else{
-					System.out.println("- - neither Ot nor holi given - - -");
+					//System.out.println("- - neither Ot nor holi given - - -");
 					table = new PdfPTable(earnList.size()+1);
 				}
 				
