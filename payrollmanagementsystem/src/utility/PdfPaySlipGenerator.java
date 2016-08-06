@@ -271,7 +271,8 @@ public class PdfPaySlipGenerator {
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
 			double otSheetTotSal =0.0,otSheetTotDed =0.0,otSheetNetSal =0.0;
 			for(RunPayRollBean payRollBean : runPayRollBeanList){
-				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && payRollBean.getOtSalary() > 0.0 && payRollBean.getOtHoursF() > 0.0){
+				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && 
+						payRollBean.getOtSalary() > 0.0 && payRollBean.getOtHoursF() > 0.0){
 					otSheet = true;
 					 for(EmployeeSalaryComponentAmountBean earn: payRollBean.getEarningCompList()){
 						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
@@ -492,6 +493,7 @@ public class PdfPaySlipGenerator {
 			if(otSheet){
 				System.out.println("* * * * * OT SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : otSheetList){
+					System.out.println("------Tot sal -- - -"+runPayRollBean.getTotalSalary());
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
 				document.add(bottomTable);
