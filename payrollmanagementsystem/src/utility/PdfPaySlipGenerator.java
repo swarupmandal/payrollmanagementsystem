@@ -216,7 +216,7 @@ public class PdfPaySlipGenerator {
  	 	        				table.addCell(new Phrase(""));
  	 	        				table.setSpacingBefore(35f);
  	 	        				table.setSpacingAfter(35f);
- 	 		      	           // document.add(table);
+ 	 		      	            document.add(table);
  	 	        				i++;
  	        			//   }
  	        			   /*if(i>4)	{
@@ -243,7 +243,7 @@ public class PdfPaySlipGenerator {
  	        		// table.setSpacingBefore(30f);
  	        		
  	        	   
- 	        	 document.add(table);
+ 	        //	 document.add(table);
  	        	  /*table.setSpacingBefore(35f);*/
  	        //   }
  	           /*table.setWidthPercentage(100);*/
@@ -635,11 +635,37 @@ public class PdfPaySlipGenerator {
 				}
 			}*/
 			earnList = bean.getEarningCompList();
-			PdfPTable table;
+			PdfPTable table;boolean otGiven = false,holiGiven =false,bothGiven =false,bothNotGiven = false;
 			if(earnList.size()>0){
+				
+				if(bean.getOtSalary() > 0.0 && bean.getHoliDayAmount() == 0.0){
+					otGiven = true;holiGiven =false;bothGiven =false;bothNotGiven = false;
+				}
+				if(bean.getOtSalary() == 0.0 && bean.getHoliDayAmount() > 0.0){
+					holiGiven = true;otGiven =false;bothGiven =false;bothNotGiven = false;
+				}
+				if(bean.getOtSalary() > 0.0 && bean.getHoliDayAmount() > 0.0){
+					bothGiven = true;holiGiven =false;otGiven =false;bothNotGiven = false;
+				}
+				if(bean.getOtSalary() == 0.0 && bean.getHoliDayAmount() == 0.0){
+					bothNotGiven = true;holiGiven =false;otGiven =false;bothGiven = false;
+				}
+				
+				System.out.println("Only ot :: "+otGiven+" Only holi ::"+holiGiven+" Both ::"+bothGiven+" Both not ::"+bothNotGiven);
 				if(bean.otSalary>0.0){
+					System.out.println("- - Ot given - - -");
+					if(bean.getHoliDayAmount() > 0.0){
+						System.out.println("- - Ot given+holi - - -");
+						table = new PdfPTable(earnList.size()+3);
+					}else{
+						System.out.println("- - Ot given only - - -");
+						table = new PdfPTable(earnList.size()+2);
+					}
+				}else if(bean.getHoliDayAmount() > 0.0){
+					System.out.println("- - Holi given - - -");
 					table = new PdfPTable(earnList.size()+2);
 				}else{
+					System.out.println("- - neither Ot nor holi given - - -");
 					table = new PdfPTable(earnList.size()+1);
 				}
 				
@@ -647,27 +673,119 @@ public class PdfPaySlipGenerator {
 					table.addCell(createLabelCell(empAllowance.getComponentName()));
 				}
 				
-				if(bean.getOtSalary()>0.0){
+				//if only ot given
+				if(otGiven){
 					table.addCell(createLabelCell("EX.DUTY"));
 					table.addCell(createLabelCell("Salary Total"));
+				}
+				if(holiGiven){
+					table.addCell(createLabelCell("HOLIDAY"));
+					table.addCell(createLabelCell("Salary Total"));
+				}
+				if(bothGiven){
+					table.addCell(createLabelCell("HOLIDAY"));
+					table.addCell(createLabelCell("EX.DUTY"));
+					table.addCell(createLabelCell("Salary Total"));
+				}
+				if(bothNotGiven){
+					table.addCell(createLabelCell("Salary Total"));
+				}
+				/***************** create cell when ot given and holiday given or not given *****************************//*
+				if(otGiven){
+					if(bean.getHoliDayAmount() > 0.0){
+						table.addCell(createLabelCell("HOLIDAY"));
+						table.addCell(createLabelCell("EX.DUTY"));
+						table.addCell(createLabelCell("Salary Total"));
+					}else{
+						table.addCell(createLabelCell("EX.DUTY"));
+						table.addCell(createLabelCell("Salary Total"));
+					}
 				}else{
 					table.addCell(createLabelCell("Salary Total"));
 				}
+				*//***************** create cell when holiday given and ot given or not given *****************************//*
+				if(bean.getHoliDayAmount() > 0.0){
+					if(bean.getOtSalary() > 0.0){
+						table.addCell(createLabelCell("HOLIDAY"));
+						table.addCell(createLabelCell("EX.DUTY"));
+						table.addCell(createLabelCell("Salary Total"));
+					}else{
+						table.addCell(createLabelCell("HOLIDAY"));
+						table.addCell(createLabelCell("Salary Total"));
+					}
+				}else{
+					table.addCell(createLabelCell("Salary Total"));
+				}*/
 				
 				Double total = 0.0;
 				for(EmployeeSalaryComponentAmountBean empAllowance : earnList){	
 					table.addCell(createValueCell( String.valueOf( DoubleFormattor.setDoubleFormat(empAllowance.getComponentAmount()) ) ));
 					total += empAllowance.getComponentAmount();
 				}
-				if(bean.getOtSalary()>0.0){
+				
+				if(otGiven){
 					double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
 					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
 					table.addCell(createValueCell(  String.valueOf(otSal)));
 					table.addCell(createValueCellBold(String.valueOf(totSal)));
+				}
+				if(holiGiven){
+					double holiSal = DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount());
+					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+					table.addCell(createValueCell(  String.valueOf(holiSal)));
+					table.addCell(createValueCellBold(String.valueOf(totSal)));
+				}
+				if(bothGiven){
+					double holiSal = DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount());
+					double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
+					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+					table.addCell(createValueCell(  String.valueOf(holiSal)));
+					table.addCell(createValueCell(  String.valueOf(otSal)));
+					table.addCell(createValueCellBold(String.valueOf(totSal)));
+				}
+				if(bothNotGiven){
+					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+					table.addCell(createValueCellBold(String.valueOf(totSal)));
+				}
+				/******************* Create value cell if otgiven and holi not sure **********************************************/
+				/*if(bean.getOtSalary() > 0.0){
+					if(bean.getHoliDayAmount() > 0.0){
+						double holiSal = DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount());
+						double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
+						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+						table.addCell(createValueCell(  String.valueOf(holiSal)));
+						table.addCell(createValueCell(  String.valueOf(otSal)));
+						table.addCell(createValueCellBold(String.valueOf(totSal)));
+					}else{
+						double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
+						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+						table.addCell(createValueCell(  String.valueOf(otSal)));
+						table.addCell(createValueCellBold(String.valueOf(totSal)));
+					}
 				}else{
 					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
 					table.addCell(createValueCellBold(String.valueOf(totSal)));
 				}
+				
+				*//******************* Create value cell if holi given and ot not sure **********************************************//*
+				if(bean.getHoliDayAmount() > 0.0){
+					if(bean.getOtSalary() > 0.0){
+						double holiSal = DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount());
+						double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
+						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+						table.addCell(createValueCell(  String.valueOf(holiSal)));
+						table.addCell(createValueCell(  String.valueOf(otSal)));
+						table.addCell(createValueCellBold(String.valueOf(totSal)));
+					}else{
+						double holiSal = DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount());
+						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+						table.addCell(createValueCell(  String.valueOf(holiSal)));
+						table.addCell(createValueCellBold(String.valueOf(totSal)));
+					}
+				}else{
+					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+					table.addCell(createValueCellBold(String.valueOf(totSal)));
+				}*/
 				
 				//table.setWidthPercentage(60);
 				table.setTotalWidth(100f);
@@ -1168,8 +1286,8 @@ public class PdfPaySlipGenerator {
 					+" month: "+bean.getMonthName()+" year: "+bean.getYear());
 			 HeaderTable event = new HeaderTable(bean);
 
-			document = new Document(PageSize.LEGAL.rotate(),65f,5f,5f,5f);
-			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+			//document = new Document(PageSize.LEGAL.rotate(),65f,5f,5f,5f);
+			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			
 			// HeaderTable event = new HeaderTable(document,bean);
 
