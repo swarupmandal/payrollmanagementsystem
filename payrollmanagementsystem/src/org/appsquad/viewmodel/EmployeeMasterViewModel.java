@@ -117,7 +117,7 @@ public class EmployeeMasterViewModel {
 	
 	
 	/*
-	 * @author: Swarup Mondol
+	 * @author: Swarup Mandal
 	 * @Functionality:
 	 * @Return:
 	 */
@@ -325,6 +325,15 @@ public class EmployeeMasterViewModel {
 		
 		componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId(),unitDesignationBean.getUnitDesignationId() );
 	
+	}
+	
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickInActive(@BindingParam("bean")EmployeeMasterBean bean){
+		
+		
+		
 	}
 	
 	

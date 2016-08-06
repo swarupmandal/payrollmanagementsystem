@@ -1161,11 +1161,18 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean	) throws Exception, DocumentException{
 			filePath = path+"salarysheet.pdf";
 			System.out.println("My file path :: "+filePath);
+
 			//document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			System.out.println("On getSheetDetails comp ::"+bean.getComapnyName()+" unit : "+bean.getUnitName()+" desg: "+bean.getUnitDesignation()
 					+" month: "+bean.getMonthName()+" year: "+bean.getYear());
 			 HeaderTable event = new HeaderTable(bean);
+
+			document = new Document(PageSize.LEGAL.rotate(),65f,5f,5f,5f);
+			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+			
+			// HeaderTable event = new HeaderTable(document,bean);
+
 		        // step 1
 		      document = new Document(PageSize.LEGAL.rotate(), 65f,5f, 25f + event.getTableHeight(), 5f);
 		        // step 2
@@ -1434,7 +1441,7 @@ public class PdfPaySlipGenerator {
 			table.setWidthPercentage(100);
 			PdfPCell cell;Font font ;
 			font = new Font(Font.getFamily("HELVETICA"), 14, Font.BOLD);
-			cell = new PdfPCell(new Phrase("Allowance",font));
+			cell = new PdfPCell(new Phrase("Components",font));
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
 			

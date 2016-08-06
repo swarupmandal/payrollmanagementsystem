@@ -524,22 +524,30 @@ public class RunPayrollViewModel {
 							if(earn.getComponentName().equalsIgnoreCase("BASIC")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())) );
 								bean.setBasic(earn.getComponentAmount());
+								
 							}
 							if(earn.getComponentName().equalsIgnoreCase("HRA")){
 								
-								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
-										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
-									earn.setComponentAmount( DoubleFormattor.setDoubleFormat( bean.getWages()*0.15) );
+								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
+										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN") || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")){
+									//earn.setComponentAmount( DoubleFormattor.setDoubleFormat( bean.getWages()*0.15));
+									
+									earn.setComponentAmount(DoubleFormattor.setDoubleFormat(bean.getBasic()*0.15));
+									
 								}else{
-									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(bean.getWages()*0.05) );
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(bean.getBasic()*0.05) );
 								}	
 							}
 							
-							if(earn.getComponentName().equalsIgnoreCase("CONVEYENCE")){
+							if(earn.getComponentName().equalsIgnoreCase("CONVEYANCE")){
+								
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(20*bean.getPresentDay()) );
+								
 							}
-							if(earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES")){
+							if(earn.getComponentName().equalsIgnoreCase("WASHING")){
+								System.out.println("inside Wash " + bean.getPresentDay());
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
+								System.out.println("earn.get wash " + earn.getComponentAmount());
 							}
 							if(bean.getSpecialTime() != null){
 								if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
@@ -549,10 +557,12 @@ public class RunPayrollViewModel {
 								}
 								}
 							
-							if(!bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || !bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") || !bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
-						                              || !bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") || !bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER")
-						                              || !bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
-								if(earn.getComponentName().equalsIgnoreCase("ALLOWANCES")){
+							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
+						                              || bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") || bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") 
+						                              || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")
+						                              || bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") 
+						                              ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
+								if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(50*bean.getPresentDay()) );
 								}
 							}
@@ -931,6 +941,9 @@ public class RunPayrollViewModel {
 		
 		
 	}
+	
+	
+	
 	
 	
 	
