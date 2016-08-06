@@ -285,11 +285,12 @@ public class PdfPaySlipGenerator {
 						 otSheetTotSal +=  earn.getComponentAmount();
 					 }
 					 otSheetTotSal += payRollBean.getOtSalary();
-					// for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
-						// System.out.println(ded.toString());
-					//	 otSheetTotDed += ded.getComponentAmount();
-					// }
-						 otSheetTotDed = Rules.getEsi(otSheetTotSal, 0.0);
+					 otSheetTotDed = Rules.getEsi(otSheetTotSal, 0.0);
+					 for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
+						 System.out.println("**************** Deduction list"+ded.toString());
+						
+					 }
+						 
 					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
 					 payRollBean.setTotalSalary(otSheetTotSal);
 					 payRollBean.setTotalDeduction(otSheetTotDed);
@@ -363,7 +364,9 @@ public class PdfPaySlipGenerator {
 					totPresnt += rollBean.getPresentDay();
 					earnSize += rollBean.getEarningCompList().size();
 					dedSize += rollBean.getDeductionCompList().size();
-					
+					totSalTot += rollBean.getTotalSalary();
+					totNetSal += rollBean.getNetSalary();
+					totDed += rollBean.getTotalDeduction();
 					String earnName = null;
 					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
 						if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
@@ -377,16 +380,6 @@ public class PdfPaySlipGenerator {
 						}
 					}
 					
-					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList() ){
-						System.out.println("*****"+earnBean.toString());
-						totSalTot += earnBean.getComponentAmount();
-						System.out.println("TOTAL SAL CALCULATING FOR OTSHEET :: "+totSalTot);
-					}
-					for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList() ){
-						System.out.println("*****"+deductBean.toString());
-						totDed += deductBean.getComponentAmount();
-						System.out.println("TOTAL DEDUCT CALCULATING FOR OTSHEET :: "+totDed);
-					}
 					
 					String deductName = null;
 					for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
