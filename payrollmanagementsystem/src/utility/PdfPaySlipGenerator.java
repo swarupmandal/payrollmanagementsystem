@@ -2,30 +2,22 @@ package utility;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
-import org.appsquad.pdfhandler.BorderEvent;
 import org.appsquad.pdfhandler.DownloadPdf;
 import org.appsquad.pdfhandler.HeaderTable;
 import org.appsquad.pdfhandler.Rotate;
 import org.appsquad.pdfhandler.RoundRectangle;
 import org.appsquad.research.DoubleFormattor;
-import org.zkoss.zul.impl.Padding;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -36,15 +28,12 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.TabStop.Alignment;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfNumber;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPage;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfCell;
 
 
 
@@ -274,7 +263,9 @@ public class PdfPaySlipGenerator {
 		
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
-			document.add(createTableForLogo(document, bean));
+		//	document.add(createTableForLogo(document, bean));
+			System.out.println("DOCUMENT >>> "+document.toString()
+					);
 			System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			double totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;
@@ -403,19 +394,23 @@ public class PdfPaySlipGenerator {
 			bottomTable.setWidthPercentage(100f);
 			int count=0;
 			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
-				if(runPayRollBean.isChecked()){
-					document.add(createTableForSheet(document, runPayRollBean));
-					count++;
-				}else{
-					document.add(createTableForSheet(document, runPayRollBean));
-				}
+					
+					/*if(count>2){
+						document.newPage();
+						document.add(createTableForSheet(document, runPayRollBean));
+					}else{
+						document.add(createTableForSheet(document, runPayRollBean));
+					}
+					count++;*/
+				
+				document.add(createTableForSheet(document, runPayRollBean));
 			}
 			document.add(bottomTable);
 		}
 		
 		public static PdfPTable createTableForSheet(Document document, RunPayRollBean bean) throws Exception{
 		//	PdfPTable table = new PdfPTable(4);
-			float[] columnWidths = {70, 42,225, 75,70};
+			float[] columnWidths = {80, 42,225, 75,70};
 	        PdfPTable table = new PdfPTable(columnWidths);
 	        table.setHorizontalAlignment(Element.ALIGN_LEFT);
 	        table.addCell(createLabelCell(""));
@@ -668,10 +663,10 @@ public class PdfPaySlipGenerator {
 					double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
 					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
 					table.addCell(createValueCell(  String.valueOf(otSal)));
-					table.addCell(createValueCell(String.valueOf(totSal)));
+					table.addCell(createValueCellBold(String.valueOf(totSal)));
 				}else{
 					double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
-					table.addCell(createValueCell(String.valueOf(totSal)));
+					table.addCell(createValueCellBold(String.valueOf(totSal)));
 				}
 				
 				//table.setWidthPercentage(60);
@@ -704,13 +699,13 @@ public class PdfPaySlipGenerator {
 				for(EmployeeSalaryComponentAmountBean deduct : bean.getDeductionCompList()){
 					deducTable.addCell( createValueCell(String.valueOf( DoubleFormattor.setDoubleFormat(deduct.getComponentAmount())) ) );
 				}
-				deducTable.addCell(createValueCell( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalDeduction()))));
+				deducTable.addCell(createValueCellBold( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalDeduction()))));
 				deducTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 				
 				PdfPTable netsalTable = new PdfPTable(2);
 				PdfPCell cell;Font font;
 				
-				font = new Font(Font.getFamily("HELVETICA"), 7, Font.BOLD);
+				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				cell = new PdfPCell(new Phrase("NET SALARY : ",font));
 				cell.setHorizontalAlignment(Element.ALIGN_TOP);
 				cell.setBorder(Rectangle.NO_BORDER);
@@ -735,12 +730,12 @@ public class PdfPaySlipGenerator {
 				PdfPTable deducTable = new PdfPTable(1);
 				
 				deducTable.addCell(createLabelCell("TOT. DED."));
-				deducTable.addCell(createValueCell("0.00") );
+				deducTable.addCell(createValueCellBold("0.00") );
 				deducTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 				
 				PdfPTable netsalTable = new PdfPTable(2);
 				PdfPCell cell;Font font;
-				font = new Font(Font.getFamily("HELVETICA"), 7, Font.BOLD);
+				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				cell = new PdfPCell(new Phrase("NET SALARY : ",font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				cell.setHorizontalAlignment(Element.ALIGN_TOP);
@@ -1166,15 +1161,16 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean	) throws Exception, DocumentException{
 			filePath = path+"salarysheet.pdf";
 			System.out.println("My file path :: "+filePath);
-			document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
-			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-			
-			// HeaderTable event = new HeaderTable(document,bean);
+			//document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
+			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+			System.out.println("On getSheetDetails comp ::"+bean.getComapnyName()+" unit : "+bean.getUnitName()+" desg: "+bean.getUnitDesignation()
+					+" month: "+bean.getMonthName()+" year: "+bean.getYear());
+			 HeaderTable event = new HeaderTable(bean);
 		        // step 1
-		   //  Document document = new Document(PageSize.LEGAL.rotate(), 35f,5f, 5f + event.getTableHeight(), 5f);
+		      document = new Document(PageSize.LEGAL.rotate(), 65f,5f, 25f + event.getTableHeight(), 5f);
 		        // step 2
-		 //   PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-		  //      writer.setPageEvent(event);
+		    PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+		        writer.setPageEvent(event);
 		     // step 3
 			
 			document.open();

@@ -303,8 +303,22 @@ public class RunPayrollViewModel {
 		pdfSheetBean.setYear(String.valueOf(year));
 		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
-		System.out.println("Tot sal ::"+pdfSheetBean.getTotalSalary()+" Tot net : "+pdfSheetBean.getNetSalary());
-	    paySlipGenerator.getSheetDetails(pdfPath, pdfBeanList, pdfSheetBean);
+		System.out.println("On clikk sheet comp ::"+pdfSheetBean.getComapnyName()+" unit : "+pdfSheetBean.getUnitName()+" desg: "+pdfSheetBean.getUnitDesignation()
+				+" month: "+pdfSheetBean.getMonthName()+" year: "+pdfSheetBean.getYear());
+	    ArrayList<RunPayRollBean> selectedEmployeeList = new ArrayList<RunPayRollBean>();
+	    boolean isChecked =  false;
+	    for(RunPayRollBean payRollBean : pdfBeanList){
+	    	if(payRollBean.isChecked()){
+	    		selectedEmployeeList.add(payRollBean);
+	    		isChecked = true;
+	    	}
+	    }
+		if(isChecked){
+			paySlipGenerator.getSheetDetails(pdfPath, selectedEmployeeList, pdfSheetBean);
+		}else{
+			Messagebox.show("Please check at least one!","Alert Information",Messagebox.OK,Messagebox.EXCLAMATION);
+		}
+		
 
 	}
 	
