@@ -303,9 +303,7 @@ public class RunPayrollViewModel {
 		pdfSheetBean.setYear(String.valueOf(year));
 		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
-		System.out.println("On clikk sheet comp ::"+pdfSheetBean.getComapnyName()+" unit : "+pdfSheetBean.getUnitName()+" desg: "+pdfSheetBean.getUnitDesignation()
-				+" month: "+pdfSheetBean.getMonthName()+" year: "+pdfSheetBean.getYear());
-	    ArrayList<RunPayRollBean> selectedEmployeeList = new ArrayList<RunPayRollBean>();
+		ArrayList<RunPayRollBean> selectedEmployeeList = new ArrayList<RunPayRollBean>();
 	    boolean isChecked =  false;
 	    for(RunPayRollBean payRollBean : pdfBeanList){
 	    	if(payRollBean.isChecked()){
@@ -353,6 +351,10 @@ public class RunPayrollViewModel {
 		prevButtonVisibility = true;
 		calculateButtonVisibility = false;
 		upperComponentVisibility = false;
+		for(RunPayRollBean pdfSheetBean : pdfBeanList){
+			System.out.println("Clik generate sheet Prest day : "+pdfSheetBean.getPresentDay()+" bean.getBasic():"+pdfSheetBean.getBasic()+
+					" bean.getOtSalary(): "+pdfSheetBean.getOtSalary()+" bean.getOtHoursF()::"+pdfSheetBean.getOtHoursF());
+		}
 		/*String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 		pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
 		pdfSheetBean.setUnitName(unitMasterBean.getUnitName());

@@ -265,7 +265,6 @@ public class PdfPaySlipGenerator {
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
 		//	document.add(createTableForLogo(document, bean));
-			System.out.println("DOCUMENT >>> "+document.toString());
 			System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			double hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;boolean otSheet = false;
@@ -1305,9 +1304,7 @@ public class PdfPaySlipGenerator {
 					" bean.getOtSalary(): "+bean.getOtSalary()+" bean.getOtHoursF()::"+bean.getOtHoursF());
 			//document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-			System.out.println("On getSheetDetails comp ::"+bean.getComapnyName()+" unit : "+bean.getUnitName()+" desg: "+bean.getUnitDesignation()
-					+" month: "+bean.getMonthName()+" year: "+bean.getYear());
-			 HeaderTable event = new HeaderTable(bean);
+			HeaderTable event = new HeaderTable(bean);
 
 			//document = new Document(PageSize.LEGAL.rotate(),65f,5f,5f,5f);
 			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
