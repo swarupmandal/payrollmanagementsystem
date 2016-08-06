@@ -603,6 +603,9 @@ public class RunPayrollViewModel {
 						
 						if(bean.getHoliDayAmount()>0){
 							bean.setBasic(bean.getBasic()+bean.getHoliDayAmount());
+							grossTotal = grossTotal+bean.getHoliDayAmount();
+							
+							System.out.println("hol + bas " + bean.getBasic());
 						}
 						
 						if(bean.getOtHoursF()!=null){
@@ -610,7 +613,7 @@ public class RunPayrollViewModel {
 									
 						}	
 							grossTotal = grossTotal+bean.otSalary;
-							
+							System.out.println("GROSS TOT -----------------------------------------------------------------------------------------------  ->>> >> > " + grossTotal);
 							for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 
 								if(deduct.getComponentName().equalsIgnoreCase("PF")){
@@ -622,13 +625,26 @@ public class RunPayrollViewModel {
 								}
 								
 								if(deduct.getComponentName().equalsIgnoreCase("ESI")){
+									
+									
 									if(grossTotal <= 15000.00){
 										grossTotal = DoubleFormattor.setDoubleFormat(grossTotal);
 										for(EmployeeSalaryComponentAmountBean escb: earningList){
-											if(escb.getComponentName().equalsIgnoreCase("WASHING")){
+											
+											System.out.println("ECAB >>> >> > " + escb.getComponentName());
+											
+											//if(escb.getComponentName().equalsIgnoreCase("WASHING")){
+												if(escb.getComponentName().contains("WASHING")){
+												
+												System.out
+														.println("GROSS TOT W " + grossTotal);
 												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount()) ));
+												break;
+												
 											}else{
-												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount()) ) );
+												System.out
+												.println("GROSS TOT W w " + grossTotal);
+												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, 0.0) ) );
 											}
 										}
 									}

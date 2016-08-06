@@ -1168,8 +1168,8 @@ public class PdfPaySlipGenerator {
 					+" month: "+bean.getMonthName()+" year: "+bean.getYear());
 			 HeaderTable event = new HeaderTable(bean);
 
-			document = new Document(PageSize.LEGAL.rotate(),65f,5f,5f,5f);
-			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+			//document = new Document(PageSize.LEGAL.rotate(),65f,5f,5f,5f);
+			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			
 			// HeaderTable event = new HeaderTable(document,bean);
 
