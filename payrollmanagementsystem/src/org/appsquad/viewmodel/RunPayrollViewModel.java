@@ -605,7 +605,7 @@ public class RunPayrollViewModel {
 							bean.setBasic(bean.getBasic()+bean.getHoliDayAmount());
 							grossTotal = grossTotal+bean.getHoliDayAmount();
 							
-							System.out.println("hol + bas " + bean.getBasic());
+							
 						}
 						
 						if(bean.getOtHoursF()!=null){
@@ -663,7 +663,7 @@ public class RunPayrollViewModel {
 						pdfBean.setEmpcount(slNo);
 						pdfBean.setPresentDay(bean.getPresentDay());
 						pdfBean.setWages(bean.getWages());
-						pdfBean.setBasic(bean.getBasic());
+						pdfBean.setBasic(bean.getBasic()-bean.getHoliDayAmount());
 						
 						pdfBean.setComapnyName(bean.getComapnyName());
 						pdfBean.setUnitName(bean.getUnitName());
