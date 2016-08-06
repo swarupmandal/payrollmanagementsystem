@@ -288,7 +288,9 @@ public class PdfPaySlipGenerator {
 					 otSheetTotDed = Rules.getEsi(otSheetTotSal, 0.0);
 					 for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
 						 System.out.println("**************** Deduction list"+ded.toString());
-						
+						 if(ded.getComponentName().equalsIgnoreCase("ESI")){
+							 ded.setComponentAmount(otSheetTotDed);
+						 }
 					 }
 						 
 					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
@@ -487,7 +489,7 @@ public class PdfPaySlipGenerator {
 			
 			/******  FOR OTSHEET *********/
 			if(otSheet){
-				System.out.println("* * * * * OT SHEET PRINTING * * * * * ");
+				System.out.println("* * * * * OT SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : otSheetList){
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
