@@ -266,7 +266,7 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean) throws Exception{
 		//	document.add(createTableForLogo(document, bean));
 			System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
-			double hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
+			double eamt=0.0, hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;boolean otSheet = false;
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
 			double otSheetTotSal =0.0,otSheetTotDed =0.0,otSheetNetSal =0.0;
@@ -282,9 +282,10 @@ public class PdfPaySlipGenerator {
 							 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
 							 earn.setComponentAmount(allowance);
 						 }
-						 otSheetTotSal +=  earn.getComponentAmount();
+						eamt +=  earn.getComponentAmount();
+						System.out.println("*********inside earnList Earn SAL:: "+otSheetTotSal);	 
 					 }
-					 otSheetTotSal += payRollBean.getOtSalary();
+					 otSheetTotSal = eamt + payRollBean.getOtSalary();
 					 otSheetTotDed = DoubleFormattor.setDoubleFormatEsi( Rules.getEsi(otSheetTotSal, 0.0) ) ;
 					 for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
 						 System.out.println("**************** Deduction list"+ded.toString());
@@ -292,7 +293,7 @@ public class PdfPaySlipGenerator {
 							 ded.setComponentAmount(otSheetTotDed);
 						 }
 					 }
-						 
+					System.out.println("*********TOTAL SAL:: "+otSheetTotSal);	 
 					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
 					 payRollBean.setTotalSalary(otSheetTotSal);
 					 payRollBean.setTotalDeduction(otSheetTotDed);
