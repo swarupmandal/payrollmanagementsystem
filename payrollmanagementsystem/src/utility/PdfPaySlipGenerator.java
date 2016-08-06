@@ -284,8 +284,9 @@ public class PdfPaySlipGenerator {
 						 }
 						 otSheetTotSal +=  earn.getComponentAmount();
 					 }
-					 
+					 otSheetTotSal += payRollBean.getOtSalary();
 					 for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
+						 System.out.println(ded.toString());
 						 otSheetTotDed += ded.getComponentAmount();
 					 }
 					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
