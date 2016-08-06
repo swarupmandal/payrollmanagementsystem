@@ -283,7 +283,7 @@ public class PdfPaySlipGenerator {
 							 earn.setComponentAmount(allowance);
 						 }
 						eamt +=  earn.getComponentAmount();
-						System.out.println("*********inside earnList Earn SAL:: "+otSheetTotSal);	 
+						System.out.println("*********inside earnList Earn SAL:: "+eamt);	 
 					 }
 					 otSheetTotSal = eamt + payRollBean.getOtSalary();
 					 otSheetTotDed = DoubleFormattor.setDoubleFormatEsi( Rules.getEsi(otSheetTotSal, 0.0) ) ;
