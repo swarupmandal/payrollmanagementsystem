@@ -671,6 +671,9 @@ public class RunPayrollViewModel {
 						pdfBean.setYear(bean.getYear());
 						pdfBean.setCurrentDate(currentDate);
 						
+						
+						pdfBean.setPresentDay(bean.getPresentDay());
+						System.out.println("pdf------------------------------------------------------------------------------------------>>> >> > " + pdfBean.getPresentDay());
 						pdfBean.setOtHoursF(bean.getOtHoursF());
 						pdfBean.setOtSalary(bean.getOtSalary());
 						
