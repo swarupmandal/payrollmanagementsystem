@@ -268,70 +268,138 @@ public class PdfPaySlipGenerator {
 			System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			double hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0;boolean otSheet = false;
-		
-			System.out.println("Prest day : "+bean.getPresentDay()+" bean.getBasic():"+bean.getBasic()+
-					" bean.getOtSalary(): "+bean.getOtSalary()+" bean.getOtHoursF()::"+bean.getOtHoursF());
-			if(bean.getPresentDay() == 0 && bean.getBasic() == 0.0 && bean.getOtSalary() > 0.0 && bean.getOtHoursF() > 0.0){
-				otSheet = true;
-				hra = Rules.getHraForOt(bean.getOtSalary());
-				allowance = Rules.getAllowanceForOt(bean.getOtHoursF());
+			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
+			
+			for(RunPayRollBean payRollBean : runPayRollBeanList){
+				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && payRollBean.getOtSalary() > 0.0 && payRollBean.getOtHoursF() > 0.0){
+					otSheet = true;
+					 for(EmployeeSalaryComponentAmountBean earn: payRollBean.getEarningCompList()){
+						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
+							 hra = Rules.getHraForOt(payRollBean.getOtSalary());
+							 earn.setComponentAmount(hra);
+						 }
+						 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
+							 earn.setComponentAmount(allowance);
+						 }
+					 }
+					 otSheetList.add(payRollBean);
+				}
 			}
+			
 		
 			LinkedHashSet<String> ernList = new LinkedHashSet<String>();
 			LinkedHashSet<String> dedctList = new LinkedHashSet<String>();
 			Map<String, Double> earnMap = new HashMap<String, Double>();
 			Map<String, Double> deductMap = new HashMap<String, Double>();
 			
-			for(RunPayRollBean rollBean : runPayRollBeanList){
-				totPresnt += rollBean.getPresentDay();
-				earnSize += rollBean.getEarningCompList().size();
-				dedSize += rollBean.getDeductionCompList().size();
-				totSalTot += rollBean.getTotalSalary();
-				totNetSal += rollBean.getNetSalary();
-				totDed += rollBean.getTotalDeduction();
-				
-				String earnName = null;
-				for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
-					if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
-						earnName = earnBean.getComponentName();
-						if(earnMap.containsKey(earnName)){
-							double earnAmount = earnMap.get(earnName);
-							earnMap.put(earnName, earnAmount + earnBean.getComponentAmount());
-						}else{
-							earnMap.put(earnName, earnBean.getComponentAmount());
+			if(!otSheet){
+				for(RunPayRollBean rollBean : runPayRollBeanList){
+					totPresnt += rollBean.getPresentDay();
+					earnSize += rollBean.getEarningCompList().size();
+					dedSize += rollBean.getDeductionCompList().size();
+					totSalTot += rollBean.getTotalSalary();
+					totNetSal += rollBean.getNetSalary();
+					totDed += rollBean.getTotalDeduction();
+					
+					String earnName = null;
+					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
+						if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
+							earnName = earnBean.getComponentName();
+							if(earnMap.containsKey(earnName)){
+								double earnAmount = earnMap.get(earnName);
+								earnMap.put(earnName, earnAmount + earnBean.getComponentAmount());
+							}else{
+								earnMap.put(earnName, earnBean.getComponentAmount());
+							}
 						}
-					}
-				}
-				String deductName = null;
-				for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
-					deductName = deductBean.getComponentName();
-						if(deductMap.containsKey(deductName)){
-							double deductAmount = deductMap.get(deductName);
-							deductMap.put(deductName, deductAmount + deductBean.getComponentAmount());
-						}else{
-							deductMap.put(deductName, deductBean.getComponentAmount());
-						}
-				}
-				
-			//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
-			//	deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
-				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
-					if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
-						ernList.add(basic.getComponentName());
 						
 					}
-				}
-				for(EmployeeSalaryComponentAmountBean basic : rollBean.getDeductionCompList()){
-					dedctList.add(basic.getComponentName());
+					String deductName = null;
+					for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
+						deductName = deductBean.getComponentName();
+							if(deductMap.containsKey(deductName)){
+								double deductAmount = deductMap.get(deductName);
+								deductMap.put(deductName, deductAmount + deductBean.getComponentAmount());
+							}else{
+								deductMap.put(deductName, deductBean.getComponentAmount());
+							}
+					}
 					
+				//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
+				//	deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
+					for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
+						if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
+							ernList.add(basic.getComponentName());
+							
+						}
+					}
+					for(EmployeeSalaryComponentAmountBean basic : rollBean.getDeductionCompList()){
+						dedctList.add(basic.getComponentName());
+						
+					}
+					
+					for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
+						if(basic.getComponentName().equalsIgnoreCase("BASIC")){
+							totBasic += basic.getComponentAmount();
+						}
+					}
 				}
-				
-				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
-					if(basic.getComponentName().equalsIgnoreCase("BASIC")){
-						totBasic += basic.getComponentAmount();
+			}else{
+				///*********IF OTSHEET ************/
+				for(RunPayRollBean rollBean : otSheetList){
+					totPresnt += rollBean.getPresentDay();
+					earnSize += rollBean.getEarningCompList().size();
+					dedSize += rollBean.getDeductionCompList().size();
+					totSalTot += rollBean.getTotalSalary();
+					totNetSal += rollBean.getNetSalary();
+					totDed += rollBean.getTotalDeduction();
+					
+					String earnName = null;
+					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
+						if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
+							earnName = earnBean.getComponentName();
+							if(earnMap.containsKey(earnName)){
+								double earnAmount = earnMap.get(earnName);
+								earnMap.put(earnName, earnAmount + earnBean.getComponentAmount());
+							}else{
+								earnMap.put(earnName, earnBean.getComponentAmount());
+							}
+						}
+						
+					}
+					String deductName = null;
+					for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
+						deductName = deductBean.getComponentName();
+							if(deductMap.containsKey(deductName)){
+								double deductAmount = deductMap.get(deductName);
+								deductMap.put(deductName, deductAmount + deductBean.getComponentAmount());
+							}else{
+								deductMap.put(deductName, deductBean.getComponentAmount());
+							}
+					}
+					
+				//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
+				//	deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
+					for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
+						if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
+							ernList.add(basic.getComponentName());
+							
+						}
+					}
+					for(EmployeeSalaryComponentAmountBean basic : rollBean.getDeductionCompList()){
+						dedctList.add(basic.getComponentName());
+						
+					}
+					
+					for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
+						if(basic.getComponentName().equalsIgnoreCase("BASIC")){
+							totBasic += basic.getComponentAmount();
+						}
 					}
 				}
 			}
+			
 			//document.add(createTableForHeader(document, bean));
 			System.out.println("Tot sal ::"+totSalTot+" Tot net : "+totNetSal);
 			System.out.println("earn map :: "+earnMap);
@@ -372,6 +440,7 @@ public class PdfPaySlipGenerator {
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 			}
+			
 			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
 			cell.setBorder(Rectangle.NO_BORDER);
 			earnTable.addCell(cell);
@@ -401,32 +470,22 @@ public class PdfPaySlipGenerator {
 			
 			bottomTable.setWidthPercentage(100f);
 			int count=0;
-			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
-			if(otSheet){
-				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
-					 for(EmployeeSalaryComponentAmountBean earn: runPayRollBean.getEarningCompList()){
-						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
-							 earn.setComponentAmount(hra);
-						 }
-						 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
-							 earn.setComponentAmount(allowance);
-						 }
-					 }
-					 otSheetList.add(runPayRollBean);
-				}
-			}
+			
 			/******  FOR OTSHEET *********/
 			if(otSheet){
+				System.out.println("* * * * * OT SHEET PRINTING * * * * * ");
 				for(RunPayRollBean runPayRollBean : otSheetList){
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
+				document.add(bottomTable);
 			}else{/**********************FOR NORMAL *****************/
 				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
+				document.add(bottomTable);
 			}
 			
-			document.add(bottomTable);
+			//document.add(bottomTable);
 		}
 		
 		public static PdfPTable createTableForSheet(Document document, RunPayRollBean bean) throws Exception{

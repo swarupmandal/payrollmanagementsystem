@@ -351,10 +351,7 @@ public class RunPayrollViewModel {
 		prevButtonVisibility = true;
 		calculateButtonVisibility = false;
 		upperComponentVisibility = false;
-		for(RunPayRollBean pdfSheetBean : pdfBeanList){
-			System.out.println("Clik generate sheet Prest day : "+pdfSheetBean.getPresentDay()+" bean.getBasic():"+pdfSheetBean.getBasic()+
-					" bean.getOtSalary(): "+pdfSheetBean.getOtSalary()+" bean.getOtHoursF()::"+pdfSheetBean.getOtHoursF());
-		}
+		
 		/*String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 		pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
 		pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
