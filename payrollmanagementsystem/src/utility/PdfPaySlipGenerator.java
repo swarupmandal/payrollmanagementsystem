@@ -1166,7 +1166,7 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean	) throws Exception, DocumentException{
 			filePath = path+"salarysheet.pdf";
 			System.out.println("My file path :: "+filePath);
-			document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
+			document = new Document(PageSize.LEGAL.rotate(),65f,5f,5f,5f);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			
 			// HeaderTable event = new HeaderTable(document,bean);
