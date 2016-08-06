@@ -1602,13 +1602,13 @@ public class PdfPaySlipGenerator {
 			}
 			if(holiDayGiven){
 				table.addCell(createValueCellLeft("Holiday"));
-				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
+				table.addCell(createValueCellRight(String.valueOf(bean.getHoliDayAmount())));
 			}
 			if(bothGiven){
 				table.addCell(createValueCellLeft("Extra duty"));
 				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
 				table.addCell(createValueCellLeft("Holiday"));
-				table.addCell(createValueCellRight(String.valueOf(bean.otSalary)));
+				table.addCell(createValueCellRight(String.valueOf(bean.getHoliDayAmount())));
 			}
 			table.addCell(createValueCellLeft("Total"));
 			table.addCell(createValueCellRight(String.valueOf(bean.getTotalSalary())));
