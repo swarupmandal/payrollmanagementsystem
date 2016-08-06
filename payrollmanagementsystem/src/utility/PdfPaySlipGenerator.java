@@ -18,6 +18,7 @@ import org.appsquad.pdfhandler.HeaderTable;
 import org.appsquad.pdfhandler.Rotate;
 import org.appsquad.pdfhandler.RoundRectangle;
 import org.appsquad.research.DoubleFormattor;
+import org.appsquad.rules.Rules;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -264,11 +265,19 @@ public class PdfPaySlipGenerator {
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
 		//	document.add(createTableForLogo(document, bean));
-			System.out.println("DOCUMENT >>> "+document.toString()
-					);
+			System.out.println("DOCUMENT >>> "+document.toString());
 			System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
-			double totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
-			int totPresnt = 0,earnSize = 0 ,dedSize = 0;
+			double hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
+			int totPresnt = 0,earnSize = 0 ,dedSize = 0;boolean otSheet = false;
+		
+			System.out.println("Prest day : "+bean.getPresentDay()+" bean.getBasic():"+bean.getBasic()+
+					" bean.getOtSalary(): "+bean.getOtSalary()+" bean.getOtHoursF()::"+bean.getOtHoursF());
+			if(bean.getPresentDay() == 0 && bean.getBasic() == 0.0 && bean.getOtSalary() > 0.0 && bean.getOtHoursF() > 0.0){
+				otSheet = true;
+				hra = Rules.getHraForOt(bean.getOtSalary());
+				allowance = Rules.getAllowanceForOt(bean.getOtHoursF());
+			}
+		
 			LinkedHashSet<String> ernList = new LinkedHashSet<String>();
 			LinkedHashSet<String> dedctList = new LinkedHashSet<String>();
 			Map<String, Double> earnMap = new HashMap<String, Double>();
@@ -393,18 +402,31 @@ public class PdfPaySlipGenerator {
 			
 			bottomTable.setWidthPercentage(100f);
 			int count=0;
-			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
-					
-					/*if(count>2){
-						document.newPage();
-						document.add(createTableForSheet(document, runPayRollBean));
-					}else{
-						document.add(createTableForSheet(document, runPayRollBean));
-					}
-					count++;*/
-				
-				document.add(createTableForSheet(document, runPayRollBean));
+			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
+			if(otSheet){
+				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+					 for(EmployeeSalaryComponentAmountBean earn: runPayRollBean.getEarningCompList()){
+						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
+							 earn.setComponentAmount(hra);
+						 }
+						 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							 earn.setComponentAmount(allowance);
+						 }
+					 }
+					 otSheetList.add(runPayRollBean);
+				}
 			}
+			/******  FOR OTSHEET *********/
+			if(otSheet){
+				for(RunPayRollBean runPayRollBean : otSheetList){
+					document.add(createTableForSheet(document, runPayRollBean));
+				}
+			}else{/**********************FOR NORMAL *****************/
+				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+					document.add(createTableForSheet(document, runPayRollBean));
+				}
+			}
+			
 			document.add(bottomTable);
 		}
 		
@@ -1279,7 +1301,8 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean	) throws Exception, DocumentException{
 			filePath = path+"salarysheet.pdf";
 			System.out.println("My file path :: "+filePath);
-
+			System.out.println("Sheet details Prest day : "+bean.getPresentDay()+" bean.getBasic():"+bean.getBasic()+
+					" bean.getOtSalary(): "+bean.getOtSalary()+" bean.getOtHoursF()::"+bean.getOtHoursF());
 			//document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			System.out.println("On getSheetDetails comp ::"+bean.getComapnyName()+" unit : "+bean.getUnitName()+" desg: "+bean.getUnitDesignation()

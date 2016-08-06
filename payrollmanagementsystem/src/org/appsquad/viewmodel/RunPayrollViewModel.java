@@ -314,6 +314,8 @@ public class RunPayrollViewModel {
 	    	}
 	    }
 		if(isChecked){
+			System.out.println("Clik generate sheet Prest day : "+pdfSheetBean.getPresentDay()+" bean.getBasic():"+pdfSheetBean.getBasic()+
+					" bean.getOtSalary(): "+pdfSheetBean.getOtSalary()+" bean.getOtHoursF()::"+pdfSheetBean.getOtHoursF());
 			paySlipGenerator.getSheetDetails(pdfPath, selectedEmployeeList, pdfSheetBean);
 		}else{
 			Messagebox.show("Please check at least one!","Alert Information",Messagebox.OK,Messagebox.EXCLAMATION);

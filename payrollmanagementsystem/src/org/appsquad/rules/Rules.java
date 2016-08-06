@@ -40,6 +40,23 @@ public class Rules {
 		return ( DoubleFormattor.setDoubleFormat( (hra*presentDays)/baseDay ) ); 
 	}
 	
+	public static double getHraForOt(double otSalary){
+		System.out.println("Ot Hra called with otsal. . ."+otSalary);
+		double hra =0.0;
+		hra = ( DoubleFormattor.setDoubleFormat(DoubleFormattor.setDoubleFormat(otSalary) * 0.15) );
+		System.out.println("returned hra for ot :: "+hra);
+		return hra; 
+	}
+	
+	public static double getAllowanceForOt(double othours){
+		System.out.println("Ot Hra called with otsal. . ."+othours);
+		double allowance =0.0;
+		allowance = othours * 50;
+		allowance = DoubleFormattor.setDoubleFormat(allowance);
+		System.out.println("returned allowance for ot :: "+allowance);
+		return allowance; 
+	}
+	
 	public static double getConveyence(double conveyence, int baseDay , int presentDays){
 		//System.out.println("conveyence called. . .");
 		return ( (conveyence*presentDays)/baseDay ); 
