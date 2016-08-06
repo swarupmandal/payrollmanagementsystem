@@ -1438,7 +1438,7 @@ public class PdfPaySlipGenerator {
 			table.setWidthPercentage(100);
 			PdfPCell cell;Font font ;
 			font = new Font(Font.getFamily("HELVETICA"), 14, Font.BOLD);
-			cell = new PdfPCell(new Phrase("Allowance",font));
+			cell = new PdfPCell(new Phrase("Components",font));
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
 			
