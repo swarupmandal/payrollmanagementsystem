@@ -468,7 +468,7 @@ public class PdfPaySlipGenerator {
 			for(String d : dedctList){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				if(deductMap.containsKey(d)){
-					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(deductMap.get(d)) ,font) );
+					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(DoubleFormattor.setDoubleFormatEsi( deductMap.get(d))) ,font) );
 				}
 				if(d.equalsIgnoreCase("TOT.DED")){
 					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(totDed) ,font) );
