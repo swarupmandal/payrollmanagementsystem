@@ -21,6 +21,7 @@ import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.pdfhandler.BorderEvent;
 import org.appsquad.pdfhandler.DownloadPdf;
+import org.appsquad.pdfhandler.HeaderTable;
 import org.appsquad.pdfhandler.Rotate;
 import org.appsquad.pdfhandler.RoundRectangle;
 import org.appsquad.research.DoubleFormattor;
@@ -62,8 +63,8 @@ public class PdfPaySlipGenerator {
 		private static Font catFont = new Font(Font.getFamily("TIMES NEW ROMAN"), 22, Font.BOLD);
 		private static Font headfont = new Font(Font.getFamily("TIMES NEW ROMAN"), 13, Font.NORMAL);
 		
-		RunPayRollBean runPayRollBean = new RunPayRollBean();
-		ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
+		//RunPayRollBean runPayRollBean = new RunPayRollBean();
+		//ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 		
 		/*public void getDetails(String data,String path, ArrayList<RunPayRollBean> runPayRollBeanList,
 				RunPayRollBean bean, String company, String unit) throws Exception, DocumentException{
@@ -138,13 +139,54 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean){
 	        try {
 	        	PdfPTable table =null ;
-	        	if(runPayRollBeanList.size() > 4){
+	        	//System.out.println("LIST SIZE>>>>>>>>>>>"+runPayRollBeanList.size());
+	        	ArrayList<RunPayRollBean> selectedBeanList = new ArrayList<RunPayRollBean>();
+	        	for(RunPayRollBean payRollBean:runPayRollBeanList){
+	        		if(payRollBean.isChecked()){
+	        			selectedBeanList.add(payRollBean);
+	        		}
+	        	}
+	        	if(selectedBeanList.size() > 4){
+	        		//System.out.println("LIST SIZE>4 "+selectedBeanList.size());
 	        		table = new PdfPTable(9);
 	        		float[] widths = {9, 0.2f ,9 ,0.2f ,9 ,0.2f ,9 ,0.2f , 9};
 	        		table.setWidths(widths);
 	        		table.setWidthPercentage(100);
 	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-	        	}else{
+	        	}
+	        	if(selectedBeanList.size() == 1){
+	        	//	System.out.println("LIST SIZE = 1 "+selectedBeanList.size());
+	        		table = new PdfPTable(2);
+	        		float[] widths = {9, 37f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	if(selectedBeanList.size() == 2 ){
+	        		//System.out.println("LIST SIZE = 2 "+selectedBeanList.size());
+	        		table = new PdfPTable(4);
+	        		float[] widths = {9, 0.2f, 9, 28f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	if(selectedBeanList.size() == 3 ){
+	        		//System.out.println("LIST SIZE = 3 "+selectedBeanList.size());
+	        		table = new PdfPTable(6);
+	        		float[] widths = {9, 0.2f , 9 , 0.2f, 9, 18f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	if(selectedBeanList.size() == 4 ){
+	        		//System.out.println("LIST SIZE = 4 "+selectedBeanList.size());
+	        		table = new PdfPTable(8);
+	        		float[] widths = {9, 0.2f , 9 , 0.2f, 9, 0.2f, 9, 10f};
+	        		table.setWidths(widths);
+	        		table.setWidthPercentage(100);
+	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	}
+	        	/*else{
 	        		float[] widths = new float[runPayRollBeanList.size() + (runPayRollBeanList.size()-1)];
 	        		for(int i=0 ; i<widths.length ; i++){
 	        			if(i%2 == 0){
@@ -157,7 +199,7 @@ public class PdfPaySlipGenerator {
 	        		table.setWidths(widths);
 	        		table.setWidthPercentage(100);
 	        		table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-	        	}
+	        	}*/
 	        	
 	        //	table.addCell( createLabelCell() );
  	          //  table.addCell( createLabelCell() );
@@ -167,10 +209,10 @@ public class PdfPaySlipGenerator {
  	         //  for(int i=0;i<3;i++){
 	        	int i =0;
 	        	System.out.println("Before loop i: "+i);
- 	        	  for(RunPayRollBean payRollBean : runPayRollBeanList){
- 	        		   if(payRollBean.isChecked()){
+ 	        	  for(RunPayRollBean payRollBean : selectedBeanList){
+ 	        		  // if(payRollBean.isChecked()){
  	        			// if(i < 4){
- 	        				   System.out.println(i+" bean Name----->(inside if) "+payRollBean.getEmpName());
+ 	        				   //System.out.println(i+" bean Name----->(inside if) "+payRollBean.getEmpName());
  	        				 	PdfPTable innertable = new PdfPTable(1);
  	        				    innertable.addCell(createTableForBDA(document, bean));	
  	 	        				innertable.addCell(createTableForUnit(document, bean));	
@@ -206,7 +248,7 @@ public class PdfPaySlipGenerator {
 	 		      	            document.add(table);
 	 		      	            i++;
  	        			   } */
- 	        		   }
+ 	        		   //}
  	        	  }  
  	        		 // table.addCell(new Phrase(""));
  	        		// table.setSpacingBefore(30f);
@@ -248,15 +290,38 @@ public class PdfPaySlipGenerator {
 				totSalTot += rollBean.getTotalSalary();
 				totNetSal += rollBean.getNetSalary();
 				totDed += rollBean.getTotalDeduction();
-				earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
-				deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
+				
+				String earnName = null;
+				for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
+					if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
+						earnName = earnBean.getComponentName();
+						if(earnMap.containsKey(earnName)){
+							double earnAmount = earnMap.get(earnName);
+							earnMap.put(earnName, earnAmount + earnBean.getComponentAmount());
+						}else{
+							earnMap.put(earnName, earnBean.getComponentAmount());
+						}
+					}
+				}
+				String deductName = null;
+				for(EmployeeSalaryComponentAmountBean deductBean : rollBean.getDeductionCompList()){
+					deductName = deductBean.getComponentName();
+						if(deductMap.containsKey(deductName)){
+							double deductAmount = deductMap.get(deductName);
+							deductMap.put(deductName, deductAmount + deductBean.getComponentAmount());
+						}else{
+							deductMap.put(deductName, deductBean.getComponentAmount());
+						}
+				}
+				
+			//	earnMap = AddDuplicate.findTotalAmount(rollBean.getEarningCompList());
+			//	deductMap = AddDuplicate.findTotalAmount(rollBean.getDeductionCompList());
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
 					if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
 						ernList.add(basic.getComponentName());
 						
 					}
 				}
-				
 				for(EmployeeSalaryComponentAmountBean basic : rollBean.getDeductionCompList()){
 					dedctList.add(basic.getComponentName());
 					
@@ -270,6 +335,8 @@ public class PdfPaySlipGenerator {
 			}
 			//document.add(createTableForHeader(document, bean));
 			System.out.println("Tot sal ::"+totSalTot+" Tot net : "+totNetSal);
+			System.out.println("earn map :: "+earnMap);
+			System.out.println("deduct map :: "+deductMap);
 			
 			float[] columnWidths = {60, 70, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
@@ -299,10 +366,12 @@ public class PdfPaySlipGenerator {
 			//ernList.add("Tot Sal.");
 			PdfPTable earnTable = new PdfPTable(ernList.size()+1);
 			for(String e : ernList){
-			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-			cell = new PdfPCell( new Phrase(e+"\n"+5454.00,font) );
-			cell.setBorder(Rectangle.NO_BORDER);
-			earnTable.addCell(cell);
+				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+				if(earnMap.containsKey(e)){
+					cell = new PdfPCell( new Phrase(e+"\n"+String.valueOf(earnMap.get(e)),font) );
+				}
+				cell.setBorder(Rectangle.NO_BORDER);
+				earnTable.addCell(cell);
 			}
 			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
 			cell.setBorder(Rectangle.NO_BORDER);
@@ -314,7 +383,12 @@ public class PdfPaySlipGenerator {
 			PdfPTable dedTable = new PdfPTable(dedctList.size()+1);
 			for(String d : dedctList){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-				cell = new PdfPCell( new Phrase(d+"\n"+334.343,font) );
+				if(deductMap.containsKey(d)){
+					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(deductMap.get(d)) ,font) );
+				}
+				if(d.equalsIgnoreCase("TOT.DED")){
+					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(totDed) ,font) );
+				}
 				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
 			}
@@ -1094,10 +1168,19 @@ public class PdfPaySlipGenerator {
 			System.out.println("My file path :: "+filePath);
 			document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+			
+			// HeaderTable event = new HeaderTable(document,bean);
+		        // step 1
+		   //  Document document = new Document(PageSize.LEGAL.rotate(), 35f,5f, 5f + event.getTableHeight(), 5f);
+		        // step 2
+		 //   PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+		  //      writer.setPageEvent(event);
+		     // step 3
+			
 			document.open();
 			System.out.println("Tot sal ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			generateSheet(runPayRollBeanList , bean);
-			//DownloadPdf.download(filePath, "salarysheet.pdf");
+			//DownloadPdf.download(filePath,"salarysheet.pdf");
 			openPdf(filePath);
 			document.close();
 		//	Rectangle pageSize = new Rectangle(516f ,1256f );

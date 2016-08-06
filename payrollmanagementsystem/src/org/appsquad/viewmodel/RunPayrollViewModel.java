@@ -265,60 +265,25 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onclickConfirm() throws DocumentException, Exception{
-		
-		StringBuilder stringBuilder = new StringBuilder();
+		boolean isChecked = false;
 		for(RunPayRollBean rBean: pdfBeanList){
-			
 			if(rBean.isChecked()){
-				
-				ArrayList<EmployeeSalaryComponentAmountBean> earnList = new ArrayList<EmployeeSalaryComponentAmountBean>();
-				ArrayList<EmployeeSalaryComponentAmountBean> deductList = new ArrayList<EmployeeSalaryComponentAmountBean>();
-				
-				
-				//System.out.println("COMPANY " + companyMasterBean.getCompanyName());
-				//System.out.println("MMMMMMMMMM " +rBean.otSalary);
-				//System.out.println("deddc  " + rBean.leaveDeduction);
-				//System.out.println("NETs >>> >> > " + rBean.getNetSalary());
-				//System.out.println("Workingssss " + rBean.getTotalNumberOfDayseveryMonth());
-				//System.out.println("Working days " + rBean.getTotalNumberOfWorkingDaysEveryMonth());
-				
-				/*stringBuilder.append("ID : " +rBean.getEmpId() +" : "+ rBean.getEmpName() + " : " + companyMasterBean.getCompanyName() + unitMasterBean.getUnitId() +" : " + monthMasterBean.getMonthName() +" : " + year + " : "+ rBean.getTotalNumberOfWorkingDaysEveryMonth()  +"\n");
-				
-				 for(EmployeeSalaryComponentAmountBean sBean : rBean.getComponentAmountBeanList()){
-					 
-					 if(sBean.getComponentType().equalsIgnoreCase("EARNING")){
-						 earnList.add(sBean);
-					 }if(sBean.getComponentType().equalsIgnoreCase("DEDUCTION")){
-						 deductList.add(sBean);
-					 }
-			     }
-				 
-				 stringBuilder.append("EARNINGS "+ "\n");
-				 for(EmployeeSalaryComponentAmountBean sBean : earnList){
-					 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
-				 }
-				 
-				 stringBuilder.append(" "+ "\n");
-				 stringBuilder.append("DEDUCTIONS "+ "\n");
-				 
-				 for(EmployeeSalaryComponentAmountBean sBean : deductList){
-					 stringBuilder.append("Components : "+ sBean.getComponentName() + " : " + sBean.getComponentAmount() + " : " +sBean.getComponentType() +"\n");
-					 }
-				 stringBuilder.append("--------------------------------------------" +"\n");*/
-				
-				String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
-				//System.out.println("pdf_path >>> >> > " + pdfPath);
-				PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
-				pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
-				pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
-				pdfSheetBean.setCurrentDate(currentDate);
-				pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
-				pdfSheetBean.setYear(String.valueOf(year));
-				pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
-				paySlipGenerator.getSlipDetails(pdfPath, pdfBeanList, pdfSheetBean);
+				isChecked = true;
 			}
-			
-			//System.out.println(">>> >> > " + stringBuilder.toString());
+		}
+		
+		if(isChecked){
+			String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+			PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+			pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
+			pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
+			pdfSheetBean.setCurrentDate(currentDate);
+			pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
+			pdfSheetBean.setYear(String.valueOf(year));
+			pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
+			paySlipGenerator.getSlipDetails(pdfPath, pdfBeanList, pdfSheetBean);
+		}else{
+			Messagebox.show("Please check at least one","Alert Information",Messagebox.OK,Messagebox.EXCLAMATION);
 		}
 		/*String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 		System.out.println("pdf_path >>> >> > " + pdfPath);
