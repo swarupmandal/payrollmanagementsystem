@@ -1068,7 +1068,7 @@ public class PdfPaySlipGenerator {
 				netsalTable.addCell(cell);
 				System.out.println("bean.getOverTime() :"+bean.getOverTime()+" getOverTimeSal:: "+bean.getOverTimeSal());
 				//netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
-				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0){
+				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0 && bean.getOverTimeSal()==0.0){
 					System.out.println("Otsal :"+bean.getOtSalary()+" otsal:: "+bean.otSalary);
 						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
