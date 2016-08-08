@@ -518,7 +518,7 @@ public class PdfPaySlipGenerator {
 			}
 			
 			if(totOvertimeSal>0.0){
-				cell = new PdfPCell( new Phrase("Ex.Duty\n"+String.valueOf(totOvertimeSal),font));
+				cell = new PdfPCell( new Phrase("Ex.Duty\n"+String.valueOf( DoubleFormattor.setDoubleFormat(totOvertimeSal) ),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
@@ -1039,11 +1039,18 @@ public class PdfPaySlipGenerator {
 				cell.setBorder(Rectangle.NO_BORDER);
 				netsalTable.addCell(cell);
 				//netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
+				if(bean.getOverTimeSal() > 0.0){
+						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()-bean.getOtSalary())) ,font));
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setBorder(Rectangle.NO_BORDER);
+						netsalTable.addCell(cell);
+				}else{
+					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setBorder(Rectangle.NO_BORDER);
+					netsalTable.addCell(cell);
+				}
 				
-				cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
-				cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-				cell.setBorder(Rectangle.NO_BORDER);
-				netsalTable.addCell(cell);
 				
 				//netsalTable.addCell(createValueCellRightFont( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()))) );
 				netsalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
