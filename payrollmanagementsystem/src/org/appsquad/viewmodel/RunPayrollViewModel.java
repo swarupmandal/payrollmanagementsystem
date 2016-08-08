@@ -694,7 +694,7 @@ public class RunPayrollViewModel {
 						if(bean.getOverTime() == null){
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 						
-						}if(bean.getOverTime() != null){
+						}if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 							
 							int overTime = bean.getOverTime().intValue();
 							
