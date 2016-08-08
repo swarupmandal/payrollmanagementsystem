@@ -475,9 +475,9 @@ public class PdfPaySlipGenerator {
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			if(bean.getOtHoursF() != null){
-				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totExtraDuty,font) );
+				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totOvertime,font) );
 			}else{
-				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totExtraDuty,font) );
+				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totOvertime,font) );
 			}
 			
 			//cell.setBorder(Rectangle.NO_BORDER);
@@ -489,7 +489,13 @@ public class PdfPaySlipGenerator {
 			bottomTable.addCell(cell);
 			
 			//ernList.add("Tot Sal.");
-			PdfPTable earnTable = new PdfPTable(ernList.size()+1);
+			PdfPTable earnTable = null;
+			if(totOvertimeSal > 0.0){
+				earnTable = new PdfPTable(ernList.size()+2);
+			}else{
+				earnTable = new PdfPTable(ernList.size()+1);
+			}
+			//PdfPTable earnTable = new PdfPTable(ernList.size()+1);
 			for(String e : ernList){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				if(earnMap.containsKey(e)){
@@ -498,6 +504,11 @@ public class PdfPaySlipGenerator {
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 			}
+			
+			cell = new PdfPCell( new Phrase("Ex.Duty\n"+String.valueOf(totOvertimeSal),font));
+			cell.setBorder(Rectangle.NO_BORDER);
+			earnTable.addCell(cell);
+			earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			
 			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
 			cell.setBorder(Rectangle.NO_BORDER);
