@@ -867,8 +867,8 @@ public class PdfPaySlipGenerator {
 						table = new PdfPTable(earnList.size()+3);
 					}else{
 						//System.out.println("- - Ot given only - - -");
-						if(overTime){
-							table = new PdfPTable(earnList.size()+2);
+						if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0){
+							table = new PdfPTable(earnList.size()+1);
 						}else{
 							table = new PdfPTable(earnList.size()+2);
 						}
@@ -888,15 +888,18 @@ public class PdfPaySlipGenerator {
 				
 				//if only ot given
 				if(otGiven){
-					if(overTime){
+					if(bean.getPresentDay()>0 && bean.getBasic()==0  && bean.getOverTimeSal()==0.0){
 						//table.addCell(createLabelCell("E.D."));
-						table.addCell(createLabelCell("Ex.Duty."));
+						//table.addCell(createLabelCell("Ex.Duty."));
 						table.addCell(createLabelCell("Salary Total"));
-					}else{
+					}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()>0.0){
+						table.addCell(createLabelCell("Ex.Duty"));
+						table.addCell(createLabelCell("Salary Total"));
+					}
+					else{
 						table.addCell(createLabelCell("E.D"));
 						table.addCell(createLabelCell("Salary Total"));
 					}
-					
 				}
 				if(holiGiven){
 					table.addCell(createLabelCell("HOLIDAY"));
@@ -944,7 +947,10 @@ public class PdfPaySlipGenerator {
 				}
 				
 				if(otGiven){
-					if(overTime){
+					if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0){
+						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+						table.addCell(createValueCellBold(String.valueOf(totSal)));
+					}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()>0.0){
 						//double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
 						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary()-bean.getOtSalary());
 						double overSal = DoubleFormattor.setDoubleFormat(bean.getOverTimeSal());
