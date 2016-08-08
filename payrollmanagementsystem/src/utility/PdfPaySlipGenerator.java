@@ -539,9 +539,15 @@ public class PdfPaySlipGenerator {
 				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
 				dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			}else{
+			}
+			if(dedctList.size() == 1){
+				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+				cell = new PdfPCell( new Phrase("TOT.DED\n"+ String.valueOf( totDed) ,font) );
+				dedTable.addCell(cell);
+				
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+ String.valueOf( totNetSal) ,font) );
+				dedTable.addCell(cell);
 			}
 			
 			
