@@ -690,7 +690,17 @@ public class RunPayrollViewModel {
 					if (!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") && 
 							!earn.getComponentName().equalsIgnoreCase("WAGES") && !earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")
 							&& !earn.getComponentName().equalsIgnoreCase("LEAVE")) {
+						
+						if(bean.getOverTime() == null){
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+						
+						}if(bean.getOverTime() != null){
+							
+							int overTime = bean.getOverTime().intValue();
+							
+							earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime));
+							earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay())));
+						}
 					}
 					grossTotal += earn.getComponentAmount();
 				}
