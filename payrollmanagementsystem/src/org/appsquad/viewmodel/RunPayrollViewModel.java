@@ -490,6 +490,8 @@ public class RunPayrollViewModel {
 								
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(20*bean.getPresentDay()) );
 								
+								
+								
 							}
 							if(earn.getComponentName().equalsIgnoreCase("WASHING")){
 								System.out.println("WA SH ING " + bean.getPresentDay());
