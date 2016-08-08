@@ -1040,7 +1040,7 @@ public class PdfPaySlipGenerator {
 				netsalTable.addCell(cell);
 				//netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
 				if(bean.getOverTimeSal() > 0.0){
-						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()-bean.getOtSalary())) ,font));
+						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary())) ,font));
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 						cell.setBorder(Rectangle.NO_BORDER);
 						netsalTable.addCell(cell);
