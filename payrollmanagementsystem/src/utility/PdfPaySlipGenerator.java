@@ -517,22 +517,30 @@ public class PdfPaySlipGenerator {
 			
 			dedctList.add("TOT.DED");
 			//dedctList.add("TOT.NET SALARY");
+			System.out.println("DEDUCTION LIST SIZE :: "+dedctList.size() );
 			PdfPTable dedTable = new PdfPTable(dedctList.size()+1);
-			for(String d : dedctList){
-				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-				if(deductMap.containsKey(d)){
-					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf( deductMap.get(d)) ,font) );
+			if(dedctList.size()>0){
+				for(String d : dedctList){
+					font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+					if(deductMap.containsKey(d)){
+						cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf( deductMap.get(d)) ,font) );
+					}
+					if(d.equalsIgnoreCase("TOT.DED")){
+						cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(totDed) ,font) );
+					}
+					cell.setBorder(Rectangle.NO_BORDER);
+					dedTable.addCell(cell);
 				}
-				if(d.equalsIgnoreCase("TOT.DED")){
-					cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(totDed) ,font) );
-				}
+				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
+				dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			}else{
+				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+ String.valueOf( totNetSal) ,font) );
 			}
-			cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
-			cell.setBorder(Rectangle.NO_BORDER);
-			dedTable.addCell(cell);
-			dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			
+			
 			
 			bottomTable.addCell(earnTable);
 			bottomTable.addCell(dedTable);
