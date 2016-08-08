@@ -292,7 +292,7 @@ public class PdfPaySlipGenerator {
 		//	System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			double  hra = 0.0,allowance = 0.0,conveyance=0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, 
 					totExtraDuty=0.0,totOvertime=0.0,totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,
-					totDed = 0.0,totOvertimeSal=0.0; 
+					totDed = 0.0,totOvertimeSal=0.0,totOtSal=0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0, beanCount=0;boolean otSheet = false;
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
 			double otSheetTotDed =0.0,otSheetNetSal =0.0;
@@ -349,6 +349,7 @@ public class PdfPaySlipGenerator {
 					totDed += rollBean.getTotalDeduction();
 					totExtraDuty += rollBean.getOtHoursF();
 					totOt += rollBean.getOtHoursF();
+					totOtSal += rollBean.getOtSalary();
 					totOvertime += rollBean.getOverTime();
 					totOvertimeSal+=rollBean.getOverTimeSal();
 					String earnName = null;
@@ -403,6 +404,7 @@ public class PdfPaySlipGenerator {
 					totNetSal += rollBean.getNetSalary();
 					totDed += rollBean.getTotalDeduction();
 					totOt += rollBean.getOtHoursF();
+					totOtSal += rollBean.getOtSalary();
 					totExtraDuty += rollBean.getOtHoursF();
 					totOvertime += rollBean.getOverTime();
 					totOvertimeSal+=rollBean.getOverTimeSal();
@@ -524,11 +526,18 @@ public class PdfPaySlipGenerator {
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			}
 			
+			if(totOvertimeSal>0.0){
+				cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot-totOtSal),font));
+				cell.setBorder(Rectangle.NO_BORDER);
+				earnTable.addCell(cell);
+				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			}else{
+				cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
+				cell.setBorder(Rectangle.NO_BORDER);
+				earnTable.addCell(cell);
+				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			}
 			
-			cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
-			cell.setBorder(Rectangle.NO_BORDER);
-			earnTable.addCell(cell);
-			earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			
 			dedctList.add("TOT.DED");
 			//dedctList.add("TOT.NET SALARY");
@@ -551,10 +560,19 @@ public class PdfPaySlipGenerator {
 					//cell.setBorder(Rectangle.NO_BORDER);
 					//dedTable.addCell(cell);
 				}
-				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
-				cell.setBorder(Rectangle.NO_BORDER);
-				dedTable.addCell(cell);
-				dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				
+				if(totOvertimeSal>0.0){
+					cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal-totOtSal),font));
+					cell.setBorder(Rectangle.NO_BORDER);
+					dedTable.addCell(cell);
+					dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				}else{
+					cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
+					cell.setBorder(Rectangle.NO_BORDER);
+					dedTable.addCell(cell);
+					dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				}
+				
 			//}
 			/*if(dedctList.size() == 1){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
@@ -587,6 +605,7 @@ public class PdfPaySlipGenerator {
 					for(EmployeeSalaryComponentAmountBean earn : runPayRollBean.getEarningCompList()){
 					System.out.println("Comp name: "+earn.getComponentName()+" Amnt: "+earn.getComponentAmount());
 					}
+					System.out.println("Tot sal:: "+runPayRollBean.getTotalSalary()+" Net sal:: "+runPayRollBean.getNetSalary());
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
 				document.add(bottomTable);
@@ -1016,6 +1035,9 @@ public class PdfPaySlipGenerator {
 		
 		public static PdfPTable createTableForDeductionOnSheet(Document document, RunPayRollBean bean) throws DocumentException{				
 			PdfPTable mainDeductionTable ;
+			
+			System.out.println("bean.getOverTime() :"+bean.getOverTime()+" getOverTimeSal:: "+bean.getOverTimeSal());
+			
 			if(bean.getDeductionCompList().size() > 0){
 				mainDeductionTable = new PdfPTable(1);
 				
@@ -1038,9 +1060,11 @@ public class PdfPaySlipGenerator {
 				cell.setHorizontalAlignment(Element.ALIGN_TOP);
 				cell.setBorder(Rectangle.NO_BORDER);
 				netsalTable.addCell(cell);
+				System.out.println("bean.getOverTime() :"+bean.getOverTime()+" getOverTimeSal:: "+bean.getOverTimeSal());
 				//netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
-				if(bean.getOverTimeSal() > 0.0){
-						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary())) ,font));
+				if(bean.getOverTime() > 0.0){
+					System.out.println("Otsal :"+bean.getOtSalary()+" otsal:: "+bean.otSalary);
+						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 						cell.setBorder(Rectangle.NO_BORDER);
 						netsalTable.addCell(cell);
@@ -1076,18 +1100,30 @@ public class PdfPaySlipGenerator {
 				cell.setHorizontalAlignment(Element.ALIGN_TOP);
 				netsalTable.addCell(cell);
 				
-				cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
-				cell.setHorizontalAlignment(Element.ALIGN_TOP);
-				cell.setBorder(Rectangle.NO_BORDER);
-				netsalTable.addCell(cell);
+				if(bean.getOverTime() > 0.0){
+					System.out.println("Otsal :"+bean.getOtSalary()+" otsal:: "+bean.otSalary);
+						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
+						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+						cell.setBorder(Rectangle.NO_BORDER);
+						netsalTable.addCell(cell);
+						mainDeductionTable.addCell( deducTable );
+						mainDeductionTable.addCell( netsalTable );
+						mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				}else{
+					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
+					cell.setHorizontalAlignment(Element.ALIGN_TOP);
+					cell.setBorder(Rectangle.NO_BORDER);
+					netsalTable.addCell(cell);
+					
+			//		netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
+				//	netsalTable.addCell(createValueCellRightFont( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()))) );
+					netsalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+					
+					mainDeductionTable.addCell( deducTable );
+					mainDeductionTable.addCell( netsalTable );
+					mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				}
 				
-		//		netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
-			//	netsalTable.addCell(createValueCellRightFont( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary()))) );
-				netsalTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-				
-				mainDeductionTable.addCell( deducTable );
-				mainDeductionTable.addCell( netsalTable );
-				mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 				
 				return mainDeductionTable;
 			}
