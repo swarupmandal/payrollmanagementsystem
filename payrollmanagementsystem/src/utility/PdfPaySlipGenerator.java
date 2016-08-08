@@ -309,6 +309,10 @@ public class PdfPaySlipGenerator {
 							 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
 							 earn.setComponentAmount(allowance);
 						 }
+						 if(earn.getComponentName().equalsIgnoreCase("CONVEYANCE")){
+							 allowance = Rules.getConveyenceForOt(payRollBean.getOtHoursF());
+							 earn.setComponentAmount(allowance);
+						 }
 						eamt +=  earn.getComponentAmount();	 
 					 }
 					 otSheetTotSal = eamt + payRollBean.getOtSalary();

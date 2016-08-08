@@ -142,19 +142,41 @@ public class TableHeader {
 	     PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(DEST));
 	     document.open();
 	   
-	     PdfPTable mainTable = new PdfPTable(4);
+	     PdfPTable mainTable = new PdfPTable(3);
 	     PdfPCell cell;
-	     String[] data = {"1","2","3","4","5","6","7","8","9","10"};
+	     String[] data = {"1","2","3","4","5","6","7","8"};
 		    
 	     System.out.println("Length:"+data.length);
-	     for(String str  : data ){
-	    	 PdfPTable innertable = new PdfPTable(1);
-	    	 cell = new PdfPCell(new Phrase(str));
-	    	 cell.setBorder(Rectangle.NO_BORDER);
-	    	 innertable.addCell(cell);
-	    	 mainTable.addCell(innertable);
-	    	 /*System.out.println("Starts loop i = "+i);
-	    	  cell = new PdfPCell(new Phrase(data[i]));
+	               for (int i = 0; i < data.length; i+=2) {
+	    	            cell = new PdfPCell(new Phrase(data[i]));
+	    	            PdfPTable table = new PdfPTable(1);
+	    	            table.addCell(cell);
+	    	            if (i+1 <= data.length -1) {
+	    	               cell = new PdfPCell(new Phrase(data[i + 1]));
+	    	               table.addCell(cell);
+	    	            } else {
+	    	                cell = new PdfPCell(new Phrase(""));
+	    	                table.addCell(cell);
+	    	            }
+	            	  /* if((i%3==0) && (i!=0)){
+	       				System.out.println();
+	       				}*/
+	       			
+	       			System.out.print(data[i]+"\t");
+	    	            mainTable.addCell(table);
+	    	    }
+	    	
+	               document.add(mainTable);
+	      	     document.close();
+	   // for(String str  : data ){
+	    	 
+	    	// PdfPTable innertable = new PdfPTable(1);
+	    	// cell = new PdfPCell(new Phrase(str));
+	    	// cell.setBorder(Rectangle.NO_BORDER);
+	    	// innertable.addCell(cell);
+	    //	 mainTable.addCell(innertable);
+	     /*System.out.println("Starts loop i = "+i);
+	    	   cell = new PdfPCell(new Phrase(data[i]));
 		    	 PdfPTable table = new PdfPTable(1);
 		    	 table.addCell(cell);
 		    	
@@ -168,9 +190,8 @@ public class TableHeader {
 	    	
 	    	mainTable.addCell(table);
 	    	 System.out.println("* * * * * * * * * * *After adding to table Ends loop i * * * * * * * * *");*/
-	     }
-	     document.add(mainTable);
-	     document.close();
+	   //  }
+	     
 	}
 	
 	public static float addHeaderTable(Document document, String day, int page)

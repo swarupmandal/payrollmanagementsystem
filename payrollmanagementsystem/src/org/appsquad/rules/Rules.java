@@ -62,6 +62,15 @@ public class Rules {
 		return ( (conveyence*presentDays)/baseDay ); 
 	}
 	
+	public static double getConveyenceForOt(double otHours){
+		//System.out.println("conveyence called. . .");
+		double conveyence = 0.0;
+		conveyence = otHours * 20;
+		conveyence = DoubleFormattor.setDoubleFormat(conveyence);
+		System.out.println("Returned Conveyence for OT: "+conveyence);
+		return conveyence;
+	}
+	
 	public static double getMedicalAllowance(double medicalAllowance, int baseDay , int presentDays){
 		return ( (medicalAllowance*presentDays)/baseDay ); 
 	}
