@@ -1111,7 +1111,7 @@ public class PdfPaySlipGenerator {
 				cell.setHorizontalAlignment(Element.ALIGN_TOP);
 				netsalTable.addCell(cell);
 				
-				if(bean.getOverTime() > 0.0){
+				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0 && bean.getOverTimeSal()==0.0){
 					System.out.println("Otsal :"+bean.getOtSalary()+" otsal:: "+bean.otSalary);
 						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -1120,6 +1120,11 @@ public class PdfPaySlipGenerator {
 						mainDeductionTable.addCell( deducTable );
 						mainDeductionTable.addCell( netsalTable );
 						mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				}else if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOverTimeSal()>0.0){
+					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setBorder(Rectangle.NO_BORDER);
+					netsalTable.addCell(cell);
 				}else{
 					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
 					cell.setHorizontalAlignment(Element.ALIGN_TOP);
