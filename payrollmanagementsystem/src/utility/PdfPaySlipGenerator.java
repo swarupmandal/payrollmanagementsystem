@@ -455,7 +455,7 @@ public class PdfPaySlipGenerator {
 			System.out.println("Tot sal ::"+totSalTot+" Tot net : "+totNetSal);
 			System.out.println("earn map :: "+earnMap);
 			System.out.println("deduct map :: "+deductMap);
-			System.out.println("ex duty:: "+totExtraDuty);
+			System.out.println("totOvertime:: "+totOvertime);
 			float[] columnWidths = {60, 30, 50, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -471,7 +471,7 @@ public class PdfPaySlipGenerator {
 				cell = new PdfPCell( new Phrase("E.D.\n"+totExtraDuty,font) );
 				bottomTable.addCell(cell);
 			}else{
-				cell = new PdfPCell( new Phrase("E.D.\n"+totExtraDuty,font) );
+				cell = new PdfPCell( new Phrase("E.D.\n"+0.0,font) );
 				bottomTable.addCell(cell);
 			}
 			System.out.println("**************** bean.getOverTime() *******************"+bean.getOverTime());
