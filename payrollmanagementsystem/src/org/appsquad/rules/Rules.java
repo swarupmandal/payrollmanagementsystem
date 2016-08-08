@@ -57,13 +57,16 @@ public class Rules {
 		return allowance; 
 	}
 	
+	
 	public static double getConveyence(double conveyence, int baseDay , int presentDays){
 		//System.out.println("conveyence called. . .");
-		return ( (conveyence*presentDays)/baseDay ); 
+		double retConveyence = 0.0;
+		retConveyence = DoubleFormattor.setDoubleFormat((conveyence*presentDays)/baseDay);
+		System.out.println("Conveyance: "+retConveyence);
+		return retConveyence; 
 	}
 	
 	public static double getConveyenceForOt(double otHours){
-		//System.out.println("conveyence called. . .");
 		double conveyence = 0.0;
 		conveyence = otHours * 20;
 		conveyence = DoubleFormattor.setDoubleFormat(conveyence);
