@@ -348,6 +348,7 @@ public class PdfPaySlipGenerator {
 					totNetSal += rollBean.getNetSalary();
 					totDed += rollBean.getTotalDeduction();
 					totExtraDuty += rollBean.getOtHoursF();
+					totOt += rollBean.getOtHoursF();
 					totOvertime += rollBean.getOverTime();
 					totOvertimeSal+=rollBean.getOverTimeSal();
 					String earnName = null;
@@ -401,6 +402,7 @@ public class PdfPaySlipGenerator {
 					totSalTot += rollBean.getTotalSalary();
 					totNetSal += rollBean.getNetSalary();
 					totDed += rollBean.getTotalDeduction();
+					totOt += rollBean.getOtHoursF();
 					totExtraDuty += rollBean.getOtHoursF();
 					totOvertime += rollBean.getOverTime();
 					totOvertimeSal+=rollBean.getOverTimeSal();
@@ -456,6 +458,9 @@ public class PdfPaySlipGenerator {
 			System.out.println("earn map :: "+earnMap);
 			System.out.println("deduct map :: "+deductMap);
 			System.out.println("totOvertime:: "+totOvertime);
+			System.out.println("****************totOvertime *******************"+totOvertime);
+			System.out.println("**************** totOt *******************"+totOt);
+			
 			float[] columnWidths = {60, 30, 50, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -467,25 +472,27 @@ public class PdfPaySlipGenerator {
 			bottomTable.addCell(cell);
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-			if(bean.getOtHoursF() != null){
+			if(totOt > 0.0){
 				cell = new PdfPCell( new Phrase("E.D.\n"+totExtraDuty,font) );
 				bottomTable.addCell(cell);
 			}else{
 				cell = new PdfPCell( new Phrase("E.D.\n"+0.0,font) );
 				bottomTable.addCell(cell);
 			}
-			System.out.println("**************** bean.getOverTime() *******************"+bean.getOverTime());
+			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-			if(bean.getOverTime() != null){
+			if(totOvertime > 0.0){
+				System.out.println("otym>0");
 				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totOvertime,font) );
 				bottomTable.addCell(cell);
 			}else{
+				System.out.println("else otym>0");
 				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+0.0,font) );
 				bottomTable.addCell(cell);
 			}
 			
 			//cell.setBorder(Rectangle.NO_BORDER);
-			bottomTable.addCell(cell);
+			//bottomTable.addCell(cell);
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			cell = new PdfPCell( new Phrase("BASIC\n"+totBasic,font) );
@@ -501,6 +508,7 @@ public class PdfPaySlipGenerator {
 			}
 			//PdfPTable earnTable = new PdfPTable(ernList.size()+1);
 			for(String e : ernList){
+				System.out.println("For loop e : "+e);
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				if(earnMap.containsKey(e)){
 					cell = new PdfPCell( new Phrase(e+"\n"+String.valueOf(earnMap.get(e)),font) );
@@ -523,24 +531,29 @@ public class PdfPaySlipGenerator {
 			//dedctList.add("TOT.NET SALARY");
 			System.out.println("DEDUCTION LIST SIZE :: "+dedctList.size() );
 			PdfPTable dedTable = new PdfPTable(dedctList.size()+1);
-			if(dedctList.size()>0){
+			//if(dedctList.size()>0){
 				for(String d : dedctList){
+					System.out.println("deduct  list : "+d);
 					font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 					if(deductMap.containsKey(d)){
 						cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf( deductMap.get(d)) ,font) );
+						cell.setBorder(Rectangle.NO_BORDER);
+						dedTable.addCell(cell);
 					}
 					if(d.equalsIgnoreCase("TOT.DED")){
 						cell = new PdfPCell( new Phrase(d+"\n"+ String.valueOf(totDed) ,font) );
+						cell.setBorder(Rectangle.NO_BORDER);
+						dedTable.addCell(cell);
 					}
-					cell.setBorder(Rectangle.NO_BORDER);
-					dedTable.addCell(cell);
+					//cell.setBorder(Rectangle.NO_BORDER);
+					//dedTable.addCell(cell);
 				}
 				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
 				dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			}
-			if(dedctList.size() == 1){
+			//}
+			/*if(dedctList.size() == 1){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				cell = new PdfPCell( new Phrase("TOT.DED\n"+ String.valueOf( totDed) ,font) );
 				dedTable.addCell(cell);
@@ -548,7 +561,7 @@ public class PdfPaySlipGenerator {
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+ String.valueOf( totNetSal) ,font) );
 				dedTable.addCell(cell);
-			}
+			}*/
 			
 			
 			
