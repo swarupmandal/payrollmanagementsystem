@@ -291,7 +291,7 @@ public class PdfPaySlipGenerator {
 		//	document.add(createTableForLogo(document, bean));
 		//	System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			double  hra = 0.0,allowance = 0.0,conveyance=0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, 
-					totExtraDuty=0.0,totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
+					totExtraDuty=0.0,totOvertime=0.0,totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0, beanCount=0;boolean otSheet = false;
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
 			double otSheetTotDed =0.0,otSheetNetSal =0.0;
@@ -451,7 +451,7 @@ public class PdfPaySlipGenerator {
 			System.out.println("earn map :: "+earnMap);
 			System.out.println("deduct map :: "+deductMap);
 			System.out.println("ex duty:: "+totExtraDuty);
-			float[] columnWidths = {60, 70, 45, 500, 500};
+			float[] columnWidths = {60, 20,50, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell ;
@@ -463,9 +463,16 @@ public class PdfPaySlipGenerator {
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 			if(bean.getOtHoursF() != null){
-				cell = new PdfPCell( new Phrase("EXTRA DUTY\n"+totExtraDuty,font) );
+				cell = new PdfPCell( new Phrase("E.D.\n"+totExtraDuty,font) );
 			}else{
-				cell = new PdfPCell( new Phrase("EXTRA DUTY\n"+totExtraDuty,font) );
+				cell = new PdfPCell( new Phrase("E.D.\n"+totExtraDuty,font) );
+			}
+			
+			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
+			if(bean.getOtHoursF() != null){
+				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totExtraDuty,font) );
+			}else{
+				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totExtraDuty,font) );
 			}
 			
 			//cell.setBorder(Rectangle.NO_BORDER);

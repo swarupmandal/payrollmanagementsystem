@@ -31,7 +31,7 @@ public class RunPayRollBean {
     public int totalNumberOfHolidays;
     
     private Integer otDaysF,presentDay,baseDay;
-    private Double otHoursF,specialTime;
+    private Double otHoursF,specialTime,overTime,overTimeSal;
     private Double totalOtHoursF;
     
     
@@ -391,6 +391,22 @@ public class RunPayRollBean {
 	}
 	public void setHoliDayAmount(Double holiDayAmount) {
 		this.holiDayAmount = holiDayAmount;
+	}
+
+	public Double getOverTime() {
+		return overTime;
+	}
+
+	public void setOverTime(Double overTime) {
+		this.overTime = overTime;
+	}
+
+	public Double getOverTimeSal() {
+		return overTimeSal;
+	}
+
+	public void setOverTimeSal(Double overTimeSal) {
+		this.overTimeSal = overTimeSal;
 	}
 	
 }
