@@ -703,6 +703,15 @@ public class RunPayrollViewModel {
 				  }
 				grossTotal = grossTotal+bean.otSalary;
 				
+				if(bean.getOverTime() == null){
+					bean.setOverTime(0.0);
+				}
+				
+				if(bean.getOverTime() !=null){
+					bean.overTimeSalNew = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
+				}
+				
+				
 				for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 					if(deduct.getComponentName().equalsIgnoreCase("PF")){
 						//deduct.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
@@ -763,6 +772,8 @@ public class RunPayrollViewModel {
 				pdfBean.setEmpEsi(bean.getEmpEsi());
 				pdfBean.setEmpUan(bean.getEmpUan());
 				pdfBean.setHoliDayAmount(DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount()));
+				
+				pdfBean.setOverTimeSal(DoubleFormattor.setDoubleFormat(bean.overTimeSalNew));
 				
 				pdfBean.setEarningCompList(earningList);
 				pdfBean.setDeductionCompList(deductionList);

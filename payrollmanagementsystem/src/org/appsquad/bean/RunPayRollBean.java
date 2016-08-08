@@ -49,6 +49,8 @@ public class RunPayRollBean {
     private int noOfHoliDays;
     private Double holiDayAmount;
     
+    public double overTimeSalNew;
+    
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     private ArrayList<EmployeeSalaryComponentAmountBean> earningCompList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -408,5 +410,15 @@ public class RunPayRollBean {
 	public void setOverTimeSal(Double overTimeSal) {
 		this.overTimeSal = overTimeSal;
 	}
+
+	public double getOverTimeSalNew() {
+		return overTimeSalNew;
+	}
+
+	public void setOverTimeSalNew(double overTimeSalNew) {
+		this.overTimeSalNew = overTimeSalNew;
+	}
+
+	
 	
 }
