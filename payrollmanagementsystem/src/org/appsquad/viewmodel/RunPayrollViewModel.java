@@ -23,16 +23,19 @@ import org.appsquad.rules.Rules;
 import org.appsquad.service.EmployeeMasterService;
 import org.appsquad.service.HolidayMasterService;
 import org.appsquad.service.RunPayRollService;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Messagebox;
@@ -217,6 +220,7 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectUnitDesignation(){
 		
+	
 		runPayRollBean.setSelectedCurrentYr(year);
 		
 		//System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
@@ -233,9 +237,13 @@ public class RunPayrollViewModel {
 			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
 					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
 					unitDesignationBean.getUnitDesignationId());
-			runPayRollBean.setTotalSalary(0.0);
-			runPayRollBean.setTotalDeduction(0.0);
-			runPayRollBean.setNetSalary(0.0);
+			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+				runPayRollBean.setSpecialTime(0.0);
+				runPayRollBean.setTotalSalary(0.0);
+				runPayRollBean.setTotalDeduction(0.0);
+				runPayRollBean.setNetSalary(0.0);
+			}
+			
 			runPayRollBean.setBaseDays( RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr()));
 		}
 		if(runPayRollBeanList.size()>0){
@@ -318,8 +326,6 @@ public class RunPayrollViewModel {
 		}else{
 			Messagebox.show("Please check at least one!","Alert Information",Messagebox.OK,Messagebox.EXCLAMATION);
 		}
-		
-
 	}
 	
 	@Command
@@ -366,109 +372,43 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickPrevious(){
+		
+		Messagebox.show("If you go to previous page all calculations are reset.Are you sure to go previous page?", "Confirm Dialog", 
+				Messagebox.OK |  Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
+		    public void onEvent(Event evt) throws InterruptedException {
+		        if (evt.getName().equals("onOK")) {
+		          BindUtils.postGlobalCommand(null, null, "globalReload", null);
+		        } else if (evt.getName().equals("onIgnore")) {
+		           // Messagebox.show("Ignore Save", "Warning", Messagebox.OK, Messagebox.EXCLAMATION);
+		        } else {
+		           
+		        }
+		    }
+		});
+	}
+	
+	@GlobalCommand
+	@NotifyChange("*")
+	public void globalReload(){
 		salaryAdjustmentVisibility = true;
 		salaryComponentVisibility = false;
 		nextButtonVisibility = false;
 		prevButtonVisibility = false;
 		calculateButtonVisibility = true;
 		upperComponentVisibility = true;
-		runPayRollBean.setTotalSalary(0.0);
-		runPayRollBean.setTotalDeduction(0.0);
-		runPayRollBean.setNetSalary(0.0);
+		slNo = 0;
+		for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+			runPayRollBean.setTotalSalary(0.0);
+			runPayRollBean.setTotalDeduction(0.0);
+			runPayRollBean.setNetSalary(0.0);
+			runPayRollBean.setEmpcount(0);
+			allChecked=false;
+		}
 		
 		pdfBeanList.clear();
 	}
 	
 	
-	@Command
-	@NotifyChange("*")
-	public void onClcikOtandLeaveSave(@BindingParam("bean") RunPayRollBean bean){
-		
-		//System.out.println("Total Salary " + bean.getTotalSalary());
-		//System.out.println("Total Deduction " + bean.getTotalDeduction());
-		//System.out.println("Net Salary " + bean.getNetSalary());
-		//System.out.println("OT Days " + bean.getOtDaysF());
-		//System.out.println("OT Hours " + bean.getOtHoursF());
-		//System.out.println("Leave Days " + bean.getLeaveDaysF());
-		//System.out.println("Leave Hours " + bean.getLeaveHoursF());
-		
-		double hourPerDay = RunPayRollService.hoursPerDay(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean);
-		
-		/******************************************OT CALCULATION**********************************************************************/
-		
-		if(bean.getOtHoursF() == null){
-			bean.setOtHoursF(0.0);
-		}
-		if(bean.getOtDaysF() == null){
-			bean.setOtDaysF(0);
-		}
-		
-		
-		bean.setTotalOtHoursF(bean.getOtHoursF()+(bean.getOtDaysF()*hourPerDay));
-		
-		
-		
-		//double otSalary = 0;
-		//bean.otSalary = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
-		
-		if(bean.getTotalOtHoursF()>0.0){
-			
-			bean.otSalary = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
-			
-			//System.out.println(" >>> >> >" + bean.otSalary);
-			
-			NumberFormat formatter = new DecimalFormat("#0.00");  
-			double d = Double.parseDouble(formatter.format(bean.otSalary));
-			System.out.println(" >>> >> >" + bean.otSalary);
-			
-			//String decimalformat = new DecimalFormat("#.##").format(bean.otSalary);
-			//double d = Double.parseDouble(decimalformat);
-			bean.otSalary = d;
-			
-			bean.setNetSalary(bean.getNetSalary()+bean.otSalary);
-		
-		}
-		
-		
-		
-		
-		/************************************LEAVE CALCULATION*************************************************/
-		
-		
-		if(bean.getLeaveHoursF() == null){
-			bean.setLeaveHoursF(0.0);
-		}if(bean.getLeaveDaysF() == null){
-			bean.setLeaveDaysF(0);
-		}
-		bean.setTotalLeaveHoursF(bean.getLeaveHoursF()+(bean.getLeaveDaysF()*hourPerDay));
-		
-		if(bean.getTotalLeaveHoursF()>0.0){
-			
-			//bean.leaveDeduction = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
-
-			bean.leaveDeduction = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
-			
-			//System.out.println("Leave deduction >>> >> > " + bean.leaveDeduction);
-			
-			NumberFormat formatter1 = new DecimalFormat("#0.00");  
-			double d2 = Double.parseDouble(formatter1.format(bean.leaveDeduction));
-			
-			//String decimalformat2 = new DecimalFormat("#.##").format(bean.leaveDeduction);
-			//double d2 = Double.parseDouble(decimalformat2);
-			bean.leaveDeduction = d2;
-			
-			bean.setNetSalary(bean.getNetSalary()-bean.leaveDeduction);
-			
-			bean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()-bean.getLeaveDaysF());
-			
-			//System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());
-			
-			
-		}
-		
-		
-		
-	}
 	
 	@Command
 	@NotifyChange("*")
@@ -493,14 +433,15 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickCalculate(){
-		int baseDays,empcount=1;
+		int baseDays,empcount=1;boolean isOtSheet = false;
 		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
+			
 		
 		if(companyMasterBean.getCompanyId()==36 || companyMasterBean.getCompanyId() == 39){
 		
 			for(RunPayRollBean bean : runPayRollBeanList){
 				
-				if(bean.getPresentDay()!=null){
+				if(bean.getPresentDay()!=null ){
 					
 					RunPayRollBean pdfBean = new RunPayRollBean();
 					pdfBean.setEmpcount(empcount);
@@ -701,7 +642,7 @@ public class RunPayrollViewModel {
 		
 		for(RunPayRollBean bean : runPayRollBeanList ){
 			
-			if(bean.getPresentDay()!=null){
+			if(bean.getPresentDay()!=null ){
 			
 				RunPayRollBean pdfBean = new RunPayRollBean();
 				bean.setBaseDays(baseDays);
@@ -830,9 +771,131 @@ public class RunPayrollViewModel {
 			nextButtonVisibility = true;
 			calculateButtonVisibility = false;
 		}
+		
+		
+		/**
+		 * @author somnathdutta
+		 * OT sheet population calculation
+		 */
+		ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
+		if(companyMasterBean.getCompanyId()==39){
+			for(RunPayRollBean calculateBean : pdfBeanList){
+				if(calculateBean.getPresentDay() == 0 
+					 && (calculateBean.getOtHoursF() != null)){
+					double otSheetTotSal =0.0,eamt=0.0,hra=0.0,allowance=0.0,otSheetTotDed=0.0,otSheetNetSal=0.0;
+					 for(EmployeeSalaryComponentAmountBean earn: calculateBean.getEarningCompList()){
+						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
+							 hra = Rules.getHraForOt(calculateBean.getOtSalary());
+							 earn.setComponentAmount(hra);
+						 }
+						 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							 allowance = Rules.getAllowanceForOt(calculateBean.getOtHoursF());
+							 earn.setComponentAmount(allowance);
+						 }
+						eamt +=  earn.getComponentAmount();	 
+					 }
+					 otSheetTotSal = eamt + calculateBean.getOtSalary();
+					 otSheetTotDed = DoubleFormattor.setDoubleFormatEsi( Rules.getEsi(otSheetTotSal, 0.0) ) ;
+					 for(EmployeeSalaryComponentAmountBean ded : calculateBean.getDeductionCompList()){
+						if(ded.getComponentName().equalsIgnoreCase("ESI")){
+							 ded.setComponentAmount(otSheetTotDed);
+						 }
+					 }
+					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
+					 calculateBean.setTotalSalary(otSheetTotSal);
+					 calculateBean.setTotalDeduction(otSheetTotDed);
+					 calculateBean.setNetSalary(otSheetNetSal);
+					 otSheetList.add(calculateBean);
+				 }
+				}
+			}
+		
+		if(otSheetList.size() > 0){
+			isOtSheet = true;
+			System.out.println("Ot sheet size: "+otSheetList.size());
+		}
+		/* * * * * Otsheet calculation ends here* * * * * * * * * * * * */
+		
 	}
 	
+	
 	/**************************** initial functions  **********************************************************************************/
+	@Command
+	@NotifyChange("*")
+	public void onClcikOtandLeaveSave(@BindingParam("bean") RunPayRollBean bean){
+		double hourPerDay = RunPayRollService.hoursPerDay(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), runPayRollBean);	
+		/******************************************OT CALCULATION**********************************************************************/
+		
+		if(bean.getOtHoursF() == null){
+			bean.setOtHoursF(0.0);
+		}
+		if(bean.getOtDaysF() == null){
+			bean.setOtDaysF(0);
+		}
+		
+		
+		bean.setTotalOtHoursF(bean.getOtHoursF()+(bean.getOtDaysF()*hourPerDay));
+		
+		
+		
+		//double otSalary = 0;
+		//bean.otSalary = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
+		
+		if(bean.getTotalOtHoursF()>0.0){
+			
+			bean.otSalary = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalOtHoursF();
+			
+			//System.out.println(" >>> >> >" + bean.otSalary);
+			
+			NumberFormat formatter = new DecimalFormat("#0.00");  
+			double d = Double.parseDouble(formatter.format(bean.otSalary));
+			System.out.println(" >>> >> >" + bean.otSalary);
+			
+			//String decimalformat = new DecimalFormat("#.##").format(bean.otSalary);
+			//double d = Double.parseDouble(decimalformat);
+			bean.otSalary = d;
+			
+			bean.setNetSalary(bean.getNetSalary()+bean.otSalary);
+		
+		}
+		
+		
+		
+		
+		/************************************LEAVE CALCULATION*************************************************/
+		
+		
+		if(bean.getLeaveHoursF() == null){
+			bean.setLeaveHoursF(0.0);
+		}if(bean.getLeaveDaysF() == null){
+			bean.setLeaveDaysF(0);
+		}
+		bean.setTotalLeaveHoursF(bean.getLeaveHoursF()+(bean.getLeaveDaysF()*hourPerDay));
+		
+		if(bean.getTotalLeaveHoursF()>0.0){
+			
+			//bean.leaveDeduction = (bean.getTotalSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
+
+			bean.leaveDeduction = (bean.getNetSalary()/(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()*hourPerDay))*bean.getTotalLeaveHoursF();
+			
+			//System.out.println("Leave deduction >>> >> > " + bean.leaveDeduction);
+			
+			NumberFormat formatter1 = new DecimalFormat("#0.00");  
+			double d2 = Double.parseDouble(formatter1.format(bean.leaveDeduction));
+			
+			//String decimalformat2 = new DecimalFormat("#.##").format(bean.leaveDeduction);
+			//double d2 = Double.parseDouble(decimalformat2);
+			bean.leaveDeduction = d2;
+			
+			bean.setNetSalary(bean.getNetSalary()-bean.leaveDeduction);
+			
+			bean.setTotalNumberOfWorkingDaysEveryMonth(runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth()-bean.getLeaveDaysF());
+			
+			//System.out.println("AFter leave day >>> >> > " + bean.getTotalNumberOfDayseveryMonth());	
+		}	
+	}
+	
+	
 	
 	public void dateFormat(){
 		GregorianCalendar date = new GregorianCalendar();

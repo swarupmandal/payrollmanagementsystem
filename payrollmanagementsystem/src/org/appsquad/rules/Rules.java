@@ -49,11 +49,11 @@ public class Rules {
 	}
 	
 	public static double getAllowanceForOt(double othours){
-		System.out.println("Ot Hra called with otsal. . ."+othours);
+		System.out.println("Ot Allowance called with othours. . ."+othours);
 		double allowance =0.0;
 		allowance = othours * 50;
 		allowance = DoubleFormattor.setDoubleFormat(allowance);
-		System.out.println("returned allowance for ot :: "+allowance);
+		System.out.println("Returned allowance for ot :: "+allowance);
 		return allowance; 
 	}
 	

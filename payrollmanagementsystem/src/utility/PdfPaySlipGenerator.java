@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.pdfhandler.DownloadPdf;
@@ -36,8 +37,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPage;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
-
 public class PdfPaySlipGenerator {
 
 		private String filePath;
@@ -52,6 +51,7 @@ public class PdfPaySlipGenerator {
 		
 		private static Font catFont = new Font(Font.getFamily("TIMES NEW ROMAN"), 22, Font.BOLD);
 		private static Font headfont = new Font(Font.getFamily("TIMES NEW ROMAN"), 13, Font.NORMAL);
+		final static Logger logger=Logger.getLogger(PdfPaySlipGenerator.class);
 		
 		//RunPayRollBean runPayRollBean = new RunPayRollBean();
 		//ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
@@ -129,7 +129,6 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean){
 	        try {
 	        	PdfPTable table =null ;
-	        	//System.out.println("LIST SIZE>>>>>>>>>>>"+runPayRollBeanList.size());
 	        	ArrayList<RunPayRollBean> selectedBeanList = new ArrayList<RunPayRollBean>();
 	        	for(RunPayRollBean payRollBean:runPayRollBeanList){
 	        		if(payRollBean.isChecked()){
@@ -197,29 +196,54 @@ public class PdfPaySlipGenerator {
  	           // table.addCell( createLabelCell() );
 	           // table.addCell( createLabelCell());
  	         //  for(int i=0;i<3;i++){
-	        	int i =0;
+	        	
+	        	PdfPTable mainTable = new PdfPTable(9);
+	        	float[] widths = {9, 0.2f ,9 ,0.2f ,9 ,0.2f ,9 ,0.2f , 9};
+	        	mainTable.setWidths(widths);
+	        	mainTable.setWidthPercentage(100);
+	        	//mainTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+	        	
+	        	int i =1,size = selectedBeanList.size();
 	        	System.out.println("Before loop i: "+i);
  	        	  for(RunPayRollBean payRollBean : selectedBeanList){
- 	        		  // if(payRollBean.isChecked()){
- 	        			// if(i < 4){
- 	        				   //System.out.println(i+" bean Name----->(inside if) "+payRollBean.getEmpName());
- 	        				 	PdfPTable innertable = new PdfPTable(1);
- 	        				    innertable.addCell(createTableForBDA(document, bean));	
- 	 	        				innertable.addCell(createTableForUnit(document, bean));	
- 	 	        				innertable.addCell(createTableForEmployee(document, payRollBean));	
- 	 	        				innertable.addCell(createTableForSalary(document , payRollBean));
- 	 	        				innertable.addCell(createTableForEarnings(document, payRollBean));	
- 	 	        				innertable.addCell(createTableForDeductions(document, payRollBean));
- 	 	        				innertable.addCell(createTableForNetSalary(document, payRollBean));
- 	 	        				innertable.setWidthPercentage(100);
- 	 	        			   
- 	 	        				table.addCell(innertable);
+ 	        		  	//logger.info("At start of loop Counter->"+i+" size->"+size);
+ 	        		    PdfPTable innertable = new PdfPTable(1);
+     				 	innertable.setWidthPercentage(20f);//added
+     				 	innertable.setHorizontalAlignment(Element.ALIGN_LEFT);//added
+     				 	
+     				    innertable.addCell(createTableForBDA(document, bean));	
+         				innertable.addCell(createTableForUnit(document, bean));	
+         				innertable.addCell(createTableForEmployee(document, payRollBean));	
+         				innertable.addCell(createTableForSalary(document , payRollBean));
+         				innertable.addCell(createTableForEarnings(document, payRollBean));	
+         				innertable.addCell(createTableForDeductions(document, payRollBean));
+         				innertable.addCell(createTableForNetSalary(document, payRollBean));
+         				//mainTable.addCell(innertable);
+ 	        		 
+ 	        		    
+        						//innertable.setWidthPercentage(100);
+ 	 	        				
+ 	 	        			//	table.setSpacingBefore(35f);
+ 	 	        			//	table.setSpacingAfter(35f);
+ 	 		      	          if(i<6){
+ 	 		      	        	table.addCell(innertable);
  	 	        				table.addCell(new Phrase(""));
- 	 	        				table.setSpacingBefore(35f);
- 	 	        				table.setSpacingAfter(35f);
- 	 		      	            document.add(table);
- 	 	        				i++;
- 	        			//   }
+ 	 		      	        	//document.add(table);
+ 	 		      	          }
+ 	 	        				
+ 	 		      	          
+ 	 	        		if(i>5){
+ 	 	        			//logger.info("---Create  new table -- - with column::"+size);
+ 	 	        			document.newPage();
+ 	 	        			table.addCell(innertable);
+	 	        			table.addCell(new Phrase(""));
+ 	 	        			//document.add(table);
+ 	 	        		}
+ 	 	        		i++;size--;
+ 	 	        		logger.info("After adding to table counter::"+i+" remaing beans:: "+size);  
+ 	        	  }	
+ 	        	  document.add(table);
+ 	        	// document.add(mainTable);			//   }
  	        			   /*if(i>4)	{
  	        				  System.out.println(i+" *** bean Name----->(inside else) "+payRollBean.getEmpName());
  	        				  
@@ -239,7 +263,7 @@ public class PdfPaySlipGenerator {
 	 		      	            i++;
  	        			   } */
  	        		   //}
- 	        	  }  
+ 	        	//  }  
  	        		 // table.addCell(new Phrase(""));
  	        		// table.setSpacingBefore(30f);
  	        		
@@ -265,15 +289,17 @@ public class PdfPaySlipGenerator {
 		public void generateSheet(ArrayList<RunPayRollBean> runPayRollBeanList
 				,RunPayRollBean bean) throws Exception{
 		//	document.add(createTableForLogo(document, bean));
-			System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
-			double eamt=0.0, hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
-			int totPresnt = 0,earnSize = 0 ,dedSize = 0;boolean otSheet = false;
+		//	System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
+			double  hra = 0.0,allowance = 0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,totDed = 0.0; 
+			int totPresnt = 0,earnSize = 0 ,dedSize = 0, beanCount=0;boolean otSheet = false;
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
-			double otSheetTotSal =0.0,otSheetTotDed =0.0,otSheetNetSal =0.0;
+			double otSheetTotDed =0.0,otSheetNetSal =0.0;
 			for(RunPayRollBean payRollBean : runPayRollBeanList){
+				double otSheetTotSal =0.0,eamt=0.0;
 				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && 
 						payRollBean.getOtSalary() > 0.0 && payRollBean.getOtHoursF() > 0.0){
 					otSheet = true;
+			
 					 for(EmployeeSalaryComponentAmountBean earn: payRollBean.getEarningCompList()){
 						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
 							 hra = Rules.getHraForOt(payRollBean.getOtSalary());
@@ -283,22 +309,20 @@ public class PdfPaySlipGenerator {
 							 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
 							 earn.setComponentAmount(allowance);
 						 }
-						eamt +=  earn.getComponentAmount();
-						System.out.println("*********inside earnList Earn SAL:: "+eamt);	 
+						eamt +=  earn.getComponentAmount();	 
 					 }
 					 otSheetTotSal = eamt + payRollBean.getOtSalary();
 					 otSheetTotDed = DoubleFormattor.setDoubleFormatEsi( Rules.getEsi(otSheetTotSal, 0.0) ) ;
 					 for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
-						 System.out.println("**************** Deduction list"+ded.toString());
-						 if(ded.getComponentName().equalsIgnoreCase("ESI")){
+						if(ded.getComponentName().equalsIgnoreCase("ESI")){
 							 ded.setComponentAmount(otSheetTotDed);
 						 }
 					 }
-					System.out.println("*********TOTAL SAL:: "+otSheetTotSal);	 
 					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
 					 payRollBean.setTotalSalary(otSheetTotSal);
 					 payRollBean.setTotalDeduction(otSheetTotDed);
 					 payRollBean.setNetSalary(otSheetNetSal);
+					 beanCount++;
 					 otSheetList.add(payRollBean);
 				}
 			}
@@ -363,7 +387,6 @@ public class PdfPaySlipGenerator {
 				}
 			}else{
 				///*********IF OTSHEET ************/
-				System.out.println("/********** OT SHEET PRINTING *********/");
 				for(RunPayRollBean rollBean : otSheetList){
 					totPresnt += rollBean.getPresentDay();
 					earnSize += rollBean.getEarningCompList().size();
@@ -414,7 +437,7 @@ public class PdfPaySlipGenerator {
 							totBasic += basic.getComponentAmount();
 						}
 					}
-					System.out.println("**NET SAL CALCULATING FOR OTSHEET :: ::"+(totSalTot-totDed));
+			
 				}
 			}
 			
@@ -493,11 +516,11 @@ public class PdfPaySlipGenerator {
 			if(otSheet){
 				System.out.println("* * * * * OT SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : otSheetList){
-					System.out.println("------Tot sal -- - -"+runPayRollBean.getTotalSalary());
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
 				document.add(bottomTable);
 			}else{/**********************FOR NORMAL *****************/
+				System.out.println("* * * * * NORMAL SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
@@ -752,7 +775,6 @@ public class PdfPaySlipGenerator {
 				
 				System.out.println("Only ot :: "+otGiven+" Only holi ::"+holiGiven+" Both ::"+bothGiven+" Both not ::"+bothNotGiven);
 				if(bean.otSalary>0.0){
-					System.out.println("- - Ot given - - -");
 					if(bean.getHoliDayAmount() > 0.0){
 						//System.out.println("- - Ot given+holi - - -");
 						table = new PdfPTable(earnList.size()+3);
@@ -1378,8 +1400,6 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean	) throws Exception, DocumentException{
 			filePath = path+"salarysheet.pdf";
 			System.out.println("My file path :: "+filePath);
-			System.out.println("Sheet details Prest day : "+bean.getPresentDay()+" bean.getBasic():"+bean.getBasic()+
-					" bean.getOtSalary(): "+bean.getOtSalary()+" bean.getOtHoursF()::"+bean.getOtHoursF());
 			//document = new Document(PageSize.LEGAL.rotate(),35f,5f,5f,5f);
 			//writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			HeaderTable event = new HeaderTable(bean);
@@ -1397,7 +1417,6 @@ public class PdfPaySlipGenerator {
 		     // step 3
 			
 			document.open();
-			System.out.println("Tot sal ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
 			generateSheet(runPayRollBeanList , bean);
 			//DownloadPdf.download(filePath,"salarysheet.pdf");
 			openPdf(filePath);
