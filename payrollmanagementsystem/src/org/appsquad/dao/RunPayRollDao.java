@@ -751,4 +751,41 @@ public class RunPayRollDao {
 	}
 	
 	
+	public static void saveSalSheet(ArrayList<RunPayRollBean> runPayRollBeanList, RunPayRollBean pdfBean){
+		try {
+			
+			Connection connection = DbConnection.createConnection();
+			connection.setAutoCommit(false);
+			
+			try {
+				PreparedStatement preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
+				for(RunPayRollBean bean : runPayRollBeanList){
+				preparedStatement.setInt(1, bean.getEmpId());
+				preparedStatement.setString(2, bean.getEmpCode());
+				
+				
+				}
+			} finally{
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
 }

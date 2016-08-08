@@ -21,7 +21,7 @@ public class RunPayRollSql {
 	public static final String loadEmpDetailsQuery2 = " select employee_id, employee_code, employee_name, "
 													  + " emp_designation, unit_designation, pf_number, uan_number, "
 													  + " esi from vw_employee_information where company_id = ? and unit_id = ? "
-													  + " and unit_designation_id = ? ";
+													  + " and unit_designation_id = ? and is_delete = 'N' ";
 	
 	
 	public static final String loadWagesQuery = "SELECT component_amount from pms_employee_salary_components where employee_id = ? and component_name = 'WAGES'";
@@ -64,4 +64,21 @@ public class RunPayRollSql {
 	public static final String loadHoursPerDay = "select hour_per_day from pms_working_hours_per_unit where company_id = ? and unit_id = ? and leave_year_id = ? " ; 
 	
 	public static final String getUnitDayTypeQuery = "select base_days_type_id from pms_unit_master where unit_id = ?";
+	
+	public static final String empInsertSalStore = " INSERT INTO pms_emp_sal_store( " +
+										            " employee_id, employee_code, company_id, " + 
+										            " unit_id, unit_desiganatoin_id, emp_designation_id, presenet_days, " + 
+										            " base_days, ot, pf_num, esi_num, uan_num, salary_sheet_generation_date, " + 
+										            " salary_month_id, salary_month, leave_yr, wages, holiday_amount, " + 
+										            " ot_salary, total_salary, total_deduction, net_salary, " + 
+										            " created_by, updatetd_by, emp_name) " +
+										            " VALUES (?, ?, ?, ?, " + 
+										            " ?, ?, ?, ?, " + 
+										            " ?, ?, ?, ?, ?, ?, " + 
+										            " ?, ?, ?, ?, ?, " + 
+										            " ?, ?, ?, ?, ?, " + 
+										            " ?) ";
+
+	public static final String empInsertSalDetailsStore = "";
+	
 }
