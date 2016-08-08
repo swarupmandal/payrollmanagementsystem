@@ -111,6 +111,8 @@ public class Rules {
 		return ( DoubleFormattor.setDoubleFormat((component*presentDays)/baseDay) ); 
 	}
 	
+	
+	
 	public static double getOtSalary(double wages, double otime , int baseDays){
 		return ( DoubleFormattor.setDoubleFormat((wages*otime)/baseDays) ); 
 	}
