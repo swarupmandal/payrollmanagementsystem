@@ -24,9 +24,36 @@
 	  <hlayout spacing="160px">
 		<label value="Employee Information" style="color:black; font-weight:bold;"></label>
 		<label value="OT and Leave Ajustment" style="color:black; font-weight:bold;" visible="false"></label>  	
-	  	
 	  </hlayout>	
-	  <hlayout>
+	  <grid>
+	  	<columns>
+	  		<column align="right"/>
+	  		<column align="left"/>
+	  		<column align="right"/>
+	  		<column align="left"/>
+	  		<column align="right"/>
+	  		<column align="left"/>
+	  	</columns>
+	  	<rows>
+	  		<row>
+	  			 <label value="Employee Code :" style="color:black"></label>	
+	   			 <label value="@bind(vm.payRollBean.empCode)" style="color:black"/>
+	   			 <label value="Employee Name :" style="color:black"></label>	
+	   			 <label value="@bind(vm.payRollBean.empName)" style="color:black"/>
+	   			 <label value="Designation :" style="color:black"></label>	
+	   			 <label value="@bind(vm.payRollBean.empDesignation)" style="color:black"></label>
+	  		</row>
+	  		<row>
+	  			 <label value="PF : " style="color:black"></label>	
+	  			 <label value="@bind(vm.payRollBean.empPf)" style="color:black"></label>
+	  		     <label value="ESI : " style="color:black;"></label>	
+			     <label value="@bind(vm.payRollBean.empEsi)" style="color:black"></label>
+			     <label value="UAN : " style="color:black"></label>	
+	 			 <label value="@bind(vm.payRollBean.empUan)" style="color:black"></label>
+	  		</row>
+	  	</rows>
+	  </grid>
+	  <hlayout visible="false">
 	  <div >
 	  <hlayout>
 	   <label value="Employee Name :" style="color:black"></label>	

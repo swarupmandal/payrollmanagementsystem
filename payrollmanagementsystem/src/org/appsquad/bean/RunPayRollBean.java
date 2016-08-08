@@ -54,6 +54,12 @@ public class RunPayRollBean {
     private ArrayList<EmployeeSalaryComponentAmountBean> earningCompList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     private ArrayList<EmployeeSalaryComponentAmountBean> deductionCompList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     
+    @Override
+    public String toString() {
+    	// TODO Auto-generated method stub
+    	return "Code:"+empCode+" NAME:"+empName+" DESG:"+empDesignation+" PF:"+empPf+" ESI:"+empEsi
+    			+" UAN:"+empUan+" \nWAGES:"+wages+" PRESENT:"+presentDay+" GROSS:"+totalSalary+" TOTAL DEDUCTION:"+totalDeduction+" NET:"+netSalary;
+    }
     
 	public String getEmpName() {
 		return empName;

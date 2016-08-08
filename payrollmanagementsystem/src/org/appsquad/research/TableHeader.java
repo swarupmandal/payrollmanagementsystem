@@ -13,6 +13,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -27,7 +28,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class TableHeader {
 
-	public static final String DEST = "C:\\Users\\somnathd\\Desktop\\table_header.pdf";
+	public static final String DEST = "C:\\Users\\somnathd\\Desktop\\table_column.pdf";
 	
 	public class HeaderTable extends PdfPageEventHelper {
 	    protected PdfPTable table;
@@ -135,9 +136,60 @@ public class TableHeader {
 	public static void main(String[] args) throws IOException, DocumentException {
 		 File file = new File(DEST);
 	     file.getParentFile().mkdirs();
-	     TableHeader tableHeader = new TableHeader();
-	    tableHeader.createPdf(DEST);
+	    // TableHeader tableHeader = new TableHeader();
+	    //tableHeader.createPdf(DEST);
+	     Document  document = new Document();
+	     PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(DEST));
+	     document.open();
+	   
+	     PdfPTable mainTable = new PdfPTable(4);
+	     PdfPCell cell;
+	     String[] data = {"1","2","3","4","5","6","7","8","9","10"};
+		    
+	     System.out.println("Length:"+data.length);
+	     for(String str  : data ){
+	    	 PdfPTable innertable = new PdfPTable(1);
+	    	 cell = new PdfPCell(new Phrase(str));
+	    	 cell.setBorder(Rectangle.NO_BORDER);
+	    	 innertable.addCell(cell);
+	    	 mainTable.addCell(innertable);
+	    	 /*System.out.println("Starts loop i = "+i);
+	    	  cell = new PdfPCell(new Phrase(data[i]));
+		    	 PdfPTable table = new PdfPTable(1);
+		    	 table.addCell(cell);
+		    	
+	    	 if(i+1 <= data.length-1 ){
+	    		 cell = new PdfPCell( new Phrase(data[i+1]));
+	    		 table.addCell(cell);
+	    	 }else{
+	    		 cell = new PdfPCell(new Phrase(" "));
+	    		 table.addCell(cell);
+	    	 }
+	    	
+	    	mainTable.addCell(table);
+	    	 System.out.println("* * * * * * * * * * *After adding to table Ends loop i * * * * * * * * *");*/
+	     }
+	     document.add(mainTable);
+	     document.close();
 	}
+	
+	public static float addHeaderTable(Document document, String day, int page)
+	        throws DocumentException {
+	        PdfPTable header = new PdfPTable(3);
+	        header.setWidthPercentage(100);
+	        header.getDefaultCell().setBackgroundColor(BaseColor.BLACK);
+	        Font font = new Font(FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.WHITE);
+	        Phrase p = new Phrase("Foobar Film Festival", font);
+	        header.addCell(p);
+	        header.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+	        p = new Phrase(day.toString(), font);
+	        header.addCell(p);
+	        header.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
+	        p = new Phrase(String.format("page %d", page), font);
+	        header.addCell(p);
+	        document.add(header);
+	        return header.getTotalHeight();
+	    }
 	
 	public void createPdf(String filename) throws IOException, DocumentException {
         RunPayRollBean bean = new RunPayRollBean();
