@@ -439,6 +439,8 @@ public class RunPayrollViewModel {
 		
 		if(companyMasterBean.getCompanyId()==36 || companyMasterBean.getCompanyId() == 39){
 		
+			System.out.println("inside I T C "+ companyMasterBean.getCompanyId());
+			
 			for(RunPayRollBean bean : runPayRollBeanList){
 				
 				if(bean.getPresentDay()!=null ){
@@ -490,8 +492,9 @@ public class RunPayrollViewModel {
 								
 							}
 							if(earn.getComponentName().equalsIgnoreCase("WASHING")){
-								
+								System.out.println("WA SH ING " + bean.getPresentDay());
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
+								System.out.println("---------washing amount ------------------0 >>> >> > " + earn.getComponentAmount());
 								
 							}
 							if(bean.getSpecialTime() != null){
