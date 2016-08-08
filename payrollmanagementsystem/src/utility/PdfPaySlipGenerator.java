@@ -949,7 +949,7 @@ public class PdfPaySlipGenerator {
 				if(otGiven){
 					if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0){
 						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
-						table.addCell(createValueCellBold(String.valueOf(totSal)));
+						table.addCell(createValueCellBold(String.valueOf(totSal-bean.getOtSalary())));
 					}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()>0.0){
 						//double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
 						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary()-bean.getOtSalary());
