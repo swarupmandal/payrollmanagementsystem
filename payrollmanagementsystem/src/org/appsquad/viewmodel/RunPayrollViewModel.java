@@ -698,8 +698,17 @@ public class RunPayrollViewModel {
 							
 							int overTime = bean.getOverTime().intValue();
 							
-							earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime));
-							earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay())));
+							double initAllow = earn.getComponentAmount();
+							
+							double allowoverTime = Rules.getAllowances(initAllow, bean.getBaseDays(), overTime);
+							
+							earn.setComponentAmount(initAllow + allowoverTime);
+							
+						    //earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+							
+							//earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime)));
+							
+							System.out.println("MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
 						}
 					}
 					grossTotal += earn.getComponentAmount();
