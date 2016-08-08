@@ -99,7 +99,7 @@ public class RunPayrollViewModel {
 		System.out.println("R U N P A Y R O L L");
 		dateFormat();
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
-	//	EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
+		//EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
 		RunPayRollDao.loadMonthList(monthList);
 		loadLeaveYrDate();
 		
@@ -1024,7 +1024,37 @@ public class RunPayrollViewModel {
 		
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onclickSaveSalSheet(){
+		
+		/*pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
+		pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
+		pdfSheetBean.setCurrentDate(currentDate);
+		pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
+		pdfSheetBean.setYear(String.valueOf(year));*/
+		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
+		
+		ArrayList<RunPayRollBean> selectedEmployeeList = new ArrayList<RunPayRollBean>();
+	    boolean isChecked =  false;
+	    for(RunPayRollBean payRollBean : pdfBeanList){
+	    	if(payRollBean.isChecked()){
+	    		selectedEmployeeList.add(payRollBean);
+	    		isChecked = true;
+	    	}
+	    }
+		if(isChecked){
+			System.out.println("Clik generate sheet Prest day : "+pdfSheetBean.getPresentDay()+" bean.getBasic():"+pdfSheetBean.getBasic()+
+					" bean.getOtSalary(): "+pdfSheetBean.getOtSalary()+" bean.getOtHoursF()::"+pdfSheetBean.getOtHoursF());
+			//paySlipGenerator.getSheetDetails(selectedEmployeeList, pdfSheetBean);
+			RunPayRollService.saveEmpSalStore(selectedEmployeeList, pdfSheetBean);
+		}else{
+			Messagebox.show("Please check at least one!","Alert Information",Messagebox.OK,Messagebox.EXCLAMATION);
+		}
+		
+
 	
+	}
 	
 	
 	

@@ -1307,6 +1307,50 @@ public class EmployeeDao {
 
     
     
+    public static int onClickInactive(int empId){
+    	int i = 0;
+    	
+    	try {
+
+			Connection connection = DbConnection.createConnection();
+			sql_connection:{
+				
+				try {
+					
+					sql_block:{
+					
+						PreparedStatement preparedStatement = null;
+						try {
+						
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.empInactiveQuery, Arrays.asList(empId));
+							
+							i = preparedStatement.executeUpdate();
+							
+							
+						}finally{
+							if(preparedStatement != null){
+								preparedStatement.close();
+							}
+						}
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					if(connection !=null){
+						connection.close();
+					}
+				}
+			}
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return i;
+    }
+    
+    
 	
 
 }

@@ -307,4 +307,9 @@ public class RunPayRollService {
     	
     }
     
+    public static void saveEmpSalStore(ArrayList<RunPayRollBean> runPayRollBeanList, RunPayRollBean bean){
+    	RunPayRollDao.saveSalSheet(runPayRollBeanList, bean);
+    	
+    }
+    
 }

@@ -164,6 +164,9 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   sclass="bb_button" />	
    <button label="Generate salary sheet" onClick="@command('onclickGenerateSheet')"
     style="cursor: pointer; cursor: hand; " 
+    sclass="bb_button"/>
+    <button label="Save salary sheet" onClick="@command('onclickSaveSalSheet')"
+    style="cursor: pointer; cursor: hand; " 
     sclass="bb_button"/>	
   </div>
   </div>

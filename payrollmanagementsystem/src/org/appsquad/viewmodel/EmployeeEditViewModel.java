@@ -23,6 +23,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zul.Messagebox;
 
 public class EmployeeEditViewModel {
 
@@ -151,6 +152,18 @@ public class EmployeeEditViewModel {
 		employeeMasterBean.setUserId(userName);
 		employeeMasterBean.setEmployeeid(empId);
 	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickInactive(){
+		int i =0;
+		i = EmployeeMasterService.onInActiveEmp(employeeMasterBean.getEmployeeid());
+		if(i>0){
+			Messagebox.show("Employee Inactivate Successfully", "Information", Messagebox.OK, Messagebox.INFORMATION );
+		}
+		
+	}
+	
 
 	public EmployeeMasterBean getEmployeeMasterBean() {
 		return employeeMasterBean;

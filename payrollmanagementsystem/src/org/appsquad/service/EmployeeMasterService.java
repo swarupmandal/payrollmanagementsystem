@@ -269,6 +269,11 @@ public class EmployeeMasterService {
 		
 	}
 	
+	public static int onInActiveEmp(int empId){
+		int i = 0;
+		i = EmployeeDao.onClickInactive(empId);
+		return i;
+	}
 }
 
 

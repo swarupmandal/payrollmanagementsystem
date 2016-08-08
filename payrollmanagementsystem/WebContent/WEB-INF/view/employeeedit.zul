@@ -299,6 +299,8 @@ apply="org.zkoss.bind.BindComposer"
 		
 		<div align="center">
 			<button label="Update" sclass="bb_button" onClick="@command('oClickUpdate')"/>
+			<button label="Inactive" sclass="bb_button" onClick="@command('onClickInactive')"/>
+			
 		</div>
 		
 		
