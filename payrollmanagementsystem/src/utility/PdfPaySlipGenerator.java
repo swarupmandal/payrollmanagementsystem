@@ -511,7 +511,7 @@ public class PdfPaySlipGenerator {
 				System.out.println("For loop e : "+e);
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
 				if(earnMap.containsKey(e)){
-					cell = new PdfPCell( new Phrase(e+"\n"+String.valueOf(earnMap.get(e)),font) );
+					cell = new PdfPCell( new Phrase(e+"\n"+String.valueOf( DoubleFormattor.setDoubleFormat(earnMap.get(e)) ),font) );
 				}
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
