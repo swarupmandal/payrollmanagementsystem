@@ -861,7 +861,10 @@ public class PdfPaySlipGenerator {
 					overTime= true;
 				}
 				System.out.println("Only ot :: "+otGiven+" Only holi ::"+holiGiven+" Both ::"+bothGiven+" Both not ::"+bothNotGiven);
-				if(bean.otSalary>0.0){
+				
+				System.out.println("***** EARN LIST FOR ****bean.getOverTimeSal():: "+bean.getOverTimeSal()+
+						"*****bean.getOtSalary()::"+bean.getOtSalary());
+				if(bean.getOtSalary()>0.0){
 					if(bean.getHoliDayAmount() > 0.0){
 						//System.out.println("- - Ot given+holi - - -");
 						table = new PdfPTable(earnList.size()+3);
@@ -1346,6 +1349,8 @@ public class PdfPaySlipGenerator {
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
 			
+			System.out.println("****************** bean.getOtHoursF():: "+bean.getOtHoursF()+
+					"bean.getOverTime():: "+bean.getOverTime());
 			if(bean.getOtHoursF() > 0.0){
 				cell = new PdfPCell(new Phrase("E.D.",font));
 				cell.setBorder(Rectangle.NO_BORDER);
