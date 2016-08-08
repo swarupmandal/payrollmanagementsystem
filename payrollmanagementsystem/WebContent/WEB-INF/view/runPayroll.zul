@@ -180,8 +180,12 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   				<column label="Emp Code" align="center" width="80px"/>
   				<column label="Emp Name" align="center" width="150px"/>
   				<column label="Present" align="center"/>
-  				<column label="Over Time" align="center"/>
-  				<column label="Over Duty"></column>
+  				<!-- <column label="Over Time" align="center"/>
+  				<column label="Over Duty"></column> -->
+  				
+  				<column label="E.D" align="center"/>
+  				<column label="Extra Duty"></column>
+  				
   				<column label="Spcl work" align="center"/>
   				<column label="Holiday Amt" align="center" width="110px"/>
   				<column label="Salary Total" align="center"/>

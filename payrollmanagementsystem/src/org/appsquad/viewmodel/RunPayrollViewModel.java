@@ -679,7 +679,51 @@ public class RunPayrollViewModel {
 						earn.setComponentAmount(Rules.getHra(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 					}
 					
+					/********************************************/
 					
+					if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+						
+						int overTime = bean.getOverTime().intValue();
+						
+						double initAllow = earn.getComponentAmount();
+						
+						System.out.println("INIT ALLO " + initAllow);
+						
+						double allowoverTime = Rules.getAllowances(initAllow, bean.getBaseDays(), overTime);
+						
+						System.out.println("ALL o");
+						
+						earn.setComponentAmount(initAllow + allowoverTime);
+						
+					    //earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+						
+						//earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime)));
+						
+						System.out.println("with over time  MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
+					}//else {
+						 
+						if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							
+							bean.setOverTime(0.0);
+							
+							double initAllow = earn.getComponentAmount();
+							
+							int oT = bean.getOverTime().intValue();
+							
+							int ed = bean.getOtHoursF().intValue();
+						
+							int presentDay = bean.getPresentDay() ;
+							System.out.println("pt:"+presentDay+" ed:"+ed);
+							double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),presentDay+ed, oT);
+							System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
+							earn.setComponentAmount(initAllow + allowoverTime);
+							
+							System.out.println("with out MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
+						}
+					
+					
+					
+					/********************************************/
 					
 					if(bean.getSpecialTime() != null){
 					    if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
@@ -694,13 +738,18 @@ public class RunPayrollViewModel {
 						if(bean.getOverTime() == null){
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 						
-						}if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+						}
+						/*if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 							
 							int overTime = bean.getOverTime().intValue();
 							
 							double initAllow = earn.getComponentAmount();
 							
+							System.out.println("INIT ALLO " + initAllow);
+							
 							double allowoverTime = Rules.getAllowances(initAllow, bean.getBaseDays(), overTime);
+							
+							System.out.println("ALL o");
 							
 							earn.setComponentAmount(initAllow + allowoverTime);
 							
@@ -708,8 +757,30 @@ public class RunPayrollViewModel {
 							
 							//earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime)));
 							
-							System.out.println("MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
-						}
+							System.out.println("with over time  MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
+						}//else {
+							 
+							if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+								
+								bean.setOverTime(0.0);
+								
+								double initAllow = earn.getComponentAmount();
+								
+								int oT = bean.getOverTime().intValue();
+								
+								int ed = bean.getOtHoursF().intValue();
+							
+								int presentDay = bean.getPresentDay() ;
+								System.out.println("pt:"+presentDay+" ed:"+ed);
+								double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),presentDay+ed, oT);
+								System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
+								earn.setComponentAmount(initAllow + allowoverTime);
+								
+								System.out.println("with out MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
+							}*/
+							
+							
+						//}
 					}
 					grossTotal += earn.getComponentAmount();
 				}
