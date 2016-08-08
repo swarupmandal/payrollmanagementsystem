@@ -476,7 +476,7 @@ public class PdfPaySlipGenerator {
 			}
 			
 			font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-			if(bean.getOverTime() > 0.0){
+			if(bean.getOverTime() != null){
 				cell = new PdfPCell( new Phrase("Ex.Duty.\n"+totOvertime,font) );
 				bottomTable.addCell(cell);
 			}else{
