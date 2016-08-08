@@ -538,7 +538,7 @@ public class RunPayrollViewModel {
 							}*/
 							if(!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") 
 									&& !earn.getComponentName().equalsIgnoreCase("CONVEYENCE")
-									&& !earn.getComponentName().equalsIgnoreCase("WASHING ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCES")
+									&& !earn.getComponentName().equalsIgnoreCase("WASHING") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCES")
 									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS")){
 								
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()) );

@@ -375,7 +375,6 @@ public class PdfPaySlipGenerator {
 					for(EmployeeSalaryComponentAmountBean basic : rollBean.getEarningCompList()){
 						if(!basic.getComponentName().equalsIgnoreCase("BASIC")){
 							ernList.add(basic.getComponentName());
-							
 						}
 					}
 					for(EmployeeSalaryComponentAmountBean basic : rollBean.getDeductionCompList()){
@@ -526,6 +525,9 @@ public class PdfPaySlipGenerator {
 			}else{/**********************FOR NORMAL *****************/
 				System.out.println("* * * * * NORMAL SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+					for(EmployeeSalaryComponentAmountBean earn : runPayRollBean.getEarningCompList()){
+					System.out.println("Comp name: "+earn.getComponentName()+" Amnt: "+earn.getComponentAmount());
+					}
 					document.add(createTableForSheet(document, runPayRollBean));
 				}
 				document.add(bottomTable);
