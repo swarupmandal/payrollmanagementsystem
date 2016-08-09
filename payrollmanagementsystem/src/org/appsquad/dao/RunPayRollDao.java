@@ -1,5 +1,6 @@
 package org.appsquad.dao;
 
+import java.beans.beancontext.BeanContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +23,7 @@ import org.zkoss.zul.Messagebox;
 
 import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
+import utility.CheckSunday;
 import utility.Util1;
 
 public class RunPayRollDao {
@@ -691,15 +693,25 @@ public class RunPayRollDao {
 		
 		if(baseDayType == 2){
 			// calculate month day and minus 4 in baseDays
-			System.out.println("--Special unit---");
-			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
-			baseDays = baseDays-4;
+			if(unitId == 39){
+				System.out.println("--Special base for religh court---y:"+year+"m:"+monthId);
+				int sunday = CheckSunday.countWeekendDays(year, monthId);
+				if(sunday==5){
+					baseDays = 26;
+				}else{
+					baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
+					baseDays = baseDays-4;
+				}
+			}else{
+				System.out.println("--Special unit---");
+				baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
+				baseDays = baseDays-4;
+			}
+			
 		}else if(baseDayType == 3) {
 			System.out.println("--Special 26 unit---");
 			baseDays = 26;
-		}
-		
-		else{
+		}else{
 			// calculate month days in baseDayss
 			System.out.println("--Normal unit---");
 			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);

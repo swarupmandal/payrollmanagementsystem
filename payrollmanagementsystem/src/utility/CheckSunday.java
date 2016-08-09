@@ -4,7 +4,10 @@ import java.util.Calendar;
 
 public class CheckSunday {
 
-
+public static void main(String[] args) {
+	int day =  countWeekendDays(2016, 7);
+	System.out.println(day);
+}
 
 	/*public static void main(String[] args) {
 		int a = countWeekendDays(2016, 7);

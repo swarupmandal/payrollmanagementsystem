@@ -320,8 +320,12 @@ public class RunPayrollViewModel {
 	    	}
 	    }
 		if(isChecked){
-			System.out.println("Clik generate sheet Prest day : "+pdfSheetBean.getPresentDay()+" bean.getBasic():"+pdfSheetBean.getBasic()+
-					" bean.getOtSalary(): "+pdfSheetBean.getOtSalary()+" bean.getOtHoursF()::"+pdfSheetBean.getOtHoursF());
+			System.out.println("* * * * * * * On Click generate sheet * * * *");
+			 for(RunPayRollBean bean : selectedEmployeeList){
+				 for(EmployeeSalaryComponentAmountBean comp : bean.getEarningCompList()){
+					 System.out.println(comp.toString());
+				 }
+			 }
 			paySlipGenerator.getSheetDetails(pdfPath, selectedEmployeeList, pdfSheetBean);
 		}else{
 			Messagebox.show("Please check at least one!","Alert Information",Messagebox.OK,Messagebox.EXCLAMATION);
@@ -357,7 +361,12 @@ public class RunPayrollViewModel {
 		prevButtonVisibility = true;
 		calculateButtonVisibility = false;
 		upperComponentVisibility = false;
-		
+		System.out.println("* * * * * * * On Click Next sheet * * * *");
+		 for(RunPayRollBean bean : pdfBeanList){
+			 for(EmployeeSalaryComponentAmountBean comp : bean.getEarningCompList()){
+				 System.out.println(comp.toString());
+			 }
+		 }
 		/*String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
 		pdfSheetBean.setComapnyName(companyMasterBean.getCompanyName());
 		pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
@@ -444,7 +453,8 @@ public class RunPayrollViewModel {
 			for(RunPayRollBean bean : runPayRollBeanList){
 				
 				if(bean.getPresentDay()!=null ){
-					
+				
+					bean.setSelectedUnitId(runPayRollBean.getSelectedUnitId());
 					RunPayRollBean pdfBean = new RunPayRollBean();
 					pdfBean.setEmpcount(empcount);
 					bean.setBaseDays(baseDays);
@@ -652,6 +662,7 @@ public class RunPayrollViewModel {
 						pdfBean.setComapnyName(bean.getComapnyName());
 						pdfBean.setUnitName(bean.getUnitName());
 						pdfBean.setUnitDesignation(bean.getUnitDesignation());
+						pdfBean.setSelectedUnitId(bean.getSelectedUnitId());
 						pdfBean.setMonthName(bean.getMonthName());
 						pdfBean.setYear(bean.getYear());
 						pdfBean.setCurrentDate(currentDate);
@@ -686,7 +697,8 @@ public class RunPayrollViewModel {
 		for(RunPayRollBean bean : runPayRollBeanList ){
 			
 			if(bean.getPresentDay()!=null ){
-			
+				bean.setSelectedUnitId(runPayRollBean.getSelectedUnitId());
+				System.out.println("Selected unit ID: "+bean.getSelectedUnitId());
 				RunPayRollBean pdfBean = new RunPayRollBean();
 				bean.setBaseDays(baseDays);
 				
@@ -723,7 +735,7 @@ public class RunPayrollViewModel {
 					}
 					/********************************************/
 					
-					if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+					if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && bean.getSelectedUnitId()!=38 ){
 						
 						int overTime = bean.getOverTime().intValue();
 						
@@ -741,29 +753,29 @@ public class RunPayrollViewModel {
 						
 						//earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime)));
 						
-						System.out.println("with over time  MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
+						System.out.println("With over time  Allowance --------------------------------->>> >> > " + earn.getComponentAmount());
 					}//else {
 						 
-						if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
-							
-							bean.setOverTime(0.0);
-							
-							double initAllow = earn.getComponentAmount();
-							
-							int oT = bean.getOverTime().intValue();
-							
-							int ed = bean.getOtHoursF().intValue();
+					if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")  && bean.getSelectedUnitId()!=38){
 						
-							int presentDay = bean.getPresentDay() ;
-							System.out.println("pt:"+presentDay+" ed:"+ed);
-							double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),presentDay+ed, oT);
-							System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
-							earn.setComponentAmount(initAllow + allowoverTime);
-							
-							System.out.println("OT DAys " + bean.getOtHoursF());
-							
-							System.out.println("with out MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
-						}
+						bean.setOverTime(0.0);
+						
+						double initAllow = earn.getComponentAmount();
+						
+						int oT = bean.getOverTime().intValue();
+						
+						int ed = bean.getOtHoursF().intValue();
+					
+						int presentDay = bean.getPresentDay() ;
+						System.out.println("pt:"+presentDay+" ed:"+ed);
+						double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),presentDay+ed, oT);
+						System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
+						earn.setComponentAmount(initAllow + allowoverTime);
+						
+						System.out.println("OT DAys " + bean.getOtHoursF());
+						
+						System.out.println("with out MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
+					}
 					
 					
 					
@@ -787,7 +799,8 @@ public class RunPayrollViewModel {
 						//earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 						System.out.println("All in general " + earn.getComponentAmount());
 						
-						}if(bean.getPresentDay()==0 && bean.getOtHoursF()>0){
+						}
+						if(bean.getPresentDay()==0 && bean.getOtHoursF()>0 && bean.getSelectedUnitId()!=38){//General rule applicalbe
 							System.out.println("2nd sp 1>>> >> > " + earn.getComponentAmount());
 							System.out.println("2nd sp 2>>> >> > " + bean.getPresentDay());
 							System.out.println("2nd sp 3>>> >> > " + bean.getOtHoursF());
@@ -911,6 +924,7 @@ public class RunPayrollViewModel {
 				pdfBean.setComapnyName(bean.getComapnyName());
 				pdfBean.setUnitName(bean.getUnitName());
 				pdfBean.setUnitDesignation(bean.getUnitDesignation());
+				pdfBean.setSelectedUnitId(bean.getSelectedUnitId());
 				pdfBean.setMonthName(bean.getMonthName());
 				pdfBean.setYear(bean.getYear());
 				pdfBean.setCurrentDate(currentDate);
