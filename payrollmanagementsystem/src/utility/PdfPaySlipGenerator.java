@@ -330,12 +330,13 @@ public class PdfPaySlipGenerator {
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0, beanCount=0;boolean otSheet = false;
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
 			double otSheetTotDed =0.0,otSheetNetSal =0.0;
+			System.out.println("---GENERATE SHEET CALLED. . . .- - - - ");
 			for(RunPayRollBean payRollBean : runPayRollBeanList){
-				double otSheetTotSal =0.0,eamt=0.0;
+				double otSheetTotSal =0.0,eamt=0.0,totED=0.0;
 				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && 
 						payRollBean.getOtSalary() > 0.0 && payRollBean.getOtHoursF() > 0.0){
 					otSheet = true;
-			
+					System.out.println("---GENERATE SHEET CALLED for otsheet * * * * *. . . .- - - - ");
 					 for(EmployeeSalaryComponentAmountBean earn: payRollBean.getEarningCompList()){
 						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
 							 hra = Rules.getHraForOt(payRollBean.getOtSalary());
@@ -373,10 +374,13 @@ public class PdfPaySlipGenerator {
 							 ded.setComponentAmount(otSheetTotDed);
 						 }
 					 }
+					// totOtSal += payRollBean.getOtSalary();
 					 otSheetNetSal = otSheetTotSal - otSheetTotDed ;
+					// System.out.println("ED cal - - -  - - - -> > > > > ..  "+totOtSal);
 					 payRollBean.setTotalSalary(otSheetTotSal);
 					 payRollBean.setTotalDeduction(otSheetTotDed);
 					 payRollBean.setNetSalary(otSheetNetSal);
+					
 					 beanCount++;
 					 otSheetList.add(payRollBean);
 				}
@@ -389,6 +393,7 @@ public class PdfPaySlipGenerator {
 			Map<String, Double> deductMap = new HashMap<String, Double>();
 			
 			if(!otSheet){
+				System.out.println("- - - - GENERATE SHEET CALLED FOR NORMAL SHEET - - - - - - - -");
 				for(RunPayRollBean rollBean : runPayRollBeanList){
 					totPresnt += rollBean.getPresentDay();
 					earnSize += rollBean.getEarningCompList().size();
@@ -530,7 +535,7 @@ public class PdfPaySlipGenerator {
 			System.out.println("deduct map :: "+deductMap);
 			System.out.println("totOvertime:: "+totOvertime);
 			System.out.println("****************totOvertime *******************"+totOvertime);
-			System.out.println("**************** totOt *******************"+totOt);
+			System.out.println("**************** totOtSal *******************"+totOtSal);
 			
 			float[] columnWidths = {60, 30, 50, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
@@ -572,8 +577,12 @@ public class PdfPaySlipGenerator {
 			
 			//ernList.add("Tot Sal.");
 			PdfPTable earnTable = null;
-			if(totOvertimeSal > 0.0){
-				earnTable = new PdfPTable(ernList.size()+2);
+			if(totOtSal > 0.0){
+				if(totOvertimeSal > 0.0){
+					earnTable = new PdfPTable(ernList.size()+3);
+				}else{
+					earnTable = new PdfPTable(ernList.size()+2);
+				}
 			}else{
 				earnTable = new PdfPTable(ernList.size()+1);
 			}
@@ -589,18 +598,28 @@ public class PdfPaySlipGenerator {
 			}
 			
 			if(totOvertimeSal>0.0){
+				System.out.println("- - -  - E.Duty printing on pf - - - - "+(totOvertimeSal));
 				cell = new PdfPCell( new Phrase("Ex.Duty\n"+String.valueOf( DoubleFormattor.setDoubleFormat(totOvertimeSal) ),font));
+				cell.setBorder(Rectangle.NO_BORDER);
+				earnTable.addCell(cell);
+				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+			}
+			if(totOtSal>0.0){
+				System.out.println("- - -  - E.D printing on pf - - - - "+totOtSal);
+				cell = new PdfPCell( new Phrase("E.D.\n"+String.valueOf( DoubleFormattor.setDoubleFormat(totOtSal) ),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			}
 			
 			if(totOvertimeSal>0.0){
+				System.out.println("- - -  - E.Duty printing on pf - - - - "+(totSalTot-totOtSal));
 				cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot-totOtSal),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			}else{
+				System.out.println("- - -Else part E.Duty printing on pf - - - - "+(totSalTot));
 				cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
