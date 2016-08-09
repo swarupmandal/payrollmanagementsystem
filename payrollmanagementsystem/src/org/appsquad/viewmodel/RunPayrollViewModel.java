@@ -473,7 +473,8 @@ public class RunPayrollViewModel {
 							if(earn.getComponentName().equalsIgnoreCase("HRA")){
 								
 								
-								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
+								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD")||bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE SECURITY GUARD")
+										|| bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN") || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")){
 									//earn.setComponentAmount( DoubleFormattor.setDoubleFormat( bean.getWages()*0.15));
 									
@@ -505,7 +506,7 @@ public class RunPayrollViewModel {
 									earn.setComponentAmount(Rules.getSpecialWorkAllowance(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay()), 
 											bean.getBaseDays(), bean.getSpecialTime()));	
 								}
-								}
+							}
 							
 							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 													  || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
@@ -542,8 +543,8 @@ public class RunPayrollViewModel {
 
 							}*/
 							if(!earn.getComponentName().equalsIgnoreCase("BASIC") && !earn.getComponentName().equalsIgnoreCase("HRA") 
-									&& !earn.getComponentName().equalsIgnoreCase("CONVEYENCE")
-									&& !earn.getComponentName().equalsIgnoreCase("WASHING") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCES")
+									&& !earn.getComponentName().equalsIgnoreCase("CONVEYANCE")
+									&& !earn.getComponentName().equalsIgnoreCase("WASHING") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCE")
 									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS")){
 								
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()) );
