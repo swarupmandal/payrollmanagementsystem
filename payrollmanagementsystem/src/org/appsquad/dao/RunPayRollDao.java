@@ -774,7 +774,7 @@ public class RunPayRollDao {
 				for(RunPayRollBean bean : runPayRollBeanList){
 				preparedStatement.setInt(1, bean.getEmpId());
 				preparedStatement.setString(2, bean.getEmpCode());
-				
+				//preparedStatement.setInt(3, bean.gets);
 				
 				}
 			} finally{

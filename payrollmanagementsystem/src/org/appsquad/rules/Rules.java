@@ -5,8 +5,11 @@ import org.appsquad.research.DoubleFormattor;
 public class Rules {
 
 	public static double getBasic(double wages, int baseDays, int presentDays){
-		//System.out.println("Basic: "+DoubleFormattor.setDoubleFormat((wages/baseDays) * presentDays));
-		return ( DoubleFormattor.setDoubleFormat((wages/baseDays) * presentDays) );
+		double basic = 0.0;
+		basic = (wages/baseDays) * presentDays;
+		basic = DoubleFormattor.setDoubleFormat(basic);
+		System.out.println("Basic value with round up from Rules: "+basic);
+		return basic;
 	}
 	
 	public static double getPf(double basic){
@@ -18,7 +21,6 @@ public class Rules {
 		//System.out.println("Esi called. . .");
 		System.out.println("gro " + gross);
 		System.out.println("was " + washing);
-		
 		double esiVal=0.0;
 		if( washing==0.0){
 			esiVal =  ((gross * 0.0175));
@@ -26,8 +28,7 @@ public class Rules {
 		if( washing > 0.0){
 			esiVal = ((gross - washing) * 0.0175);
 		}
-		
-		System.out.println("ESI ----- >>> >> > " + esiVal );
+		System.out.println("ESI Calulation from Rules without round up ----- >>> >> > " + esiVal );
 		return esiVal ;
 	}
 	
@@ -40,8 +41,11 @@ public class Rules {
 	}
 		
 	public static double getHra(double hra, int baseDay , int presentDays){
-		//System.out.println("Hra called. . .");
-		return ( DoubleFormattor.setDoubleFormat( (hra/baseDay)*presentDays ) ); 
+		double returnedHra = 0.0;
+		returnedHra = (hra/baseDay) * presentDays ;
+		returnedHra = DoubleFormattor.setDoubleFormat(returnedHra);
+		System.out.println("HRA value with round up from Rules: "+returnedHra);
+		return returnedHra;
 	}
 	
 	public static double getHraForOt(double otSalary){

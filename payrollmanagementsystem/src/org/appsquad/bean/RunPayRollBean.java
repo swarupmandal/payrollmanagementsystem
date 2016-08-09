@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class RunPayRollBean {
 	
     private String empName;
-    private int empId, selectedMonthId,selectedUnitId, selectedCurrentYr, baseDays;
+    private int empId, selectedMonthId,selectedUnitId, selectedCompanyId, 
+    selectedUnitDesignationId,selectedCurrentYr, baseDays;
     private String empCode,currentDate;
     private String comapnyName,UnitName,year,monthName;
     private String empPf;
@@ -417,6 +418,22 @@ public class RunPayRollBean {
 
 	public void setOverTimeSalNew(double overTimeSalNew) {
 		this.overTimeSalNew = overTimeSalNew;
+	}
+
+	public int getSelectedCompanyId() {
+		return selectedCompanyId;
+	}
+
+	public void setSelectedCompanyId(int selectedCompanyId) {
+		this.selectedCompanyId = selectedCompanyId;
+	}
+
+	public int getSelectedUnitDesignationId() {
+		return selectedUnitDesignationId;
+	}
+
+	public void setSelectedUnitDesignationId(int selectedUnitDesignationId) {
+		this.selectedUnitDesignationId = selectedUnitDesignationId;
 	}
 
 	
