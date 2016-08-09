@@ -414,6 +414,9 @@ public class PdfPaySlipGenerator {
 					totOvertimeSal+=rollBean.getOverTimeSal();
 					String earnName = null;
 					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
+						
+						System.out.println("nor  name " + earnBean.getComponentName());
+						System.out.println("nor amount " + earnBean.getComponentAmount());
 						if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
 							earnName = earnBean.getComponentName();
 							if(earnMap.containsKey(earnName)){
