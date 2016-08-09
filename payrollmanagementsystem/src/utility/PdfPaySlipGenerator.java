@@ -861,7 +861,10 @@ public class PdfPaySlipGenerator {
 					overTime= true;
 				}
 				System.out.println("Only ot :: "+otGiven+" Only holi ::"+holiGiven+" Both ::"+bothGiven+" Both not ::"+bothNotGiven);
-				if(bean.otSalary>0.0){
+				
+				System.out.println("***** EARN LIST FOR ****bean.getOverTimeSal():: "+bean.getOverTimeSal()+
+						"*****bean.getOtSalary()::"+bean.getOtSalary());
+				if(bean.getOtSalary()>0.0){
 					if(bean.getHoliDayAmount() > 0.0){
 						//System.out.println("- - Ot given+holi - - -");
 						table = new PdfPTable(earnList.size()+3);
@@ -1045,6 +1048,7 @@ public class PdfPaySlipGenerator {
 			System.out.println("bean.getOverTime() :"+bean.getOverTime()+" getOverTimeSal:: "+bean.getOverTimeSal());
 			
 			if(bean.getDeductionCompList().size() > 0){
+				System.out.println("******DEDUCTION LIST SIZE > 0 ************");
 				mainDeductionTable = new PdfPTable(1);
 				
 				PdfPTable deducTable = new PdfPTable(bean.getDeductionCompList().size()+1);
@@ -1068,18 +1072,23 @@ public class PdfPaySlipGenerator {
 				netsalTable.addCell(cell);
 				System.out.println("bean.getTotalSalary() :"+bean.getTotalSalary()+" getOtSalary():: "+bean.getOtSalary());
 				//netsalTable.addCell(createLabelCellLeftUnderLine("NET SALARY :"));
-				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0 && bean.getOverTimeSal()==0.0){
+				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0 && bean.getOverTimeSal()==null){
+					System.out.println("******************* BASIC NOT PRESNET >0 OTSAL >0 OVERTIME null***********************");
 					System.out.println("Otsal :"+bean.getOtSalary()+" otsal:: "+bean.otSalary);
 						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 						cell.setBorder(Rectangle.NO_BORDER);
 						netsalTable.addCell(cell);
 				}else if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOverTimeSal()>0.0){
+					System.out.println("******************* BASIC NOT PRESNET >0 OTSAL >0 OVERTIME given***********************");
+					
 					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 					cell.setBorder(Rectangle.NO_BORDER);
 					netsalTable.addCell(cell);
 				}else{
+					System.out.println("*******************normal***********************");
+					
 					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
 					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 					cell.setBorder(Rectangle.NO_BORDER);
@@ -1095,6 +1104,8 @@ public class PdfPaySlipGenerator {
 				mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 				return mainDeductionTable;
 			}else{
+				
+				System.out.println("******DEDUCTION LIST SIZE NOT GREATER 0 ************");
 				mainDeductionTable = new PdfPTable(1);
 				
 				PdfPTable deducTable = new PdfPTable(1);
@@ -1111,8 +1122,11 @@ public class PdfPaySlipGenerator {
 				cell.setHorizontalAlignment(Element.ALIGN_TOP);
 				netsalTable.addCell(cell);
 				
-				if(bean.getOverTime() > 0.0){
+				System.out.println(" TOTAL SAL::"+bean.getTotalSalary()+" Otsal :"+bean.getOtSalary()+" bean.getOverTimeSal():: "+bean.getOverTimeSal());
+				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0 && bean.getOverTimeSal() ==0.0){
 					System.out.println("Otsal :"+bean.getOtSalary()+" otsal:: "+bean.otSalary);
+					System.out.println("******************* BASIC NOT PRESNET >0 OTSAL >0 OVERTIME null***********************");
+					
 						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 						cell.setBorder(Rectangle.NO_BORDER);
@@ -1120,7 +1134,19 @@ public class PdfPaySlipGenerator {
 						mainDeductionTable.addCell( deducTable );
 						mainDeductionTable.addCell( netsalTable );
 						mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+				}else if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOverTimeSal()>0.0){
+					System.out.println("******************* BASIC NOT PRESNET >0 OTSAL >0 OVERTIME GIVEN ***********************");
+					
+					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
+					cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+					cell.setBorder(Rectangle.NO_BORDER);
+					netsalTable.addCell(cell);
+					mainDeductionTable.addCell( deducTable );
+					mainDeductionTable.addCell( netsalTable );
+					mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 				}else{
+					System.out.println("******************* NORMAL l***********************");
+					
 					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
 					cell.setHorizontalAlignment(Element.ALIGN_TOP);
 					cell.setBorder(Rectangle.NO_BORDER);
@@ -1134,8 +1160,6 @@ public class PdfPaySlipGenerator {
 					mainDeductionTable.addCell( netsalTable );
 					mainDeductionTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 				}
-				
-				
 				return mainDeductionTable;
 			}
 			
@@ -1325,6 +1349,8 @@ public class PdfPaySlipGenerator {
 			cell.setBorder(Rectangle.NO_BORDER);
 			table.addCell(cell);
 			
+			System.out.println("****************** bean.getOtHoursF():: "+bean.getOtHoursF()+
+					"bean.getOverTime():: "+bean.getOverTime());
 			if(bean.getOtHoursF() > 0.0){
 				cell = new PdfPCell(new Phrase("E.D.",font));
 				cell.setBorder(Rectangle.NO_BORDER);
