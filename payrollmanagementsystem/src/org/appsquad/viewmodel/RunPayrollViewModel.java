@@ -437,7 +437,7 @@ public class RunPayrollViewModel {
 		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
 			
 		
-		if(companyMasterBean.getCompanyId()==36 || companyMasterBean.getCompanyId() == 39){
+		if(companyMasterBean.getCompanyId()==48 || companyMasterBean.getCompanyId() == 39){
 		
 			System.out.println("inside I T C "+ companyMasterBean.getCompanyId());
 			
@@ -494,12 +494,25 @@ public class RunPayrollViewModel {
 								
 								
 							}
-							if(earn.getComponentName().equalsIgnoreCase("WASHING")){
-								System.out.println("WA SH ING " + bean.getPresentDay());
-								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
-								System.out.println("---------washing amount ------------------0 >>> >> > " + earn.getComponentAmount());
-								
+							
+							if(companyMasterBean.getCompanyId()==48){
+								if(earn.getComponentName().equalsIgnoreCase("WASHING")){
+									System.out.println("WA SH ING " + bean.getPresentDay());
+									earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+									
+									System.out.println("---------washing amount ------------------ for raleigh court  >>> >> > " + earn.getComponentAmount());
+									
+								}
+							} else{
+								if(earn.getComponentName().equalsIgnoreCase("WASHING")){
+									System.out.println("WA SH ING " + bean.getPresentDay());
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
+									//System.out.println("---------washing amount ------------------0 >>> >> > " + earn.getComponentAmount());
+									
+								}
 							}
+							
+							
 							if(bean.getSpecialTime() != null){
 								if(earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")){
 									
@@ -507,17 +520,22 @@ public class RunPayrollViewModel {
 											bean.getBaseDays(), bean.getSpecialTime()));	
 								}
 							}
-							
-							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
+							System.out.println("emp dest >>> >> > " + bean.getEmpDesignation());
+							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") 
+													  || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 													  || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
 						                              || bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") 
 						                              || bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") 
 						                              || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")
 						                              || bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") 
-						                              ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
+						                              || !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")
+						                              && !bean.getEmpDesignation().equalsIgnoreCase("CARE TAKER")){
 								if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
-									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(50*bean.getPresentDay()) );
 									
+									System.out.println("FOR RLG COURT 100>>> >> > " + earn.getComponentAmount());
+									
+									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(50*bean.getPresentDay()) );
+									System.out.println("ALL in ITCC " + earn.getComponentName());
 									System.out.println("ALL in ITC " + earn.getComponentAmount() );
 									
 								}
@@ -534,6 +552,22 @@ public class RunPayrollViewModel {
 								}
 							}
 
+							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE SECURITY GUARD") && earn.getComponentName().equalsIgnoreCase("EX-MAN ALL")){
+								earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+							}
+							
+							if(companyMasterBean.getCompanyId()==48){
+								if(bean.getEmpDesignation().equalsIgnoreCase("CARE TAKER") && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+									
+									System.out.println("FOR RLG COURT 1>>> >> > " + bean.getEmpDesignation());
+									System.out.println("FOR RLG COURT 2>>> >> > " + earn.getComponentName());
+									System.out.println("FOR RLG COURT 3>>> >> > " + earn.getComponentAmount());
+									
+									earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+									System.out.println("FOR RLG COURT 4>>> >> > " + earn.getComponentAmount());
+								}
+							}
+							
 							/*if(earn.getComponentName().equalsIgnoreCase("EX-MAN ALLOWANCES")){
 								earn.setComponentAmount((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays());
 								}*/
