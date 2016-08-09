@@ -396,10 +396,21 @@ public class PdfPaySlipGenerator {
 					totSalTot += rollBean.getTotalSalary();
 					totNetSal += rollBean.getNetSalary();
 					totDed += rollBean.getTotalDeduction();
+					
 					totExtraDuty += rollBean.getOtHoursF();
 					totOt += rollBean.getOtHoursF();
 					totOtSal += rollBean.getOtSalary();
+					
+					if(rollBean.getOverTime() == null){
+						rollBean.setOverTime(0.0);
+					}
+					
 					totOvertime += rollBean.getOverTime();
+					
+					if(rollBean.getOverTimeSal()==null){
+						rollBean.setOverTimeSal(0.0);
+					}
+					
 					totOvertimeSal+=rollBean.getOverTimeSal();
 					String earnName = null;
 					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){

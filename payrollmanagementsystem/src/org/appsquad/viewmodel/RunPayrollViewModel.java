@@ -489,7 +489,7 @@ public class RunPayrollViewModel {
 							if(earn.getComponentName().equalsIgnoreCase("CONVEYANCE")){
 								
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(20*bean.getPresentDay()) );
-								
+								System.out.println("CON ITC >> " +earn.getComponentAmount());
 								
 								
 							}
@@ -516,6 +516,9 @@ public class RunPayrollViewModel {
 						                              ||  !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")){
 								if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(50*bean.getPresentDay()) );
+									
+									System.out.println("ALL in ITC " + earn.getComponentAmount() );
+									
 								}
 							}
 							if(bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
@@ -745,10 +748,14 @@ public class RunPayrollViewModel {
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 						System.out.println("All in general " + earn.getComponentAmount());
 						
-						}/*if(bean.getPresentDay()==0 && bean.getOtHoursF()>0){
+						}if(bean.getPresentDay()==0 && bean.getOtHoursF()>0){
+							System.out.println("2nd sp 1>>> >> > " + earn.getComponentAmount());
+							System.out.println("2nd sp 2>>> >> > " + bean.getPresentDay());
+							System.out.println("2nd sp 3>>> >> > " + bean.getOtHoursF());
+							
 							earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 							System.out.println("All in general 2nd space >>> >> >  " + earn.getComponentAmount());
-						}*/
+						}
 						
 						
 						/*if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
