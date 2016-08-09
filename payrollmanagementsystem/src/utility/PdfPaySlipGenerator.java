@@ -350,7 +350,11 @@ public class PdfPaySlipGenerator {
 						 }else{
 							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 								 System.out.println("Allowance in pdf sheet:: "+earn.getComponentAmount());
-								 double allow = 0.0;int baseDay = payRollBean.getBaseDays(); double otHours = payRollBean.getOtHoursF();
+								 System.out.println("Base days: "+payRollBean.getBaseDays());
+								 System.out.println("Base day: "+payRollBean.getBaseDay());
+								 System.out.println("otHours: "+payRollBean.getOtHoursF());
+								 double allow = earn.getComponentAmount();
+								 int baseDay = payRollBean.getBaseDays(); double otHours = payRollBean.getOtHoursF();
 								 allowance = Rules.getAllowancesOtOthers(allow, baseDay, otHours);
 								 earn.setComponentAmount(allowance);
 							 }
@@ -408,6 +412,12 @@ public class PdfPaySlipGenerator {
 								earnMap.put(earnName, earnBean.getComponentAmount());
 							}
 						}
+						if(earnBean.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							 System.out.println("ITC Allowance normal in pdf sheet:: "+earnBean.getComponentAmount());
+						 }
+						 if(earnBean.getComponentName().equalsIgnoreCase("CONVEYANCE")){
+							 System.out.println("ITC CONVEYANCE normal in pdf sheet:: "+earnBean.getComponentAmount());
+						 }
 						
 					}
 					String deductName = null;
