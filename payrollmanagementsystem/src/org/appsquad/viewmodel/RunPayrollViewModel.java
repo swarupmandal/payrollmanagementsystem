@@ -617,7 +617,7 @@ public class RunPayrollViewModel {
 						pdfBean.setMonthName(bean.getMonthName());
 						pdfBean.setYear(bean.getYear());
 						pdfBean.setCurrentDate(currentDate);
-						
+						pdfBean.setBaseDays(bean.getBaseDays());
 						
 						pdfBean.setPresentDay(bean.getPresentDay());
 						//System.out.println("pdf------------------------------------------------------------------------------------------>>> >> > " + pdfBean.getPresentDay());
@@ -741,11 +741,14 @@ public class RunPayrollViewModel {
 						
 						System.out.println("N A M E " + earn.getComponentName() +" -- " + earn.getComponentAmount());
 						
-						if(bean.getOverTime() == null){
+						if(bean.getOverTime() == null && bean.getPresentDay()>0 ){
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 						System.out.println("All in general " + earn.getComponentAmount());
 						
-						}
+						}/*if(bean.getPresentDay()==0 && bean.getOtHoursF()>0){
+							earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+							System.out.println("All in general 2nd space >>> >> >  " + earn.getComponentAmount());
+						}*/
 						
 						
 						/*if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
@@ -868,6 +871,7 @@ public class RunPayrollViewModel {
 				
 				pdfBean.setOtHoursF(bean.getOtHoursF());
 				pdfBean.setOtSalary(bean.getOtSalary());
+				pdfBean.setBaseDays(bean.getBaseDays());
 				
 				pdfBean.setTotalSalary(bean.getTotalSalary() );
 				pdfBean.setTotalDeduction(bean.getTotalDeduction());
