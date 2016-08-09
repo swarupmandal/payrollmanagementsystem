@@ -330,7 +330,17 @@ public class PdfPaySlipGenerator {
 			int totPresnt = 0,earnSize = 0 ,dedSize = 0, beanCount=0;boolean otSheet = false;
 			ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
 			double otSheetTotDed =0.0,otSheetNetSal =0.0;
+			
 			System.out.println("---GENERATE SHEET CALLED. . . .- - - - ");
+			
+			System.out.println("* * * * * * * On GENERATE SHEET * * * *");
+			 for(RunPayRollBean genSheet : runPayRollBeanList){
+				 System.out.println("Unit ID in generate salary Sheet:: "+genSheet.getSelectedUnitId());
+				 for(EmployeeSalaryComponentAmountBean comp : genSheet.getEarningCompList()){
+					 System.out.println(comp.toString());
+				 }
+			 }
+			
 			for(RunPayRollBean payRollBean : runPayRollBeanList){
 				double otSheetTotSal =0.0,eamt=0.0,totED=0.0;
 				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && 
@@ -349,7 +359,8 @@ public class PdfPaySlipGenerator {
 								 earn.setComponentAmount(allowance);
 							 }
 						 }else{
-							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							 //unit id = 38 for STC fixed allowance
+							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && payRollBean.getSelectedUnitId()!=38){
 								 System.out.println("Allowance in pdf sheet:: "+earn.getComponentAmount());
 								 System.out.println("Base days: "+payRollBean.getBaseDays());
 								 System.out.println("Base day: "+payRollBean.getBaseDay());
@@ -537,7 +548,7 @@ public class PdfPaySlipGenerator {
 			System.out.println("****************totOvertime *******************"+totOvertime);
 			System.out.println("**************** totOtSal *******************"+totOtSal);
 			
-			float[] columnWidths = {60, 30, 50, 45, 500, 500};
+			float[] columnWidths = {60, 35, 55, 45, 500, 500};
 			PdfPTable bottomTable = new PdfPTable(columnWidths);
 			bottomTable.setHorizontalAlignment(Element.ALIGN_LEFT);
 			PdfPCell cell ;
