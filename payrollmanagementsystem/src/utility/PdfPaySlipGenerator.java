@@ -36,6 +36,7 @@ import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPage;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfCell;
 
 public class PdfPaySlipGenerator {
 
@@ -202,30 +203,63 @@ public class PdfPaySlipGenerator {
 	        	mainTable.setWidths(widths);
 	        	mainTable.setWidthPercentage(100);
 	        	//mainTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-	        	
-	        	int i =1,size = selectedBeanList.size();
-	        	System.out.println("Before loop i: "+i);
- 	        	  for(RunPayRollBean payRollBean : selectedBeanList){
- 	        		  	//logger.info("At start of loop Counter->"+i+" size->"+size);
- 	        		    PdfPTable innertable = new PdfPTable(1);
-     				 	innertable.setWidthPercentage(20f);//added
-     				 	innertable.setHorizontalAlignment(Element.ALIGN_LEFT);//added
-     				 	
-     				    innertable.addCell(createTableForBDA(document, bean));	
-         				innertable.addCell(createTableForUnit(document, bean));	
-         				innertable.addCell(createTableForEmployee(document, payRollBean));	
-         				innertable.addCell(createTableForSalary(document , payRollBean));
-         				innertable.addCell(createTableForEarnings(document, payRollBean));	
-         				innertable.addCell(createTableForDeductions(document, payRollBean));
-         				innertable.addCell(createTableForNetSalary(document, payRollBean));
-         				//mainTable.addCell(innertable);
- 	        		 
+	        	PdfPCell cell;
+	        	  for(RunPayRollBean payRollBean : selectedBeanList){
+	        		  PdfPTable innertable = new PdfPTable(1);
+   				 	  innertable.setWidthPercentage(20f);//added
+   				 	  innertable.setHorizontalAlignment(Element.ALIGN_LEFT);//added
+   				 	
+   				 	  innertable.addCell(createTableForBDA(document, bean));	
+   				 	  innertable.addCell(createTableForUnit(document, bean));	
+   				 	  innertable.addCell(createTableForEmployee(document, payRollBean));	
+   				 	  innertable.addCell(createTableForSalary(document , payRollBean));
+   				 	  innertable.addCell(createTableForEarnings(document, payRollBean));	
+   				 	  innertable.addCell(createTableForDeductions(document, payRollBean));
+   				 	  innertable.addCell(createTableForNetSalary(document, payRollBean));
+   				 	  table.addCell(innertable);
+   				 	  table.addCell(new Phrase(""));
+   				 	  table.setSpacingAfter(35f);
+   				 	  table.setSpacingBefore(35f);
+   				 	  document.add(table);
+	        	  }		
+ 	        	//for(int i=0 ; i<selectedBeanList.size() ; i++){
+	        	//logger.info("At start of loop Counter->"+i+" size->"+size);
+ 	        		/*PdfPTable innertable = new PdfPTable(1);
+		 	   	         if (i < selectedBeanList.size()) {
+		 	   	        	    RunPayRollBean payRollBean = selectedBeanList.get(i);
+		     				 	innertable.setWidthPercentage(20f);//added
+		     				 	innertable.setHorizontalAlignment(Element.ALIGN_LEFT);//added
+		     				 	
+		     				    innertable.addCell(createTableForBDA(document, bean));	
+		         				innertable.addCell(createTableForUnit(document, bean));	
+		         				innertable.addCell(createTableForEmployee(document, payRollBean));	
+		         				innertable.addCell(createTableForSalary(document , payRollBean));
+		         				innertable.addCell(createTableForEarnings(document, payRollBean));	
+		         				innertable.addCell(createTableForDeductions(document, payRollBean));
+		         				innertable.addCell(createTableForNetSalary(document, payRollBean));
+		 	   	         } else {
+		 	   	             cell = new PdfPCell(new Phrase(""));
+		 	   	             innertable.addCell(cell);
+		 	   	         }
+		
+		 	   	         //go to next page after completing each row
+		 	   	         if(i != 0 && i%5 == 0)
+		 	   	         {
+		 	   	           document.add(mainTable);
+		 	   	           document.newPage();
+		 	   	           mainTable =  new PdfPTable(5);
+		 	   	         }
+		
+		 	   	         mainTable.addCell(table);*/
+ 	        		  
+ 	        		  
+ 	        		  
  	        		    
         						//innertable.setWidthPercentage(100);
  	 	        				
  	 	        			//	table.setSpacingBefore(35f);
  	 	        			//	table.setSpacingAfter(35f);
- 	 		      	          if(i<6){
+ 	 		      	         /* if(i<6){
  	 		      	        	table.addCell(innertable);
  	 	        				table.addCell(new Phrase(""));
  	 		      	        	//document.add(table);
@@ -240,9 +274,9 @@ public class PdfPaySlipGenerator {
  	 	        			//document.add(table);
  	 	        		}
  	 	        		i++;size--;
- 	 	        		logger.info("After adding to table counter::"+i+" remaing beans:: "+size);  
- 	        	  }	
- 	        	  document.add(table);
+ 	 	        		logger.info("After adding to table counter::"+i+" remaing beans:: "+size);  */
+ 	        	 
+ 	        	  
  	        	// document.add(mainTable);			//   }
  	        			   /*if(i>4)	{
  	        				  System.out.println(i+" *** bean Name----->(inside else) "+payRollBean.getEmpName());
@@ -307,10 +341,21 @@ public class PdfPaySlipGenerator {
 							 hra = Rules.getHraForOt(payRollBean.getOtSalary());
 							 earn.setComponentAmount(hra);
 						 }
-						 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
-							 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
-							 earn.setComponentAmount(allowance);
+						 if(payRollBean.getSelectedUnitId()==27 || payRollBean.getSelectedUnitId()==32){//ONLY FOR ITC OT ALLOWANCE
+							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+								 System.out.println("ITC Allowance in pdf sheet:: "+earn.getComponentAmount());
+								 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
+								 earn.setComponentAmount(allowance);
+							 }
+						 }else{
+							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+								 System.out.println("Allowance in pdf sheet:: "+earn.getComponentAmount());
+								 double allow = 0.0;int baseDay = payRollBean.getBaseDays(); double otHours = payRollBean.getOtHoursF();
+								 allowance = Rules.getAllowancesOtOthers(allow, baseDay, otHours);
+								 earn.setComponentAmount(allowance);
+							 }
 						 }
+						 
 						 if(earn.getComponentName().equalsIgnoreCase("CONVEYANCE")){
 							 conveyance = Rules.getConveyenceForOt(payRollBean.getOtHoursF());
 							 earn.setComponentAmount(conveyance);
@@ -543,7 +588,7 @@ public class PdfPaySlipGenerator {
 			//dedctList.add("TOT.NET SALARY");
 			System.out.println("DEDUCTION LIST SIZE :: "+dedctList.size() );
 			PdfPTable dedTable = new PdfPTable(dedctList.size()+1);
-			//if(dedctList.size()>0){
+			if(dedctList.size()>1){
 				for(String d : dedctList){
 					System.out.println("deduct  list : "+d);
 					font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
@@ -573,16 +618,18 @@ public class PdfPaySlipGenerator {
 					dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 				}
 				
-			//}
-			/*if(dedctList.size() == 1){
+			}
+			if(dedctList.size() == 1){
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-				cell = new PdfPCell( new Phrase("TOT.DED\n"+ String.valueOf( totDed) ,font) );
+				cell = new PdfPCell( new Phrase("TOT.DED\n"+ "0.00" ,font) );
+				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
 				
 				font = new Font(Font.getFamily("HELVETICA"), 8, Font.BOLD);
-				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+ String.valueOf( totNetSal) ,font) );
+				cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+ String.valueOf( totSalTot) ,font) );
+				cell.setBorder(Rectangle.NO_BORDER);
 				dedTable.addCell(cell);
-			}*/
+			}
 			
 			
 			
@@ -875,7 +922,6 @@ public class PdfPaySlipGenerator {
 						}else{
 							table = new PdfPTable(earnList.size()+2);
 						}
-						
 					}
 				}else if(bean.getHoliDayAmount() > 0.0){
 					//System.out.println("- - Holi given - - -");
@@ -1106,6 +1152,7 @@ public class PdfPaySlipGenerator {
 			}else{
 				
 				System.out.println("******DEDUCTION LIST SIZE NOT GREATER 0 ************");
+				double totDeduction = 0.0;
 				mainDeductionTable = new PdfPTable(1);
 				
 				PdfPTable deducTable = new PdfPTable(1);
@@ -1147,7 +1194,7 @@ public class PdfPaySlipGenerator {
 				}else{
 					System.out.println("******************* NORMAL l***********************");
 					
-					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getNetSalary())) ,font));
+					cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary())) ,font));
 					cell.setHorizontalAlignment(Element.ALIGN_TOP);
 					cell.setBorder(Rectangle.NO_BORDER);
 					netsalTable.addCell(cell);

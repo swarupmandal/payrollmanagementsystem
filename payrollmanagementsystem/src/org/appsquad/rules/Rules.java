@@ -86,6 +86,13 @@ public class Rules {
 		return ( (allowances/baseDay) *presentDays); 
 	}
 	
+	public static double getAllowancesOtOthers(double allowances, int baseDay , double otHours){
+		double allowance =0.0;
+		allowance = (allowances/baseDay) * otHours;
+		allowance = DoubleFormattor.setDoubleFormat(allowance);
+		return  allowance;
+	}
+	
 	public static double getWashing(double washing, int baseDay , int presentDays){
 		return ( (washing/baseDay)*presentDays ); 
 	}
