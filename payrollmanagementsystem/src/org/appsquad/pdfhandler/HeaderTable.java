@@ -116,7 +116,7 @@ public class HeaderTable extends PdfPageEventHelper {
     	ColumnText.showTextAligned(cb, Element.ALIGN_CENTER,
                 footer,
                 (document.right() - document.left()) / 2 + document.leftMargin(),
-                document.bottom()+30 , 0);
+                document.bottom()+10 , 0);
     	c++;
     }
 }
