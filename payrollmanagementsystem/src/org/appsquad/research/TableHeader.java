@@ -142,29 +142,35 @@ public class TableHeader {
 	     PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(DEST));
 	     document.open();
 	   
-	     PdfPTable mainTable = new PdfPTable(3);
+	     PdfPTable mainTable = new PdfPTable(9);
 	     PdfPCell cell;
-	     String[] data = {"1","2","3","4","5","6","7","8"};
+	     String[] data = {"1","2","3","4","5","6","7","8","11","12","13","14","15","16","17","18"};
 		    
 	     System.out.println("Length:"+data.length);
-	               for (int i = 0; i < data.length; i+=2) {
-	    	            cell = new PdfPCell(new Phrase(data[i]));
-	    	            PdfPTable table = new PdfPTable(1);
-	    	            table.addCell(cell);
-	    	            if (i+1 <= data.length -1) {
-	    	               cell = new PdfPCell(new Phrase(data[i + 1]));
-	    	               table.addCell(cell);
-	    	            } else {
-	    	                cell = new PdfPCell(new Phrase(""));
-	    	                table.addCell(cell);
-	    	            }
-	            	  /* if((i%3==0) && (i!=0)){
-	       				System.out.println();
-	       				}*/
-	       			
-	       			System.out.print(data[i]+"\t");
-	    	            mainTable.addCell(table);
-	    	    }
+	     for (int i = 0; i <= data.length; i++) {
+	         PdfPTable table = new PdfPTable(1);
+	         if (i < data.length) {
+	            cell = new PdfPCell(new Phrase(data[i]));
+	            table.addCell(cell);
+	           
+	         } else {
+	             cell = new PdfPCell(new Phrase(""));
+	             table.addCell(cell);
+	         }
+
+	         //go to next page after completing each row
+	         if(i != 0 && i%9 == 0)
+	         {
+	           document.add(mainTable);
+	           document.newPage();
+	           mainTable =  new PdfPTable(9);
+	         }
+
+	         mainTable.addCell(table);
+	         if(i%2!=0)
+	         mainTable.addCell( new PdfPCell(new Phrase(" blank"+i)) );
+	     }
+
 	    	
 	               document.add(mainTable);
 	      	     document.close();
