@@ -718,6 +718,8 @@ public class RunPayrollViewModel {
 							System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
 							earn.setComponentAmount(initAllow + allowoverTime);
 							
+							System.out.println("OT DAys " + bean.getOtHoursF());
+							
 							System.out.println("with out MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
 						}
 					
@@ -735,10 +737,17 @@ public class RunPayrollViewModel {
 							!earn.getComponentName().equalsIgnoreCase("WAGES") && !earn.getComponentName().equalsIgnoreCase("SPECIAL WORK ALLOWANCES")
 							&& !earn.getComponentName().equalsIgnoreCase("LEAVE")) {
 						
+						//earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+						
+						System.out.println("N A M E " + earn.getComponentName() +" -- " + earn.getComponentAmount());
+						
 						if(bean.getOverTime() == null){
 						earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+						System.out.println("All in general " + earn.getComponentAmount());
 						
 						}
+						
+						
 						/*if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 							
 							int overTime = bean.getOverTime().intValue();
