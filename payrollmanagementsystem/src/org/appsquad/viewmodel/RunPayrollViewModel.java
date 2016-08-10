@@ -835,7 +835,11 @@ public class RunPayrollViewModel {
 								System.out.println("All in general 2nd space >>> >> >  " + earn.getComponentAmount());
 							}
 							
-							
+							if(bean.getSelectedUnitId()==47 && earn.getComponentName().equalsIgnoreCase("WASHING")){//NICCO WASHING CALCULATION
+								double washingForNicco = earn.getComponentAmount();
+								System.out.println("- - -  - NICCO WASHING before calculation----"+washingForNicco);
+								earn.setComponentAmount( Rules.getGeneral(washingForNicco, baseDays, bean.getPresentDay()) );
+							}
 							/*if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 								
 								int overTime = bean.getOverTime().intValue();

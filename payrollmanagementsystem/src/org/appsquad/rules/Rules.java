@@ -127,8 +127,11 @@ public class Rules {
 	}
 	
 	public static double getGeneral(double component, int baseDay , float presentDays){
-		//System.out.println("general called. . .");
-		return ( DoubleFormattor.setDoubleFormat((component*presentDays)/baseDay) ); 
+		double general = 0.0;
+		general = ( component/baseDay ) * presentDays;
+		general = DoubleFormattor.setDoubleFormat(general);
+		System.out.println("general called with double formatting. . ."+general);
+		return general;
 	}
 	
 	
