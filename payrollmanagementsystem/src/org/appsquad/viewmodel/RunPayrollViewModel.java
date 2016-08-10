@@ -756,7 +756,9 @@ public class RunPayrollViewModel {
 						/********************************************/
 						
 						if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")
-								&& bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40 ){//STC and ALPHA
+
+								&&  (bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40)  ){//STC and ALPHA
+
 							
 							int overTime = bean.getOverTime().intValue();
 							
@@ -774,14 +776,14 @@ public class RunPayrollViewModel {
 							
 							//earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime)));
 							
-							System.out.println("With over time  Allowance --------------------------------->>> >> > " + earn.getComponentAmount());
+							System.out.println("With over time  Allowance NOT STC AND ALPHA --------------------------------->>> >> > " + earn.getComponentAmount());
 						}//else {
 							 
 						
 						System.out.println("SELET U ID ----------------------------------------------------------------->>> >> > " + bean.getSelectedUnitId());
 						
 						if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE") 
-								&&  bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40 ){
+								&&  (bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40)   ){
 							
 							bean.setOverTime(0.0);
 							
@@ -799,9 +801,8 @@ public class RunPayrollViewModel {
 							
 							System.out.println("OT DAys " + bean.getOtHoursF());
 							
-							System.out.println("with out MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
+							System.out.println("with out Over time and NOT STC AND ALPHA --------------------------------->>> >> > " + earn.getComponentAmount());
 						}
-						
 						
 						
 						/********************************************/
@@ -825,7 +826,7 @@ public class RunPayrollViewModel {
 							System.out.println("All in general " + earn.getComponentAmount());
 							
 							}
-							if(bean.getPresentDay()==0 && bean.getOtHoursF()>0 && (bean.getSelectedUnitId()!=38 || bean.getSelectedUnitId() != 40) ){//General rule applicalbe
+							if(bean.getPresentDay()==0 && bean.getOtHoursF()>0 && bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40 ) {//General rule applicalbe
 								System.out.println("2nd sp 1>>> >> > " + earn.getComponentAmount());
 								System.out.println("2nd sp 2>>> >> > " + bean.getPresentDay());
 								System.out.println("2nd sp 3>>> >> > " + bean.getOtHoursF());
