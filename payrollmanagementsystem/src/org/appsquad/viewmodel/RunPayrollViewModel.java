@@ -756,7 +756,7 @@ public class RunPayrollViewModel {
 						/********************************************/
 						
 						if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")
-								&& bean.getSelectedUnitId()!=38&& bean.getSelectedUnitId() != 40 ){//STC and ALPHA
+								&& bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40 ){//STC and ALPHA
 							
 							int overTime = bean.getOverTime().intValue();
 							
