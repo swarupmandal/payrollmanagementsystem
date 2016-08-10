@@ -437,7 +437,7 @@ public class RunPayrollViewModel {
 				runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
 		
 		if(basedays < bean.getPresentDay() ){
-			otDays = bean.getPresentDay() - basedays ;
+			otDays = (int) (bean.getPresentDay() - basedays) ;
 		}
 			bean.setOtHoursF(otDays.doubleValue());
 	}
@@ -793,9 +793,9 @@ public class RunPayrollViewModel {
 							
 							int ed = bean.getOtHoursF().intValue();
 						
-							int presentDay = bean.getPresentDay() ;
+							Float presentDay = bean.getPresentDay() ;
 							System.out.println("pt:"+presentDay+" ed:"+ed);
-							double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),presentDay+ed, oT);
+							double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),(int) (presentDay+ed), oT);
 							System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
 							earn.setComponentAmount(initAllow + allowoverTime);
 							

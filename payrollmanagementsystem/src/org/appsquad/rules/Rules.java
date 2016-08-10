@@ -4,7 +4,7 @@ import org.appsquad.research.DoubleFormattor;
 
 public class Rules {
 
-	public static double getBasic(double wages, int baseDays, int presentDays){
+	public static double getBasic(double wages, int baseDays, float presentDays){
 		double basic = 0.0;
 		basic = (wages/baseDays) * presentDays;
 		basic = DoubleFormattor.setDoubleFormat(basic);
@@ -40,7 +40,7 @@ public class Rules {
 		return ( DoubleFormattor.setDoubleFormat((wages/baseDays)*otHours));  
 	}
 		
-	public static double getHra(double hra, int baseDay , int presentDays){
+	public static double getHra(double hra, int baseDay , float presentDays){
 		double returnedHra = 0.0;
 		returnedHra = (hra/baseDay) * presentDays ;
 		returnedHra = DoubleFormattor.setDoubleFormat(returnedHra);
@@ -56,7 +56,7 @@ public class Rules {
 		return hra; 
 	}
 	
-	public static double getWashFORAlpha(double wash, int baseDays, int presentDay, double otHours){
+	public static double getWashFORAlpha(double wash, int baseDays, float presentDay, double otHours){
 		System.out.println("WASH called with ot. . .");
 		double returnedWash =0.0;
 		System.out.println("Base:"+baseDays+" present : "+presentDay+" othours: "+otHours);
@@ -75,7 +75,7 @@ public class Rules {
 	}
 	
 	
-	public static double getConveyence(double conveyence, int baseDay , int presentDays){
+	public static double getConveyence(double conveyence, int baseDay , float presentDays){
 		//System.out.println("conveyence called. . .");
 		double retConveyence = 0.0;
 		retConveyence = DoubleFormattor.setDoubleFormat((conveyence/baseDay)*presentDays);
@@ -91,11 +91,11 @@ public class Rules {
 		return conveyence;
 	}
 	
-	public static double getMedicalAllowance(double medicalAllowance, int baseDay , int presentDays){
+	public static double getMedicalAllowance(double medicalAllowance, int baseDay , float presentDays){
 		return ( (medicalAllowance/baseDay)*presentDays) ; 
 	}
 	
-	public static double getAllowances(double allowances, int baseDay , int presentDays){
+	public static double getAllowances(double allowances, int baseDay , float presentDays){
 		return ( (allowances/baseDay) *presentDays); 
 	}
 	
@@ -106,19 +106,19 @@ public class Rules {
 		return  allowance;
 	}
 	
-	public static double getWashing(double washing, int baseDay , int presentDays){
+	public static double getWashing(double washing, int baseDay , float presentDays){
 		return ( (washing/baseDay)*presentDays ); 
 	}
 	
-	public static double getOtherAllowance(double otherAllowances, int baseDay , int presentDays){
+	public static double getOtherAllowance(double otherAllowances, int baseDay , float presentDays){
 		return ( (otherAllowances*presentDays)/baseDay ); 
 	}
 	
-	public static double getcarWashing(double carWashing, int baseDay , int presentDays){
+	public static double getcarWashing(double carWashing, int baseDay , float presentDays){
 		return ( (carWashing*presentDays)/baseDay ); 
 	}
 	
-	public static double getSpecialAllowance(double specialAllowance, int baseDay , int presentDays){
+	public static double getSpecialAllowance(double specialAllowance, int baseDay , float presentDays){
 		return ( DoubleFormattor.setDoubleFormat((specialAllowance*presentDays)/baseDay) ); 
 	}
 	
@@ -126,7 +126,7 @@ public class Rules {
 		return ( DoubleFormattor.setDoubleFormat((basic * 8/ baseDays) * specialHours) );
 	}
 	
-	public static double getGeneral(double component, int baseDay , int presentDays){
+	public static double getGeneral(double component, int baseDay , float presentDays){
 		//System.out.println("general called. . .");
 		return ( DoubleFormattor.setDoubleFormat((component*presentDays)/baseDay) ); 
 	}

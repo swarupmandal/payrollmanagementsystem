@@ -31,7 +31,12 @@ public class RunPayRollBean {
     private int totalNumberOfWorkingDaysEveryMonth;
     public int totalNumberOfHolidays;
     
-    private Integer otDaysF,presentDay,baseDay;
+    //private Integer otDaysF,presentDay,baseDay;
+    
+    private Integer otDaysF,baseDay;
+    
+    private Float presentDay;
+    
     private Double otHoursF,specialTime,overTime,overTimeSal;
     private Double totalOtHoursF;
     
@@ -302,12 +307,12 @@ public class RunPayRollBean {
 	public void setUnitDesignation(String unitDesignation) {
 		this.unitDesignation = unitDesignation;
 	}
-	public Integer getPresentDay() {
+	/*public Integer getPresentDay() {
 		return presentDay;
 	}
 	public void setPresentDay(Integer presentDay) {
 		this.presentDay = presentDay;
-	}
+	}*/
 	public Integer getBaseDay() {
 		return baseDay;
 	}
@@ -435,6 +440,16 @@ public class RunPayRollBean {
 	public void setSelectedUnitDesignationId(int selectedUnitDesignationId) {
 		this.selectedUnitDesignationId = selectedUnitDesignationId;
 	}
+
+	public Float getPresentDay() {
+		return presentDay;
+	}
+
+	public void setPresentDay(Float presentDay) {
+		this.presentDay = presentDay;
+	}
+
+	
 
 	
 	
