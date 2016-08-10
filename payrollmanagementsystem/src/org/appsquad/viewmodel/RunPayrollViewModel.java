@@ -867,48 +867,23 @@ public class RunPayrollViewModel {
 								System.out.println("- - -  - NICCO WASHING before calculation----"+washingForNicco);
 								earn.setComponentAmount( Rules.getGeneral(washingForNicco, baseDays, bean.getPresentDay()) );
 							}
-							/*if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
-								
-								int overTime = bean.getOverTime().intValue();
-								
-								double initAllow = earn.getComponentAmount();
-								
-								System.out.println("INIT ALLO " + initAllow);
-								
-								double allowoverTime = Rules.getAllowances(initAllow, bean.getBaseDays(), overTime);
-								
-								System.out.println("ALL o");
-								
-								earn.setComponentAmount(initAllow + allowoverTime);
-								
-							    //earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
-								
-								//earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime)));
-								
-								System.out.println("with over time  MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
-							}//else {
-								 
-								if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && bean.getSelectedUnitId()==51){//allwnce cal for hahnaimann
+								System.out.println("HANI MN COMPONENT " + earn.getComponentName());
+								System.out.println("HANI MANN --------------------------------------------------------->>>> >> > " + earn.getComponentAmount());
+								if(bean.getPresentDay() == null){
+									bean.setPresentDay(0.0f);
+								}if(bean.getOtHoursF() == null){
+									bean.setOtHoursF(0.0);
+								}if(bean.getPresentDay() != null && bean.getOtHoursF() == null){
+									System.out.println();
+									earn.setComponentAmount(Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), (float) (bean.getPresentDay()+bean.getOtHoursF())));
 									
-									bean.setOverTime(0.0);
-									
-									double initAllow = earn.getComponentAmount();
-									
-									int oT = bean.getOverTime().intValue();
-									
-									int ed = bean.getOtHoursF().intValue();
+								}if(bean.getPresentDay() != null){
+									earn.setComponentAmount(Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+								}
 								
-									int presentDay = bean.getPresentDay() ;
-									System.out.println("pt:"+presentDay+" ed:"+ed);
-									double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),presentDay+ed, oT);
-									System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
-									earn.setComponentAmount(initAllow + allowoverTime);
-									
-									System.out.println("with out MMMMMMMMMMMMMM --------------------------------->>> >> > " + earn.getComponentAmount());
-								}*/
-								
-								
-							//}
+							}
+							// }
 						}
 						grossTotal += earn.getComponentAmount();
 					}
@@ -929,7 +904,6 @@ public class RunPayrollViewModel {
 					}
 					
 					if(bean.getOverTime() !=null){
-						//bean.overTimeSalNew = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOverTime());
 						
 						bean.setOverTimeSal(Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOverTime()));
 						
@@ -940,7 +914,7 @@ public class RunPayrollViewModel {
 					
 					for(EmployeeSalaryComponentAmountBean deduct: deductionList){
 						if(deduct.getComponentName().equalsIgnoreCase("PF")){
-							//deduct.setComponentAmount(Rules.getPf(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())));
+							
 							deduct.setComponentAmount(Rules.getPf(bean.getBasic()));
 							
 						}
@@ -953,7 +927,7 @@ public class RunPayrollViewModel {
 								grossTotal = DoubleFormattor.setDoubleFormat(grossTotal);
 								for(EmployeeSalaryComponentAmountBean escb: earningList){
 									if(escb.getComponentName().equalsIgnoreCase("WASHING")){
-										//System.out.println("IF -------------------------------------->>> >> > ");
+										
 										deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount())) );
 									}else{
 										deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, 0.0)) );
@@ -1001,9 +975,9 @@ public class RunPayrollViewModel {
 					pdfBean.setEmpUan(bean.getEmpUan());
 					pdfBean.setHoliDayAmount(DoubleFormattor.setDoubleFormat(bean.getHoliDayAmount()));
 					pdfBean.setOverTime(bean.getOverTime());
-					System.out.println("MMMMMMMMMMMMMMMM " + pdfBean.getOverTime());
+					
 					pdfBean.setOverTimeSal(DoubleFormattor.setDoubleFormat(bean.getOverTimeSal()));
-					System.out.println("New Over ----------------------------------------------------------------------------------->>> >> > " +pdfBean.getOverTimeSal());
+					
 					pdfBean.setEarningCompList(earningList);
 					pdfBean.setDeductionCompList(deductionList);
 					pdfBeanList.add(pdfBean);
