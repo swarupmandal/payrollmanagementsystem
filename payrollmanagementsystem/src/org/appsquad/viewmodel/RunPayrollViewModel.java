@@ -747,6 +747,12 @@ public class RunPayrollViewModel {
 							System.out.println("ea >>> >> > " + earn.getComponentAmount());
 							earn.getComponentAmount();
 						}
+						if(earn.getComponentName().equalsIgnoreCase("WASH") && bean.getSelectedCompanyId()==49){//for ALPHA
+							System.out.println("Wash for ALPHA " + earn.getComponentName());
+							System.out.println("WASH Amount >>> >> > " + earn.getComponentAmount());
+							double wash = earn.getComponentAmount();
+							earn.setComponentAmount( Rules.getWashFORAlpha(wash, baseDays, bean.getPresentDay(), bean.getOtHoursF()) );
+						}
 						/********************************************/
 						
 						if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && bean.getSelectedUnitId()!=38 ){

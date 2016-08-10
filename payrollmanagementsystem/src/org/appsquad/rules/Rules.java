@@ -56,6 +56,14 @@ public class Rules {
 		return hra; 
 	}
 	
+	public static double getWashFORAlpha(double wash, int baseDays, int presentDay, double otHours){
+		System.out.println("WASH called with ot. . .");
+		double returnedWash =0.0;
+		returnedWash = ( DoubleFormattor.setDoubleFormat(DoubleFormattor.setDoubleFormat(wash/baseDays) * (presentDay+otHours)) );
+		System.out.println("returned wash with double formatting :: "+returnedWash);
+		return returnedWash; 
+	}
+	
 	public static double getAllowanceForOt(double othours){
 		System.out.println("Ot Allowance called with othours. . ."+othours);
 		double allowance =0.0;
