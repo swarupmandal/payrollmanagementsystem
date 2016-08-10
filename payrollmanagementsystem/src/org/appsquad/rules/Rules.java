@@ -56,6 +56,14 @@ public class Rules {
 		return hra; 
 	}
 	
+	public static double getHraForCG(double otSalary){
+		System.out.println("Ot CG Hra called with otsal. . ."+otSalary);
+		double hra =0.0;
+		hra = ( DoubleFormattor.setDoubleFormat(DoubleFormattor.setDoubleFormat(otSalary) * 0.05) );
+		System.out.println("returned hra for CG ot :: "+hra);
+		return hra; 
+	}
+	
 	public static double getWashFORAlpha(double wash, int baseDays, float presentDay, double otHours){
 		System.out.println("WASH called with ot. . .");
 		double returnedWash =0.0;

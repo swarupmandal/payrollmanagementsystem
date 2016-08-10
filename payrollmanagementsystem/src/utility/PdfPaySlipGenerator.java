@@ -348,8 +348,14 @@ public class PdfPaySlipGenerator {
 					otSheet = true;
 					System.out.println("---GENERATE SHEET CALLED for otsheet * * * * *. . . .- - - - ");
 					 for(EmployeeSalaryComponentAmountBean earn: payRollBean.getEarningCompList()){
-						 if(earn.getComponentName().equalsIgnoreCase("HRA")){
+						 if(earn.getComponentName().equalsIgnoreCase("HRA") 
+								 && !(payRollBean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")) ){
 							 hra = Rules.getHraForOt(payRollBean.getOtSalary());
+							 earn.setComponentAmount(hra);
+						 }
+						 if(earn.getComponentName().equalsIgnoreCase("HRA") 
+								 && (payRollBean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")) ){
+							 hra = Rules.getHraForCG(payRollBean.getOtSalary());
 							 earn.setComponentAmount(hra);
 						 }
 						 if(payRollBean.getSelectedUnitId()==27 || payRollBean.getSelectedUnitId()==32){//ONLY FOR ITC OT ALLOWANCE
@@ -492,8 +498,12 @@ public class PdfPaySlipGenerator {
 					totOt += rollBean.getOtHoursF();
 					totOtSal += rollBean.getOtSalary();
 					totExtraDuty += rollBean.getOtHoursF();
+					if(rollBean.getOverTime() != null)
 					totOvertime += rollBean.getOverTime();
+					
+					if(rollBean.getOverTimeSal() != null)
 					totOvertimeSal+=rollBean.getOverTimeSal();
+
 					String earnName = null;
 					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
 						if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
@@ -959,7 +969,7 @@ public class PdfPaySlipGenerator {
 				if(bean.getOtSalary() == 0.0 && bean.getHoliDayAmount() == 0.0){
 					bothNotGiven = true;holiGiven =false;otGiven =false;bothGiven = false;
 				}
-				if(bean.getOverTime()>0.0){
+				if( bean.getOverTime()!=null && bean.getOverTime()>0.0){
 					overTime= true;
 				}
 				System.out.println("Only ot :: "+otGiven+" Only holi ::"+holiGiven+" Both ::"+bothGiven+" Both not ::"+bothNotGiven);
@@ -1463,7 +1473,7 @@ public class PdfPaySlipGenerator {
 				table.addCell(cell);
 			}
 			
-			if(bean.getOverTime() > 0.0){
+			if(bean.getOverTime()!=null && bean.getOverTime()>0.0){
 				cell = new PdfPCell(new Phrase("Ex.Duty.",font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				table.addCell(cell);
