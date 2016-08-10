@@ -167,8 +167,7 @@ public class TableHeader {
 	         }
 
 	         mainTable.addCell(table);
-	         if(i%2!=0)
-	         mainTable.addCell( new PdfPCell(new Phrase(" blank"+i)) );
+	         
 	     }
 
 	    	
