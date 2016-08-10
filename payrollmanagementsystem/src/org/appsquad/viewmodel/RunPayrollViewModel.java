@@ -755,7 +755,8 @@ public class RunPayrollViewModel {
 						}
 						/********************************************/
 						
-						if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && bean.getSelectedUnitId()!=38 ){
+						if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")
+								&& ( bean.getSelectedUnitId()!=38|| bean.getSelectedUnitId() != 40  ) ){//STC and ALPHA
 							
 							int overTime = bean.getOverTime().intValue();
 							
@@ -776,7 +777,8 @@ public class RunPayrollViewModel {
 							System.out.println("With over time  Allowance --------------------------------->>> >> > " + earn.getComponentAmount());
 						}//else {
 							 
-						if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")  && bean.getSelectedUnitId()!=38){
+						if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE") 
+								&& ( bean.getSelectedUnitId()!=38 || bean.getSelectedUnitId() != 40) ){
 							
 							bean.setOverTime(0.0);
 							
