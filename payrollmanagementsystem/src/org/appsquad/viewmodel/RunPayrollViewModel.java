@@ -703,7 +703,7 @@ public class RunPayrollViewModel {
 			
 			
 		}else {
-			System.out.println("@ @ @ @ @ @ @  @ @ @ @ @ @ @ @  @ @ @ @ @ @ NOT ITC @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @  @ @");
+			//System.out.println("@ @ @ @ @ @ @  @ @ @ @ @ @ @ @  @ @ @ @ @ @ NOT ITC @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @  @ @");
 			for(RunPayRollBean bean : runPayRollBeanList ){
 			
 				if(bean.getPresentDay()!=null ){
@@ -747,7 +747,7 @@ public class RunPayrollViewModel {
 							System.out.println("ea >>> >> > " + earn.getComponentAmount());
 							earn.getComponentAmount();
 						}
-						if(earn.getComponentName().equalsIgnoreCase("WASH") && bean.getSelectedCompanyId()==49){//for ALPHA
+						if(earn.getComponentName().equalsIgnoreCase("WASH") && (bean.getSelectedCompanyId()==49 || bean.getSelectedCompanyId()==58)){//for ALPHA && HAHNIMANN
 							System.out.println("Wash for ALPHA " + earn.getComponentName());
 							System.out.println("WASH Amount >>> >> > " + earn.getComponentAmount());
 							double wash = earn.getComponentAmount();

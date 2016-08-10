@@ -974,7 +974,10 @@ public class PdfPaySlipGenerator {
 						//System.out.println("- - Ot given only - - -");
 						if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0){
 							table = new PdfPTable(earnList.size()+1);
-						}else{
+						}else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getOverTime()>0.0){
+							table = new PdfPTable(earnList.size()+3);
+						}
+						else{
 							table = new PdfPTable(earnList.size()+2);
 						}
 					}
@@ -997,6 +1000,10 @@ public class PdfPaySlipGenerator {
 						//table.addCell(createLabelCell("Ex.Duty."));
 						table.addCell(createLabelCell("Salary Total"));
 					}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()>0.0){
+						table.addCell(createLabelCell("Ex.Duty"));
+						table.addCell(createLabelCell("Salary Total"));
+					}else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getOverTime()>0.0){
+						table.addCell(createLabelCell("E.D"));
 						table.addCell(createLabelCell("Ex.Duty"));
 						table.addCell(createLabelCell("Salary Total"));
 					}
@@ -1051,17 +1058,29 @@ public class PdfPaySlipGenerator {
 				}
 				
 				if(otGiven){
+					System.out.println("- - -  -OT GIVEN- - - - ");
 					if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0){
+						System.out.println("- - -  -present >0 basic =0 overtimesal=0- - - - ");
 						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
 						table.addCell(createValueCellBold(String.valueOf(totSal-bean.getOtSalary())));
 					}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()>0.0){
+						System.out.println("- - -  -present >0 basic =0 overtimesal>0- - - - ");
 						//double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
 						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary()-bean.getOtSalary());
 						double overSal = DoubleFormattor.setDoubleFormat(bean.getOverTimeSal());
 						//table.addCell(createValueCell(  String.valueOf(otSal)));
 						table.addCell(createValueCell(  String.valueOf(overSal)));
 						table.addCell(createValueCellBold(String.valueOf(totSal)));
+					}else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getOverTime()>0.0){
+						System.out.println("- - -  -present >0 othours > 0 overtime > 0- - - - ");
+						double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
+						double overTSal = DoubleFormattor.setDoubleFormat(bean.getOverTimeSal());
+						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
+						table.addCell(createValueCell(  String.valueOf(otSal)));
+						table.addCell(createValueCell(  String.valueOf(overTSal)));
+						table.addCell(createValueCellBold(String.valueOf(totSal)));
 					}else{
+						System.out.println("- - -  -else part - - - - ");
 						double otSal = DoubleFormattor.setDoubleFormat(bean.getOtSalary());
 						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
 						table.addCell(createValueCell(  String.valueOf(otSal)));
