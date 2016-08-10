@@ -479,11 +479,14 @@ public class RunPayrollViewModel {
 							if(salBean.getComponentTypeId()==1){
 								if( ! salBean.getComponentName().equalsIgnoreCase("WAGES"))
 								earningList.add(salBean);
+								if( salBean.getComponentName().equalsIgnoreCase("WAGES")){
+									bean.setWages(salBean.getComponentAmount());
+								}
 							}else{
 								deductionList.add(salBean);
-							}
-								
+							}		
 						}
+						System.out.println("Emp name:: "+bean.getEmpName()+" Emp wages:: "+bean.getWages());
 						for(EmployeeSalaryComponentAmountBean earn: earningList){
 							
 							if(earn.getComponentName().equalsIgnoreCase("BASIC")){
@@ -492,8 +495,6 @@ public class RunPayrollViewModel {
 								
 							}
 							if(earn.getComponentName().equalsIgnoreCase("HRA")){
-								
-								
 								if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD")||bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE SECURITY GUARD")
 										|| bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN") || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")){
@@ -527,7 +528,12 @@ public class RunPayrollViewModel {
 							} else{
 								if(earn.getComponentName().equalsIgnoreCase("WASHING")){
 									System.out.println("WA SH ING " + bean.getPresentDay());
-									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
+									if(bean.getOtHoursF()!=null && bean.getOtHoursF()>0.0){
+										earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getOtHoursF()) );
+									}else{
+										earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getPresentDay()) );
+									}
+									
 									//System.out.println("---------washing amount ------------------0 >>> >> > " + earn.getComponentAmount());
 									
 								}
@@ -698,6 +704,27 @@ public class RunPayrollViewModel {
 						pdfBean.setDeductionCompList(deductionList);
 						pdfBeanList.add(pdfBean);
 						empcount++;
+				}else{
+					System.out.println("---ITC Present day null- - - -  -");
+					//code FOR ITC when present day is NULL and E.D. given
+					if(bean.getOtHoursF()!=null){
+						
+						RunPayRollBean pdfBean = new RunPayRollBean();
+						pdfBean.setEmpcount(empcount);
+						double grossTotal=0.0,deduction=0.0;
+						ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+						ArrayList<EmployeeSalaryComponentAmountBean> deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
+						for(EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()){
+							if(salBean.getComponentTypeId()==1){
+								if( ! salBean.getComponentName().equalsIgnoreCase("WAGES"))
+								earningList.add(salBean);
+							}else{
+								deductionList.add(salBean);
+							}
+						}
+						System.out.println("<< - - - --Earning and deduction list separeted- - - - >>");
+						
+					}
 				}
 			}
 			
