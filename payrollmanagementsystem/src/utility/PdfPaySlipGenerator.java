@@ -360,7 +360,8 @@ public class PdfPaySlipGenerator {
 							 }
 						 }else{
 							 //unit id = 38 for STC fixed allowance
-							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && payRollBean.getSelectedUnitId()!=38){
+							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && payRollBean.getSelectedUnitId()!=38
+									 && payRollBean.getSelectedUnitId()!=40){//NOT FOR STC AND ALPHA
 								 System.out.println("Allowance in pdf sheet:: "+earn.getComponentAmount());
 								 System.out.println("Base days: "+payRollBean.getBaseDays());
 								 System.out.println("Base day: "+payRollBean.getBaseDay());
