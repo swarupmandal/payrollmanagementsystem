@@ -466,6 +466,7 @@ public class EmployeeDao {
 							EmployeeMasterBean bean = new EmployeeMasterBean();
 							bean.setEmployeeid(resultSet.getInt("employee_id"));
 							bean.setCompanyName(resultSet.getString("company_name"));
+							bean.setEmployeeName(resultSet.getString("employee_name"));
 							bean.setCompanyId(resultSet.getInt("company_id"));
 							bean.setUnitName(resultSet.getString("unit_name"));
 							bean.setUnitId(resultSet.getInt("unit_id"));
