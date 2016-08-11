@@ -399,7 +399,6 @@ public class PdfPaySlipGenerator {
 					 payRollBean.setTotalSalary(otSheetTotSal);
 					 payRollBean.setTotalDeduction(otSheetTotDed);
 					 payRollBean.setNetSalary(otSheetNetSal);
-					
 					 beanCount++;
 					 otSheetList.add(payRollBean);
 				}
@@ -628,26 +627,26 @@ public class PdfPaySlipGenerator {
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			}
 			if(totOtSal>0.0){
-				System.out.println("- - -  - E.D printing on pf - - - - "+totOtSal);
+				System.out.println("- - -  - E.D printing on pf FOR TOTAL OT SALARY - - - - "+totOtSal);
 				cell = new PdfPCell( new Phrase("E.D.\n"+String.valueOf( DoubleFormattor.setDoubleFormat(totOtSal) ),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 			}
 			
-			if(totOvertimeSal>0.0){
-				System.out.println("- - -  - E.Duty printing on pf - - - - "+(totSalTot-totOtSal));
+			/*if(totOvertimeSal>0.0){
+				System.out.println("- - -  - E.Duty printing on pf FOR TOTAL OVER DUTY SAL - - - - "+(totSalTot-totOtSal));
 				cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot-totOtSal),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			}else{
+			}else{*/
 				System.out.println("- - -Else part E.Duty printing on pf - - - - "+(totSalTot));
 				cell = new PdfPCell( new Phrase("TOT.SALARY\n"+String.valueOf(totSalTot),font));
 				cell.setBorder(Rectangle.NO_BORDER);
 				earnTable.addCell(cell);
 				earnTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-			}
+			//}
 			
 			
 			dedctList.add("TOT.DED");
