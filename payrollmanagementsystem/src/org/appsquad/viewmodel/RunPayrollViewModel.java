@@ -779,7 +779,7 @@ public class RunPayrollViewModel {
 							System.out.println("ea >>> >> > " + earn.getComponentAmount());
 							earn.getComponentAmount();
 						}
-						if(earn.getComponentName().equalsIgnoreCase("WASH") && (bean.getSelectedCompanyId()==49 || bean.getSelectedCompanyId()==58)){//for ALPHA && HAHNIMANN
+						if(earn.getComponentName().equalsIgnoreCase("WASH") && (bean.getSelectedCompanyId()==49 || bean.getSelectedCompanyId()==58 || bean.getSelectedCompanyId()==57)){//for ALPHA && HAHNIMANN
 							System.out.println("Wash for ALPHA " + earn.getComponentName());
 							System.out.println("WASH Amount >>> >> > " + earn.getComponentAmount());
 							double wash = earn.getComponentAmount();
@@ -858,7 +858,7 @@ public class RunPayrollViewModel {
 							//System.out.println("All in general " + earn.getComponentAmount());
 							
 							}
-							if(bean.getPresentDay()==0 && bean.getOtHoursF()>0 && bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40 ) {//General rule applicalbe
+							if(bean.getPresentDay()==0 && bean.getOtHoursF()>0 && bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40 && bean.getSelectedUnitId()!= 49) {//General rule applicalbe
 								
 								earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 								
@@ -869,18 +869,26 @@ public class RunPayrollViewModel {
 								System.out.println("- - -  - NICCO WASHING before calculation----"+washingForNicco);
 								earn.setComponentAmount( Rules.getGeneral(washingForNicco, baseDays, bean.getPresentDay()) );
 							}
-							if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && bean.getSelectedUnitId()==51){//allwnce cal for hahnaimann
+							
+							if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && bean.getSelectedUnitId()==51 || bean.getSelectedUnitId()==49 ){//allwnce cal for hahnaimann and lily (present days + ot days)
 								
 								if(bean.getPresentDay() == null){
 									bean.setPresentDay(0.0f);
 								}if(bean.getOtHoursF() == null){
 									bean.setOtHoursF(0.0);
-								}if(bean.getPresentDay() != null && bean.getOtHoursF() != null){
-									
+								//}if(bean.getPresentDay() != null && bean.getOtHoursF() != null){
+								}if(bean.getPresentDay() > 0 && bean.getOtHoursF() >0){
+									System.out.println("11");
 									earn.setComponentAmount(Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), (float) (bean.getPresentDay()+bean.getOtHoursF())));
 									
-								}if(bean.getPresentDay() != null && bean.getPresentDay() == 0.0){
+								}if(bean.getPresentDay() >0 && bean.getOtHoursF() == 0){
+									System.out.println("12");
 									earn.setComponentAmount(Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
+								}if(bean.getPresentDay() ==0 && bean.getOtHoursF() > 0){
+									
+									earn.setComponentAmount(Rules.getAllowancesOtOthers(earn.getComponentAmount(), bean.getBaseDays(), bean.getOtHoursF()));
+									
+									
 								}
 								
 							}

@@ -1,5 +1,7 @@
 package org.appsquad.rules;
 
+import java.sql.PreparedStatement;
+
 import org.appsquad.research.DoubleFormattor;
 
 public class Rules {
@@ -104,10 +106,13 @@ public class Rules {
 	}
 	
 	public static double getAllowances(double allowances, int baseDay , float presentDays){
+		
 		return ( (allowances/baseDay) *presentDays); 
 	}
 	
 	public static double getAllowancesOtOthers(double allowances, int baseDay , double otHours){
+		
+		
 		double allowance =0.0;
 		allowance = (allowances/baseDay) * otHours;
 		allowance = DoubleFormattor.setDoubleFormat(allowance);
