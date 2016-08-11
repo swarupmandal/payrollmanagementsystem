@@ -904,7 +904,12 @@ public class RunPayrollViewModel {
 					  }
 					
 					if(bean.getOtHoursF()!=null){
-						bean.otSalary = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
+						if(bean.getSelectedUnitId()== 53){//Farroe alloy OT with 30
+							bean.otSalary = Rules.getOtSalary(bean.getWages(),30, bean.getOtHoursF());
+						}else{
+							bean.otSalary = Rules.getOtSalary(bean.getWages(), bean.getBaseDays(), bean.getOtHoursF());
+						}
+						
 					  }
 					grossTotal = grossTotal+bean.otSalary;
 					

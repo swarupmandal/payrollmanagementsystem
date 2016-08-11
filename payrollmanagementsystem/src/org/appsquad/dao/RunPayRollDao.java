@@ -116,7 +116,7 @@ public class RunPayRollDao {
 								bean.setEmpUan(resultSet.getString("uan_number"));
 								bean.setEmpEsi(resultSet.getString("esi"));
 								bean.setEmpDesignation(resultSet.getString("emp_designation"));
-								bean.setWages(getEmpWages(bean.getEmpId()));
+								bean.setWages(getEmpWages(bean.getEmpId(), connection));
 								bean.setTotalNumberOfDayseveryMonth(workingDay);
 								
 								beanList.add(bean);
@@ -720,9 +720,9 @@ public class RunPayRollDao {
 		return baseDays;
 	}
 	
-	public static double getEmpWages(int empId ){
+	public static double getEmpWages(int empId,Connection connection ){
 		double wages = 0;
-		Connection connection = null;
+		//Connection connection = null;
 		try {
 			
 			PreparedStatement preparedStatement = null;
@@ -749,14 +749,14 @@ public class RunPayRollDao {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}finally{
-			if(connection != null){
+			/*if(connection != null){
 				try {
 					connection.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}*/
 		}
 		
 		return wages;
