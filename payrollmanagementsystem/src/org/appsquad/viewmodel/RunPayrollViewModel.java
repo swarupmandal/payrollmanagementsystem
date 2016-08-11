@@ -436,8 +436,13 @@ public class RunPayrollViewModel {
 		int basedays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(),
 				runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr());
 		
+		/*if(bean.getPresentDay() == null){
+			bean.setPresentDay(0.0f);
+		}*/
+		if(bean.getPresentDay() != null){
 		if(basedays < bean.getPresentDay() ){
 			otDays = (int) (bean.getPresentDay() - basedays) ;
+		}
 		}
 			bean.setOtHoursF(otDays.doubleValue());
 	}
