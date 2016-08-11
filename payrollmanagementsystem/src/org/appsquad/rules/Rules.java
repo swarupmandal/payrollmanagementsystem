@@ -169,6 +169,15 @@ public class Rules {
 		}
 	}
 	
+	public static double getNewCarbonBonus(double otSalary){
+		System.out.println("Ot Bonus called with otsal. . ."+otSalary);
+		double bonus =0.0;
+		bonus = ( DoubleFormattor.setDoubleFormat(DoubleFormattor.setDoubleFormat(otSalary) * 0.083) );
+		System.out.println("returned bonus for ot :: "+bonus);
+		return bonus; 
+	
+	}
+	
 	
 	/******************************************************************* ITC *************************************************************************/
 	

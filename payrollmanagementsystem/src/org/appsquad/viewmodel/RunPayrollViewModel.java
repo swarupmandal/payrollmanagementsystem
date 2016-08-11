@@ -864,6 +864,11 @@ public class RunPayrollViewModel {
 								
 							}
 							
+							/*if(earn.getComponentName().equalsIgnoreCase("BONUS") && bean.getSelectedUnitId() != 55){
+								
+							}*/
+							
+							
 							if(bean.getSelectedUnitId()==47 && earn.getComponentName().equalsIgnoreCase("WASHING")){//NICCO WASHING CALCULATION
 								double washingForNicco = earn.getComponentAmount();
 								System.out.println("- - -  - NICCO WASHING before calculation----"+washingForNicco);
@@ -878,11 +883,11 @@ public class RunPayrollViewModel {
 									bean.setOtHoursF(0.0);
 								//}if(bean.getPresentDay() != null && bean.getOtHoursF() != null){
 								}if(bean.getPresentDay() > 0 && bean.getOtHoursF() >0){
-									System.out.println("11");
+									
 									earn.setComponentAmount(Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), (float) (bean.getPresentDay()+bean.getOtHoursF())));
 									
 								}if(bean.getPresentDay() >0 && bean.getOtHoursF() == 0){
-									System.out.println("12");
+									
 									earn.setComponentAmount(Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 								}if(bean.getPresentDay() ==0 && bean.getOtHoursF() > 0){
 									
@@ -912,6 +917,8 @@ public class RunPayrollViewModel {
 						
 					  }
 					grossTotal = grossTotal+bean.otSalary;
+					
+					
 					
 					if(bean.getOverTime() == null){
 						bean.setOverTime(0.0);
