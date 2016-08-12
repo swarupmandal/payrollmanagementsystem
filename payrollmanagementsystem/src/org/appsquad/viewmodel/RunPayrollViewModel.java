@@ -480,7 +480,7 @@ public class RunPayrollViewModel {
 					
 					//if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN") || bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN SUPERVISOR") || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
 						for(EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()){
-							
+							//GRATUITY = ( (WAGES*0.0481)/26 ) * PRESENT DAYS ON THREE MONTHS  FOR ITC LIMITED
 							if(salBean.getComponentTypeId()==1){
 								if( ! salBean.getComponentName().equalsIgnoreCase("WAGES"))
 								earningList.add(salBean);
@@ -504,27 +504,26 @@ public class RunPayrollViewModel {
 										|| bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN") || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")){
 									//earn.setComponentAmount( DoubleFormattor.setDoubleFormat( bean.getWages()*0.15));
-									
+									System.out.println("IF PART HRA CALCULATION STRTS . . . .");
 									earn.setComponentAmount(DoubleFormattor.setDoubleFormat(bean.getBasic()*0.15));
-									
+									System.out.println("HRA CALCULATION ENDS . . . .");
 								}else{
+									System.out.println("ELSE PART HRA CALCULATION STRTS . . . .");
 									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(bean.getBasic()*0.05) );
+									System.out.println("HRA CALCULATION ENDS . . . .");
 								}
-								
-								
 							}
 							
 							if(earn.getComponentName().equalsIgnoreCase("CONVEYANCE")){
-								
+								System.out.println("CONVEYANCE CALCULATION STARTS . . . .");
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(20*bean.getPresentDay()) );
 								System.out.println("CON ITC >> " +earn.getComponentAmount());
-								
-								
+								System.out.println("CONVEYANCE CALCULATION ENDS . . . .");
 							}
 							
 							if(companyMasterBean.getCompanyId()==48){
 								if(earn.getComponentName().equalsIgnoreCase("WASHING")){
-									System.out.println("WA SH ING " + bean.getPresentDay());
+									System.out.println("WASHING calculation for ralegh court " + bean.getPresentDay());
 									earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 									
 									System.out.println("---------washing amount ------------------ for raleigh court  >>> >> > " + earn.getComponentAmount());
@@ -532,7 +531,7 @@ public class RunPayrollViewModel {
 								}
 							} else{
 								if(earn.getComponentName().equalsIgnoreCase("WASHING")){
-									System.out.println("WA SH ING " + bean.getPresentDay());
+									System.out.println("WASHING others " + bean.getPresentDay());
 									if(bean.getOtHoursF()!=null && bean.getOtHoursF()>0.0){
 										earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getOtHoursF()) );
 									}else{
@@ -556,12 +555,14 @@ public class RunPayrollViewModel {
 							if(bean.getEmpDesignation().equalsIgnoreCase("EX-SERVICE MAN GUARD") 
 													  || bean.getEmpDesignation().equalsIgnoreCase("EX-MAN SUPERVISOR") 
 													  || bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")
-						                              || bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") 
-						                              || bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") 
+						                             // || bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") 
+						                             // || bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") 
 						                              || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")
 						                              || bean.getEmpDesignation().equalsIgnoreCase("COMPUTER OPERATOR") 
 						                              || !bean.getEmpDesignation().equalsIgnoreCase("CIVILIAN GUARD")
-						                              && !bean.getEmpDesignation().equalsIgnoreCase("CARE TAKER")){
+						                              && !bean.getEmpDesignation().equalsIgnoreCase("CARE TAKER")
+						                              && !bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") 
+						                              && !bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER")){
 								if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
 									
 									System.out.println("FOR RLG COURT 100>>> >> > " + earn.getComponentAmount());
@@ -572,6 +573,8 @@ public class RunPayrollViewModel {
 									
 								}
 							}
+							
+							
 							if(bean.getEmpDesignation().equalsIgnoreCase("GUN MAN")){
 								if(earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES")){
 									earn.setComponentAmount( DoubleFormattor.setDoubleFormat(50*bean.getPresentDay()) );
@@ -612,9 +615,20 @@ public class RunPayrollViewModel {
 									&& !earn.getComponentName().equalsIgnoreCase("CONVEYANCE")
 									&& !earn.getComponentName().equalsIgnoreCase("WASHING") && !earn.getComponentName().equalsIgnoreCase("ALLOWANCE")
 									&& !earn.getComponentName().equalsIgnoreCase("WEAPON ALLOWANCES") && !earn.getComponentName().equalsIgnoreCase("BONUS")){
-								
-								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()*bean.getPresentDay())/bean.getBaseDays()) );
-								
+								System.out.println("- - - -INSIDE ALL NOT - - - ");
+								earn.setComponentAmount( DoubleFormattor.setDoubleFormat((earn.getComponentAmount()/bean.getBaseDays())*bean.getPresentDay()) );
+							}
+							//ITC FACtory driver
+							if( bean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+								double factAllow = earn.getComponentAmount();
+								System.out.println("FACTORY DRIVER CALCULATING ALLOWANCE :: "+factAllow);
+								earn.setComponentAmount( Rules.getAllowanceForFActoryDriver(factAllow, baseDays, bean.getOtHoursF()) );
+							}
+							//ITC TOKEN KEEPER CUM DRIVER
+							if( bean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER") && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+								double factAllow = earn.getComponentAmount();
+								System.out.println("TOKEN KEEPER CUM DRIVER CALCULATING ALLOWANCE :: "+factAllow);
+								earn.setComponentAmount( Rules.getAllowanceForFActoryDriver(factAllow, baseDays, bean.getOtHoursF()) );
 							}
 							grossTotal += earn.getComponentAmount();
 						}
@@ -647,14 +661,12 @@ public class RunPayrollViewModel {
 								}
 								
 								if(deduct.getComponentName().equalsIgnoreCase("ESI")){
-									
-									
 									if(grossTotal <= 15000.00){
 										grossTotal = DoubleFormattor.setDoubleFormat(grossTotal);
 										for(EmployeeSalaryComponentAmountBean escb: earningList){
 											//if(escb.getComponentName().equalsIgnoreCase("WASHING")){
 												if(escb.getComponentName().contains("WASHING")){
-												
+												System.out.println("ESI CALCULATINg . . . . with washing. .  .");
 												deduct.setComponentAmount( DoubleFormattor.setDoubleFormatEsi(Rules.getEsi(grossTotal, escb.getComponentAmount()) ));
 												break;
 												
@@ -709,7 +721,7 @@ public class RunPayrollViewModel {
 						pdfBean.setDeductionCompList(deductionList);
 						pdfBeanList.add(pdfBean);
 						empcount++;
-				}else{
+				}else{/*
 					System.out.println("---ITC Present day null- - - -  -");
 					//code FOR ITC when present day is NULL and E.D. given
 					if(bean.getOtHoursF()!=null){
@@ -730,7 +742,7 @@ public class RunPayrollViewModel {
 						System.out.println("<< - - - --Earning and deduction list separeted- - - - >>");
 						
 					}
-				}
+				*/}
 			}
 			
 			
@@ -1017,7 +1029,7 @@ public class RunPayrollViewModel {
 		 * @author somnathdutta
 		 * OT sheet population calculation
 		 */
-		ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
+		/*ArrayList<RunPayRollBean> otSheetList = new ArrayList<RunPayRollBean>();
 		if(companyMasterBean.getCompanyId()==39){
 			for(RunPayRollBean calculateBean : pdfBeanList){
 				if(calculateBean.getPresentDay() == 0 
@@ -1053,7 +1065,7 @@ public class RunPayrollViewModel {
 		if(otSheetList.size() > 0){
 			isOtSheet = true;
 			System.out.println("Ot sheet size: "+otSheetList.size());
-		}
+		}*/
 		/* * * * * Otsheet calculation ends here* * * * * * * * * * * * */
 		
 	}
