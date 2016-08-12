@@ -9,6 +9,8 @@ public class ComponentMasterBean {
 	private boolean checkVal = false;
 	private Integer count;
 	private double componentAmount;
+	private Integer unitId;
+	private Integer companyId;
 	
 	
 	
@@ -58,6 +60,18 @@ public class ComponentMasterBean {
 	}
 	public void setCheckVal(boolean checkVal) {
 		this.checkVal = checkVal;
+	}
+	public Integer getUnitId() {
+		return unitId;
+	}
+	public void setUnitId(Integer unitId) {
+		this.unitId = unitId;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 	
 	

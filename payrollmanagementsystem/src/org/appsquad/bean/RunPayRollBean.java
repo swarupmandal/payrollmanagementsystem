@@ -19,7 +19,7 @@ public class RunPayRollBean {
     private Integer totalWorkingDays;
     private boolean checked = false;
     private int leaveYrId;
-    private Integer sunDayCountPerMonth;
+    private Integer sunDayCountPerMonth,empDesignationId;
     private Integer monDayCountPerMonth;
     private Integer tuesDayCountPerMonth;
     private Integer wendsDayCountPerMonth;
@@ -447,6 +447,14 @@ public class RunPayRollBean {
 
 	public void setPresentDay(Float presentDay) {
 		this.presentDay = presentDay;
+	}
+
+	public Integer getEmpDesignationId() {
+		return empDesignationId;
+	}
+
+	public void setEmpDesignationId(Integer empDesignationId) {
+		this.empDesignationId = empDesignationId;
 	}
 
 	

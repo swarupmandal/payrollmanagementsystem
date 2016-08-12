@@ -11,10 +11,12 @@ import java.util.Arrays;
 import javax.print.attribute.standard.Sides;
 
 import org.apache.log4j.Logger;
+import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.bean.EmployeePaymentDetailsBean;
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.RunPayRollBean;
+import org.appsquad.bean.SheetBean;
 import org.appsquad.database.DbConnection;
 import org.appsquad.research.DayCalculate;
 import org.appsquad.service.RunPayRollService;
@@ -29,9 +31,7 @@ import utility.Util1;
 public class RunPayRollDao {
 
 	public static void loadMonthList(ArrayList<MonthMasterBean> monthList){
-
-
-		if(monthList.size()>0){
+	if(monthList.size()>0){
 			monthList.clear();
 		}
 		
@@ -79,6 +79,102 @@ public class RunPayRollDao {
 	}
 	
 	
+	public static ArrayList<SheetBean> loadSheetTypeList(){
+		ArrayList<SheetBean> sheetTypeList = new ArrayList<SheetBean>();
+		if(sheetTypeList.size()>0){
+			sheetTypeList.clear();
+			}
+			try {
+				Connection connection = DbConnection.createConnection();
+				sql_connection:{
+					
+					try {
+						
+						sql_block:{
+						
+							PreparedStatement preparedStatement = null;
+							try {
+							
+								preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadSheetTypeQuery, null);
+								ResultSet resultSet = preparedStatement.executeQuery();
+								
+								while (resultSet.next()) {
+									SheetBean bean = new SheetBean();
+									bean.setSheetType(resultSet.getString("sheet_type"));
+									bean.setSheetTypeId(resultSet.getInt("salary_sheet_type_id"));
+									sheetTypeList.add(bean);
+								}
+							}finally{
+								if(preparedStatement != null){
+									preparedStatement.close();
+								}
+							}
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}finally{
+						if(connection !=null){
+							connection.close();
+						}
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		 return sheetTypeList;
+		}
+	
+	
+	public static ArrayList<ComponentMasterBean> loadComponentList(ComponentMasterBean componentMasterBean){
+		ArrayList<ComponentMasterBean> componentList = new ArrayList<ComponentMasterBean>();
+		if(componentList.size()>0){
+			componentList.clear();
+			}
+			try {
+				Connection connection = DbConnection.createConnection();
+				sql_connection:{
+					try {
+						
+						sql_block:{
+						
+							PreparedStatement preparedStatement = null;
+							try {
+							
+								preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadComponentQuery, 
+										Arrays.asList(componentMasterBean.getCompanyId(), componentMasterBean.getUnitId() ));
+								ResultSet resultSet = preparedStatement.executeQuery();
+								
+								while (resultSet.next()) {
+									ComponentMasterBean bean = new ComponentMasterBean();
+									bean.setComponentName(resultSet.getString("component_name"));
+									bean.setCheckVal(true);
+									bean.setComponentId(resultSet.getInt("component_id"));
+									componentList.add(bean);
+								}
+							}finally{
+								if(preparedStatement != null){
+									preparedStatement.close();
+								}
+							}
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}finally{
+						if(connection !=null){
+							connection.close();
+						}
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		 return componentList;
+		}
+	
 	
 	public static void loadEmpDetails(ArrayList<RunPayRollBean> beanList, int companyId, int unitId, int workingDay, int unitDesignationId){
 		
@@ -109,6 +205,7 @@ public class RunPayRollDao {
 								
 								bean.setEmpcount(i);
 								bean.setEmpId(resultSet.getInt("employee_id"));
+								bean.setEmpDesignationId(resultSet.getInt("emp_designation_id"));
 								bean.setComponentAmountBeanList(loadComponentAmountDetails(connection,bean.getEmpId(), bean));
 								bean.setEmpCode(resultSet.getString("employee_code"));
 								bean.setEmpName(resultSet.getString("employee_name"));
@@ -778,6 +875,8 @@ public class RunPayRollDao {
 				preparedStatement.setInt(3, bean.getSelectedCompanyId());
 				preparedStatement.setInt(4, bean.getSelectedUnitId());
 				preparedStatement.setInt(5, bean.getSelectedUnitDesignationId());
+				preparedStatement.setInt(6, bean.getEmpDesignationId());
+				//preparedStatement.setInt(7, bean.getPresentDay());
 				
 				
 				

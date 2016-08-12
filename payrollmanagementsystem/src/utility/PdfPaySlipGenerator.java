@@ -14,12 +14,14 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.RunPayRollBean;
+import org.appsquad.dao.ComponentRemoveDao;
 import org.appsquad.pdfhandler.DownloadPdf;
 import org.appsquad.pdfhandler.HeaderTable;
 import org.appsquad.pdfhandler.Rotate;
 import org.appsquad.pdfhandler.RoundRectangle;
 import org.appsquad.research.DoubleFormattor;
 import org.appsquad.rules.Rules;
+import org.zkoss.bind.annotation.Command;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -726,8 +728,10 @@ public class PdfPaySlipGenerator {
 				System.out.println("* * * * * OT SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : otSheetList){
 					document.add(createTableForSheet(document, runPayRollBean));
+					ComponentRemoveDao.addComponent(runPayRollBean.getSelectedUnitId());
 				}
 				document.add(bottomTable);
+			
 			}else{/**********************FOR NORMAL *****************/
 				System.out.println("* * * * * NORMAL SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
@@ -736,6 +740,7 @@ public class PdfPaySlipGenerator {
 					}
 					System.out.println("Tot sal:: "+runPayRollBean.getTotalSalary()+" Net sal:: "+runPayRollBean.getNetSalary());
 					document.add(createTableForSheet(document, runPayRollBean));
+					ComponentRemoveDao.addComponent(runPayRollBean.getSelectedUnitId());
 				}
 				document.add(bottomTable);
 			}

@@ -1,0 +1,26 @@
+<?page title="Remove components from Sheet" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Remove components from Sheet" border="normal" contentStyle="overflow:scroll;" id="removeComponents"
+apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.ComponentRemoveViewModel')"
+width="30%" height="70%" closable="true">
+	<grid model="@bind(vm.componentMasterBeanList)">
+		<columns>
+			<column label="Component Name" align="center"/>
+			<column label="Action" align="center"/>
+		</columns>
+		<rows>
+			<template name="model" var="v">
+				<row>
+					<label value="@bind(v.componentName)"/>
+					<checkbox checked="@bind(v.checkVal)"/>
+				</row>
+			</template>
+			
+		</rows>
+	</grid>
+	<div align="center">
+		<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Remove" 
+		onClick="@command('onClickRemove')"/>
+	</div>
+</window>
+</zk>
