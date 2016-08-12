@@ -518,23 +518,23 @@ public class RunPayrollViewModel {
 							if(earn.getComponentName().equalsIgnoreCase("CONVEYANCE")){
 								System.out.println("CONVEYANCE CALCULATION STARTS . . . .");
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(20*bean.getPresentDay()) );
-//<<<<<<< HEAD
+
 								//System.out.println("CON ITC >> " +earn.getComponentAmount());
 								
 								
-//=======
+
 								System.out.println("CON ITC >> " +earn.getComponentAmount());
 								System.out.println("CONVEYANCE CALCULATION ENDS . . . .");
-//>>>>>>> branch 'master' of https://github.com/swarupmandal/payrollmanagementsystem.git
+
 							}
 							
 							if(companyMasterBean.getCompanyId()==48){
 								if(earn.getComponentName().equalsIgnoreCase("WASHING")){
-//<<<<<<< HEAD
+
 									//System.out.println("WA SH ING " + bean.getPresentDay());
-//=======
+
 									System.out.println("WASHING calculation for ralegh court " + bean.getPresentDay());
-//>>>>>>> branch 'master' of https://github.com/swarupmandal/payrollmanagementsystem.git
+
 									earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 									
 									//System.out.println("---------washing amount ------------------ for raleigh court  >>> >> > " + earn.getComponentAmount());
@@ -542,11 +542,11 @@ public class RunPayrollViewModel {
 								}
 							} else{
 								if(earn.getComponentName().equalsIgnoreCase("WASHING")){
-//<<<<<<< HEAD
+
 									//System.out.println("WA SH ING " + bean.getPresentDay());
-//=======
+
 									System.out.println("WASHING others " + bean.getPresentDay());
-//>>>>>>> branch 'master' of https://github.com/swarupmandal/payrollmanagementsystem.git
+
 									if(bean.getOtHoursF()!=null && bean.getOtHoursF()>0.0){
 										earn.setComponentAmount( DoubleFormattor.setDoubleFormat(5*bean.getOtHoursF()) );
 									}else{
@@ -736,7 +736,7 @@ public class RunPayrollViewModel {
 						pdfBean.setDeductionCompList(deductionList);
 						pdfBeanList.add(pdfBean);
 						empcount++;
-//<<<<<<< HEAD
+
 				
 				}
 			}
@@ -756,6 +756,10 @@ public class RunPayrollViewModel {
 					for (EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()) {
 						//Finding earning and deduction components
 						if(salBean.getComponentTypeId()==1){
+							if(salBean.getComponentName().equalsIgnoreCase("WAGES")){
+								// need to set wages for per (day*baseday) 
+							}
+							
 							if( ! salBean.getComponentName().equalsIgnoreCase("WAGES"))//separating wages from earning components
 							earningList.add(salBean);
 						}else{
