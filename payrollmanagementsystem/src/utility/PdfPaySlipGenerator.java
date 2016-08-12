@@ -367,7 +367,7 @@ public class PdfPaySlipGenerator {
 						 }else{
 							 //unit id = 38 for STC fixed allowance
 							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && payRollBean.getSelectedUnitId()!=38
-									 && payRollBean.getSelectedUnitId()!=40 && payRollBean.getSelectedUnitId()!= 49){//NOT FOR STC AND ALPHA
+									 && payRollBean.getSelectedUnitId()!=40 && payRollBean.getSelectedUnitId()!= 49 && payRollBean.getSelectedUnitId()!= 55){//NOT FOR STC AND ALPHA
 								 
 								 System.out.println("Allowance in pdf sheet:: "+earn.getComponentAmount());
 								 System.out.println("Base days: "+payRollBean.getBaseDays());
@@ -953,7 +953,7 @@ public class PdfPaySlipGenerator {
 					earnList.add(empAllowance);
 				}
 			}*/
-			
+			System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^ Table craetion for earning sheet ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 			earnList = bean.getEarningCompList();
 			PdfPTable table;boolean overTime=false, otGiven = false,holiGiven =false,bothGiven =false,bothNotGiven = false;
 			if(earnList.size()>0){
@@ -978,14 +978,21 @@ public class PdfPaySlipGenerator {
 				System.out.println("***** EARN LIST FOR ****bean.getOverTimeSal():: "+bean.getOverTimeSal()+
 						"*****bean.getOtSalary()::"+bean.getOtSalary());
 				if(bean.getOtSalary()>0.0){
+					System.out.println("^^^^^^^^^^^^ ED GIVEN ^^^^^^^^^^^^");
 					if(bean.getHoliDayAmount() > 0.0){
 						//System.out.println("- - Ot given+holi - - -");
 						table = new PdfPTable(earnList.size()+3);
 					}else{
 						//System.out.println("- - Ot given only - - -");
-						if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0){
+						if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0 && bean.getOtHoursF()==0.0){
+							System.out.println("^^^^^^^^^^^^ Extra duty block GIVEN ^^^^^^^^^^^^");
 							table = new PdfPTable(earnList.size()+1);
-						}else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getOverTime()>0.0){
+						}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOtHoursF()>0.0 && bean.getOverTimeSal()==0.0 ){
+							System.out.println("^^^^^^^^^^^^ ED block GIVEN ^^^^^^^^^^^^");
+							table = new PdfPTable(earnList.size()+2);
+						}
+						else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getOverTime()>0.0){
+							System.out.println("^^^^^^^^^^^^ ED+extra duty block GIVEN ^^^^^^^^^^^^");
 							table = new PdfPTable(earnList.size()+3);
 						}
 						else{
@@ -1006,19 +1013,22 @@ public class PdfPaySlipGenerator {
 				
 				//if only ot given
 				if(otGiven){
-					if(bean.getPresentDay()>0 && bean.getBasic()==0  && bean.getOverTimeSal()==0.0){
+					if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTime()==0.0 && bean.getOtHoursF()==0.0){
 						//table.addCell(createLabelCell("E.D."));
 						//table.addCell(createLabelCell("Ex.Duty."));
+						System.out.println("^^^^^^^^^^ value for tot sal only ^^^^^^^^");
 						table.addCell(createLabelCell("Salary Total"));
 					}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()>0.0){
+						System.out.println("^^^^^^^^^^ value for tot sal+ex duty only ^^^^^^^^");
 						table.addCell(createLabelCell("Ex.Duty"));
 						table.addCell(createLabelCell("Salary Total"));
 					}else if(bean.getPresentDay()>0 && bean.getOtHoursF()>0.0 && bean.getOverTime()>0.0){
+						System.out.println("^^^^^^^^^^ value for tot sal+ed+extra only ^^^^^^^^");
 						table.addCell(createLabelCell("E.D"));
 						table.addCell(createLabelCell("Ex.Duty"));
 						table.addCell(createLabelCell("Salary Total"));
-					}
-					else{
+					}else if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOtHoursF()>0.0 && bean.getOverTimeSal()==0.0){
+						System.out.println("^^^^^^^^^^ value for tot sal+ED only ^^^^^^^^");
 						table.addCell(createLabelCell("E.D"));
 						table.addCell(createLabelCell("Salary Total"));
 					}
@@ -1070,7 +1080,7 @@ public class PdfPaySlipGenerator {
 				
 				if(otGiven){
 					System.out.println("- - -  -OT GIVEN- - - - ");
-					if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0){
+					if(bean.getPresentDay()>0 && bean.getBasic()==0 && bean.getOverTimeSal()==0.0 && bean.getOtSalary()==0.0){
 						System.out.println("- - -  -present >0 basic =0 overtimesal=0- - - - ");
 						double totSal = DoubleFormattor.setDoubleFormat(bean.getTotalSalary());
 						table.addCell(createValueCellBold(String.valueOf(totSal-bean.getOtSalary())));
@@ -1255,11 +1265,14 @@ public class PdfPaySlipGenerator {
 				netsalTable.addCell(cell);
 				
 				System.out.println(" TOTAL SAL::"+bean.getTotalSalary()+" Otsal :"+bean.getOtSalary()+" bean.getOverTimeSal():: "+bean.getOverTimeSal());
-				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0 && bean.getOverTimeSal() ==0.0){
+			//	if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0 && bean.getOverTimeSal() ==0.0){
+				if(bean.getBasic()==0 && bean.getPresentDay()>0 && bean.getOtSalary()>0.0){
 					System.out.println("Otsal :"+bean.getOtSalary()+" otsal:: "+bean.otSalary);
 					System.out.println("******************* BASIC NOT PRESNET >0 OTSAL >0 OVERTIME null***********************");
 					
-						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
+						//cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary()-bean.getOtSalary())) ,font));
+						cell = new PdfPCell(new Phrase( String.valueOf( DoubleFormattor.setDoubleFormat( bean.getTotalSalary())) ,font));
+					
 						cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 						cell.setBorder(Rectangle.NO_BORDER);
 						netsalTable.addCell(cell);

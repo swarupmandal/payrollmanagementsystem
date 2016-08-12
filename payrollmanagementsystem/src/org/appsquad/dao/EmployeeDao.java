@@ -1209,7 +1209,7 @@ public class EmployeeDao {
 					if(bean.isCheckVal()){	
 					
 					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertComponentsPerEmpQuery, Arrays.asList(empId, bean.getComponentId(), bean.getComponentName(),bean.getComponentTypeId(),companyId,unitId,userName,userName, bean.getComponentAmount()));
-					 
+					System.out.println("emp - sal - com p - " + preparedStatement); 
 					c = preparedStatement.executeUpdate();
 					
 					}
