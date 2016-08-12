@@ -770,11 +770,16 @@ public class RunPayRollDao {
 			connection.setAutoCommit(false);
 			
 			try {
-				PreparedStatement preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
+				//PreparedStatement preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
 				for(RunPayRollBean bean : runPayRollBeanList){
+					PreparedStatement preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
 				preparedStatement.setInt(1, bean.getEmpId());
 				preparedStatement.setString(2, bean.getEmpCode());
-				//preparedStatement.setInt(3, bean.gets);
+				preparedStatement.setInt(3, bean.getSelectedCompanyId());
+				preparedStatement.setInt(4, bean.getSelectedUnitId());
+				preparedStatement.setInt(5, bean.getSelectedUnitDesignationId());
+				
+				
 				
 				}
 			} finally{

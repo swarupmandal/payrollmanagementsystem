@@ -84,6 +84,15 @@ public class Rules {
 		return allowance; 
 	}
 	
+	public static double getAllowanceForFActoryDriver(double allowance, int baseDays, double othours){
+		System.out.println("% % % % % % %  % % % % % % % % % % % %Ot Allowance called with othours FACTORY DRIVER. . ."+othours);
+		double retAllowance = 0.0;
+		retAllowance = (allowance/baseDays) * othours;
+		retAllowance = DoubleFormattor.setDoubleFormat(retAllowance);
+		System.out.println("Returned allowance for ot Factory driver :: "+retAllowance);
+		return retAllowance; 
+	}
+	
 	
 	public static double getConveyence(double conveyence, int baseDay , float presentDays){
 		//System.out.println("conveyence called. . .");

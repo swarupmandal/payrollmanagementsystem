@@ -342,7 +342,7 @@ public class PdfPaySlipGenerator {
 			 }
 			
 			for(RunPayRollBean payRollBean : runPayRollBeanList){
-				double otSheetTotSal =0.0,eamt=0.0,totED=0.0;
+				double otSheetTotSal =0.0,eamt=0.0,totED=0.0,washing=0.0;
 				if(payRollBean.getPresentDay() == 0 && payRollBean.getBasic() == 0.0 && 
 						payRollBean.getOtSalary() > 0.0 && payRollBean.getOtHoursF() > 0.0){
 					otSheet = true;
@@ -358,8 +358,24 @@ public class PdfPaySlipGenerator {
 							 hra = Rules.getHraForCG(payRollBean.getOtSalary());
 							 earn.setComponentAmount(hra);
 						 }
+						 if(earn.getComponentName().equalsIgnoreCase("HRA") 
+								 && (payRollBean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER")) ){
+							 hra = Rules.getHraForCG(payRollBean.getOtSalary());
+							 earn.setComponentAmount(hra);
+						 }
+						 if(earn.getComponentName().equalsIgnoreCase("HRA") 
+								 && (payRollBean.getEmpDesignation().equalsIgnoreCase("TOKEN KEEPER CUM DRIVER")) ){
+							 hra = Rules.getHraForCG(payRollBean.getOtSalary());
+							 earn.setComponentAmount(hra);
+						 }
+						 
+						 if(earn.getComponentName().equalsIgnoreCase("WASHING")){
+							 washing = earn.getComponentAmount();
+							 System.out.println("WASHING::: "+washing);
+						 }
+						
 						 if(payRollBean.getSelectedUnitId()==27 || payRollBean.getSelectedUnitId()==32){//ONLY FOR ITC OT ALLOWANCE
-							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE")){
+							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && !payRollBean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") ){
 								 System.out.println("ITC Allowance in pdf sheet:: "+earn.getComponentAmount());
 								 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
 								 earn.setComponentAmount(allowance);
@@ -387,7 +403,7 @@ public class PdfPaySlipGenerator {
 						eamt +=  earn.getComponentAmount();	 
 					 }
 					 otSheetTotSal = eamt + payRollBean.getOtSalary();
-					 otSheetTotDed = DoubleFormattor.setDoubleFormatEsi( Rules.getEsi(otSheetTotSal, 0.0) ) ;
+					 otSheetTotDed = DoubleFormattor.setDoubleFormatEsi( Rules.getEsi(otSheetTotSal, washing) ) ;
 					 for(EmployeeSalaryComponentAmountBean ded : payRollBean.getDeductionCompList()){
 						if(ded.getComponentName().equalsIgnoreCase("ESI")){
 							 ded.setComponentAmount(otSheetTotDed);
