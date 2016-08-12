@@ -790,7 +790,7 @@ public class RunPayRollDao {
 		
 		if(baseDayType == 2){
 			// calculate month day and minus 4 in baseDays
-			if(unitId == 39){
+			if(unitId == 39 || unitId == 55){
 				System.out.println("--Special base for religh court---y:"+year+"m:"+monthId);
 				int sunday = CheckSunday.countWeekendDays(year, monthId);
 				if(sunday==5){
