@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class RunPayRollBean {
 	
-    private String empName;
+    private String empName,userName;
     private int empId, selectedMonthId,selectedUnitId, selectedCompanyId, 
     selectedUnitDesignationId,selectedCurrentYr, baseDays;
     private String empCode,currentDate;
@@ -19,7 +19,7 @@ public class RunPayRollBean {
     private Integer totalWorkingDays;
     private boolean checked = false;
     private int leaveYrId;
-    private Integer sunDayCountPerMonth;
+    private Integer sunDayCountPerMonth,empDesignationId;
     private Integer monDayCountPerMonth;
     private Integer tuesDayCountPerMonth;
     private Integer wendsDayCountPerMonth;
@@ -447,6 +447,22 @@ public class RunPayRollBean {
 
 	public void setPresentDay(Float presentDay) {
 		this.presentDay = presentDay;
+	}
+
+	public Integer getEmpDesignationId() {
+		return empDesignationId;
+	}
+
+	public void setEmpDesignationId(Integer empDesignationId) {
+		this.empDesignationId = empDesignationId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	

@@ -4,6 +4,10 @@ public class RunPayRollSql {
 	
 	public static final String loadMonthQuery = " SELECT month_id, month FROM pms_month_master ";
 	
+	public static final String loadSheetTypeQuery = " SELECT salary_sheet_type_id,sheet_type FROM pms_salary_sheet_type where is_delete='N' ";
+	
+	public static final String loadComponentQuery = "  select distinct component_id,component_name,component_type_id "
+				+ " from pms_employee_salary_components where company_id=?  and  unit_id =? ";
 	
 	public static final String loadEmpDetailsQuery = " select pem.employee_id, pem.employee_code, " +
 														" pem.employee_name, " +
@@ -19,7 +23,7 @@ public class RunPayRollSql {
 	
 	
 	public static final String loadEmpDetailsQuery2 = " select employee_id, employee_code, employee_name, "
-													  + " emp_designation, unit_designation, pf_number, uan_number, "
+													  + " emp_designation, emp_designation_id,unit_designation, pf_number, uan_number, "
 													  + " esi from vw_employee_information where company_id = ? and unit_id = ? "
 													  + " and unit_designation_id = ? and is_delete = 'N' ";
 	
@@ -35,7 +39,7 @@ public class RunPayRollSql {
 													  " pesc.component_type_id = pctm.component_type_id " +
 													  " and employee_id = ? ";
 
-	public static final String loadEmpcomponentSalaryDetails = " SELECT pesc.component_name, pesc.component_type_id, " +
+	public static final String loadEmpcomponentSalaryDetails = " SELECT pesc.component_id, pesc.component_name, pesc.component_type_id, " +
 																	  " pesc.component_amount, pctm.component_type " +
 																	  " FROM pms_employee_salary_components pesc, " +
 																	  " pms_component_type_master pctm where " + 
@@ -79,6 +83,18 @@ public class RunPayRollSql {
 										            " ?, ?, ?, ?, ?, " + 
 										            " ?) ";
 
-	public static final String empInsertSalDetailsStore = "";
+	public static final String empInsertSalDetailsStore = "INSERT INTO pms_emp_sal_store_comp_details( "
+            										+" component_id, component_name, component_type_id, "
+						            				+" emp_id, emp_code, month, year, amount) "
+						            				+" VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);";
+	
+	public static final String empUpdateSalStore = " UPDATE pms_emp_sal_store SET" +
+									            " presenet_days=?,base_days=?, ot=?, pf_num=?, esi_num=?, uan_num=?, salary_sheet_generation_date=?,"+
+									            " wages=?, holiday_amount=?,ot_salary=?, total_salary=?, total_deduction=?, net_salary=?,"+
+									            " updatetd_by=?, emp_name=? WHERE employee_id=? and employee_code=? and salary_month=? and leave_yr = ?";
+
+	public static final String empUpdateSalDetailsStore = "UPDATE pms_emp_sal_store_comp_details SET "
+												+" amount=?  WHERE emp_id=? and emp_code=? and month=? "
+												+" and year = ? and component_id=?";
 	
 }

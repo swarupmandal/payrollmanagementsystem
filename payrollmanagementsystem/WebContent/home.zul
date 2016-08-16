@@ -123,11 +123,22 @@
          <treechildren>
          <treeitem>
          <treerow>
-         	<treecell label="Report">
+         	<treecell label="Esi Report" onClick='inclResults.setSrc("/WEB-INF/view/esireport.zul");'>
          	</treecell>
          </treerow>
          </treeitem>
+         
+         <treeitem>
+         <treerow>
+         	<treecell label="PF Report"	onClick='inclResults.setSrc("/WEB-INF/view/pfreport.zul");'>
+         	</treecell>
+         </treerow>
+         </treeitem>
+         
          </treechildren>
+         
+         
+        
          </treeitem>
       </treechildren>
      </tree>

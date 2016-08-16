@@ -5,7 +5,7 @@ public class EmployeeSalaryComponentAmountBean {
 	private String componentName;
 	private String componentType;
 	private double componentAmount;
-	private int componentTypeId;
+	private int componentTypeId,componentId;
 	private Integer totalWorkingDays;
 	private Double totalOtAdd;
 	private Double totalLeaveDeduction;
@@ -74,6 +74,12 @@ public class EmployeeSalaryComponentAmountBean {
 	}
 	public void setTotalLeaveDeduction(Double totalLeaveDeduction) {
 		this.totalLeaveDeduction = totalLeaveDeduction;
+	}
+	public int getComponentId() {
+		return componentId;
+	}
+	public void setComponentId(int componentId) {
+		this.componentId = componentId;
 	}
 	
 	

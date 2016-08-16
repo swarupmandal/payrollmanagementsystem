@@ -1,13 +1,13 @@
 <?page title="RUN PAYROLL" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;"
+<window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;" height="100%"
 apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.RunPayrollViewModel')">
   <div visible="@bind(vm.upperComponentVisibility)">
-     <hlayout spacing="35px"> 
+     <hlayout spacing="15px"> 
   		
   		<vbox>
 	     <label value="Select Month"></label>
-	     <combobox  width="130px" model="@bind(vm.monthList)"
+	     <combobox  width="90px" model="@bind(vm.monthList)"
 				   onSelect="@command('onSelectMonth')" value="@bind(vm.monthMasterBean.monthName)"
 					selectedItem="@bind(vm.monthMasterBean)" autocomplete="true" readonly="true">
 					  <template name="model" var="v">
@@ -69,7 +69,21 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		<label value="@bind(vm.currentDate)"></label>
 		</vbox>
 		
+		<vbox>
+			<label value="Sheet Type"/>
+			<combobox model="@bind(vm.sheetTypeBeanList)" value="@bind(vm.sheetbean.sheetType)"
+			  selectedItem="@bind(vm.sheetbean)" onSelect="@command('onSelectType')" readonly="true"
+			  autocomplete="true" autodrop="true"  width="80%" >
+				<template name="model" var="v">
+					<comboitem label="@bind(v.sheetType)" value="@bind(v.sheetTypeId)"/>
+				</template>
+			</combobox>
+		</vbox>
 		
+		<vbox>
+			<label value="Action"/>
+			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Load" onClick="@command('onClickLoad')"/>
+		</vbox>
 		
 		
 	 </hlayout>
@@ -174,8 +188,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   <div>
   	<space/>
   	<space/>
-  		<grid mold="paging" pageSize="5" model="@bind(vm.runPayRollBeanList)"
-  		visible="@bind(vm.salaryAdjustmentVisibility)" height="300px">
+  		<grid mold="paging" pageSize="8" model="@bind(vm.runPayRollBeanList)"
+  		visible="@bind(vm.salaryAdjustmentVisibility)" height="370px">
   			<columns sizable="true">
   				<column label="Emp Code" align="center" width="80px"/>
   				<column label="Emp Name" align="center" width="150px"/>

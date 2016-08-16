@@ -9,12 +9,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.appsquad.bean.CompanyMasterBean;
+
+
+import org.appsquad.bean.ComponentMasterBean;
+import org.appsquad.bean.DesignationBean;
+
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.HolidayMasterBean;
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.RunPayRollBean;
+import org.appsquad.bean.SheetBean;
 import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.dao.ComponentRemoveDao;
 import org.appsquad.dao.RunPayRollDao;
 import org.appsquad.research.DoubleFormattor;
 import org.appsquad.rules.Rules;
@@ -54,7 +61,7 @@ public class RunPayrollViewModel {
 	private EmployeeSalaryComponentAmountBean amountBean = new EmployeeSalaryComponentAmountBean();
 	private HolidayMasterBean holidayMasterBean =new HolidayMasterBean();
 	private UnitDesignationBean unitDesignationBean = new UnitDesignationBean();
-	
+	private SheetBean sheetbean = new SheetBean();
 	
 	private ArrayList<RunPayRollBean> runPayRollBeanList = new ArrayList<RunPayRollBean>();
 	private ArrayList<RunPayRollBean> pdfBeanList = new ArrayList<RunPayRollBean>();
@@ -63,7 +70,7 @@ public class RunPayrollViewModel {
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
 	private ArrayList<UnitDesignationBean> unitDesignationBeanList = new ArrayList<UnitDesignationBean>();
 	
-	
+	private ArrayList<SheetBean> sheetTypeBeanList = new ArrayList<SheetBean>();
 	
 	Session session = null;
 	String userName;
@@ -96,6 +103,7 @@ public class RunPayrollViewModel {
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
 		//EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
 		RunPayRollDao.loadMonthList(monthList);
+		sheetTypeBeanList =  RunPayRollDao.loadSheetTypeList();
 		loadLeaveYrDate();
 		
 		runPayRollBean.setLeaveYrId(holidayMasterBean.getLeaveYrId());
@@ -255,6 +263,34 @@ public class RunPayrollViewModel {
 			nextButtonVisibility = false;
 			calculateButtonVisibility = false;
 		}	
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectType(){
+		Map<String, Object> parenMap = new HashMap<String, Object>();
+		ComponentMasterBean componentMasterBean = new ComponentMasterBean();
+		componentMasterBean.setUnitId(unitMasterBean.getUnitId());
+		componentMasterBean.setCompanyId(companyMasterBean.getCompanyId());
+		parenMap.put("parent", componentMasterBean);
+		
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/sheetComponents.zul", null, parenMap);
+		window.doModal();
+	}
+	
+	
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickLoad(){
+		System.out.println("Year: "+year);
+		System.out.println("Month:: "+monthMasterBean.getMonthName());
+		System.out.println("Company:: "+companyMasterBean.getCompanyId()+" "+companyMasterBean.getCompanyName());
+		System.out.println("Unit:: "+unitMasterBean.getUnitId()+" "+unitMasterBean.getUnitName());
+		System.out.println("Unit desg :: "+unitDesignationBean.getUnitDesignationId()+" "+unitDesignationBean.getUnitDesignation());
+		System.out.println("Sheet type Id: "+sheetbean.getSheetTypeId()+" "+sheetbean.getSheetType());
+		// ADD COMPONENTS AGAIN
+	//	ComponentRemoveDao.addComponent(unitMasterBean.getUnitId());
 	}
 	
 	@Command
@@ -1011,11 +1047,13 @@ public class RunPayrollViewModel {
 					pdfBean.setBasic(bean.getBasic());
 					
 					pdfBean.setComapnyName(bean.getComapnyName());
+					pdfBean.setSelectedCompanyId(bean.getSelectedCompanyId());
+					pdfBean.setSelectedUnitDesignationId(bean.getSelectedUnitDesignationId());
 					pdfBean.setUnitName(bean.getUnitName());
 					pdfBean.setUnitDesignation(bean.getUnitDesignation());
 					pdfBean.setSelectedUnitId(bean.getSelectedUnitId());
 					pdfBean.setMonthName(bean.getMonthName());
-					pdfBean.setYear(bean.getYear());
+					pdfBean.setYear(String.valueOf(year));
 					pdfBean.setCurrentDate(currentDate);
 					
 					pdfBean.setOtHoursF(bean.getOtHoursF());
@@ -1025,9 +1063,12 @@ public class RunPayrollViewModel {
 					pdfBean.setTotalSalary(bean.getTotalSalary() );
 					pdfBean.setTotalDeduction(bean.getTotalDeduction());
 					pdfBean.setNetSalary(bean.getNetSalary());
+					pdfBean.setUserName(userName);
+					pdfBean.setEmpId(bean.getEmpId());
 					pdfBean.setEmpName(bean.getEmpName());
 					pdfBean.setEmpCode(bean.getEmpCode());
 					pdfBean.setEmpDesignation(bean.getEmpDesignation());
+					pdfBean.setEmpDesignationId(bean.getEmpDesignationId());
 					pdfBean.setEmpPf(bean.getEmpPf());
 					pdfBean.setEmpEsi(bean.getEmpEsi());
 					pdfBean.setEmpUan(bean.getEmpUan());
@@ -1635,6 +1676,23 @@ public class RunPayrollViewModel {
 		this.upperComponentVisibility = upperComponentVisibility;
 	}
 
+	public ArrayList<SheetBean> getSheetTypeBeanList() {
+		return sheetTypeBeanList;
+	}
+
+	public void setSheetTypeBeanList(ArrayList<SheetBean> sheetTypeBeanList) {
+		this.sheetTypeBeanList = sheetTypeBeanList;
+	}
+
+	public SheetBean getSheetbean() {
+		return sheetbean;
+	}
+
+	public void setSheetbean(SheetBean sheetbean) {
+		this.sheetbean = sheetbean;
+	}
+
+	
 	
 
 	
