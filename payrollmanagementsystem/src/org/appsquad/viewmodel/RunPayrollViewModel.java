@@ -276,8 +276,8 @@ public class RunPayrollViewModel {
 		componentMasterBean.setCompanyId(companyMasterBean.getCompanyId());
 		parenMap.put("parent", componentMasterBean);
 		
-		//Window window = (Window) Executions.createComponents("/WEB-INF/view/sheetComponents.zul", null, parenMap);
-		//window.doModal();
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/sheetComponents.zul", null, parenMap);
+		window.doModal();
 	}
 	
 	
@@ -1045,11 +1045,13 @@ public class RunPayrollViewModel {
 					pdfBean.setBasic(bean.getBasic());
 					
 					pdfBean.setComapnyName(bean.getComapnyName());
+					pdfBean.setSelectedCompanyId(bean.getSelectedCompanyId());
+					pdfBean.setSelectedUnitDesignationId(bean.getSelectedUnitDesignationId());
 					pdfBean.setUnitName(bean.getUnitName());
 					pdfBean.setUnitDesignation(bean.getUnitDesignation());
 					pdfBean.setSelectedUnitId(bean.getSelectedUnitId());
 					pdfBean.setMonthName(bean.getMonthName());
-					pdfBean.setYear(bean.getYear());
+					pdfBean.setYear(String.valueOf(year));
 					pdfBean.setCurrentDate(currentDate);
 					
 					pdfBean.setOtHoursF(bean.getOtHoursF());
@@ -1059,9 +1061,12 @@ public class RunPayrollViewModel {
 					pdfBean.setTotalSalary(bean.getTotalSalary() );
 					pdfBean.setTotalDeduction(bean.getTotalDeduction());
 					pdfBean.setNetSalary(bean.getNetSalary());
+					pdfBean.setUserName(userName);
+					pdfBean.setEmpId(bean.getEmpId());
 					pdfBean.setEmpName(bean.getEmpName());
 					pdfBean.setEmpCode(bean.getEmpCode());
 					pdfBean.setEmpDesignation(bean.getEmpDesignation());
+					pdfBean.setEmpDesignationId(bean.getEmpDesignationId());
 					pdfBean.setEmpPf(bean.getEmpPf());
 					pdfBean.setEmpEsi(bean.getEmpEsi());
 					pdfBean.setEmpUan(bean.getEmpUan());

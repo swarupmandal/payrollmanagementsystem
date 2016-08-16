@@ -72,7 +72,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		<vbox>
 			<label value="Sheet Type"/>
 			<combobox model="@bind(vm.sheetTypeBeanList)" value="@bind(vm.sheetbean.sheetType)"
-			  selectedItem="@bind(vm.sheetbean)" onSelect="@command('onSelectType')"
+			  selectedItem="@bind(vm.sheetbean)" onSelect="@command('onSelectType')" readonly="true"
 			  autocomplete="true" autodrop="true"  width="80%" >
 				<template name="model" var="v">
 					<comboitem label="@bind(v.sheetType)" value="@bind(v.sheetTypeId)"/>

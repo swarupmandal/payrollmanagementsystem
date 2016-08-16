@@ -1,0 +1,33 @@
+<?page title="Esi Report" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Esi Report" border="normal">
+<grid>
+	<auxhead>
+		<auxheader colspan="5">
+			<combobox placeholder="CHOOSE YEAR" readonly="true"/>
+		   	<combobox placeholder="CHOOSE MONTH" readonly="true"/>
+			<combobox placeholder="CHOOSE COMPANY" readonly="true"/>
+			<combobox placeholder="CHOOSE UNIT" readonly="true"/>
+			<combobox placeholder="CHOOSE DESIGNATION" readonly="true"/>
+			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="CSV EXPORT"/>
+		</auxheader>
+	</auxhead>
+	<columns>
+		<column align="center" label="IP NUMBER(10 DIGITS)"/>
+		<column align="center" label="NAME"/>
+		<column align="center" label="DAYS"/>
+		<column align="center" label="WAGES"/>
+		<column align="center" label="EMPLOYEES CON @1.75%"/>
+	</columns>
+	<rows>
+		<row>
+			<textbox maxlength="10" readonly="true" />
+			<textbox readonly="TRUE"/>
+			<textbox readonly="TRUE"/>
+			<textbox readonly="TRUE"/>
+			<textbox readonly="TRUE"/>
+		</row>
+	</rows>
+</grid>
+</window>
+</zk>

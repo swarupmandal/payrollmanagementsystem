@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class RunPayRollBean {
 	
-    private String empName;
+    private String empName,userName;
     private int empId, selectedMonthId,selectedUnitId, selectedCompanyId, 
     selectedUnitDesignationId,selectedCurrentYr, baseDays;
     private String empCode,currentDate;
@@ -455,6 +455,14 @@ public class RunPayRollBean {
 
 	public void setEmpDesignationId(Integer empDesignationId) {
 		this.empDesignationId = empDesignationId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	

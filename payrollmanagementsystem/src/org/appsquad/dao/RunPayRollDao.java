@@ -262,7 +262,7 @@ public class RunPayRollDao {
 				      ResultSet resultSet = preparedStatement.executeQuery();
 					  while (resultSet.next()) {
 						  EmployeeSalaryComponentAmountBean bean = new EmployeeSalaryComponentAmountBean();
-						  
+						    bean.setComponentId(resultSet.getInt("component_id"));
 						  	bean.setComponentName(resultSet.getString("component_name"));
 							bean.setComponentAmount(resultSet.getDouble("component_amount"));
 							bean.setComponentType(resultSet.getString("component_type"));
@@ -867,41 +867,157 @@ public class RunPayRollDao {
 			connection.setAutoCommit(false);
 			
 			try {
+				PreparedStatement preparedStatement = null;
 				//PreparedStatement preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
 				for(RunPayRollBean bean : runPayRollBeanList){
-					PreparedStatement preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
-				preparedStatement.setInt(1, bean.getEmpId());
-				preparedStatement.setString(2, bean.getEmpCode());
-				preparedStatement.setInt(3, bean.getSelectedCompanyId());
-				preparedStatement.setInt(4, bean.getSelectedUnitId());
-				preparedStatement.setInt(5, bean.getSelectedUnitDesignationId());
-				preparedStatement.setInt(6, bean.getEmpDesignationId());
-				//preparedStatement.setInt(7, bean.getPresentDay());
-				
-				
-				
+				    preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
+					preparedStatement.setInt(1, bean.getEmpId());
+					preparedStatement.setString(2, bean.getEmpCode());
+					preparedStatement.setInt(3, bean.getSelectedCompanyId());
+					preparedStatement.setInt(4, bean.getSelectedUnitId());
+					preparedStatement.setInt(5, bean.getSelectedUnitDesignationId());
+					preparedStatement.setInt(6, bean.getEmpDesignationId());
+					preparedStatement.setFloat(7, bean.getPresentDay());
+					preparedStatement.setInt(8, bean.getBaseDays());
+					preparedStatement.setDouble(9, bean.getOtHoursF());
+					preparedStatement.setString(10, bean.getEmpPf());
+					preparedStatement.setString(11, bean.getEmpEsi());
+					preparedStatement.setString(12, bean.getEmpUan());
+					preparedStatement.setString(13, bean.getCurrentDate());
+					preparedStatement.setInt(14, bean.getSelectedMonthId());
+					preparedStatement.setString(15, bean.getMonthName());
+					preparedStatement.setString(16, bean.getYear());
+					preparedStatement.setDouble(17, bean.getWages());
+					preparedStatement.setDouble(18, bean.getHoliDayAmount());
+					preparedStatement.setDouble(19, bean.getOtSalary());
+					preparedStatement.setDouble(20, bean.getTotalSalary());
+					preparedStatement.setDouble(21, bean.getTotalDeduction());
+					preparedStatement.setDouble(22, bean.getNetSalary());
+					preparedStatement.setString(23, bean.getUserName());
+					preparedStatement.setString(24, bean.getUserName());
+					preparedStatement.setString(25, bean.getEmpName());
+					int count = preparedStatement.executeUpdate();
+					connection.commit();
+					if(count>0){
+						preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalDetailsStore, null);
+						bean.getComponentAmountBeanList().addAll(bean.getEarningCompList());
+						bean.getComponentAmountBeanList().addAll(bean.getDeductionCompList());
+						
+						System.out.println("comp list size:: "+bean.getComponentAmountBeanList().size());
+						for(EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()){
+							preparedStatement.setInt(1, salBean.getComponentId());
+							preparedStatement.setString(2, salBean.getComponentName());
+							preparedStatement.setInt(3, salBean.getComponentTypeId());
+							preparedStatement.setInt(4, bean.getEmpId());
+							preparedStatement.setString(5, bean.getEmpCode());
+							preparedStatement.setString(6, bean.getMonthName());
+							preparedStatement.setString(7, bean.getYear());
+							preparedStatement.setDouble(8, salBean.getComponentAmount());
+							preparedStatement.addBatch();
+						}
+						int[] countArray = preparedStatement.executeBatch();
+						connection.commit();
+						boolean insert = false;
+						for(Integer c : countArray){
+							insert = true;
+						}
+						if(insert){
+							System.out.println("Components amount saved!!");
+						}
+					}
 				}
-			} finally{
 				
+			} catch(Exception e){
+				if(e.getMessage().contains("duplicate")){
+					System.out.println("Update data!");
+					updateSalSheet(runPayRollBeanList);
+				}
 			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			finally{
+				if(connection!=null){
+					connection.close();
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
+	
+	public static void updateSalSheet(ArrayList<RunPayRollBean> runPayRollBeanList){
+		try {
+			
+			Connection connection = DbConnection.createConnection();
+			connection.setAutoCommit(false);
+			
+			try {
+				PreparedStatement preparedStatement = null;
+				for(RunPayRollBean bean : runPayRollBeanList){
+				    preparedStatement = Util1.createQuery(connection, RunPayRollSql.empUpdateSalStore, null);
+				    preparedStatement.setFloat(1, bean.getPresentDay());
+				    preparedStatement.setInt(2, bean.getBaseDays());
+					preparedStatement.setDouble(3, bean.getOtHoursF());
+					preparedStatement.setString(4, bean.getEmpPf());
+					preparedStatement.setString(5, bean.getEmpEsi());
+					preparedStatement.setString(6, bean.getEmpUan());
+					preparedStatement.setString(7, bean.getCurrentDate());
+					
+					preparedStatement.setDouble(8, bean.getWages());
+					preparedStatement.setDouble(9, bean.getHoliDayAmount());
+					preparedStatement.setDouble(10, bean.getOtSalary());
+					preparedStatement.setDouble(11, bean.getTotalSalary());
+					preparedStatement.setDouble(12, bean.getTotalDeduction());
+					preparedStatement.setDouble(13, bean.getNetSalary());
+					
+					preparedStatement.setString(14, bean.getUserName());
+					preparedStatement.setString(15, bean.getEmpName());
+					
+				    preparedStatement.setInt(16, bean.getEmpId());
+					preparedStatement.setString(17, bean.getEmpCode());
+					preparedStatement.setString(18, bean.getMonthName());
+					preparedStatement.setString(19, bean.getYear());
+					
+					int count = preparedStatement.executeUpdate();
+					connection.commit();
+					if(count>0){
+						
+						preparedStatement = Util1.createQuery(connection, RunPayRollSql.empUpdateSalDetailsStore, null);
+						bean.getComponentAmountBeanList().addAll(bean.getEarningCompList());
+						bean.getComponentAmountBeanList().addAll(bean.getDeductionCompList());
+						
+						System.out.println("comp list size:: "+bean.getComponentAmountBeanList().size());
+						for(EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()){
+							preparedStatement.setDouble(1, salBean.getComponentAmount());
+							preparedStatement.setInt(2, bean.getEmpId());
+							preparedStatement.setString(3, bean.getEmpCode());
+							preparedStatement.setString(4, bean.getMonthName());
+							preparedStatement.setString(5, bean.getYear());
+							preparedStatement.setInt(6, salBean.getComponentId());
+							preparedStatement.addBatch();
+						}
+						int[] countArray = preparedStatement.executeBatch();
+						connection.commit();
+						boolean insert = false;
+						for(Integer c : countArray){
+							insert = true;
+						}
+						if(insert){
+							System.out.println("Components amount updated!!");
+						}
+					}
+				}
+				
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+			finally{
+				if(connection!=null){
+					connection.close();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
