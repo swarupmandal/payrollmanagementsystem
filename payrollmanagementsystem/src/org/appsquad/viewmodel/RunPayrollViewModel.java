@@ -7,10 +7,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.appsquad.bean.CompanyMasterBean;
-import org.appsquad.bean.DesignationBean;
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.HolidayMasterBean;
 import org.appsquad.bean.MonthMasterBean;
@@ -37,16 +35,12 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
-import org.zkoss.zul.Include;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.DocumentException;
-
-import utility.LeaveCalculation;
-import utility.OtCalculation;
 import utility.PdfPaySlipGenerator;
+
+import com.itextpdf.text.DocumentException;
 
 public class RunPayrollViewModel {
 	
