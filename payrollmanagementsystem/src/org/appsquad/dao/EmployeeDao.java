@@ -1256,9 +1256,6 @@ public class EmployeeDao {
 
     	ArrayList<UnitDesignationBean> list = new ArrayList<UnitDesignationBean>();
     	
-		if(list.size()>0){
-			list.clear();
-		}
 		
 		try {
 
@@ -1302,7 +1299,7 @@ public class EmployeeDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println(list.size());
 		return list;
 	}
 
