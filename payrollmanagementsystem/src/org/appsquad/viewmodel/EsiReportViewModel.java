@@ -7,6 +7,7 @@ import org.appsquad.bean.EsiReportBean;
 import org.appsquad.bean.MonthMasterBean;
 import org.appsquad.bean.UnitDesignationBean;
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.dao.EmployeeDao;
 import org.appsquad.dao.RunPayRollDao;
 import org.appsquad.service.EmployeeMasterService;
 import org.appsquad.service.EsiReportService;
@@ -29,15 +30,17 @@ public class EsiReportViewModel {
 	private UnitMasterBean unitMasterBean = new UnitMasterBean();
 	EsiReportBean esiReportBean = new EsiReportBean();
 	MonthMasterBean monthBean = new MonthMasterBean();
-	public UnitDesignationBean unitDesignationBean = new UnitDesignationBean();
+	public EsiReportBean unitDesBean = new EsiReportBean();
+	public UnitDesignationBean UnitDesignationBean = new UnitDesignationBean();
+	public EsiReportBean esiParameterBean = new EsiReportBean();
 	
 	
 	ArrayList<String> lvYrList = new ArrayList<String>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
-	public ArrayList<UnitDesignationBean> unitDesignationBeanList = new ArrayList<UnitDesignationBean>();
-	
+	public ArrayList<UnitDesignationBean> unitDesignationList = new ArrayList<UnitDesignationBean>();
+	private ArrayList<EsiReportBean> esiReportBeanList = new ArrayList<EsiReportBean>();
 	
 	@AfterCompose
 	public void initSetUp(@ContextParam(ContextType.VIEW) Component view) throws Exception {
@@ -47,50 +50,56 @@ public class EsiReportViewModel {
 		userId = (String) session.getAttribute("userId");
 		
 		lvYrList = EsiReportService.getLvYr();
-		RunPayRollDao.loadMonthList(monthList);
-		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
-		EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
-		
 		
 	}
 
 	@Command
-	@NotifyChange
+	@NotifyChange("*")
 	public void onSelectYr(){
-		
+		esiParameterBean.setLvYr(esiReportBean.getLvYr());
+		RunPayRollDao.loadMonthList(monthList);
 	}
 	
 	
 	@Command
-	@NotifyChange
+	@NotifyChange("*")
 	public void onSelectMonth(){
 		esiReportBean.setSalaryMonth(monthBean.getMonthName());
 		esiReportBean.setSalaryMonthId(monthBean.getMonthId());
-		
+		if(companyBeanList.size()>0){
+			companyBeanList.clear();
+		}
+		esiParameterBean.setSalaryMonth(monthBean.getMonthName());
+		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
 	}
 	
 	@Command
-	@NotifyChange
+	@NotifyChange("*")
 	public void onSelectCompany(){
 		esiReportBean.setCompanyId(companyMasterBean.getCompanyId());
+		
+		esiParameterBean.setCompanyId(companyMasterBean.getCompanyId());
+		unitMasterBeanList = EmployeeMasterService.loadUnitBeanListWrtCompany(companyMasterBean.getCompanyId());
+		
 	}
 	
 	@Command
-	@NotifyChange
+	@NotifyChange("*")
 	public void onSelectUnit(){
 		esiReportBean.setUnitId(unitMasterBean.getUnitId());
-		unitDesignationBeanList = EmployeeMasterService.loadUnitDesignation(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 		
-		for(UnitDesignationBean bean : unitDesignationBeanList){
-			System.out.println(bean.getUnitDesignation());
-		}
+		esiParameterBean.setUnitId(unitMasterBean.getUnitId());
+		unitDesignationList = EmployeeDao.loadUnitDesignationList(esiReportBean.getCompanyId(), esiReportBean.getUnitId());
+		
 	}
 	
 	@Command
-	@NotifyChange
+	@NotifyChange("*")
 	public void onSelectUnitDesignation(){
-		esiReportBean.setUnitDesignationId(unitDesignationBean.getUnitDesignationId());
-		System.out.println("--- " + esiReportBean.getUnitDesignationId());
+		
+		esiParameterBean.setUnitDesignationId(UnitDesignationBean.getUnitDesignationId());
+		esiReportBeanList = EsiReportService.getEsiReport(esiParameterBean);
+		
 	}
 	
 	public ArrayList<String> getLvYrList() {
@@ -173,21 +182,63 @@ public class EsiReportViewModel {
 		this.unitMasterBeanList = unitMasterBeanList;
 	}
 
-	public UnitDesignationBean getUnitDesignationBean() {
-		return unitDesignationBean;
-	}
-
-	public void setUnitDesignationBean(UnitDesignationBean unitDesignationBean) {
-		this.unitDesignationBean = unitDesignationBean;
-	}
-
-	public ArrayList<UnitDesignationBean> getUnitDesignationBeanList() {
+	/*public ArrayList<EsiReportBean> getUnitDesignationBeanList() {
 		return unitDesignationBeanList;
 	}
 
 	public void setUnitDesignationBeanList(
-			ArrayList<UnitDesignationBean> unitDesignationBeanList) {
+			ArrayList<EsiReportBean> unitDesignationBeanList) {
 		this.unitDesignationBeanList = unitDesignationBeanList;
+	}*/
+
+	public EsiReportBean getUnitDesBean() {
+		return unitDesBean;
 	}
+
+	public void setUnitDesBean(EsiReportBean unitDesBean) {
+		this.unitDesBean = unitDesBean;
+	}
+
+	public UnitDesignationBean getUnitDesignationBean() {
+		return UnitDesignationBean;
+	}
+
+	public void setUnitDesignationBean(UnitDesignationBean unitDesignationBean) {
+		UnitDesignationBean = unitDesignationBean;
+	}
+
+	public ArrayList<UnitDesignationBean> getUnitDesignationList() {
+		return unitDesignationList;
+	}
+
+	public void setUnitDesignationList(
+			ArrayList<UnitDesignationBean> unitDesignationList) {
+		this.unitDesignationList = unitDesignationList;
+	}
+
+	public ArrayList<EsiReportBean> getEsiReportBeanList() {
+		return esiReportBeanList;
+	}
+
+	public void setEsiReportBeanList(ArrayList<EsiReportBean> esiReportBeanList) {
+		this.esiReportBeanList = esiReportBeanList;
+	}
+
+	public EsiReportBean getEsiParameterBean() {
+		return esiParameterBean;
+	}
+
+	public void setEsiParameterBean(EsiReportBean esiParameterBean) {
+		this.esiParameterBean = esiParameterBean;
+	}
+
+	/*public UnitMasterBean getUnitDesBean() {
+		return unitDesBean;
+	}
+
+	public void setUnitDesBean(UnitMasterBean unitDesBean) {
+		this.unitDesBean = unitDesBean;
+	}*/
+	
 	
 }
