@@ -10,7 +10,8 @@
 				<column align="center"/>
 				<column align="center"/>
 				<column align="center"/>
-				
+				<column align="center"/>
+				<column align="center"/>
 			</columns>
 			<rows>
 				<row>
@@ -34,6 +35,20 @@
 					
 					<doublebox placeholder="Enter Hour" value="@bind(vm.unitMasterBean.workingHour)"></doublebox>
 					
+					<combobox placeholder="Select Wages Type" model="@bind(vm.wagesTypeBeanList)" readonly="true" selectedItem="@bind(vm.wagesTypeBean)" width="130px"
+					onSelect="@command('onSelectWages')" value="@bind(vm.wagesTypeBean.wagesType)">
+						<template name="model" var = "v">
+						 <comboitem label="@bind(v.wagesType)" value="@bind(v.wagesTypeId)"></comboitem>
+						</template>
+					</combobox>
+					
+					<combobox placeholder="Sunday Selection" model="@bind(vm.sunDaySelecttionBnLst)" readonly="true" selectedItem="@bind(vm.sundayTypeBean)" width="130px"
+					onSelect="@command('onSundaySelect')" value="@bind(vm.sundayTypeBean.sundaySelection)">
+						<template name="model" var = "v">
+						 <comboitem label="@bind(v.sundaySelection)" value="@bind(v.sundaySelectionId)"></comboitem>
+						</template>
+					</combobox>
+					
 					<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; width:60px;"/>
 					<!-- <button label="Update" onClick="@command('onClickUpdate')" visible="false"/> -->
 				</row>
@@ -55,8 +70,8 @@
 			<rows>
 			<template name="model" var="v">
 				<row>
-					<textbox placeholder="Company Name" value="@bind(v.companyName)" readonly="true" />
-					<textbox placeholder="Unit Name" value="@bind(v.unitName)" readonly="@bind(v.readOnly)"/>
+					<textbox placeholder="Company Name" value="@bind(v.companyName)" readonly="true" width="300px" />
+					<textbox placeholder="Unit Name" value="@bind(v.unitName)" readonly="@bind(v.readOnly)" width="300px"/>
 					<hlayout spacing="20px">
 					
 					<a><image src="images/ico_edit.png" onClick="@command('onClickEdit',bean = v)"></image> </a>

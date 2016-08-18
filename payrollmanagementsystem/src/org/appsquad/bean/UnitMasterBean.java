@@ -6,6 +6,12 @@ public class UnitMasterBean {
 	private boolean readOnly = true;
 	private Double workingHour;
 	
+	private String wagesType;
+	private int wagesTypeId;
+	
+	private String sundaySelection;
+	private int sundaySelectionId;
+	
 	public UnitMasterBean() {
 		// TODO Auto-generated constructor stub
 	}
@@ -98,6 +104,38 @@ public class UnitMasterBean {
 
 	public void setWorkingHour(Double workingHour) {
 		this.workingHour = workingHour;
+	}
+
+	public String getWagesType() {
+		return wagesType;
+	}
+
+	public void setWagesType(String wagesType) {
+		this.wagesType = wagesType;
+	}
+
+	public int getWagesTypeId() {
+		return wagesTypeId;
+	}
+
+	public void setWagesTypeId(int wagesTypeId) {
+		this.wagesTypeId = wagesTypeId;
+	}
+
+	public String getSundaySelection() {
+		return sundaySelection;
+	}
+
+	public void setSundaySelection(String sundaySelection) {
+		this.sundaySelection = sundaySelection;
+	}
+
+	public int getSundaySelectionId() {
+		return sundaySelectionId;
+	}
+
+	public void setSundaySelectionId(int sundaySelectionId) {
+		this.sundaySelectionId = sundaySelectionId;
 	}
 
 	

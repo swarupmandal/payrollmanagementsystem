@@ -101,7 +101,7 @@ public class UnitMasterDao {
 	}
 	
 	
-	public static void insertUnitMasterData(UnitMasterBean unitMasterBean, int bdid){
+	public static void insertUnitMasterData(UnitMasterBean unitMasterBean, int bdid, int wgsId, int sunId){
 		
 		boolean isInserted = false;
 		Connection connection = DbConnection.createConnection();
@@ -112,7 +112,7 @@ public class UnitMasterDao {
 				try {
 					preparedStatement = Util1.createQuery(connection, 
 							UnitMasterSqlQuery.insertUnitMasterQuery, Arrays.asList(unitMasterBean.getUnitName().toUpperCase(),unitMasterBean.getUnitAddress(),
-									unitMasterBean.getCompanyId(),unitMasterBean.getUserName(), bdid, unitMasterBean.getWorkingHour()));
+									unitMasterBean.getCompanyId(),unitMasterBean.getUserName(), bdid, unitMasterBean.getWorkingHour(), wgsId, sunId));
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
 						isInserted = true;	
@@ -243,4 +243,96 @@ public class UnitMasterDao {
 			Messagebox.show("Deletion failed due to internal error!","ERROR",Messagebox.OK,Messagebox.ERROR);
 		}
 	}
+	
+	public static ArrayList<UnitMasterBean> fetchWagesType(){
+		ArrayList<UnitMasterBean> list = new ArrayList<UnitMasterBean>();
+		if(list.size()>0){
+			list.clear();
+		}
+		Connection connection = null;
+		try {
+			connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			try {
+				preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.loadWagesTypeQuery, null);
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					UnitMasterBean ub = new UnitMasterBean();
+					ub.setWagesType(resultSet.getString("wages_type"));
+					ub.setWagesTypeId(resultSet.getInt("id"));
+					
+					list.add(ub);
+					
+				}
+				
+			} finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+				
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+		
+	}
+	
+	public static ArrayList<UnitMasterBean> fetchSundaySelect(){
+		ArrayList<UnitMasterBean> list = new ArrayList<UnitMasterBean>();
+		if(list.size()>0){
+			list.clear();
+		}
+		Connection connection = null;
+		try {
+			connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			try {
+				preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.loadSundaySelectionQuery, null);
+				
+				resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					UnitMasterBean ub = new UnitMasterBean();
+					ub.setSundaySelection(resultSet.getString("sunday_select"));
+					ub.setSundaySelectionId(resultSet.getInt("id"));
+					
+					list.add(ub);
+					
+				}
+				
+			} finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	
+	
 }

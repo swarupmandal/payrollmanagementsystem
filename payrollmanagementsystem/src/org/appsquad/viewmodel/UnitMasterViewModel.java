@@ -28,6 +28,10 @@ public class UnitMasterViewModel {
 	public UnitMasterBean unitMasterBean = new UnitMasterBean();
 	
 	public UnitMasterBean baseDaysTypeBean = new UnitMasterBean();
+	
+	private UnitMasterBean wagesTypeBean = new UnitMasterBean();
+	
+	private UnitMasterBean sundayTypeBean = new UnitMasterBean();
 
 	Session session = null;
 	
@@ -40,6 +44,10 @@ public class UnitMasterViewModel {
 	public ArrayList<CompanyMasterBean> companyMasterBeanList = new ArrayList<CompanyMasterBean>();
 	
 	public ArrayList<UnitMasterBean> baseDaysList = new ArrayList<UnitMasterBean>();
+	
+	public ArrayList<UnitMasterBean> wagesTypeBeanList = new ArrayList<UnitMasterBean>();
+	
+	public ArrayList<UnitMasterBean> sunDaySelecttionBnLst = new ArrayList<UnitMasterBean>();
 	
 	public boolean saveDisability = false;
 	
@@ -63,6 +71,8 @@ public class UnitMasterViewModel {
 		companyMasterBeanList = CompanyDao.loadCompanyList();
 		
 		baseDaysList = UnitMasterDao.loadDayType();
+		wagesTypeBeanList = UnitMasterService.fetchWagesType();
+		sunDaySelecttionBnLst = UnitMasterService.sundaySelType();
 		
 	}
 	
@@ -84,7 +94,9 @@ public class UnitMasterViewModel {
 	@NotifyChange("*")
 	public void onClickSave(){
 		unitMasterBean.setCompanyId(companyId);
-		UnitMasterService.insertUnitMasterData(unitMasterBean, baseDaysTypeBean);
+		
+		UnitMasterService.insertUnitMasterData(unitMasterBean, baseDaysTypeBean, wagesTypeBean, sundayTypeBean);
+		
 		UnitMasterService.clearScreen(unitMasterBean, baseDaysTypeBean);
 		baseDaysList = UnitMasterDao.loadDayType();
 		UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
@@ -154,6 +166,19 @@ public class UnitMasterViewModel {
 				}
 			);
 	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectWages(){
+		
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSundaySelect(){
+		
+	}
+	
 	
 	public UnitMasterBean getUnitMasterBean() {
 		return unitMasterBean;
@@ -226,5 +251,54 @@ public class UnitMasterViewModel {
 
 	public void setBaseDaysList(ArrayList<UnitMasterBean> baseDaysList) {
 		this.baseDaysList = baseDaysList;
+	}
+
+	public UnitMasterBean getWagesTypeBean() {
+		return wagesTypeBean;
+	}
+
+	public void setWagesTypeBean(UnitMasterBean wagesTypeBean) {
+		this.wagesTypeBean = wagesTypeBean;
+	}
+
+	public UnitMasterBean getSundayTypeBean() {
+		return sundayTypeBean;
+	}
+
+	public void setSundayTypeBean(UnitMasterBean sundayTypeBean) {
+		this.sundayTypeBean = sundayTypeBean;
+	}
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public ArrayList<UnitMasterBean> getWagesTypeBeanList() {
+		return wagesTypeBeanList;
+	}
+
+	public void setWagesTypeBeanList(ArrayList<UnitMasterBean> wagesTypeBeanList) {
+		this.wagesTypeBeanList = wagesTypeBeanList;
+	}
+
+	public ArrayList<UnitMasterBean> getSunDaySelecttionBnLst() {
+		return sunDaySelecttionBnLst;
+	}
+
+	public void setSunDaySelecttionBnLst(
+			ArrayList<UnitMasterBean> sunDaySelecttionBnLst) {
+		this.sunDaySelecttionBnLst = sunDaySelecttionBnLst;
+	}
+
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
 	}
 }

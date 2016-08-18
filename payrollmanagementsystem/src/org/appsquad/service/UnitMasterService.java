@@ -10,7 +10,7 @@ import org.zkoss.zul.Messagebox;
 
 public class UnitMasterService {
 
-	public static boolean isValid(UnitMasterBean unitMasterBean, int bdId){
+	public static boolean isValid(UnitMasterBean unitMasterBean, int bdId, int wgsid, int sunId){
 		
 			if(unitMasterBean.getCompanyId() != 0){
 				
@@ -20,7 +20,21 @@ public class UnitMasterService {
 						
 						if(unitMasterBean.getWorkingHour() != null){
 						
-						return true;
+							if(wgsid >0){
+								
+								if(sunId>0){
+								
+									return true;
+						
+								}else {
+									Messagebox.show("Sunday Selection Required!","Alert",Messagebox.OK,Messagebox.EXCLAMATION);	
+									return false;
+								}
+								
+							}else {
+								Messagebox.show("Wages Type Required!","Alert",Messagebox.OK,Messagebox.EXCLAMATION);	
+								return false;
+							}
 						
 						}else {
 							Messagebox.show("Working Hour Required!","Alert",Messagebox.OK,Messagebox.EXCLAMATION);	
@@ -43,16 +57,18 @@ public class UnitMasterService {
 			}
 	}
 	
-	public static void insertUnitMasterData(UnitMasterBean unitMasterBean, UnitMasterBean baseDaysBean){
+	public static void insertUnitMasterData(UnitMasterBean unitMasterBean, UnitMasterBean baseDaysBean, UnitMasterBean wgsBean, UnitMasterBean sunBean){
 		
-		if(isValid(unitMasterBean , baseDaysBean.getBaseDaysTypeId())){
-			UnitMasterDao.insertUnitMasterData(unitMasterBean, baseDaysBean.getBaseDaysTypeId());
+		if(isValid(unitMasterBean , baseDaysBean.getBaseDaysTypeId(), wgsBean.getWagesTypeId(), sunBean.getSundaySelectionId())){
+			UnitMasterDao.insertUnitMasterData(unitMasterBean, baseDaysBean.getBaseDaysTypeId() , wgsBean.getWagesTypeId(), sunBean.getSundaySelectionId());
 		}
 	}
 	
 	public static void updateUnitMasterData(UnitMasterBean unitMasterBean){
 		int i=0;
-		if(isValid(unitMasterBean, i)){
+		int j=0;
+		int k=0;
+		if(isValid(unitMasterBean, i, j, k)){
 			UnitMasterDao.updateUnitMasterData(unitMasterBean);
 		}
 	}
@@ -77,5 +93,18 @@ public class UnitMasterService {
 		
 		
 	}
+	
+	public static ArrayList<UnitMasterBean> fetchWagesType(){
+		ArrayList<UnitMasterBean> list = new ArrayList<UnitMasterBean>();
+		list = UnitMasterDao.fetchWagesType();
+		return list;
+	}
+	
+	public static ArrayList<UnitMasterBean> sundaySelType(){
+		ArrayList<UnitMasterBean> list = new ArrayList<UnitMasterBean>();
+		list = UnitMasterDao.fetchSundaySelect();
+		return list;
+	}
+	
 	
 }
