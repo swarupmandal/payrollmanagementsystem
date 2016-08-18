@@ -48,7 +48,6 @@ public class EsiReportViewModel {
 		Selectors.wireComponents(view, this, false);
 		session = Sessions.getCurrent();
 		userId = (String) session.getAttribute("userId");
-		
 		lvYrList = EsiReportService.getLvYr();
 		
 	}
