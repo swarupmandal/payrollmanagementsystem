@@ -137,7 +137,7 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectCompany(){
-		////System.out.println("MONTH " + companyMasterBean.getCompanyName() + " - ID - " + companyMasterBean.getCompanyId());
+		//System.out.println("MONTH " + companyMasterBean.getCompanyName() + " - ID - " + companyMasterBean.getCompanyId());
 		unitMasterBean.setUnitName(null);
 		unitDesignationBean.setUnitDesignation(null);
 		runPayRollBeanList.clear();
@@ -162,7 +162,7 @@ public class RunPayrollViewModel {
 		}*/
 		
 		//runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(month, year));
-		
+		ComponentRemoveDao.addComponent(runPayRollBean.getSelectedUnitId());
 		unitDesignationBeanList = EmployeeMasterService.loadUnitDesignation(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
 		
 		/*runPayRollBean.setTotalNumberOfDayseveryMonth(RunPayRollService.totnoOfDaysInMonth(monthMasterBean.getMonthId(), year));
@@ -226,11 +226,84 @@ public class RunPayrollViewModel {
 	
 		runPayRollBean.setSelectedCurrentYr(year);
 		
-		////System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
+		//System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
 		
-		////System.out.println("SELECTED MONTH ID >>> >> > " + runPayRollBean.getSelectedMonthId());
-		////System.out.println("SELECTED UNIT ID >>> >> > " + runPayRollBean.getSelectedUnitId());
-		////System.out.println("CURRENT YR >>> >> >  " + year);
+		//System.out.println("SELECTED MONTH ID >>> >> > " + runPayRollBean.getSelectedMonthId());
+		//System.out.println("SELECTED UNIT ID >>> >> > " + runPayRollBean.getSelectedUnitId());
+		//System.out.println("CURRENT YR >>> >> >  " + year);
+		
+		/*if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
+			
+			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+			runPayRollBean.setYear(String.valueOf(year));
+			pdfBeanList.clear();
+			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
+					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
+					unitDesignationBean.getUnitDesignationId());
+			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+				runPayRollBean.setSpecialTime(0.0);
+				runPayRollBean.setTotalSalary(0.0);
+				runPayRollBean.setTotalDeduction(0.0);
+				runPayRollBean.setNetSalary(0.0);
+				runPayRollBean.setSelectedCompanyId(companyMasterBean.getCompanyId());
+				runPayRollBean.setSelectedUnitId(unitMasterBean.getUnitId());
+				runPayRollBean.setSelectedCurrentYr(year);
+				runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+				runPayRollBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
+				runPayRollBean.setSelectedUnitDesignationId(unitDesignationBean.getUnitDesignationId());
+				runPayRollBean.setBaseDays( RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), 
+						runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr()));
+			}
+			
+		}
+		if(runPayRollBeanList.size()>0){
+			//nextButtonVisibility = true;
+			calculateButtonVisibility = true;
+		}else{
+			nextButtonVisibility = false;
+			calculateButtonVisibility = false;
+		}*/	
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectType(){
+		
+		if(runPayRollBeanList.size()>0){
+			runPayRollBeanList.clear();
+		}
+		
+		
+		Map<String, Object> parenMap = new HashMap<String, Object>();
+		ComponentMasterBean componentMasterBean = new ComponentMasterBean();
+		componentMasterBean.setUnitId(unitMasterBean.getUnitId());
+		componentMasterBean.setCompanyId(companyMasterBean.getCompanyId());
+		parenMap.put("parent", componentMasterBean);
+		
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/sheetComponents.zul", null, parenMap);
+		window.doModal();
+	}
+	
+	
+	
+	/**
+	 * func using to return list with selected component from sheet type
+	 * swarup 
+	 */
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickLoad(){
+		System.out.println("Year: "+year);
+		System.out.println("Month:: "+monthMasterBean.getMonthName());
+		System.out.println("Company:: "+companyMasterBean.getCompanyId()+" "+companyMasterBean.getCompanyName());
+		System.out.println("Unit:: "+unitMasterBean.getUnitId()+" "+unitMasterBean.getUnitName());
+		System.out.println("Unit desg :: "+unitDesignationBean.getUnitDesignationId()+" "+unitDesignationBean.getUnitDesignation());
+		System.out.println("Sheet type Id: "+sheetbean.getSheetTypeId()+" "+sheetbean.getSheetType());
+		
+		if(sheetbean.getSheetTypeId()>0){
+			
+		
 		
 		if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
 			
@@ -262,33 +335,12 @@ public class RunPayrollViewModel {
 		}else{
 			nextButtonVisibility = false;
 			calculateButtonVisibility = false;
-		}	
-	}
-	
-	@Command
-	@NotifyChange("*")
-	public void onSelectType(){
-		Map<String, Object> parenMap = new HashMap<String, Object>();
-		ComponentMasterBean componentMasterBean = new ComponentMasterBean();
-		componentMasterBean.setUnitId(unitMasterBean.getUnitId());
-		componentMasterBean.setCompanyId(companyMasterBean.getCompanyId());
-		parenMap.put("parent", componentMasterBean);
+		}
 		
-		Window window = (Window) Executions.createComponents("/WEB-INF/view/sheetComponents.zul", null, parenMap);
-		window.doModal();
-	}
-	
-	
-	
-	@Command
-	@NotifyChange("*")
-	public void onClickLoad(){
-		System.out.println("Year: "+year);
-		System.out.println("Month:: "+monthMasterBean.getMonthName());
-		System.out.println("Company:: "+companyMasterBean.getCompanyId()+" "+companyMasterBean.getCompanyName());
-		System.out.println("Unit:: "+unitMasterBean.getUnitId()+" "+unitMasterBean.getUnitName());
-		System.out.println("Unit desg :: "+unitDesignationBean.getUnitDesignationId()+" "+unitDesignationBean.getUnitDesignation());
-		System.out.println("Sheet type Id: "+sheetbean.getSheetTypeId()+" "+sheetbean.getSheetType());
+		}else{
+			Messagebox.show("SELECT SHEET TYPE", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
+		}
+		
 		// ADD COMPONENTS AGAIN
 	//	ComponentRemoveDao.addComponent(unitMasterBean.getUnitId());
 	}

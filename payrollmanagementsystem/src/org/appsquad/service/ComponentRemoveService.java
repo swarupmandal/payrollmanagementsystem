@@ -21,7 +21,9 @@ public class ComponentRemoveService {
 		String finalComponentList = bb.toString();
 		
 		System.out.println(" UNit:: "+unitId  +" Final : "+finalComponentList);
+		if(finalComponentList != null){
 		ComponentRemoveDao.removeComponent(unitId, finalComponentList);
+		}
 	}
 
 }

@@ -82,7 +82,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		
 		<vbox>
 			<label value="Action"/>
-			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Load" onClick="@command('onClickLoad')"/>
+			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Load" onClick="@command('onClickLoad')" />
 		</vbox>
 		
 		
