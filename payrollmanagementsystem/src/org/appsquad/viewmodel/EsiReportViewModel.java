@@ -101,6 +101,13 @@ public class EsiReportViewModel {
 		
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onClickCSV(){
+		EsiReportService.printCSV(esiReportBeanList);
+	}
+	
+	
 	public ArrayList<String> getLvYrList() {
 		return lvYrList;
 	}

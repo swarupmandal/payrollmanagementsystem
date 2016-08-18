@@ -45,7 +45,8 @@
 			
 			
 			
-			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="CSV EXPORT"/>
+			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="CSV EXPORT"
+			 onClick="@command('onClickCSV')" />
 		</auxheader>
 	</auxhead>
 	<columns>
