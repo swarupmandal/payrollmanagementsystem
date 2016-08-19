@@ -195,7 +195,7 @@ public class RunPayRollDao {
 						try {
 						
 							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadEmpDetailsQuery2, Arrays.asList(companyId,unitId,unitDesignationId));
-							System.out.println("LOAD EMP DE " + preparedStatement);
+							//System.out.println("LOAD EMP DE " + preparedStatement);
 							ResultSet resultSet = preparedStatement.executeQuery();
 							
 							while (resultSet.next()) {
@@ -755,7 +755,7 @@ public class RunPayRollDao {
 	}
 	
 	
-	public static int getBaseDays(int monthId, int unitId, int year){
+	public static int getBaseDays(int monthId, int unitId, int year, int sunSelId){
 		int baseDays = 0,baseDayType=0;
 		try {
 			SQL:{
@@ -766,7 +766,7 @@ public class RunPayRollDao {
 						preparedStatement = Util1.createQuery(connection, RunPayRollSql.getUnitDayTypeQuery,
 								Arrays.asList(unitId));
 						
-						System.out.println("BASE DUAS CAL " + preparedStatement);
+						//System.out.println("BASE DUAS CAL " + preparedStatement);
 						
 						resultSet = preparedStatement.executeQuery();
 						while (resultSet.next()) {
@@ -790,8 +790,10 @@ public class RunPayRollDao {
 		
 		if(baseDayType == 2){
 			// calculate month day and minus 4 in baseDays
-			if(unitId == 39 || unitId == 55){
-				System.out.println("--Special base for religh court---y:"+year+"m:"+monthId);
+			
+			//if(sunSelId == 2)
+			if((unitId == 39 || unitId == 55 || unitId == 54) || (sunSelId == 2)){ // this line can be replaced by --> if(sunSelId == 2){
+				//System.out.println("--Special base for religh court---y:"+year+"m:"+monthId);
 				int sunday = CheckSunday.countWeekendDays(year, monthId);
 				if(sunday==5){
 					baseDays = 26;
@@ -800,20 +802,20 @@ public class RunPayRollDao {
 					baseDays = baseDays-4;
 				}
 			}else{
-				System.out.println("--Special unit---");
+				//System.out.println("--Special unit---");
 				baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
 				baseDays = baseDays-4;
 			}
 			
 		}else if(baseDayType == 3) {
-			System.out.println("--Special 26 unit---");
+			//System.out.println("--Special 26 unit---");
 			baseDays = 26;
 		}else{
 			// calculate month days in baseDayss
-			System.out.println("--Normal unit---");
+			//System.out.println("--Normal unit---");
 			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
 		}
-		System.out.println("Calculated Base days: "+baseDays);
+		//System.out.println("Calculated Base days: "+baseDays);
 		return baseDays;
 	}
 	

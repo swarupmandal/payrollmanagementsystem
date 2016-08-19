@@ -97,4 +97,33 @@ public class RunPayRollSql {
 												+" amount=?  WHERE emp_id=? and emp_code=? and month=? "
 												+" and year = ? and component_id=?";
 	
+	public static final String empSalStoreSelectQuery = "SELECT employee_id , " +
+														"  employee_code , " +
+														"  company_id , " +
+														"  unit_id , " +
+														"  unit_desiganatoin_id , " +
+														"  emp_designation_id , " +
+														"  presenet_days , " +
+														"  pf_num , " +
+														"  esi_num , " +
+														"  uan_num , " +
+														"  salary_month_id , " +
+														"  salary_month , " +
+														"  leave_yr , " +
+														"  net_salary , " +
+														"  is_delete , wages, " +
+														"  emp_name, emp_designation " +
+														" FROM vw_emp_sal_store " +
+														" WHERE company_id         = ? " +
+														" AND unit_id              = ? " +
+														" AND unit_desiganatoin_id = ? " +
+														" AND salary_month      = ? " +
+														" AND leave_yr             = ? ";
+															
+	
+	public static final String empSalStoreCompoDetlQuery = "select component_id, component_type_id, component_name,emp_id, " +
+														   " month, year, amount from pms_emp_sal_store_comp_details where emp_id = ? " +
+														   " and month = ? and year = ?";
+	
+	
 }

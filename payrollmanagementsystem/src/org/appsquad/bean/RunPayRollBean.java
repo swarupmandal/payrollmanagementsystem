@@ -58,7 +58,7 @@ public class RunPayRollBean {
     public double overTimeSalNew;
     
     private int wagesTypeId, sunSelId;
-    
+    private String sheetType;
     
     private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
     private ArrayList<EmployeeSalaryComponentAmountBean> earningCompList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -481,6 +481,14 @@ public class RunPayRollBean {
 
 	public void setSunSelId(int sunSelId) {
 		this.sunSelId = sunSelId;
+	}
+
+	public String getSheetType() {
+		return sheetType;
+	}
+
+	public void setSheetType(String sheetType) {
+		this.sheetType = sheetType;
 	}
 	
 }

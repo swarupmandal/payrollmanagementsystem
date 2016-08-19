@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.appsquad.bean.MonthMasterBean;
+import org.appsquad.bean.PayrollExistBean;
 import org.appsquad.bean.RunPayRollBean;
+import org.appsquad.dao.PayRollExistDao;
 import org.appsquad.dao.RunPayRollDao;
 import org.zkoss.zul.Messagebox;
 
@@ -312,4 +314,9 @@ public class RunPayRollService {
     	
     }
     
+    public static ArrayList<PayrollExistBean> loadEmpSalStore(PayrollExistBean pxBean){
+    	ArrayList<PayrollExistBean> list = new ArrayList<PayrollExistBean>(); 
+    	list = PayRollExistDao.loadEmpSalDetails2(pxBean);
+    	return list;
+    }
 }

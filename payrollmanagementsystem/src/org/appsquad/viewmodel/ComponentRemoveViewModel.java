@@ -39,9 +39,9 @@ public class ComponentRemoveViewModel {
 		if(componentMasterBean!=null){
 			componentMasterBEAN = componentMasterBean;
 		}
-		System.out.println("Company id:: "+componentMasterBEAN.getCompanyId()+" unit:: "+componentMasterBEAN.getUnitId());
+		//System.out.println("Company id:: "+componentMasterBEAN.getCompanyId()+" unit:: "+componentMasterBEAN.getUnitId());
 		loadComponents();
-		System.out.println("Size: "+componentMasterBeanList.size());
+		//System.out.println("Size: "+componentMasterBeanList.size());
 	}
 
 	public void loadComponents(){

@@ -639,6 +639,9 @@ public class EmployeeDao {
 					UnitMasterBean bean = new UnitMasterBean();
 					bean.setUnitName(resultSet.getString("unit_name"));
 					bean.setUnitId(resultSet.getInt("unit_id"));
+					bean.setWagesTypeId(resultSet.getInt("wages_type_id"));
+					bean.setSundaySelectionId(resultSet.getInt("sunday_sel_id"));
+					
 					unitBeanList.add(bean);
 				}
 				

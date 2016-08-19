@@ -2,7 +2,15 @@
 <zk>
 <window title="Payroll Manager" border="normal" contentStyle="overflow:scroll;" height="100%"
 apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.viewmodel.RunPayrollViewModel')">
-  <div visible="@bind(vm.upperComponentVisibility)">
+
+<tabbox>
+	<tabs>
+		<tab label="New Sheet Generation"></tab>
+		<tab label="Existing Sheet"></tab>
+	</tabs>
+	<tabpanels>
+		<tabpanel>
+		<div visible="@bind(vm.upperComponentVisibility)">
      <hlayout spacing="15px"> 
   		
   		<vbox>
@@ -237,6 +245,93 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   			
   		</div>
   	
-  </div>
+  	  </div>
+	</tabpanel>
+ 
+	
+		
+	<tabpanel>
+		<div>
+		  <hlayout>
+			<combobox placeholder="CHOOSE YEAR" readonly="true" model="@bind(vm.lvYrList2)" selectedItem="@bind(vm.exPayrollBn.lvYr2)" 
+			   value="@bind(vm.exPayrollBn.lvYr2)" onSelect="@command('onSelectYr2')" width="120px">
+			   <template name="model" var = "v">
+			   	<comboitem label="@load(v)" value="@load(v)"></comboitem>
+			   	</template>	
+			</combobox>
+			
+			
+			<combobox placeholder="CHOOSE MONTH" readonly="true" model="@bind(vm.monthList2)" selectedItem="@bind(vm.monthBean2)"
+		   	  value="@bind(vm.monthBean2.monthName)" onSelect="@command('onSelectMonth2')" autocomplete="true" width="120px">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.monthName)" value="@load(v.monthId)"></comboitem>
+			
+				</template>
+			</combobox>
+			
+			<combobox placeholder="CHOOSE COMPANY" readonly="true" autocomplete="true" model="@bind(vm.companyBeanList2)" width="200px"
+			selectedItem="@bind(vm.companyMasterBean2)" value="@bind(vm.companyMasterBean2.companyName)" onSelect="@command('onSelectCompany2')">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.companyName)" value="@load(v.companyId)"></comboitem>
+				</template>
+			</combobox>
+			
+			<combobox placeholder="CHOOSE UNIT" readonly="true" autocomplete="true" model="@bind(vm.unitMasterBeanList2)" width="250px"
+			selectedItem="@bind(vm.unitMasterBean2)" value="@bind(vm.unitMasterBean2.unitName)" onSelect="@command('onSelectUnit2')">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.unitName)" value="@load(v.unitId)"></comboitem>
+				</template>
+			</combobox>
+			
+			<combobox placeholder="CHOOSE DESIGNATION" readonly="true" model="@bind(vm.unitDesignationList2)" 
+			selectedItem="@bind(vm.unitDesignationBean2)" value="@bind(vm.unitDesignationBean2.unitDesignation)" onSelect="@command('onSelectUnitDesignation2')">
+				<template name="model" var="v">
+				<comboitem label="@bind(v.unitDesignation)" value="@bind(v.unitDesignationId)"/>
+				</template>
+			</combobox>	  		
+		  
+		    <button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="LOAD" onClick="@command('onClickLoad2')"></button>
+		  
+		  </hlayout>	
+		</div>
+		
+		<div>
+			<grid model="@bind(vm.payrollExistBeanList2)" mold="paging" pageSize="8">
+				<columns>
+						<column label="Employee Name"></column>
+						<column label="Employee Code"></column>
+						<column label="Designation"></column>
+						<column label="Present Day"></column>
+						<column label="Net Salary"></column>
+						<column label="Details"></column>
+				</columns>
+		
+				<rows>
+				  <template name="model" var = "v">
+					<row>
+						<textbox value="@bind(v.empName2)" readonly="true"></textbox>
+						<textbox value="@bind(v.empCode2)" readonly="true"></textbox>
+						<textbox value="@bind(v.empDes2)" readonly="true"></textbox>
+						<textbox value="@bind(v.presentDay2)" readonly="true"></textbox>
+						<doublebox value="@bind(v.netSalary2)" readonly="true"></doublebox>
+						<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="DETAILS" 
+												onClick="@command('onClickDetails2', bean = v)"></button>
+					</row>
+				  </template>	
+				</rows>
+		
+			</grid>
+		</div>
+	
+	</tabpanel>
+
+</tabpanels>
+	
+
+
+</tabbox>
+
+
+  
 </window>
 </zk>
