@@ -1,6 +1,6 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="new page title" border="normal" apply="org.zkoss.bind.BindComposer" 
+<window title="PF Report" border="normal" apply="org.zkoss.bind.BindComposer" 
 	viewModel="@id('vm') @init('org.appsquad.viewmodel.PfReportViewModel') ">
 	
 	<grid model="@bind(vm.pfReportBeanList)">

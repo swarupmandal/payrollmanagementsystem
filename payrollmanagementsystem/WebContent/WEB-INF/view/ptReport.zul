@@ -1,6 +1,80 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="new page title" border="normal">
-<textbox placeholder="Hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"></textbox>
+<window title="PT Report" border="normal" apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('org.appsquad.viewmodel.PtReportViewModel')">
+
+	<grid model="@bind(vm.ptReportBeanList)">
+	  <auxhead>
+		<auxheader colspan="5">
+			
+			<combobox placeholder="CHOOSE YEAR" readonly="true" model="@bind(vm.lvYrList)" selectedItem="@bind(vm.pfReportBean.lvYr)" 
+			   value="@bind(vm.pfReportBean.lvYr)" onSelect="@command('onSelectYr')">
+			   <template name="model" var = "v">
+			   	<comboitem label="@load(v)" value="@load(v)"></comboitem>
+			   	</template>	
+			</combobox>
+			
+		   	<combobox placeholder="CHOOSE MONTH" readonly="true" model="@bind(vm.monthList)" selectedItem="@bind(vm.monthBean)"
+		   	  value="@bind(vm.monthBean.monthName)" onSelect="@command('onSelectMonth')" autocomplete="true">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.monthName)" value="@load(v.monthId)"></comboitem>
+			
+				</template>
+			</combobox>
+			
+			<combobox placeholder="CHOOSE COMPANY" readonly="true" autocomplete="true" model="@bind(vm.companyBeanList)"
+			selectedItem="@bind(vm.companyMasterBean)" value="@bind(vm.companyMasterBean.companyName)" onSelect="@command('onSelectCompany')">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.companyName)" value="@load(v.companyId)"></comboitem>
+				</template>
+			</combobox>
+			
+			<combobox placeholder="CHOOSE UNIT" readonly="true" autocomplete="true" model="@bind(vm.unitMasterBeanList)"
+			selectedItem="@bind(vm.unitMasterBean)" value="@bind(vm.unitMasterBean.unitName)" onSelect="@command('onSelectUnit')">
+				<template name="model" var = "v">
+					<comboitem label="@bind(v.unitName)" value="@load(v.unitId)"></comboitem>
+				</template>
+			</combobox>
+			
+			
+			<combobox placeholder="CHOOSE DESIGNATION" readonly="true" model="@bind(vm.unitDesignationList)" 
+			selectedItem="@bind(vm.unitDesignationBean)" value="@bind(vm.unitDesignationBean.unitDesignation)" onSelect="@command('onSelectUnitDesignation')">
+				<template name="model" var="v">
+				<comboitem label="@bind(v.unitDesignation)" value="@bind(v.unitDesignationId)"/>
+				</template>
+			</combobox> 
+			
+			
+			
+			<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="CSV EXPORT"
+			 onClick="@command('onClickCSV')" />
+			
+		</auxheader>
+	 </auxhead>
+	 
+	 <columns>
+	 	<!-- <column align="center" label="PF NUMBER"/> -->
+		<column align="center" label="NAME"/>
+		<column align="center" label="DAYS"/>
+		<column align="center" label="WAGES"/>
+		<column align="center" label="EMPLOYEE CONTRIBUTION"/>
+	 
+	 </columns>
+	 
+	 <rows>
+	  <template name="model" var = "p">
+	  <row>
+	 	<!-- <textbox maxlength="10" readonly="true" value="@bind(p.pfNumber)"/> -->
+		<textbox readonly="TRUE" value="@bind(p.empName)"/>
+		<textbox readonly="TRUE" value="@bind(p.preDays)"/>
+		<textbox readonly="TRUE" value="@bind(p.wages)"/>
+		<textbox readonly="TRUE" value="@bind(p.ptAmount)"/>
+	  </row>
+	  </template>
+	 </rows>
+	</grid>
+
+	
+
 </window>
 </zk>

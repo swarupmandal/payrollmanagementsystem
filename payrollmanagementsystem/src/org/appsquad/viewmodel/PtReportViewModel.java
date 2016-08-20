@@ -24,7 +24,7 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
 
-public class PfReportViewModel {
+public class PtReportViewModel {
 
 	Session session = null;
 	private String userId;
@@ -44,7 +44,7 @@ public class PfReportViewModel {
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	public ArrayList<UnitDesignationBean> unitDesignationList = new ArrayList<UnitDesignationBean>();
-	private ArrayList<PfReportBean> pfReportBeanList = new ArrayList<PfReportBean>();
+	private ArrayList<PfReportBean> ptReportBeanList = new ArrayList<PfReportBean>();
 	
 	
 	
@@ -104,7 +104,7 @@ public class PfReportViewModel {
 	public void onSelectUnitDesignation(){
 		
 		pfParameterBean.setUnitDesignationId(UnitDesignationBean.getUnitDesignationId());
-		pfReportBeanList = PfReportDao.getPfReport(pfParameterBean);
+		ptReportBeanList = PfReportDao.getPtReport(pfParameterBean);
 		
 		
 	}
@@ -112,191 +112,128 @@ public class PfReportViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickCSV(){
-		PfReportService.printCSV(pfReportBeanList);
+		PfReportService.printPtCSV(ptReportBeanList);
 	}
-	
-	
-	
-	
-	
 
 	public Session getSession() {
 		return session;
 	}
 
-
-
 	public void setSession(Session session) {
 		this.session = session;
 	}
-
-
 
 	public String getUserId() {
 		return userId;
 	}
 
-
-
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
-
 
 	public CompanyMasterBean getCompanyMasterBean() {
 		return companyMasterBean;
 	}
 
-
-
 	public void setCompanyMasterBean(CompanyMasterBean companyMasterBean) {
 		this.companyMasterBean = companyMasterBean;
 	}
-
-
 
 	public UnitMasterBean getUnitMasterBean() {
 		return unitMasterBean;
 	}
 
-
-
 	public void setUnitMasterBean(UnitMasterBean unitMasterBean) {
 		this.unitMasterBean = unitMasterBean;
 	}
-
-
 
 	public PfReportBean getPfReportBean() {
 		return pfReportBean;
 	}
 
-
-
 	public void setPfReportBean(PfReportBean pfReportBean) {
 		this.pfReportBean = pfReportBean;
 	}
-
-
 
 	public MonthMasterBean getMonthBean() {
 		return monthBean;
 	}
 
-
-
 	public void setMonthBean(MonthMasterBean monthBean) {
 		this.monthBean = monthBean;
 	}
-
-
 
 	public EsiReportBean getUnitDesBean() {
 		return unitDesBean;
 	}
 
-
-
 	public void setUnitDesBean(EsiReportBean unitDesBean) {
 		this.unitDesBean = unitDesBean;
 	}
-
-
 
 	public UnitDesignationBean getUnitDesignationBean() {
 		return UnitDesignationBean;
 	}
 
-
-
 	public void setUnitDesignationBean(UnitDesignationBean unitDesignationBean) {
 		UnitDesignationBean = unitDesignationBean;
 	}
-
-
 
 	public PfReportBean getPfParameterBean() {
 		return pfParameterBean;
 	}
 
-
-
 	public void setPfParameterBean(PfReportBean pfParameterBean) {
 		this.pfParameterBean = pfParameterBean;
 	}
-
-
 
 	public ArrayList<String> getLvYrList() {
 		return lvYrList;
 	}
 
-
-
 	public void setLvYrList(ArrayList<String> lvYrList) {
 		this.lvYrList = lvYrList;
 	}
-
-
 
 	public ArrayList<MonthMasterBean> getMonthList() {
 		return monthList;
 	}
 
-
-
 	public void setMonthList(ArrayList<MonthMasterBean> monthList) {
 		this.monthList = monthList;
 	}
-
-
 
 	public ArrayList<CompanyMasterBean> getCompanyBeanList() {
 		return companyBeanList;
 	}
 
-
-
 	public void setCompanyBeanList(ArrayList<CompanyMasterBean> companyBeanList) {
 		this.companyBeanList = companyBeanList;
 	}
-
-
 
 	public ArrayList<UnitMasterBean> getUnitMasterBeanList() {
 		return unitMasterBeanList;
 	}
 
-
-
 	public void setUnitMasterBeanList(ArrayList<UnitMasterBean> unitMasterBeanList) {
 		this.unitMasterBeanList = unitMasterBeanList;
 	}
 
-
-
 	public ArrayList<UnitDesignationBean> getUnitDesignationList() {
 		return unitDesignationList;
 	}
-
-
 
 	public void setUnitDesignationList(
 			ArrayList<UnitDesignationBean> unitDesignationList) {
 		this.unitDesignationList = unitDesignationList;
 	}
 
-
-
-	public ArrayList<PfReportBean> getPfReportBeanList() {
-		return pfReportBeanList;
+	public ArrayList<PfReportBean> getPtReportBeanList() {
+		return ptReportBeanList;
 	}
 
-
-
-	public void setPfReportBeanList(ArrayList<PfReportBean> pfReportBeanList) {
-		this.pfReportBeanList = pfReportBeanList;
+	public void setPtReportBeanList(ArrayList<PfReportBean> ptReportBeanList) {
+		this.ptReportBeanList = ptReportBeanList;
 	}
 
 	

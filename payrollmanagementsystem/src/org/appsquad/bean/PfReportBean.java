@@ -19,6 +19,9 @@ public class PfReportBean {
 	private double basic;
 	private double pfAmount;
 	
+	private String ptNumber;
+	private double ptAmount;
+	
 	public String getLvYr() {
 		return lvYr;
 	}
@@ -97,5 +100,18 @@ public class PfReportBean {
 	public void setPfAmount(double pfAmount) {
 		this.pfAmount = pfAmount;
 	}
+	public String getPtNumber() {
+		return ptNumber;
+	}
+	public void setPtNumber(String ptNumber) {
+		this.ptNumber = ptNumber;
+	}
+	public double getPtAmount() {
+		return ptAmount;
+	}
+	public void setPtAmount(double ptAmount) {
+		this.ptAmount = ptAmount;
+	}
+	
 	
 }
