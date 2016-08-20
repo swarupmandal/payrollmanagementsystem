@@ -32,6 +32,8 @@ public class ComponentPerUnitMasterBean {
 	
 	public boolean updateButtonVisible = false;
 	
+	public boolean addButtonDisible = true;
+	
 	
 	
 	public int getCompanyId() {
@@ -137,6 +139,12 @@ public class ComponentPerUnitMasterBean {
 	}
 	public void setUpdateButtonVisible(boolean updateButtonVisible) {
 		this.updateButtonVisible = updateButtonVisible;
+	}
+	public boolean isAddButtonDisible() {
+		return addButtonDisible;
+	}
+	public void setAddButtonDisible(boolean addButtonDisible) {
+		this.addButtonDisible = addButtonDisible;
 	}
 
 }

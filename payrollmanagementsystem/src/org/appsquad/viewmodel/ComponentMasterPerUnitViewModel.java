@@ -2,6 +2,9 @@ package org.appsquad.viewmodel;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.ComponentPerUnitMasterBean;
@@ -18,10 +21,12 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.annotation.ComponentAnnotation;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zul.Window;
 
 public class ComponentMasterPerUnitViewModel {
 	
@@ -84,10 +89,12 @@ public class ComponentMasterPerUnitViewModel {
 		if(componentPerUnitMasterBeanList.size()>0){
 			componentPerUnitMasterBean.saveButtnVisibles = false;
 			componentPerUnitMasterBean.updateButtonVisible = true;
+			componentPerUnitMasterBean.addButtonDisible = false;
 			
 		}else {
 			componentPerUnitMasterBean.saveButtnVisibles = true;
 			componentPerUnitMasterBean.updateButtonVisible = false;
+			componentPerUnitMasterBean.addButtonDisible = true;
 			componentPerUnitMasterBeanList = ComponentPerUnitMasterService.loadData();
 		}
 	}
@@ -124,8 +131,21 @@ public class ComponentMasterPerUnitViewModel {
 		ComponentPerUnitMasterService.updateComponents(componentPerUnitMasterBeanList);
 	}
 	
-	
-	
+	@Command
+	@NotifyChange("*")
+	public void onClickAdd(){
+		
+		Map<String, Integer> parentMap = new HashMap<String, Integer>();
+		
+		parentMap.put("companyId", companyMasterBean.getCompanyId());
+		parentMap.put("unitId", unitMasterBean.getUnitId());
+		parentMap.put("unitDes", designationBean.getDesignationId());
+		
+		
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/addComponent.zul", null, parentMap);
+		window.doModal();
+		
+	}
 	
 	
 	

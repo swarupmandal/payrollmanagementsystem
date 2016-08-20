@@ -151,9 +151,9 @@ apply="org.zkoss.bind.BindComposer"
 
 							<label value="Designation"></label>
 							<combobox width="160px" value="@bind(vm.employeeMasterBean.empDesignation)"
-								model="@bind(vm.designationBeanList)"
+								model="@bind(vm.empDesignationList)"
 								onSelect="@command('onSelectDesignation')"
-								selectedItem="@bind(vm.designationBean)" autocomplete="true"
+								selectedItem="@bind(vm.designationMasterBean)" autocomplete="true"
 								readonly="true">
 								<template name="model" var="v">
 									<comboitem

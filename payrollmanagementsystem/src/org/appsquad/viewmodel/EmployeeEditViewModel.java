@@ -8,10 +8,12 @@ import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
 import org.appsquad.bean.ComponentMasterBean;
 import org.appsquad.bean.DesignationBean;
+import org.appsquad.bean.DesignationMasterBean;
 import org.appsquad.bean.EmployeeMasterBean;
 import org.appsquad.bean.PaymentModeMasterBean;
 import org.appsquad.bean.StateMasterBean;
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.dao.DesignationMasterDao;
 import org.appsquad.service.EmployeeMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -37,6 +39,7 @@ public class EmployeeEditViewModel {
 	private ArrayList<PaymentModeMasterBean> paymentModeMasterBeanList = new ArrayList<PaymentModeMasterBean>();
 	private ArrayList<BankAccountBean> bankAccountBeanList = new ArrayList<BankAccountBean>();
 	ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
+	private ArrayList<DesignationMasterBean> empDesignationList = new ArrayList<DesignationMasterBean>();
 	
 	
 	public CompanyMasterBean companyMasterBean = new CompanyMasterBean();
@@ -47,6 +50,7 @@ public class EmployeeEditViewModel {
 	private PaymentModeMasterBean paymentModeMasterBean = new PaymentModeMasterBean();
 	private BankAccountBean bankAccountBean = new BankAccountBean();
 	private ComponentMasterBean componentMasterBean = new ComponentMasterBean();
+	private DesignationMasterBean designationMasterBean = new DesignationMasterBean();
 	private int maxEmpId =0;
 
 	private Connection connection = null;
@@ -72,6 +76,7 @@ public class EmployeeEditViewModel {
 		EmployeeMasterService.loadDesignationList(designationBeanList);
 		EmployeeMasterService.loadpaymentmodeList(paymentModeMasterBeanList);
 		EmployeeMasterService.loadBankList(bankAccountBeanList);
+		empDesignationList = DesignationMasterDao.onLoadEmpDesignationList();
 	    //componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
 
 	}
@@ -108,8 +113,7 @@ public class EmployeeEditViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectStateName(){
-		System.out.println("selected state name >>> >> > " + stateMasterBean.getStateName());
-		System.out.println("Selected state id >>> >> > " + stateMasterBean.getStateId());
+		
 		employeeMasterBean.setEmpStateId(stateMasterBean.getStateId());
 		
 	}
@@ -117,24 +121,21 @@ public class EmployeeEditViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectBooldGroup(){
-		System.out.println("selected Blood geoup name >>> >> > " + bloodGroupBean.getBloodGroupName());
-		System.out.println("Selected Blood id >>> >> > " + bloodGroupBean.getBloodGroupId());
+		
 		employeeMasterBean.setEmpBloodGroupId(bloodGroupBean.getBloodGroupId());
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onSelectDesignation(){
-		System.out.println("selected designation name >>> >> > " + designationBean.getDesignation());
-		System.out.println("Selected designation id >>> >> > " + designationBean.getDesignationId());
-		employeeMasterBean.setEmpDesignationId(designationBean.getDesignationId());
+		
+		employeeMasterBean.setEmpDesignationId(designationMasterBean.getDesignationId());
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onSelectPaymentMode(){
-		System.out.println("selected Payment name >>> >> > " + paymentModeMasterBean.getPaymentMode());
-		System.out.println("Selected Payment id >>> >> > " + paymentModeMasterBean.getPaymentModeId());
+		
 		employeeMasterBean.setPaymentModeId(paymentModeMasterBean.getPaymentModeId());
 	}
 	
@@ -142,8 +143,7 @@ public class EmployeeEditViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectBankAccount(){
-		System.out.println("selected Bank name >>> >> > " + bankAccountBean.getBankName());
-		System.out.println("Selected Bank id >>> >> > " + bankAccountBean.getBankId());
+		
 		employeeMasterBean.setEmpBankId(bankAccountBean.getBankId());
 	}
 	
@@ -353,6 +353,23 @@ public class EmployeeEditViewModel {
 
 	public void setEmployeeCode(String employeeCode) {
 		this.employeeCode = employeeCode;
+	}
+
+	public ArrayList<DesignationMasterBean> getEmpDesignationList() {
+		return empDesignationList;
+	}
+
+	public void setEmpDesignationList(
+			ArrayList<DesignationMasterBean> empDesignationList) {
+		this.empDesignationList = empDesignationList;
+	}
+
+	public DesignationMasterBean getDesignationMasterBean() {
+		return designationMasterBean;
+	}
+
+	public void setDesignationMasterBean(DesignationMasterBean designationMasterBean) {
+		this.designationMasterBean = designationMasterBean;
 	}
 	
 	
