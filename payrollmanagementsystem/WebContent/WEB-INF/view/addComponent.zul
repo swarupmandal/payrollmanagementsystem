@@ -1,7 +1,34 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="new page title" border="normal" closable="true" apply="org.zkoss.bind.BindComposer" 
-	viewModel="@id('vm') @init('org.appsquad.viewmodel.AddComponentViewModel')">
-New Content Here!
+<window title="Add New Component" border="normal" closable="true" apply="org.zkoss.bind.BindComposer" 
+	viewModel="@id('vm') @init('org.appsquad.viewmodel.AddComponentViewModel')" width="1000px">
+
+	<div>
+		<grid mold="paging" pageSize="10" model="@bind(vm.componentPerUnitMasterBeanList)">
+			<columns>
+				<column label="Sl No"></column>
+				<column label="Component Name"></column>
+				<column label="Component Type"></column>
+				<column label="Amount"></column>
+				<column label="Check"></column>
+			
+			</columns>
+			<rows>
+			  <template name="model" var = "v">
+				<row>
+					<label value="@bind(v.count)"></label>
+					<textbox value="@bind(v.componet)"></textbox>
+					<textbox value="@bind(v.componentType)"></textbox>
+					<textbox value="@bind(v.desCompoAmount)"></textbox>
+					<checkbox value="@bind(v.checkVal)" checked="@bind(v.checkVal)"></checkbox>
+				</row>
+			 </template>	
+			</rows>
+		</grid>
+		<space></space>
+		<button label="Save" sclass="bb_button" style="cursor: pointer; cursor: hand;" onClick="@command('onClickSave')"></button>
+		
+	</div>
+
 </window>
 </zk>

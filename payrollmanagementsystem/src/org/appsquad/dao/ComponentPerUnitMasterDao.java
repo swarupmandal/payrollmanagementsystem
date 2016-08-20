@@ -444,9 +444,7 @@ public static void onloadComponentDetails(ArrayList<ComponentMasterBean> beanLis
 					
 					bean.setCheckVal(false);
 					
-					
-					System.out.println("ID -> " + bean.getId() + " -- COMPONENT NAME -- " + bean.getComponet() + " -- AMOUNT -> " + bean.getDesCompoAmount());
-					
+					//System.out.println("ID -> " + bean.getId() + " -- COMPONENT NAME -- " + bean.getComponet() + " -- AMOUNT -> " + bean.getDesCompoAmount());
 					
 					list.add(bean);
 				}
