@@ -905,7 +905,7 @@ public class RunPayRollDao {
 						bean.getComponentAmountBeanList().addAll(bean.getEarningCompList());
 						bean.getComponentAmountBeanList().addAll(bean.getDeductionCompList());
 						
-						System.out.println("comp list size:: "+bean.getComponentAmountBeanList().size());
+						//System.out.println("comp list size:: "+bean.getComponentAmountBeanList().size());
 						for(EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()){
 							preparedStatement.setInt(1, salBean.getComponentId());
 							preparedStatement.setString(2, salBean.getComponentName());
@@ -924,7 +924,8 @@ public class RunPayRollDao {
 							insert = true;
 						}
 						if(insert){
-							System.out.println("Components amount saved!!");
+							//System.out.println("Components amount saved!!");
+							Messagebox.show("Saved Successfully " ,"Information", Messagebox.OK, Messagebox.INFORMATION);
 						}
 					}
 				}
@@ -987,7 +988,7 @@ public class RunPayRollDao {
 						bean.getComponentAmountBeanList().addAll(bean.getEarningCompList());
 						bean.getComponentAmountBeanList().addAll(bean.getDeductionCompList());
 						
-						System.out.println("comp list size:: "+bean.getComponentAmountBeanList().size());
+						//System.out.println("comp list size:: "+bean.getComponentAmountBeanList().size());
 						for(EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()){
 							preparedStatement.setDouble(1, salBean.getComponentAmount());
 							preparedStatement.setInt(2, bean.getEmpId());
@@ -1004,7 +1005,8 @@ public class RunPayRollDao {
 							insert = true;
 						}
 						if(insert){
-							System.out.println("Components amount updated!!");
+							//System.out.println("Components amount updated!!");
+							Messagebox.show("Updated Successfully " ,"Information", Messagebox.OK, Messagebox.INFORMATION);
 						}
 					}
 				}

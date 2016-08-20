@@ -10,9 +10,10 @@
 		
 		<tabpanels >
 			<tabpanel>
-					<hlayout>
-						<div width="100%" align="center">
-							<vbox spacing="2px">
+					<vlayout>
+						<div width="100%" align="left">
+						<space></space>
+							<hlayout spacing="2px">
 
 								<label value="Company Name"></label>
 								<combobox width="200px"
@@ -55,14 +56,13 @@
 								
 								
 								
-							</vbox>
+							</hlayout>
 						</div>
-
+							
+						<space></space>
 						<vbox>
-							<!-- <label value="Employee Information"
-								style="font-weight:bold; color:black">
-							</label> -->
-							<div>
+							
+							<div visible="@bind(vm.employeeMasterBean.div1Visblity)">
 								<grid width="100%">
 									<columns>
 										<column></column>
@@ -124,18 +124,351 @@
 
 								</grid>
 								<space></space>
-								<div style="margin-left:150px">
-									<!-- <button label="Save" onClick="@command('saveEmpInfo')"></button> -->
+								<!-- <div style="margin-left:150px">
+									<button label="Save" onClick="@command('saveEmpInfo')"></button>
 									<button label="Save"
 										sclass="bb_button" onClick="@command('saveEmpInfo2')">
 									</button>
 								</div>
-								<space/>
+								<space/> -->
 							</div>
 						</vbox>
-					</hlayout>
+					</vlayout>
+					
+					<div visible="@bind(vm.employeeMasterBean.div2Visblity)">
+						<vbox>
+							<space></space>
+							<div>
+										<grid>
+											<columns>
+												<column></column>
+												<column></column>
+												<column></column>
+												<column></column>
+												<column></column>
+												<column></column>
+											</columns>
+											<rows>
+												<row>
+													<label
+														value="Address">
+													</label>
+													<textbox
+														placeholder="Address"
+														value="@bind(vm.employeeMasterBean.empAddress)">
+													</textbox>
 
-					<div>
+													<label
+														value="City">
+													</label>
+													<textbox
+														placeholder="City"
+														value="@bind(vm.employeeMasterBean.empCity)">
+													</textbox>
+
+													<label
+														value="State">
+													</label>
+													<combobox
+														width="80%" model="@bind(vm.stateMasterBeanList)"
+														onSelect="@command('onSelectStateName')"
+														selectedItem="@bind(vm.stateMasterBean)"
+														autocomplete="true" readonly="true">
+														<template
+															name="model" var="v">
+															<comboitem
+																label="@bind(v.stateName)" value="@bind(v.stateId)" />
+														</template>
+													</combobox>
+
+												</row>
+												<row>
+
+													<label
+														value="Pincode">
+													</label>
+													<textbox
+														placeholder="Pincode"
+														value="@bind(vm.employeeMasterBean.pinCode)">
+													</textbox>
+
+													<label
+														value="Blood Group">
+													</label>
+													<combobox
+														width="80%" model="@bind(vm.bloodGroupBeanList)"
+														onSelect="@command('onSelectBooldGroup')"
+														selectedItem="@bind(vm.bloodGroupBean)"
+														autocomplete="true" readonly="true">
+														<template
+															name="model" var="v">
+															<comboitem
+																label="@bind(v.bloodGroupName)"
+																value="@bind(v.bloodGroupId)" />
+														</template>
+													</combobox>
+
+													<label
+														value="PAN">
+													</label>
+													<textbox
+														placeholder="PAN"
+														value="@bind(vm.employeeMasterBean.empPan)">
+													</textbox>
+
+												</row>
+												<row>
+													<label
+														value="Marital Status">
+													</label>
+													<textbox
+														placeholder="Marital Status"
+														value="@bind(vm.employeeMasterBean.empMaritalStatus)">
+													</textbox>
+												</row>
+
+											</rows>
+
+										</grid>
+									</div>
+									<space></space>
+									<div>
+										<grid>
+											<columns>
+												<column></column>
+												<column></column>
+												<column></column>
+												<column></column>
+												<column></column>
+												<column></column>
+											</columns>
+											<rows>
+												<row>
+													<label
+														value="Joining Date">
+													</label>
+													<datebox
+														width="90%"
+														value="@bind(vm.employeeMasterBean.empDoj)">
+													</datebox>
+
+													<label
+														value="Employee Designation">
+													</label>
+													<combobox
+														width="90%" model="@bind(vm.empDesignationList)"
+														onSelect="@command('onSelectDesignation')"
+														selectedItem="@bind(vm.designationMasterBean)"
+														autocomplete="true" readonly="true">
+														<template
+															name="model" var="v">
+															<comboitem
+																label="@bind(v.designation)"
+																value="@bind(v.designationId)" />
+														</template>
+													</combobox>
+
+													<label
+														value="Location">
+													</label>
+													<textbox
+														placeholder="Location"
+														value="@bind(vm.employeeMasterBean.empLocation)">
+													</textbox>
+
+												</row>
+												<row>
+
+
+													<label
+														value="Payment Mode">
+													</label>
+													<combobox
+														width="90%" model="@bind(vm.paymentModeMasterBeanList)"
+														onSelect="@command('onSelectPaymentMode')"
+														selectedItem="@bind(vm.paymentModeMasterBean)"
+														autocomplete="true" readonly="true">
+														<template
+															name="model" var="v">
+															<comboitem
+																label="@bind(v.paymentMode)"
+																value="@bind(v.paymentModeId)" />
+														</template>
+													</combobox>
+
+													<label
+														value="Employee Bank Account">
+													</label>
+													<combobox
+														width="90%" model="@bind(vm.bankAccountBeanList)"
+														onSelect="@command('onSelectBankAccount')"
+														selectedItem="@bind(vm.bankAccountBean)"
+														autocomplete="true" readonly="true">
+														<template
+															name="model" var="v">
+															<comboitem
+																label="@bind(v.bankName)" value="@bind(v.bankId)" />
+														</template>
+													</combobox>
+
+													<label
+														value="Bank Account Number">
+													</label>
+													<textbox
+														placeholder="Bank Account Number"
+														value="@bind(vm.employeeMasterBean.empAccountNo)">
+													</textbox>
+
+												</row>
+												<row>
+
+													<label
+														value="IFSC Code">
+													</label>
+													<textbox
+														placeholder="IFSC Code"
+														value="@bind(vm.employeeMasterBean.ifscCode)">
+													</textbox>
+
+													<label
+														value="Increment Date">
+													</label>
+													<datebox
+														width="90%"
+														value="@bind(vm.employeeMasterBean.incrementDate)">
+													</datebox>
+
+
+													<label
+														value="Resignation Date">
+													</label>
+													<datebox
+														width="90%"
+														value="@bind(vm.employeeMasterBean.registrationDate)">
+													</datebox>
+
+
+												</row>
+												<row>
+
+													<label
+														value="Last Working Date">
+													</label>
+													<datebox
+														width="90%"
+														value="@bind(vm.employeeMasterBean.lastWorkingDate)">
+													</datebox>
+													
+												</row>
+
+											</rows>
+
+										</grid>
+									</div>
+									<space></space>
+									<div>
+										<grid
+										model="@bind(vm.componentMasterBeanList)">
+										<columns>
+											<column label="Sl no"></column>
+											<column
+												label="Component Name">
+											</column>
+											<column
+												label="Component Type">
+											</column>
+											<column label="Amount"></column>
+											<column label="Check"></column>
+										</columns>
+
+										<rows>
+											<template name="model"
+												var="v">
+												<row>
+													<label
+														value="@bind(v.count)">
+													</label>
+													<textbox
+														value="@bind(v.componentName)">
+													</textbox>
+													<textbox
+														value="@bind(v.componentType)">
+													</textbox>
+													<textbox
+														value="@bind(v.componentAmount)">
+													</textbox>
+													<checkbox
+														checked="@bind(v.checkVal)" value="@bind(v.checkVal)">
+													</checkbox>
+												</row>
+											</template>
+										</rows>
+									</grid>
+									</div>
+									<space></space>
+									<div>
+										<hlayout spacing="20px">
+											<label value="PF Number"></label>
+											<textbox placeholder="PF Number" value="@bind(vm.employeeMasterBean.uan)"></textbox>
+											
+											<label value="UAN"></label>
+											<textbox placeholder="UAN " value="@bind(vm.employeeMasterBean.pfNumber)"></textbox>
+											
+											<label value="ESI"></label>
+											<textbox placeholder="ESI" value="@bind(vm.employeeMasterBean.esi)"></textbox>
+										
+										</hlayout>
+									
+										<!-- <hlayout>
+											<label value="PF"></label>
+											<checkbox
+												checked="@bind(vm.employeeMasterBean.pfCheckValue)"
+												onCheck="@command('onCheckPf')">
+											</checkbox>
+											<space></space>
+
+											<label value="PF Number"></label>
+											<textbox
+												value="@bind(vm.employeeMasterBean.uan)"
+												disabled="@bind(vm.employeeMasterBean.uanFieldDisabled)">
+											</textbox>
+											
+											<label value="UAN"></label>
+											<textbox
+												value="@bind(vm.employeeMasterBean.pfNumber)"
+												disabled="@bind(vm.employeeMasterBean.pfFielddisabled)">
+											</textbox>
+											
+										</hlayout> -->
+										<space></space>
+										<!-- <hlayout>
+											<label value="ESI"></label>
+											<checkbox
+												checked="@bind(vm.employeeMasterBean.esiCheckValue)"
+												onCheck="@command('onCheckEsi')">
+											</checkbox>
+											<space></space>
+
+											<label value="ESI"></label>
+											<textbox
+												value="@bind(vm.employeeMasterBean.esi)"
+												disabled="@bind(vm.employeeMasterBean.esiFieldDisabled)">
+											</textbox>
+										</hlayout> -->
+
+										<div align="center">
+											
+											<button label="Save Details"
+											sclass="bb_button" onClick="@command('onClickFinalSave')">
+											
+										</button>
+										</div>
+										
+									</div>
+						</vbox>
+					</div>
+					
+					<!-- <div>
 
 						<tabbox>
 							<tabs>
@@ -490,7 +823,7 @@
 								</tabpanel>
 							</tabpanels>
 						</tabbox>
-					</div>
+					</div> -->
 
 
 			</tabpanel>

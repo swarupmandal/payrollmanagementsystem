@@ -828,7 +828,7 @@ public class RunPayrollViewModel {
 						slNo = slNo+1;
 						
 						pdfBean.setEmpcount(slNo);
-						pdfBean.setSheetType(bean.getSheetType());
+						pdfBean.setSheetType(sheetbean.getSheetType());
 						pdfBean.setPresentDay(bean.getPresentDay());
 						pdfBean.setWages(bean.getWages());
 						pdfBean.setBasic(bean.getBasic()-bean.getHoliDayAmount());
@@ -1129,7 +1129,9 @@ public class RunPayrollViewModel {
 					slNo = slNo+1;
 					
 					pdfBean.setEmpcount(slNo);
-					pdfBean.setSheetType(bean.getSheetType());
+					
+					pdfBean.setSheetType(sheetbean.getSheetType());
+					
 					pdfBean.setPresentDay(bean.getPresentDay());
 					pdfBean.setWages(bean.getWages());
 					pdfBean.setBasic(bean.getBasic());

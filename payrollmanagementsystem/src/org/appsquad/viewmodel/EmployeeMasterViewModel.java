@@ -158,8 +158,9 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectCompanyName(){
-		System.out.println("selected company name >>> >> > " + companyMasterBean.getCompanyName());
-		System.out.println("Selected company ID >>> >> > " + companyMasterBean.getCompanyId());
+		componentMasterBeanList.clear();
+		employeeMasterBean.setDiv1Visblity(false);
+		employeeMasterBean.setDiv2Visblity(false);
 		employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
 		unitMasterBeanList = ComponentPerUnitMasterService.loadUnitBeanList(employeeMasterBean.getCompanyId());
 	}
@@ -177,13 +178,17 @@ public class EmployeeMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnitName(){
+		componentMasterBeanList.clear();
+		
+		employeeMasterBean.setDiv1Visblity(false);
+		employeeMasterBean.setDiv2Visblity(false);
 		employeeMasterBean.setUnitId(unitMasterBean.getUnitId());
 		employeeMasterBean.setCompanyId(companyMasterBean.getCompanyId());
-		employeeMasterBean.setUnitDesignationId(unitDesignationBean.getUnitDesignationId());
+		//employeeMasterBean.setUnitDesignationId(unitDesignationBean.getUnitDesignationId());
+		unitDesignationBean=null;
+		
 		if(employeeMasterBean.getCompanyId()>0 && employeeMasterBean.getUnitId()>0){
-			
 			unitDesignationBeanList = EmployeeMasterService.loadUnitDesignation(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId());
-			
 		}
 		loadSearchedEmployeeFromCompany(employeeMasterBean);
 		employeeMasterBean.setCompanyName(null);
@@ -315,14 +320,74 @@ public class EmployeeMasterViewModel {
 	
 	@Command
 	@NotifyChange("*")
+	public void mnc(){
+		
+		if(EmployeeMasterService.isValid(employeeMasterBean , companyMasterBean, unitMasterBean, userName)){
+			
+			if(designationMasterBean.getDesignationId()>0){
+				
+				if(EmployeeMasterService.isEmptyLocationField(employeeMasterBean)){
+					
+					if (EmployeeMasterService.isPfEsiFieldEmpty(employeeMasterBean)) {
+						maxEmpId = EmployeeMasterService.insertEmployeeInformation2(employeeMasterBean, userName);
+						EmployeeMasterService.insertPersonelInfoService(employeeMasterBean, maxEmpId, userName);
+						EmployeeDao.insertEmpOfficialDet(employeeMasterBean, maxEmpId, userName);
+						EmployeeDao.insertComponentPerEmployee(componentMasterBeanList, maxEmpId, employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId(), userName);
+						EmployeeMasterService.pfEsiInsert(employeeMasterBean, maxEmpId, userName);
+						
+					
+					}else {
+						
+					}
+				
+				}else {
+					
+				}
+				
+			}else {
+				Messagebox.show("SELECT EMPLOYEE DESIGNATION ","Alert", Messagebox.OK, Messagebox.EXCLAMATION );
+			}
+			
+		}else {
+			
+		}
+		
+		
+		
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickFinalSave(){
+		
+		if(EmployeeMasterService.isValid(employeeMasterBean , companyMasterBean, unitMasterBean, userName)){
+			
+			maxEmpId =  EmployeeDao.saveEmpDetails(componentMasterBeanList, employeeMasterBean, userName);
+			if(maxEmpId>0){
+				Messagebox.show("Saved Successfully ","Information", Messagebox.OK, Messagebox.INFORMATION );
+				employeeMasterBean.setUan("0");
+				employeeMasterBean.setPfNumber(null);
+				employeeMasterBean.setEsi(null);
+				componentMasterBeanList.clear();
+				employeeMasterBean.setEmployeeCode(null);
+				employeeMasterBean.setEmployeeName(null);
+			}
+			
+		}
+		
+		
+	}
+	
+	
+	
+	
+	@Command
+	@NotifyChange("*")
 	public void onSelectUnitDesignation(){
 		
-		System.out.println("unit designetionId " + unitDesignationBean.getUnitDesignationId() );
-		
+		employeeMasterBean.setDiv1Visblity(true);
+		employeeMasterBean.setDiv2Visblity(true);
 		employeeMasterBean.setUnitDesignationId(unitDesignationBean.getUnitDesignationId());
-		
-		System.out.println("" + employeeMasterBean.getUnitDesignationId());
-		
 		componentMasterBeanList = EmployeeMasterService.loadComponentDetatils(employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId(),unitDesignationBean.getUnitDesignationId() );
 	
 	}

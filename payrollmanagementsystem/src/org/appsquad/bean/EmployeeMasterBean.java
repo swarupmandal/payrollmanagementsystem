@@ -69,6 +69,8 @@ public class EmployeeMasterBean {
 	private String esi;
 	private boolean esiFieldDisabled = true;
 	
+	private boolean div1Visblity = false;
+	private boolean div2Visblity = false;
 	
 	private ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
 	
@@ -690,6 +692,22 @@ public class EmployeeMasterBean {
 
 	public void setPfFielddisabled(boolean pfFielddisabled) {
 		this.pfFielddisabled = pfFielddisabled;
+	}
+
+	public boolean isDiv1Visblity() {
+		return div1Visblity;
+	}
+
+	public void setDiv1Visblity(boolean div1Visblity) {
+		this.div1Visblity = div1Visblity;
+	}
+
+	public boolean isDiv2Visblity() {
+		return div2Visblity;
+	}
+
+	public void setDiv2Visblity(boolean div2Visblity) {
+		this.div2Visblity = div2Visblity;
 	}
 	
 	

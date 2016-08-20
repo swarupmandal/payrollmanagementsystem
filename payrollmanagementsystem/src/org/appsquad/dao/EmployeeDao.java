@@ -1,8 +1,10 @@
 package org.appsquad.dao;
 
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -889,7 +891,8 @@ public class EmployeeDao {
 				
 				try {
 
-					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.employeeInsertQuery, Arrays.asList(bean.getEmployeeCode(),bean.getEmployeeName(),bean.getCompanyId(),bean.getUnitId(),bean.getEmpPhone(),
+					preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.employeeInsertQuery, Arrays.asList(bean.getEmployeeCode(),
+							bean.getEmployeeName(),bean.getCompanyId(),bean.getUnitId(),bean.getEmpPhone(),
 										bean.getEmpEmail(),bean.getGender(), userName,userName, bean.getEmpDob(), bean.getUnitDesignationId()));
 					
 					System.out.println("Prep a b c >>> >> > " + preparedStatement);
@@ -1351,7 +1354,159 @@ public class EmployeeDao {
     	return i;
     }
     
-    
+    public static int saveEmpDetails(ArrayList<ComponentMasterBean> list,EmployeeMasterBean bean1, String userName){
+    	int empId = 0;
+    	int i,j,k,l = 0;
+    	Connection connection = null;
+    	try {
+			connection = DbConnection.createConnection();
+			connection.setAutoCommit(false);
+				
+				sql1:{
+					PreparedStatement preparedStatement = null;
+					String sql = "insert into pms_employee_master (employee_code,employee_name,company_id,unit_id,employee_phone_number,employee_email,gender,"
+							 + " created_by,updatetd_by, dob, unit_designation_id) values(?,?,?,?,?,?,?,?,?,?,?)";
+				      try {
+				    	  
+				    	  
+				    	  preparedStatement = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+				    	  preparedStatement.setString(1, bean1.getEmployeeCode());
+				    	  preparedStatement.setString(2, bean1.getEmployeeName());
+				    	  preparedStatement.setInt(3, bean1.getCompanyId());
+				    	  preparedStatement.setInt(4, bean1.getUnitId());
+				    	  preparedStatement.setString(5, bean1.getEmpPhone());
+				    	  preparedStatement.setString(6, bean1.getEmpEmail());
+				    	  preparedStatement.setString(7, bean1.getGender());
+				    	  preparedStatement.setString(8, userName);
+				    	  preparedStatement.setString(9, userName);
+				    	  preparedStatement.setDate(10, bean1.getEmpDob());
+				    	  preparedStatement.setInt(11, bean1.getUnitDesignationId());
+				    	  
+				    	  preparedStatement.execute();
+				    	  
+				    	  ResultSet resultSet = preparedStatement.getGeneratedKeys();
+							
+							if(resultSet.next()){
+								
+								empId = resultSet.getInt(1);
+								System.out.println("Returned Id is ====="+empId);
+							}
+					
+					
+				      } finally{
+				    	  if(preparedStatement != null){
+				    		  preparedStatement.close();
+				    	  }
+				      }
+				}
+				
+			sql2:{
+
+					PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertPersoalInformationQuery, Arrays.asList(empId, bean1.getEmpAddress(), bean1.getEmpCity(), bean1.getEmpStateId(),bean1.getPinCode(), bean1.getEmpBloodGroupId(),
+									            bean1.getEmpPan(), bean1.getEmpMaritalStatus(), userName, userName));
+							
+							i = preparedStatement.executeUpdate();
+							
+							
+						  } finally{
+						  if(preparedStatement != null){
+							  preparedStatement.close();
+						  }
+						}	
+						
+				}
+			
+				sql3:{
+
+					PreparedStatement preparedStatement = null;
+						try {
+							preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertEmployeeOfficialDetails, Arrays.asList(empId, bean1.getEmpDoj(), bean1.getEmpDesignationId(), bean1.getEmpLocation(),bean1.getPaymentModeId(), bean1.getEmpBankId(),
+									            bean1.getEmpAccountNo(), bean1.getIfscCode(),bean1.getIncrementDate() , bean1.getRegistrationDate(), bean1.getLastWorkingDate(), userName, userName));
+							
+							j = preparedStatement.executeUpdate();
+							
+							
+						  } finally{
+						  if(preparedStatement != null){
+							  preparedStatement.close();
+						  }
+						}	
+						
+				}
+    		
+    		  sql4:{
+
+					PreparedStatement preparedStatement = null;
+					
+					try {
+						
+						for(ComponentMasterBean bean : list){
+						
+						//if(bean.isCheckVal()==true && bean.getComponentAmount()>0){
+				
+						if(bean.isCheckVal()){	
+						
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.insertComponentsPerEmpQuery, Arrays.asList(empId, bean.getComponentId(), bean.getComponentName(),bean.getComponentTypeId(),bean1.getCompanyId(),bean1.getUnitId(),userName,userName, bean.getComponentAmount()));
+						 
+						k = preparedStatement.executeUpdate();
+						
+						}
+					}
+					
+					} finally{
+						if(preparedStatement != null){
+							preparedStatement.close();
+						}
+					}
+				
+			    
+				}
+    		
+    		sql5:{
+
+					PreparedStatement preparedStatement = null;
+					try {
+						preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.empPfEsiInsertQuery, Arrays.asList(empId, bean1.getUan(),bean1.getEsi(), userName, userName, bean1.getPfNumber()));
+						l = preparedStatement.executeUpdate();
+						
+					}finally{
+						if(preparedStatement != null){
+							preparedStatement.close();
+						}
+					}
+				
+				}
+				connection.commit();
+    		
+		} catch (Exception e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				
+				e1.printStackTrace();
+			}
+			
+			if(e.getMessage().contains("duplicate")){
+				Messagebox.show("Already Exists ", "ERROR", Messagebox.OK, Messagebox.ERROR);
+				}
+			
+			e.printStackTrace();
+		}finally{
+			if(connection != null){
+				try {
+					connection.setAutoCommit(true);
+					connection.close();
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			}
+		}
+    	
+    	return empId;
+    }
 	
 
 }

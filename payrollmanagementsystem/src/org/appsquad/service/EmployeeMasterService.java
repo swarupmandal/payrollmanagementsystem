@@ -91,49 +91,14 @@ public class EmployeeMasterService {
 				
 				if(bean.getUnitDesignationId() != null){
 				
-				
-				if(bean.getEmployeeCode() != null){
+					if(bean.getEmployeeCode() != null){
 					
-					if(bean.getEmployeeName() != null){
+						if(bean.getEmployeeName() != null){
 						
-						
-						
-						return true; 
-						
-						/*if(bean.getEmpPhone() != null){
 							
-							if(bean.getGender() != null){
-								
-								if(bean.getEmpDob() != null){
-									
-									//if(bean.getUnitDesignationId() != null){
-									
-										return true;
-										
-									}else {
-										
-										Messagebox.show("Select Unit Designation","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
-										return false;
-									}
-									
-									
-									
-									
-								}else {
-									Messagebox.show("Entetr Employee Date of Birth","Informtion", Messagebox.OK, Messagebox.EXCLAMATION);
-									return false;
-								}
-								
-							}else {
-								Messagebox.show("Enter Gender", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
-								return false;
-							}
+							return true; 
 							
-						}else {
-							Messagebox.show("Enter Employee Phone Number", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
-							return false;
-						}*/
-						
+							
 					}else {
 						Messagebox.show("Enter Employee Name", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
 						return false;
@@ -155,11 +120,13 @@ public class EmployeeMasterService {
 			}
 			
 		}else {
-				Messagebox.show("Select Comapny", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
+				Messagebox.show("Select Company", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
 		  	return false;
 		}
 	}
 
+	
+	
 	
 	public static boolean insertEmployeeInformation(EmployeeMasterBean bean, String userName){
 		if(EmployeeDao.insertEmployeeInfo(bean, userName)){
