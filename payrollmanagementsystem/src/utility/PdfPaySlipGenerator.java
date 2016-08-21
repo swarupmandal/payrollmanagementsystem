@@ -438,7 +438,13 @@ public class PdfPaySlipGenerator {
 					totNetSal += rollBean.getNetSalary();
 					totDed += rollBean.getTotalDeduction();
 					
+					if(rollBean.getOtHoursF() == null){
+						rollBean.setOtHoursF(0.0);
+					}
+					
 					totExtraDuty += rollBean.getOtHoursF();
+					
+					
 					totOt += rollBean.getOtHoursF();
 					totOtSal += rollBean.getOtSalary();
 					

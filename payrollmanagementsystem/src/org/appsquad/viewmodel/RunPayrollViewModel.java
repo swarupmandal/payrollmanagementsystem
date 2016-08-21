@@ -249,6 +249,11 @@ public class RunPayrollViewModel {
 	
 		runPayRollBean.setSelectedCurrentYr(year);
 		
+		//int watypeId = RunPayRollService.fetchWagesTypeId(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
+		//runPayRollBean.setWagesTypeId(watypeId);
+		//System.out.println("0-------------------------------------------------------------------- wa type id " + runPayRollBean.getWagesTypeId());
+		
+		
 		//System.out.println("Select cccc " + unitDesignationBean.getUnitDesignationId());
 		
 		//System.out.println("SELECTED MONTH ID >>> >> > " + runPayRollBean.getSelectedMonthId());
@@ -317,12 +322,12 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickLoad(){
-		System.out.println("Year: "+year);
-		System.out.println("Month:: "+monthMasterBean.getMonthName());
-		System.out.println("Company:: "+companyMasterBean.getCompanyId()+" "+companyMasterBean.getCompanyName());
-		System.out.println("Unit:: "+unitMasterBean.getUnitId()+" "+unitMasterBean.getUnitName());
-		System.out.println("Unit desg :: "+unitDesignationBean.getUnitDesignationId()+" "+unitDesignationBean.getUnitDesignation());
-		System.out.println("Sheet type Id: "+sheetbean.getSheetTypeId()+" "+sheetbean.getSheetType());
+		//System.out.println("Year: "+year);
+		//System.out.println("Month:: "+monthMasterBean.getMonthName());
+		//System.out.println("Company:: "+companyMasterBean.getCompanyId()+" "+companyMasterBean.getCompanyName());
+		//System.out.println("Unit:: "+unitMasterBean.getUnitId()+" "+unitMasterBean.getUnitName());
+		//System.out.println("Unit desg :: "+unitDesignationBean.getUnitDesignationId()+" "+unitDesignationBean.getUnitDesignation());
+		//System.out.println("Sheet type Id: "+sheetbean.getSheetTypeId()+" "+sheetbean.getSheetType());
 		
 		if(sheetbean.getSheetTypeId()>0){
 			
@@ -563,6 +568,7 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickCalculate(){
+		
 		int baseDays,empcount=1;boolean isOtSheet = false;
 		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), 
 				runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr(), runPayRollBean.getSunSelId());
@@ -593,7 +599,7 @@ public class RunPayrollViewModel {
 								earningList.add(salBean);
 								if( salBean.getComponentName().equalsIgnoreCase("WAGES")){
 									
-									if(bean.getWagesTypeId() == 1){
+									if(runPayRollBean.getWagesTypeId() == 1){
 										bean.setWages(salBean.getComponentAmount()*baseDays);
 									}else {
 										bean.setWages(salBean.getComponentAmount());
@@ -634,8 +640,8 @@ public class RunPayrollViewModel {
 								
 								
 
-								System.out.println("CON ITC >> " +earn.getComponentAmount());
-								System.out.println("CONVEYANCE CALCULATION ENDS . . . .");
+								//System.out.println("CON ITC >> " +earn.getComponentAmount());
+								//System.out.println("CONVEYANCE CALCULATION ENDS . . . .");
 
 							}
 							
@@ -644,7 +650,7 @@ public class RunPayrollViewModel {
 
 									//System.out.println("WA SH ING " + bean.getPresentDay());
 
-									System.out.println("WASHING calculation for ralegh court " + bean.getPresentDay());
+									//System.out.println("WASHING calculation for ralegh court " + bean.getPresentDay());
 
 									earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 									
@@ -731,11 +737,12 @@ public class RunPayrollViewModel {
 							
 							//GRATUITY = ( (WAGES*0.0481)/26 ) * PRESENT DAYS ON THREE MONTHS  FOR ITC LIMITED E LEAVE
 							if(earn.getComponentName().equalsIgnoreCase("GRATUITY")){
-								earn.setComponentAmount(DoubleFormattor.setDoubleFormat((bean.getWages()*0.0481)/26)*bean.getPresentDay());
+								
+								earn.setComponentAmount(DoubleFormattor.setDoubleFormat(((bean.getWages()*0.0481)/26)*bean.getPresentDay()));
 								
 							}
 							if(earn.getComponentName().equalsIgnoreCase("E LEAVE")){
-								earn.setComponentAmount(DoubleFormattor.setDoubleFormat((bean.getWages()*0.0481)/26)*bean.getPresentDay());
+								earn.setComponentAmount(DoubleFormattor.setDoubleFormat(((bean.getWages()*0.0481)/bean.getBaseDays())*bean.getPresentDay()));
 								
 							}
 							
@@ -868,7 +875,7 @@ public class RunPayrollViewModel {
 		}else {
 			//System.out.println("@ @ @ @ @ @ @  @ @ @ @ @ @ @ @  @ @ @ @ @ @ NOT ITC @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @  @ @");
 			for(RunPayRollBean bean : runPayRollBeanList ){
-			
+				System.out.println("wages type id 1 34 ---------------------------------------------------------------- >>> >> > " + runPayRollBean.getWagesTypeId());
 				if(bean.getPresentDay()!=null ){
 					bean.setSelectedUnitId(runPayRollBean.getSelectedUnitId());
 					//System.out.println("Selected unit ID: "+bean.getSelectedUnitId());
@@ -883,9 +890,11 @@ public class RunPayrollViewModel {
 						if(salBean.getComponentTypeId()==1){
 							if(salBean.getComponentName().equalsIgnoreCase("WAGES")){
 								
-								if(bean.getWagesTypeId() == 1){
+								if(runPayRollBean.getWagesTypeId() == 1){
 									bean.setWages(salBean.getComponentAmount()*baseDays);
+									
 								}else {
+									
 									bean.setWages(salBean.getComponentAmount());
 								}
 							}
@@ -1017,7 +1026,7 @@ public class RunPayrollViewModel {
 							if(earn.getComponentName().equalsIgnoreCase("BONUS") && bean.getSelectedUnitId() == 55){
 								double i  = (Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())* 0.0833);
 								earn.setComponentAmount(DoubleFormattor.setDoubleFormat(i));
-								System.out.println("MMMMMMMMMMMMMM " + " Bo nu s - "+ earn.getComponentAmount());
+								
 								
 							}
 							
@@ -1508,7 +1517,6 @@ public class RunPayrollViewModel {
 	public void onSelectUnitDesignation2(){
 		exPayrollBn.setUnitDesignationId2(unitDesignationBean2.getUnitDesignationId());
 		
-		
 	}
 	
 	@Command
@@ -1517,11 +1525,11 @@ public class RunPayrollViewModel {
 		System.out.println("load click");
 		payrollExistBeanList2 = RunPayRollService.loadEmpSalStore(exPayrollBn);
 		
-		for(PayrollExistBean b : payrollExistBeanList2){
+		/*for(PayrollExistBean b : payrollExistBeanList2){
 			for(EmployeeSalaryComponentAmountBean bb : b.getComponentAmountBeanList()){
 				System.out.println("bb " + bb.getComponentName());
 			}
-		}
+		}*/
 	}
 	
 	@Command

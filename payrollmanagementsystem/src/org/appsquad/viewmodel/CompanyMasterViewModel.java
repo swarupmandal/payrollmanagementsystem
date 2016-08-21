@@ -86,7 +86,7 @@ public class CompanyMasterViewModel {
 					StateMasterBean bean = new StateMasterBean();
 					bean.setStateName(resultSet.getString("state_name"));
 					bean.setStateId(resultSet.getInt("id"));
-					System.out.println(bean.getStateId());
+					
 					stateBeanList.add(bean);
 					
 					}
@@ -116,9 +116,7 @@ public class CompanyMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectStateName(){
-		System.out.println("stateName selected");
-		System.out.println("State Name " + stateMasterBean.getStateName());
-		System.out.println("state Id " + stateMasterBean.getStateId());
+		
 		companyMasterBean.setCompanyStateId(stateMasterBean.getStateId());
 		
 	}
@@ -295,7 +293,7 @@ public class CompanyMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickEdit(@BindingParam("bean")CompanyMasterBean bean){
-		System.out.println(bean.getCompanyId());
+		
 		Map<String, Integer> parentMap = new HashMap<String, Integer>();
 		parentMap.put("parentBean", bean.getCompanyId());
 		Window window = (Window) Executions.createComponents("/WEB-INF/view/companyedit.zul", null, parentMap);

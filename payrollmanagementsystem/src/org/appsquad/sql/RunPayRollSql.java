@@ -125,5 +125,7 @@ public class RunPayRollSql {
 														   " month, year, amount from pms_emp_sal_store_comp_details where emp_id = ? " +
 														   " and month = ? and year = ?";
 	
+	public static final String wagesTypeSelQry = "select wages_type_id from pms_unit_master where unit_id = ? and company_id = ? ";
+	
 	
 }

@@ -1,0 +1,25 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Unit Master Edit" border="normal" apply="org.zkoss.bind.BindComposer" 
+	viewModel="@id('vm') @init('org.appsquad.viewmodel.UnitMasterEditViewModel')">
+	
+	<div>
+		<hlayout>
+			<textbox ></textbox>
+			
+			<combobox>
+			
+			</combobox>
+			
+			<doublebox></doublebox>
+			
+			<combobox></combobox>
+			
+			<combobox></combobox>
+			
+			<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; width:60px;"/>
+			
+		</hlayout>
+	</div>
+</window>
+</zk>

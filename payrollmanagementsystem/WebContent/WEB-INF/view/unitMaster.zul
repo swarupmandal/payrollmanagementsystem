@@ -65,7 +65,7 @@
 			<columns>
 				<column label="Company Name" align="center"></column>
 				<column label="Unit Name" align="center"></column>
-				<column label="Action" align="center"></column>
+				<column label="Edit" align="center"></column>
 			</columns>
 			<rows>
 			<template name="model" var="v">
@@ -75,7 +75,7 @@
 					<hlayout spacing="20px">
 					
 					<a><image src="images/ico_edit.png" onClick="@command('onClickEdit',bean = v)"></image> </a>
-					<button label="Update" sclass="bb_button" onClick="@command('onClickUpdate',bean = v)"></button>
+					<button label="Update" sclass="bb_button" onClick="@command('onClickUpdate',bean = v)" visible="false"></button>
 					</hlayout>
 				</row>
 			</template>

@@ -1,6 +1,8 @@
 package org.appsquad.viewmodel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
@@ -111,7 +113,7 @@ public class UnitMasterViewModel {
 		unitMasterBean.setUnitName(bean.getUnitName());
 		unitMasterBean.setUnitId(bean.getUnitId());*/
 		System.out.println("unit id = "+bean.getUnitId());
-		bean.setReadOnly(false);
+		//bean.setReadOnly(false);
 	}
 	
 	/*@Command
@@ -128,16 +130,24 @@ public class UnitMasterViewModel {
 	@NotifyChange("*")
 	public void onClickUpdate(@BindingParam("bean")UnitMasterBean bean){
 		bean.setUserName(userName);
-		UnitMasterService.updateUnitMasterData(bean);
-		//UnitMasterService.clearScreen(bean);
+		//UnitMasterService.updateUnitMasterData(bean);
 		//UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
-		bean.setReadOnly(true);
+		bean.setReadOnly(false);
+		/*
+		Map<String, Object> parentMap = new HashMap<String, Object>();
+		parentMap.put("bean", bean);
+		parentMap.put("basedaysList ", baseDaysList);
+		*/
+		
 	}
 
 	@Command
 	@NotifyChange("*")
 	public void onSelectBasedaysType(){
-		System.out.println("Base Days Type Id " + baseDaysTypeBean.getBaseDaysTypeId());
+		sundayTypeBean.setSundaySelection(null);
+		sundayTypeBean.setSundaySelectionId(0);
+		
+		sunDaySelecttionBnLst = UnitMasterService.sundaySelType();
 	}
 	
 
@@ -176,6 +186,16 @@ public class UnitMasterViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSundaySelect(){
+		
+		
+		if(baseDaysTypeBean.getBaseDaysTypeId() != 2 && sundayTypeBean.getSundaySelectionId() == 2){
+			Messagebox.show("Combination not matched ", "Alert", Messagebox.OK,Messagebox.EXCLAMATION);
+			sundayTypeBean.setSundaySelection(null);
+			sundayTypeBean.setSundaySelectionId(0);
+			unitMasterBean.setSundaySelectionId(0);
+			sunDaySelecttionBnLst = UnitMasterService.sundaySelType();
+		}
+		
 		
 	}
 	

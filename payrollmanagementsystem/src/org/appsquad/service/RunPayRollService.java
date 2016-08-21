@@ -13,6 +13,7 @@ import org.appsquad.dao.RunPayRollDao;
 import org.zkoss.zul.Messagebox;
 
 import com.itextpdf.text.log.SysoCounter;
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import utility.CheckFriDay;
 import utility.CheckMonDayCount;
@@ -318,5 +319,12 @@ public class RunPayRollService {
     	ArrayList<PayrollExistBean> list = new ArrayList<PayrollExistBean>(); 
     	list = PayRollExistDao.loadEmpSalDetails2(pxBean);
     	return list;
+    }
+    
+    public static int fetchWagesTypeId(int coId, int unId){
+    	int watypId = 0;
+    	watypId = RunPayRollDao.fetchWagesType(coId, unId);
+    	return watypId; 
+    	
     }
 }

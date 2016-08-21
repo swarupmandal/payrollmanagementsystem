@@ -168,13 +168,16 @@ public class AddComponentDao {
 	} catch (Exception e) {
 		if(e.getMessage().contains("duplicate")){
 		Messagebox.show("Already Exists","ERROR",Messagebox.OK,Messagebox.ERROR);
+		}else {
+			Messagebox.show("Error","ERROR",Messagebox.OK,Messagebox.ERROR);	
+		}
 		try {
 			connection.rollback();
 		} catch (SQLException e1) {
 			
 			e1.printStackTrace();
 		}
-		}
+		
 		e.printStackTrace();
 		
 	}finally{
@@ -183,7 +186,6 @@ public class AddComponentDao {
 				connection.setAutoCommit(true);
 				connection.close();
 			} catch (SQLException e) {
-				
 				
 				e.printStackTrace();
 			}

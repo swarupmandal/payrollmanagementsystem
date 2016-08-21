@@ -785,7 +785,7 @@ public class RunPayRollDao {
 					}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		if(baseDayType == 2){
@@ -808,14 +808,13 @@ public class RunPayRollDao {
 			}
 			
 		}else if(baseDayType == 3) {
-			//System.out.println("--Special 26 unit---");
+			
 			baseDays = 26;
 		}else{
-			// calculate month days in baseDayss
-			//System.out.println("--Normal unit---");
+			
 			baseDays = DayCalculate.getDaysOfMonth(year, monthId, 1);
 		}
-		//System.out.println("Calculated Base days: "+baseDays);
+		
 		return baseDays;
 	}
 	
@@ -1022,6 +1021,38 @@ public class RunPayRollDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static int fetchWagesType(int coId, int unId){
+		int wagesTypeId = 0;
+		Connection connection = null;
+		try {
+			connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			try {
+				preparedStatement = Util1.createQuery(connection, RunPayRollSql.wagesTypeSelQry, Arrays.asList(unId, coId));
+				
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					wagesTypeId = resultSet.getInt("wages_type_id");
+				}
+				
+			} finally{
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+			}
+		} catch (Exception e) {
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		}
+		return wagesTypeId;
 	}
 	
 }
