@@ -422,7 +422,7 @@ public class RunPayRollDao {
 						try {
 						
 							preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadSaturdayCount, Arrays.asList(bean.getLeaveYrId(),companyId, unitId));
-							System.out.println("PREPared statemt sat day " +preparedStatement);
+							//System.out.println("PREPared statemt sat day " +preparedStatement);
 							ResultSet resultSet = preparedStatement.executeQuery();
 							
 							while (resultSet.next()) {

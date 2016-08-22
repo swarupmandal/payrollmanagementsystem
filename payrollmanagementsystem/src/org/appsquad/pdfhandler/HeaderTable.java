@@ -26,7 +26,10 @@ public class HeaderTable extends PdfPageEventHelper {
     public HeaderTable(RunPayRollBean bean) throws DocumentException {
     	float[] columnWidths = {8,  16};
 		 table = new PdfPTable(columnWidths);Font font;
-		
+		 String str = bean.getSheetType();
+		 if (str.contains("SHEET")){
+		 str = str.replace("SHEET", ")");
+		 }
     	//table = new PdfPTable(1);
         table.setTotalWidth(930);
         //table.setLockedWidth(true);
@@ -41,7 +44,7 @@ public class HeaderTable extends PdfPageEventHelper {
 		nxtTable.addCell(cell);
 		
 		font = new Font(Font.getFamily("HELVETICA"), 11, Font.NORMAL);
-		cell = new PdfPCell(new Phrase(bean.getComapnyName()+"\n"+bean.getUnitName()+"\n"+
+		cell = new PdfPCell(new Phrase(bean.getComapnyName()+"\n"+bean.getUnitName() +" ("+str+ "\n"+
 				bean.getMonthName()+"      "+bean.getYear()+"     "+bean.getCurrentDate()+"\n"+
 				bean.getUnitDesignation(), font));
 		cell.setHorizontalAlignment(Element.ALIGN_RIGHT);

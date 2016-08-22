@@ -326,6 +326,7 @@ public class PdfPaySlipGenerator {
 				,RunPayRollBean bean) throws Exception{
 		//	document.add(createTableForLogo(document, bean));
 		//	System.out.println("Tot sal Gsheet ::"+bean.getTotalSalary()+" Tot net : "+bean.getNetSalary());
+			System.out.println("on sheet gen PDF TYPE " + bean.getSheetType());
 			double  hra = 0.0,allowance = 0.0,conveyance=0.0,totOt = 0.0, totBasic = 0.0, totSalTot = 0.0, 
 					totExtraDuty=0.0,totOvertime=0.0,totProf =0.0,totPf=0.0,totEsi =0.0,totNetSal = 0.0,
 					totDed = 0.0,totOvertimeSal=0.0,totOtSal=0.0; 
@@ -337,9 +338,9 @@ public class PdfPaySlipGenerator {
 			
 			System.out.println("* * * * * * * On GENERATE SHEET * * * *");
 			 for(RunPayRollBean genSheet : runPayRollBeanList){
-				 System.out.println("Unit ID in generate salary Sheet:: "+genSheet.getSelectedUnitId());
+				 //System.out.println("Unit ID in generate salary Sheet:: "+genSheet.getSelectedUnitId());
 				 for(EmployeeSalaryComponentAmountBean comp : genSheet.getEarningCompList()){
-					 System.out.println(comp.toString());
+					 //System.out.println(comp.toString());
 				 }
 			 }
 			
@@ -462,8 +463,8 @@ public class PdfPaySlipGenerator {
 					String earnName = null;
 					for(EmployeeSalaryComponentAmountBean earnBean : rollBean.getEarningCompList()){
 						
-						System.out.println("nor  name " + earnBean.getComponentName());
-						System.out.println("nor amount " + earnBean.getComponentAmount());
+						//System.out.println("nor  name " + earnBean.getComponentName());
+						//System.out.println("nor amount " + earnBean.getComponentAmount());
 						if(!earnBean.getComponentName().equalsIgnoreCase("BASIC")){
 							earnName = earnBean.getComponentName();
 							if(earnMap.containsKey(earnName)){
@@ -742,9 +743,9 @@ public class PdfPaySlipGenerator {
 				System.out.println("* * * * * NORMAL SHEET PRINTING CREATING TABLES * * * * * ");
 				for(RunPayRollBean runPayRollBean : runPayRollBeanList){
 					for(EmployeeSalaryComponentAmountBean earn : runPayRollBean.getEarningCompList()){
-					System.out.println("Comp name: "+earn.getComponentName()+" Amnt: "+earn.getComponentAmount());
+					//System.out.println("Comp name: "+earn.getComponentName()+" Amnt: "+earn.getComponentAmount());
 					}
-					System.out.println("Tot sal:: "+runPayRollBean.getTotalSalary()+" Net sal:: "+runPayRollBean.getNetSalary());
+					//System.out.println("Tot sal:: "+runPayRollBean.getTotalSalary()+" Net sal:: "+runPayRollBean.getNetSalary());
 					document.add(createTableForSheet(document, runPayRollBean));
 					ComponentRemoveDao.addComponent(runPayRollBean.getSelectedUnitId());
 				}

@@ -342,6 +342,7 @@ public class RunPayrollViewModel {
 					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
 					unitDesignationBean.getUnitDesignationId());
 			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+				runPayRollBean.setSheetType(sheetbean.getSheetType());
 				runPayRollBean.setSpecialTime(0.0);
 				runPayRollBean.setTotalSalary(0.0);
 				runPayRollBean.setTotalDeduction(0.0);
@@ -428,6 +429,7 @@ public class RunPayrollViewModel {
 		pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
 		pdfSheetBean.setYear(String.valueOf(year));
 		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
+		pdfSheetBean.setSheetType(sheetbean.getSheetType());
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
 		ArrayList<RunPayRollBean> selectedEmployeeList = new ArrayList<RunPayRollBean>();
 	    boolean isChecked =  false;
@@ -572,7 +574,7 @@ public class RunPayrollViewModel {
 		int baseDays,empcount=1;boolean isOtSheet = false;
 		baseDays = RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), 
 				runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr(), runPayRollBean.getSunSelId());
-			
+		System.out.println("on click PDF TYPE " + sheetbean.getSheetType());	
 		
 		if(companyMasterBean.getCompanyId()==48 || companyMasterBean.getCompanyId() == 39){
 		
@@ -875,7 +877,7 @@ public class RunPayrollViewModel {
 		}else {
 			//System.out.println("@ @ @ @ @ @ @  @ @ @ @ @ @ @ @  @ @ @ @ @ @ NOT ITC @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @  @ @");
 			for(RunPayRollBean bean : runPayRollBeanList ){
-				System.out.println("wages type id 1 34 ---------------------------------------------------------------- >>> >> > " + runPayRollBean.getWagesTypeId());
+				
 				if(bean.getPresentDay()!=null ){
 					bean.setSelectedUnitId(runPayRollBean.getSelectedUnitId());
 					//System.out.println("Selected unit ID: "+bean.getSelectedUnitId());
@@ -1140,7 +1142,7 @@ public class RunPayrollViewModel {
 					pdfBean.setEmpcount(slNo);
 					
 					pdfBean.setSheetType(sheetbean.getSheetType());
-					
+					System.out.println("PDF TYPE " + sheetbean.getSheetType());
 					pdfBean.setPresentDay(bean.getPresentDay());
 					pdfBean.setWages(bean.getWages());
 					pdfBean.setBasic(bean.getBasic());

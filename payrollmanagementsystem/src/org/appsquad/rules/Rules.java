@@ -36,9 +36,9 @@ public class Rules {
 	
 	public static double getOtSalary(double wages, int baseDays, double otHours){
 		
-		System.out.println("wages----------------------------------------------------------------------------------------- " + wages);
-		System.out.println("base ----------------------------------------------------------------------------------------- " + baseDays);
-		System.out.println("ot h ----------------------------------------------------------------------------------------- " + otHours);
+		//System.out.println("wages----------------------------------------------------------------------------------------- " + wages);
+		//System.out.println("base ----------------------------------------------------------------------------------------- " + baseDays);
+		//System.out.println("ot h ----------------------------------------------------------------------------------------- " + otHours);
 		return ( DoubleFormattor.setDoubleFormat((wages/baseDays)*otHours));  
 	}
 		
