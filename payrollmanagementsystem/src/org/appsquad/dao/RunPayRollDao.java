@@ -23,6 +23,8 @@ import org.appsquad.service.RunPayRollService;
 import org.appsquad.sql.RunPayRollSql;
 import org.zkoss.zul.Messagebox;
 
+import bsh.util.Util;
+
 import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
 
 import utility.CheckSunday;
@@ -861,7 +863,13 @@ public class RunPayRollDao {
 	}
 	
 	
-	public static void saveSalSheet(ArrayList<RunPayRollBean> runPayRollBeanList, RunPayRollBean pdfBean){
+	public static void saveSalSheet(ArrayList<RunPayRollBean> runPayRollBeanList, RunPayRollBean pdfBean, int coId, int unitId,int unitDesId,String salMonth,String year){
+		
+		delSalStore(coId, unitId, unitDesId, salMonth, year);
+		delSalStrDetails(coId, unitId, unitDesId, salMonth, year);
+		
+		boolean insert = false;
+		
 		try {
 			
 			Connection connection = DbConnection.createConnection();
@@ -872,6 +880,7 @@ public class RunPayRollDao {
 				//PreparedStatement preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
 				for(RunPayRollBean bean : runPayRollBeanList){
 				    preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalStore, null);
+				    
 					preparedStatement.setInt(1, bean.getEmpId());
 					preparedStatement.setString(2, bean.getEmpCode());
 					preparedStatement.setInt(3, bean.getSelectedCompanyId());
@@ -900,6 +909,8 @@ public class RunPayRollDao {
 					int count = preparedStatement.executeUpdate();
 					connection.commit();
 					if(count>0){
+						
+						
 						preparedStatement = Util1.createQuery(connection, RunPayRollSql.empInsertSalDetailsStore, null);
 						bean.getComponentAmountBeanList().addAll(bean.getEarningCompList());
 						bean.getComponentAmountBeanList().addAll(bean.getDeductionCompList());
@@ -914,26 +925,40 @@ public class RunPayRollDao {
 							preparedStatement.setString(6, bean.getMonthName());
 							preparedStatement.setString(7, bean.getYear());
 							preparedStatement.setDouble(8, salBean.getComponentAmount());
+							preparedStatement.setInt(9, bean.getSelectedCompanyId());
+							preparedStatement.setInt(10, bean.getSelectedUnitId());
+							preparedStatement.setInt(11, bean.getSelectedUnitDesignationId());
 							preparedStatement.addBatch();
 						}
+						if(bean.getEarningCompList().size()>0){
+							bean.getEarningCompList().clear();
+						}if(bean.getDeductionCompList().size()>0){
+							bean.getDeductionCompList().clear();
+						}/*if(bean.getComponentAmountBeanList().size()>0){
+							bean.getComponentAmountBeanList().clear();
+						}*/
+						
+						
 						int[] countArray = preparedStatement.executeBatch();
 						connection.commit();
-						boolean insert = false;
+						
 						for(Integer c : countArray){
 							insert = true;
 						}
-						if(insert){
-							//System.out.println("Components amount saved!!");
-							Messagebox.show("Saved Successfully " ,"Information", Messagebox.OK, Messagebox.INFORMATION);
-						}
+						
 					}
+				}if(insert){
+					//System.out.println("Components amount saved!!");
+					Messagebox.show("Saved Successfully " ,"Information", Messagebox.OK, Messagebox.INFORMATION);
 				}
 				
 			} catch(Exception e){
 				if(e.getMessage().contains("duplicate")){
 					System.out.println("Update data!");
-					updateSalSheet(runPayRollBeanList);
+					//updateSalSheet(runPayRollBeanList);
+					
 				}
+				e.printStackTrace();
 			}
 			finally{
 				if(connection!=null){
@@ -1053,6 +1078,104 @@ public class RunPayRollDao {
 			e.printStackTrace();
 		}
 		return wagesTypeId;
+	}
+	
+	public static int existCount(int coid, int unitId,int unDesId,String salMonth,String lvYr){
+		int count = 0;
+		Connection connection = null;
+		try {
+			connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			
+			try { 
+				preparedStatement = Util1.createQuery(connection, RunPayRollSql.countQry, Arrays.asList(coid, unitId, unDesId, salMonth, lvYr));
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					count = resultSet.getInt("count");
+				}
+			} finally {
+				if(preparedStatement != null){
+					preparedStatement.close(); 
+				}
+			}
+			
+		} catch (Exception e) {
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e1) {
+					
+					e1.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+	
+	public static int delSalStore(int coid, int unitId,int unDesId,String salMonth,String lvYr){
+		int count = 0;
+		Connection connection = null;
+		try {
+			connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			
+			try { 
+				preparedStatement = Util1.createQuery(connection, RunPayRollSql.updateSalStrQry, Arrays.asList(coid, unitId, unDesId, salMonth, lvYr));
+				count = preparedStatement.executeUpdate();
+				
+			} finally {
+				if(preparedStatement != null){
+					preparedStatement.close(); 
+				}
+			}
+			
+		} catch (Exception e) {
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e1) {
+					
+					e1.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+	
+	public static int delSalStrDetails(int coid, int unitId,int unDesId,String salMonth,String lvYr){
+		int count = 0;
+		Connection connection = null;
+		try {
+			connection = DbConnection.createConnection();
+			PreparedStatement preparedStatement = null;
+			
+			try { 
+				preparedStatement = Util1.createQuery(connection, RunPayRollSql.updateSalStrDetQry, Arrays.asList(coid, unitId, unDesId, salMonth, lvYr));
+				count = preparedStatement.executeUpdate();
+				
+			} finally {
+				if(preparedStatement != null){
+					preparedStatement.close(); 
+				}
+			}
+			
+		} catch (Exception e) {
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e1) {
+					
+					e1.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		}
+		
+		return count;
 	}
 	
 }

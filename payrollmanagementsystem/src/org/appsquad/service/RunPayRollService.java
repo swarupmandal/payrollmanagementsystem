@@ -310,8 +310,8 @@ public class RunPayRollService {
     	
     }
     
-    public static void saveEmpSalStore(ArrayList<RunPayRollBean> runPayRollBeanList, RunPayRollBean bean){
-    	RunPayRollDao.saveSalSheet(runPayRollBeanList, bean);
+    public static void saveEmpSalStore(ArrayList<RunPayRollBean> runPayRollBeanList, RunPayRollBean bean, int coId, int unitId,int unitDesId,String salMonth,String year){
+    	RunPayRollDao.saveSalSheet(runPayRollBeanList, bean, coId, unitId, unitDesId, salMonth, year );
     	
     }
     
@@ -333,4 +333,23 @@ public class RunPayRollService {
     	return watypId; 
     	
     }
+    
+    public static int countSalStore(int coId, int unitId, int unitDesId, String salMonth, String year){
+    	int count = 0;
+    	count = RunPayRollDao.existCount(coId, unitId, unitDesId, salMonth, year);
+    	return count;
+    }
+    
+    public static int removeSalStore(int coId, int unitId, int unitDesId, String salMonth, String year){
+    	int count = 0;
+    	count = RunPayRollDao.delSalStore(coId, unitId, unitDesId, salMonth, year);
+    	return count;
+    }
+    
+    public static int removeSalStrDetails(int coId, int unitId, int unitDesId, String salMonth, String year){
+    	int count = 0;
+    	count = RunPayRollDao.delSalStrDetails(coId, unitId, unitDesId, salMonth, year);
+    	return count;
+    }
+    
 }

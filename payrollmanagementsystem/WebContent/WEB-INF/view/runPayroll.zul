@@ -188,7 +188,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
     style="cursor: pointer; cursor: hand; " 
     sclass="bb_button"/>
     <button label="Save salary sheet" onClick="@command('onclickSaveSalSheet')"
-    style="cursor: pointer; cursor: hand; " 
+    style="cursor: pointer; cursor: hand; " disabled="@bind(vm.runPayRollBean.saveDisabled)"
     sclass="bb_button"/>	
   </div>
   </div>
@@ -321,6 +321,8 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 				</rows>
 		
 			</grid>
+			
+		 <button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="Remove" onClick="@command('onClickRemove')"></button>
 		</div>
 	
 	</tabpanel>

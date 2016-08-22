@@ -72,9 +72,9 @@ public class RunPayRollSql {
 	public static final String empInsertSalStore = " INSERT INTO pms_emp_sal_store( " +
 										            " employee_id, employee_code, company_id, " + 
 										            " unit_id, unit_desiganatoin_id, emp_designation_id, presenet_days, " + 
-										            " base_days, ot, pf_num, esi_num, uan_num, salary_sheet_generation_date, " + 
+										            " base_days, ed, pf_num, esi_num, uan_num, salary_sheet_generation_date, " + 
 										            " salary_month_id, salary_month, leave_yr, wages, holiday_amount, " + 
-										            " ot_salary, total_salary, total_deduction, net_salary, " + 
+										            " ed_amt, total_salary, total_deduction, net_salary, " + 
 										            " created_by, updatetd_by, emp_name) " +
 										            " VALUES (?, ?, ?, ?, " + 
 										            " ?, ?, ?, ?, " + 
@@ -85,8 +85,8 @@ public class RunPayRollSql {
 
 	public static final String empInsertSalDetailsStore = "INSERT INTO pms_emp_sal_store_comp_details( "
             										+" component_id, component_name, component_type_id, "
-						            				+" emp_id, emp_code, month, year, amount) "
-						            				+" VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);";
+						            				+" emp_id, emp_code, month, year, amount, company_id, unit_id, unit_designation_id) "
+						            				+" VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	
 	public static final String empUpdateSalStore = " UPDATE pms_emp_sal_store SET" +
 									            " presenet_days=?,base_days=?, ot=?, pf_num=?, esi_num=?, uan_num=?, salary_sheet_generation_date=?,"+
@@ -121,14 +121,23 @@ public class RunPayRollSql {
 														" AND unit_id              = ? " +
 														" AND unit_desiganatoin_id = ? " +
 														" AND salary_month      = ? " +
-														" AND leave_yr             = ? ";
+														" AND leave_yr             = ? " +
+														" AND is_delete = 'N' ";
 															
 	
 	public static final String empSalStoreCompoDetlQuery = "select component_id, component_type_id, component_name,emp_id, " +
 														   " month, year, amount from pms_emp_sal_store_comp_details where emp_id = ? " +
-														   " and month = ? and year = ?";
+														   " and month = ? and year = ? and is_delete = 'N' ";
 	
 	public static final String wagesTypeSelQry = "select wages_type_id from pms_unit_master where unit_id = ? and company_id = ? ";
 	
+	public static final String countQry = "select count(pms_emp_sal_store_id) as count from pms_emp_sal_store where company_id = ? and unit_id = ? and unit_desiganatoin_id = ? and salary_month = ? and leave_yr = ? and is_delete = 'N' ";
 	
+	public static final String removeEmpSalStoreQry = "delete from pms_emp_sal_store where company_id = ? and unit_id = ? and unit_desiganatoin_id = ? and salary_month = ? and leave_yr = ? ";
+	
+	public static final String removeEmpSalStoredetailsQry = "delete from pms_emp_sal_store_comp_details where company_id = ? and unit_id = ? and unit_designation_id = ? and month = ? and year = ? ";
+	
+	public static final String updateSalStrQry = "update pms_emp_sal_store set is_delete = 'Y' where company_id = ? and unit_id = ? and unit_desiganatoin_id = ? and salary_month = ? and leave_yr = ? ";
+	
+	public static final String updateSalStrDetQry = "update pms_emp_sal_store_comp_details set is_delete = 'Y' where company_id = ? and unit_id = ? and unit_designation_id = ? and month = ? and year = ? ";
 }

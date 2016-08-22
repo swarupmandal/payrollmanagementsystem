@@ -30,6 +30,7 @@ public class RunPayRollBean {
     private int totalNumberOfHolidayseveryMonth;
     private int totalNumberOfWorkingDaysEveryMonth;
     public int totalNumberOfHolidays;
+    private boolean saveDisabled = false;
     
     //private Integer otDaysF,presentDay,baseDay;
     
@@ -489,6 +490,14 @@ public class RunPayRollBean {
 
 	public void setSheetType(String sheetType) {
 		this.sheetType = sheetType;
+	}
+
+	public boolean isSaveDisabled() {
+		return saveDisabled;
+	}
+
+	public void setSaveDisabled(boolean saveDisabled) {
+		this.saveDisabled = saveDisabled;
 	}
 	
 }

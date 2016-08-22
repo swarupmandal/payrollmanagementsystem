@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.Pack200.Unpacker;
 
 import javax.swing.tree.ExpandVetoException;
 
@@ -335,9 +336,7 @@ public class RunPayrollViewModel {
 		
 		if(sheetbean.getSheetTypeId()>0){
 			
-		
-		
-		if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
+			if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
 			
 			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
 			runPayRollBean.setYear(String.valueOf(year));
@@ -359,6 +358,14 @@ public class RunPayrollViewModel {
 				runPayRollBean.setSelectedUnitDesignationId(unitDesignationBean.getUnitDesignationId());
 				runPayRollBean.setBaseDays( RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), 
 						runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr(), runPayRollBean.getSunSelId()));
+			}
+			
+			int count = RunPayRollService.countSalStore(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), unitDesignationBean.getUnitDesignationId(), monthMasterBean.getMonthName(), String.valueOf(year));
+			
+			if(count>0){
+				runPayRollBean.setSaveDisabled(true);
+			}else {
+				runPayRollBean.setSaveDisabled(false);
 			}
 			
 		}
@@ -1474,7 +1481,7 @@ public class RunPayrollViewModel {
 		if(isChecked){
 			//System.out.println("Clik generate sheet Prest day : "+pdfSheetBean.getPresentDay()+" bean.getBasic():"+pdfSheetBean.getBasic()+" bean.getOtSalary(): "+pdfSheetBean.getOtSalary()+" bean.getOtHoursF()::"+pdfSheetBean.getOtHoursF());
 			//paySlipGenerator.getSheetDetails(selectedEmployeeList, pdfSheetBean);
-			RunPayRollService.saveEmpSalStore(selectedEmployeeList, pdfSheetBean);
+			RunPayRollService.saveEmpSalStore(selectedEmployeeList, pdfSheetBean, companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), unitDesignationBean.getUnitDesignationId(), monthMasterBean.getMonthName(), String.valueOf(year));
 		}else{
 			Messagebox.show("Please check at least one!","Alert Information",Messagebox.OK,Messagebox.EXCLAMATION);
 		}
@@ -1577,6 +1584,18 @@ public class RunPayrollViewModel {
 	
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onClickRemove(){
+		if(exPayrollBn.getCompanyId2()>0 && exPayrollBn.getUnitId2()>0 && exPayrollBn.getUnitDesignationId2()>0 && exPayrollBn.getSalMonth2() != null && exPayrollBn.getLvYr2() !=null){
+		int salStoreCount = RunPayRollService.removeSalStore(exPayrollBn.getCompanyId2(), exPayrollBn.getUnitId2(), exPayrollBn.getUnitDesignationId2(), exPayrollBn.getSalMonth2(), exPayrollBn.getLvYr2());
+		int salStrDetlCount = RunPayRollService.removeSalStrDetails(exPayrollBn.getCompanyId2(), exPayrollBn.getUnitId2(), exPayrollBn.getUnitDesignationId2(), exPayrollBn.getSalMonth2(), exPayrollBn.getLvYr2());
+		
+		if(salStoreCount>0 && salStrDetlCount>0 ){
+			Messagebox.show("Remove Successfully ", "Information", Messagebox.OK, Messagebox.INFORMATION);
+		}
+		}
+	}
 	
 	
 	public String getCurrentDate() {
