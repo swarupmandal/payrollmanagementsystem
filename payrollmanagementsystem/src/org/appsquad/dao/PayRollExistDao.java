@@ -44,6 +44,16 @@ public class PayRollExistDao {
 					bean.setPresentDay2(resultSet.getFloat("presenet_days"));
 					bean.setNetSalary2(resultSet.getDouble("net_salary"));
 					bean.setWages2(resultSet.getDouble("wages"));
+					bean.setTotalSalary2(resultSet.getDouble("total_salary"));
+					bean.setTotalDeduction2(resultSet.getDouble("total_deduction"));
+					bean.setEd2(resultSet.getDouble("ed"));
+					bean.setEdAmt(resultSet.getDouble("ed_amt"));
+					bean.setHoliDayAmount(resultSet.getDouble("holiday_amount"));
+					bean.setCompanyName2(resultSet.getString("company_name"));
+					bean.setUnitName2(resultSet.getString("unit_name"));
+					bean.setUnitDes2(resultSet.getString("designation"));
+					bean.setLvYr2(resultSet.getString("leave_yr"));
+					bean.setSalMonth2(resultSet.getString("salary_month"));
 					bean.setComponentAmountBeanList(loadCompoAmtDtls(connection, bean.getEmpId2(),pxBean.getSalMonth2(), pxBean.getLvYr2() ,bean));
 					
 					list.add(bean);
@@ -98,6 +108,7 @@ public class PayRollExistDao {
 				
 				list.add(bean);
 			}
+			
 			
 		} finally{
 			if(preparedStatement != null){

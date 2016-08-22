@@ -1524,19 +1524,20 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onClickLoad2(){
-		System.out.println("load click");
+		
 		payrollExistBeanList2 = RunPayRollService.loadEmpSalStore(exPayrollBn);
 		
-		/*for(PayrollExistBean b : payrollExistBeanList2){
-			for(EmployeeSalaryComponentAmountBean bb : b.getComponentAmountBeanList()){
-				System.out.println("bb " + bb.getComponentName());
-			}
-		}*/
+		
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onClickDetails2(@BindingParam("bean") PayrollExistBean payExBean){
+		
+		/*for(EmployeeSalaryComponentAmountBean bb : payExBean.getComponentAmountBeanList()){
+			System.out.println("bb - " + bb.getComponentName() +" - "+ bb.getComponentTypeId());
+			System.out.println("aa - " + payExBean.getNetSalary2());
+		}*/
 		
 		Map<String, Object> parenMap = new HashMap<String, Object>();
 		parenMap.put("parentList", payExBean);
@@ -1546,7 +1547,7 @@ public class RunPayrollViewModel {
 		parenMap.put("Year", exPayrollBn.getLvYr2());
 		
 		
-		Window window = (Window) Executions.createComponents("/WEB-INF/view/employeePaymentDetails.zul", null, parenMap);
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/existingPaymentDetails.zul", null, parenMap);
 		window.doModal();
 		
 		

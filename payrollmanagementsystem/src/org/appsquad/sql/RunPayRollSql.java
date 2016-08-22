@@ -112,7 +112,10 @@ public class RunPayRollSql {
 														"  leave_yr , " +
 														"  net_salary , " +
 														"  is_delete , wages, " +
-														"  emp_name, emp_designation " +
+														"  emp_name, emp_designation, " +
+														"  holiday_amount, ed_amt, total_salary, " +
+														" total_deduction, ed, " +
+														" company_name, unit_name, designation " +
 														" FROM vw_emp_sal_store " +
 														" WHERE company_id         = ? " +
 														" AND unit_id              = ? " +

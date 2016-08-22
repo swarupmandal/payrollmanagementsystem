@@ -7,9 +7,9 @@ public class PayrollExistBean {
 	private String lvYr2, salMonth2;
 	private int monthID2,companyId2,unitId2,unitDesignationId2;
 	
-	private String empName2, empCode2, empDes2;
+	private String empName2, empCode2, empDes2, companyName2, unitName2, unitDes2 ;
 	private Float presentDay2;
-	private Double netSalary2,wages2;
+	private Double netSalary2,wages2, ed2, totalSalary2, totalDeduction2, holiDayAmount, edAmt ;
 	private int empId2;
 	
 	private ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -99,6 +99,56 @@ public class PayrollExistBean {
 	public void setComponentAmountBeanList(
 			ArrayList<EmployeeSalaryComponentAmountBean> componentAmountBeanList) {
 		this.componentAmountBeanList = componentAmountBeanList;
+	}
+	
+	public Double getTotalSalary2() {
+		return totalSalary2;
+	}
+	public void setTotalSalary2(Double totalSalary2) {
+		this.totalSalary2 = totalSalary2;
+	}
+	public Double getTotalDeduction2() {
+		return totalDeduction2;
+	}
+	public void setTotalDeduction2(Double totalDeduction2) {
+		this.totalDeduction2 = totalDeduction2;
+	}
+	public Double getHoliDayAmount() {
+		return holiDayAmount;
+	}
+	public void setHoliDayAmount(Double holiDayAmount) {
+		this.holiDayAmount = holiDayAmount;
+	}
+	
+	public String getCompanyName2() {
+		return companyName2;
+	}
+	public void setCompanyName2(String companyName2) {
+		this.companyName2 = companyName2;
+	}
+	public String getUnitName2() {
+		return unitName2;
+	}
+	public void setUnitName2(String unitName2) {
+		this.unitName2 = unitName2;
+	}
+	public String getUnitDes2() {
+		return unitDes2;
+	}
+	public void setUnitDes2(String unitDes2) {
+		this.unitDes2 = unitDes2;
+	}
+	public Double getEd2() {
+		return ed2;
+	}
+	public void setEd2(Double ed2) {
+		this.ed2 = ed2;
+	}
+	public Double getEdAmt() {
+		return edAmt;
+	}
+	public void setEdAmt(Double edAmt) {
+		this.edAmt = edAmt;
 	}
 	
 	
