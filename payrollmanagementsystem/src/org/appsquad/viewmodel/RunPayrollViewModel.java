@@ -1553,8 +1553,22 @@ public class RunPayrollViewModel {
 		
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void genExSalSheet() throws DocumentException, Exception{
+
+		String pdfPath = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+		
+		pdfSheetBean.setSheetType(sheetbean.getSheetType());
+		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
+		
+			if(payrollExistBeanList2.size()>0){
+	    	paySlipGenerator.getExSheetDetails(pdfPath, payrollExistBeanList2, exPayrollBn);
+			}else {
+				Messagebox.show("No Sheet ","Alert",Messagebox.OK, Messagebox.EXCLAMATION);
+			}
 	
-	
+	}
 	
 	
 	

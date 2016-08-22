@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
+import org.appsquad.bean.PayrollExistBean;
 import org.appsquad.bean.RunPayRollBean;
 import org.appsquad.dao.ComponentRemoveDao;
 import org.appsquad.pdfhandler.DownloadPdf;
@@ -2337,4 +2338,35 @@ public class PdfPaySlipGenerator {
 			cell.setBorder(Rectangle.NO_BORDER);
 			return cell;
 		}
+		
+		
+/**********************************************************Existing Salary Sheet********************************************************************/		
+		
+		public void getExSheetDetails(String path, ArrayList<PayrollExistBean> existingPayRollList
+				,PayrollExistBean bean	) throws Exception, DocumentException{
+			filePath = path+"salarysheet.pdf";
+			
+			//HeaderTable event = new HeaderTable(bean);
+
+					        // step 1
+		      //document = new Document(PageSize.LEGAL.rotate(), 65f,5f, 25f + event.getTableHeight(), 5f);
+		        // step 2
+		    PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+		        writer.setPageEvent(event);
+		     // step 3
+			
+			document.open();
+			//generateSheet(runPayRollBeanList , bean);
+			
+			openPdf(filePath);
+			document.close();
+		
+			
+		}
+		
+		
+		
+		
+		
+		
 }
