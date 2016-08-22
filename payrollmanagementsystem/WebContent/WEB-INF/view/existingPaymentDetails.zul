@@ -31,7 +31,7 @@
 			<rows>
 				<row>
 					<textbox value="TOTAL SALARY"></textbox>
-					<doublebox value="@bind(vm.payrollExistBean.totalSalary2)"></doublebox>
+					<doublebox value="@bind(vm.runPayRollBean.totalSalary)"></doublebox>
 					
 				</row>	
 			</rows>	
@@ -65,7 +65,7 @@
 			<rows>
 				<row>
 					<textbox value="TOTAL DEDUCTION"></textbox>
-					<doublebox value="@bind(vm.payrollExistBean.totalDeduction2)"></doublebox>
+					<doublebox value="@bind(vm.runPayRollBean.totalDeduction)"></doublebox>
 					
 				</row>	
 			</rows>	
@@ -81,7 +81,7 @@
 			<rows>
 				<row>
 					<textbox value="NET SALARY"></textbox>
-					<doublebox value="@bind(vm.payrollExistBean.netSalary2)"></doublebox>
+					<doublebox value="@bind(vm.runPayRollBean.netSalary)"></doublebox>
 					
 				</row>	
 			</rows>	

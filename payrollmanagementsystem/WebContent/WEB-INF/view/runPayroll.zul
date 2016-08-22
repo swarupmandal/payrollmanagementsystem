@@ -296,7 +296,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		</div>
 		
 		<div>
-			<grid model="@bind(vm.payrollExistBeanList2)" mold="paging" pageSize="8">
+			<grid model="@bind(vm.payrollExistBeanList)" mold="paging" pageSize="8">
 				<columns>
 						<column label="Employee Name"></column>
 						<column label="Employee Code"></column>
@@ -309,11 +309,11 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 				<rows>
 				  <template name="model" var = "v">
 					<row>
-						<textbox value="@bind(v.empName2)" readonly="true"></textbox>
-						<textbox value="@bind(v.empCode2)" readonly="true"></textbox>
-						<textbox value="@bind(v.empDes2)" readonly="true"></textbox>
-						<textbox value="@bind(v.presentDay2)" readonly="true"></textbox>
-						<doublebox value="@bind(v.netSalary2)" readonly="true"></doublebox>
+						<textbox value="@bind(v.empName)" readonly="true"></textbox>
+						<textbox value="@bind(v.empCode)" readonly="true"></textbox>
+						<textbox value="@bind(v.empDesignation)" readonly="true"></textbox>
+						<textbox value="@bind(v.presentDay)" readonly="true"></textbox>
+						<doublebox value="@bind(v.netSalary)" readonly="true"></doublebox>
 						<button sclass="bb_button" style="cursor: pointer; cursor: hand;" label="DETAILS" 
 												onClick="@command('onClickDetails2', bean = v)"></button>
 					</row>

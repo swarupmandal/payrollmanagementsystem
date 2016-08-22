@@ -315,8 +315,14 @@ public class RunPayRollService {
     	
     }
     
-    public static ArrayList<PayrollExistBean> loadEmpSalStore(PayrollExistBean pxBean){
+    /*public static ArrayList<PayrollExistBean> loadEmpSalStore(PayrollExistBean pxBean){
     	ArrayList<PayrollExistBean> list = new ArrayList<PayrollExistBean>(); 
+    	list = PayRollExistDao.loadEmpSalDetails2(pxBean);
+    	return list;
+    }*/
+    
+    public static ArrayList<RunPayRollBean> loadEmpSalStore(PayrollExistBean pxBean){
+    	ArrayList<RunPayRollBean> list = new ArrayList<RunPayRollBean>(); 
     	list = PayRollExistDao.loadEmpSalDetails2(pxBean);
     	return list;
     }

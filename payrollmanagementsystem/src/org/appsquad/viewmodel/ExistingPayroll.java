@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.appsquad.bean.EmployeeSalaryComponentAmountBean;
 import org.appsquad.bean.PayrollExistBean;
+import org.appsquad.bean.RunPayRollBean;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -14,10 +15,13 @@ import org.zkoss.zk.ui.select.Selectors;
 public class ExistingPayroll {
 
 	public PayrollExistBean payrollExistBean = new PayrollExistBean();
+	public RunPayRollBean runPayRollBean = new RunPayRollBean();
 	public EmployeeSalaryComponentAmountBean componentAmountBean = new EmployeeSalaryComponentAmountBean();
 	
 	
 	private ArrayList<PayrollExistBean> payrollExistBeanList = new ArrayList<PayrollExistBean>();
+	private ArrayList<RunPayRollBean> exPayrollBeanList = new ArrayList<RunPayRollBean>();
+	
 	private ArrayList<EmployeeSalaryComponentAmountBean>  componentBeanList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 	private ArrayList<EmployeeSalaryComponentAmountBean>  earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 	private ArrayList<EmployeeSalaryComponentAmountBean>  deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
@@ -26,12 +30,12 @@ public class ExistingPayroll {
 	
 	@AfterCompose
 	public void initSetUp(@ContextParam(ContextType.VIEW) Component view,
-			@ExecutionArgParam("parentList")PayrollExistBean existBean)throws Exception{
+			@ExecutionArgParam("parentList")RunPayRollBean existBean)throws Exception{
 		Selectors.wireComponents(view, this, false);
 		
-		payrollExistBean = existBean  ;
-		System.out.println("ntt data "+ existBean.getNetSalary2());
-		componentBeanList = payrollExistBean.getComponentAmountBeanList();
+		runPayRollBean = existBean  ;
+		//System.out.println("ntt data "+ existBean.getNetSalary2());
+		componentBeanList = runPayRollBean.getComponentAmountBeanList();
 		
 		for(EmployeeSalaryComponentAmountBean bean : componentBeanList){
 			if(bean.getComponentTypeId()==1){
@@ -117,6 +121,26 @@ public class ExistingPayroll {
 	public void setDeductionList(
 			ArrayList<EmployeeSalaryComponentAmountBean> deductionList) {
 		this.deductionList = deductionList;
+	}
+
+
+	public RunPayRollBean getRunPayRollBean() {
+		return runPayRollBean;
+	}
+
+
+	public void setRunPayRollBean(RunPayRollBean runPayRollBean) {
+		this.runPayRollBean = runPayRollBean;
+	}
+
+
+	public ArrayList<RunPayRollBean> getExPayrollBeanList() {
+		return exPayrollBeanList;
+	}
+
+
+	public void setExPayrollBeanList(ArrayList<RunPayRollBean> exPayrollBeanList) {
+		this.exPayrollBeanList = exPayrollBeanList;
 	}
 	
 }

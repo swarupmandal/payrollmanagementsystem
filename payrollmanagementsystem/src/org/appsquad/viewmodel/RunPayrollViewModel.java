@@ -54,6 +54,7 @@ import com.itextpdf.text.DocumentException;
 public class RunPayrollViewModel {
 	
 	RunPayRollBean runPayRollBean = new RunPayRollBean();
+	RunPayRollBean exRunPayRollBean = new RunPayRollBean();
 	
 	RunPayRollBean pdfSheetBean = new RunPayRollBean();
 	
@@ -72,6 +73,9 @@ public class RunPayrollViewModel {
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
 	private ArrayList<UnitDesignationBean> unitDesignationBeanList = new ArrayList<UnitDesignationBean>();
 	private ArrayList<SheetBean> sheetTypeBeanList = new ArrayList<SheetBean>();
+	private ArrayList<RunPayRollBean> payrollExistBeanList = new ArrayList<RunPayRollBean>();
+	
+	
 	
 	
 	private PayrollExistBean exPayrollBn = new PayrollExistBean();
@@ -1491,6 +1495,8 @@ public class RunPayrollViewModel {
 	public void onSelectMonth2(){
 		exPayrollBn.setMonthID2(monthBean2.getMonthId());
 		exPayrollBn.setSalMonth2(monthBean2.getMonthName());
+		exRunPayRollBean.setMonthName(monthBean2.getMonthName());
+		
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList2);
 		
 		
@@ -1500,7 +1506,7 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectCompany2(){
 		exPayrollBn.setCompanyId2(companyMasterBean2.getCompanyId());
-		
+		exRunPayRollBean.setSelectedCompanyId(companyMasterBean.getCompanyId());
 		unitMasterBeanList2 = EmployeeMasterService.loadUnitBeanListWrtCompany(exPayrollBn.getCompanyId2());
 		
 	}
@@ -1509,7 +1515,7 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectUnit2(){
 		exPayrollBn.setUnitId2(unitMasterBean2.getUnitId());
-		
+		exRunPayRollBean.setSelectedUnitId(unitMasterBean2.getUnitId());
 		unitDesignationList2 = EmployeeDao.loadUnitDesignationList(exPayrollBn.getCompanyId2(), exPayrollBn.getUnitId2());
 		
 	}
@@ -1518,6 +1524,7 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectUnitDesignation2(){
 		exPayrollBn.setUnitDesignationId2(unitDesignationBean2.getUnitDesignationId());
+		exRunPayRollBean.setSelectedUnitDesignationId(unitDesignationBean2.getUnitDesignationId());
 		
 	}
 	
@@ -1525,14 +1532,14 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onClickLoad2(){
 		
-		payrollExistBeanList2 = RunPayRollService.loadEmpSalStore(exPayrollBn);
-		
+		//payrollExistBeanList2 = RunPayRollService.loadEmpSalStore(exPayrollBn);
+		payrollExistBeanList = RunPayRollService.loadEmpSalStore(exPayrollBn);
 		
 	}
 	
 	@Command
 	@NotifyChange("*")
-	public void onClickDetails2(@BindingParam("bean") PayrollExistBean payExBean){
+	public void onClickDetails2(@BindingParam("bean") RunPayRollBean exBean){
 		
 		/*for(EmployeeSalaryComponentAmountBean bb : payExBean.getComponentAmountBeanList()){
 			System.out.println("bb - " + bb.getComponentName() +" - "+ bb.getComponentTypeId());
@@ -1540,7 +1547,7 @@ public class RunPayrollViewModel {
 		}*/
 		
 		Map<String, Object> parenMap = new HashMap<String, Object>();
-		parenMap.put("parentList", payExBean);
+		parenMap.put("parentList", exBean);
 		parenMap.put("companyName", companyMasterBean2.getCompanyName());
 		parenMap.put("unitName", unitMasterBean2.getUnitName());
 		parenMap.put("salaryMonth", monthBean2.getMonthName());
@@ -1971,6 +1978,15 @@ public class RunPayrollViewModel {
 	public void setPayrollExistBeanList2(
 			ArrayList<PayrollExistBean> payrollExistBeanList2) {
 		this.payrollExistBeanList2 = payrollExistBeanList2;
+	}
+
+	public ArrayList<RunPayRollBean> getPayrollExistBeanList() {
+		return payrollExistBeanList;
+	}
+
+	public void setPayrollExistBeanList(
+			ArrayList<RunPayRollBean> payrollExistBeanList) {
+		this.payrollExistBeanList = payrollExistBeanList;
 	}
 
 	

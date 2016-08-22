@@ -22,7 +22,7 @@ public class PayRollExistDao {
 	 * 
 	 */
 	
-	public static ArrayList<PayrollExistBean> loadEmpSalDetails2(PayrollExistBean pxBean){
+	/*public static ArrayList<PayrollExistBean> loadEmpSalDetails2(PayrollExistBean pxBean){
 		ArrayList<PayrollExistBean> list = new ArrayList<PayrollExistBean>();
 		
 		Connection connection = null;
@@ -119,69 +119,109 @@ public class PayRollExistDao {
 			e.printStackTrace();
 		}
 		return list; 
+	}*/
+	
+	public static ArrayList<RunPayRollBean> loadEmpSalDetails2(PayrollExistBean pxBean){
+		ArrayList<RunPayRollBean> list = new ArrayList<RunPayRollBean>();
+		
+		Connection connection = null;
+		try {
+			PreparedStatement preparedStatement = null;
+			connection = DbConnection.createConnection();
+			try {
+				preparedStatement = Util1.createQuery(connection, RunPayRollSql.empSalStoreSelectQuery, Arrays.asList(pxBean.getCompanyId2(), 
+						pxBean.getUnitId2(), pxBean.getUnitDesignationId2(), pxBean.getSalMonth2(), pxBean.getLvYr2()));
+				
+				
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					RunPayRollBean bean = new RunPayRollBean();
+					
+					bean.setEmpId(resultSet.getInt("employee_id"));
+					bean.setEmpCode(resultSet.getString("employee_code"));
+					bean.setEmpDesignation(resultSet.getString("emp_designation"));
+					bean.setEmpName(resultSet.getString("emp_name"));
+					bean.setPresentDay(resultSet.getFloat("presenet_days"));
+					bean.setNetSalary(resultSet.getDouble("net_salary"));
+					bean.setWages(resultSet.getDouble("wages"));
+					bean.setTotalSalary(resultSet.getDouble("total_salary"));
+					bean.setTotalDeduction(resultSet.getDouble("total_deduction"));
+					bean.setOtHoursF(resultSet.getDouble("ed"));
+					bean.setOtSalary(resultSet.getDouble("ed_amt"));
+					bean.setHoliDayAmount(resultSet.getDouble("holiday_amount"));
+					bean.setComapnyName(resultSet.getString("company_name"));
+					bean.setUnitName(resultSet.getString("unit_name"));
+					bean.setUnitDesignation(resultSet.getString("designation"));
+					bean.setYear(resultSet.getString("leave_yr"));
+					bean.setMonthName(resultSet.getString("salary_month"));
+					bean.setComponentAmountBeanList(loadCompoAmtDtls(connection, bean.getEmpId(),pxBean.getSalMonth2(), pxBean.getLvYr2()));
+					
+					list.add(bean);
+					
+				}
+				
+			} finally {
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+		
 	}
 	
-/*public static ArrayList<EmployeeSalaryComponentAmountBean> loadComponentAmountDetails(Connection connection ,int empid, PayrollExistBean salBean){
+	public static ArrayList<EmployeeSalaryComponentAmountBean> loadCompoAmtDtls(Connection connection, int empId, String month, String year){
 		
 		ArrayList<EmployeeSalaryComponentAmountBean> list = new ArrayList<EmployeeSalaryComponentAmountBean>();
 		if(list.size()>0){
 			list.clear();
 		}
-		double earning = 0;
-		double deductions = 0;
-		double netSal = 0;
-		
-		//Connection connection = DbConnection.createConnection();
-			try {
+		try {
+			PreparedStatement preparedStatement = null;
+		try {
+			
+			ResultSet resultSet = null;
+			
+			preparedStatement = Util1.createQuery(connection, RunPayRollSql.empSalStoreCompoDetlQuery, 
+					Arrays.asList(empId , month, year));
+			
+			
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				EmployeeSalaryComponentAmountBean bean = new EmployeeSalaryComponentAmountBean();
 				
-				SQL:{
-				      PreparedStatement preparedStatement = null;
-				      preparedStatement = Util1.createQuery(connection, RunPayRollSql.loadEmpcomponentSalaryDetails, Arrays.asList(empid));
-				      
-				      ResultSet resultSet = preparedStatement.executeQuery();
-					  while (resultSet.next()) {
-						  EmployeeSalaryComponentAmountBean bean = new EmployeeSalaryComponentAmountBean();
-						    bean.setComponentId(resultSet.getInt("component_id"));
-						  	bean.setComponentName(resultSet.getString("component_name"));
-							bean.setComponentAmount(resultSet.getDouble("component_amount"));
-							bean.setComponentType(resultSet.getString("component_type"));
-							bean.setComponentTypeId(resultSet.getInt("component_type_id"));
-							
-							if(bean.getComponentType().equalsIgnoreCase("EARNING")){
-								earning = earning + bean.getComponentAmount(); 
-							}
-							if(bean.getComponentType().equalsIgnoreCase("DEDUCTION")){
-								deductions = deductions+bean.getComponentAmount();
-							}
-							
-							list.add(bean);
-						  
-					}
-					
-					netSal = earning - deductions;  
-					salBean.setTotalSalary(earning);
-					salBean.setTotalDeduction(deductions);
-					salBean.setNetSalary(netSal);
-				    
-					   
-					}
-			} catch (SQLException e) {
+				bean.setComponentId(resultSet.getInt("component_id"));
+				bean.setComponentName(resultSet.getString("component_name"));
+				bean.setComponentAmount(resultSet.getDouble("amount"));
+				bean.setComponentTypeId(resultSet.getInt("component_type_id"));
 				
-				e.printStackTrace();
-			}finally{
-				if(connection != null){
-					try {
-						connection.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				list.add(bean);
 			}
 			
-		
-		return list;
-	}*/
+			
+		} finally{
+			if(preparedStatement != null){
+				preparedStatement.close();
+			}
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list; 
+	}
+	
+	
 	
 	
 	
