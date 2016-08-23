@@ -103,7 +103,8 @@
 										<row>
 											<label value="Gender"></label>
 									
-											<combobox value="@bind(vm.employeeMasterBean.gender)" width="80%">
+											<combobox value="@bind(vm.employeeMasterBean.gender)" 
+											width="80%">
 												<comboitem label="Male" value="Male"/>
 												<comboitem label="Female" value="Female"/>
 												<comboitem label="General" value="Other"/>

@@ -699,15 +699,21 @@ public class PdfPaySlipGenerator {
 				}
 				
 				if(totOvertimeSal>0.0){
-					cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal-totOtSal),font));
-					cell.setBorder(Rectangle.NO_BORDER);
-					dedTable.addCell(cell);
-					dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-				}else{
+					//System.out.println("1 in side tot over time salary ----------------------------------------------------- " + totNetSal);
+					
+					//cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal-totOtSal),font));
 					cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
 					cell.setBorder(Rectangle.NO_BORDER);
 					dedTable.addCell(cell);
 					dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+					//System.out.println("2 in side tot over time salary ----------------------------------------------------- " + totNetSal);
+				}else{
+					//System.out.println("3 in side tot over time salary ----------------------------------------------------- " + totNetSal);
+					cell = new PdfPCell( new Phrase("TOT.NET SALARY\n"+String.valueOf(totNetSal),font));
+					cell.setBorder(Rectangle.NO_BORDER);
+					dedTable.addCell(cell);
+					dedTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+					//System.out.println("4 in side tot over time salary ----------------------------------------------------- " + totNetSal);
 				}
 				
 			}

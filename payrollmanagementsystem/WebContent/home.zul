@@ -151,7 +151,7 @@
       </treechildren>
      </tree>
   </div>
-  <div sclass="outBorder" style="width: 74%; float:right; height:76vh; overflow:hidden; float:left; border:2px solid #FFF; padding: 2vh 4vh;">
+  <div sclass="outBorder" style="width: 74%; float:right; height:76vh; overflow:hidden; float:left; border:2px solid #FFF; padding: 2vh 2vh;">
     
     <!-- <include id="inclResults" mode="instant" style="overflow: auto; "> -->
 	<!-- <div style="margin:4vh auto; width: 80%; border:2px solid #000000; padding: 2vh; min-height: 10vh;"> -->
