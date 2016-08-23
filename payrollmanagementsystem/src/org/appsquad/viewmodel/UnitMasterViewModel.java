@@ -114,6 +114,9 @@ public class UnitMasterViewModel {
 		unitMasterBean.setUnitId(bean.getUnitId());*/
 		System.out.println("unit id = "+bean.getUnitId());
 		//bean.setReadOnly(false);
+		Map<String, Object> parentMap = new HashMap<String, Object>();
+		parentMap.put("parentList", unitMasterBean);
+		
 	}
 	
 	/*@Command
