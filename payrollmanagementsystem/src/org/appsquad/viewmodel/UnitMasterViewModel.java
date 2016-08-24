@@ -20,11 +20,13 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 public class UnitMasterViewModel {
 	public UnitMasterBean unitMasterBean = new UnitMasterBean();
@@ -107,12 +109,13 @@ public class UnitMasterViewModel {
 	
 	@Command
 	@NotifyChange("*")
-	public void onClickEdit(@BindingParam("bean")UnitMasterBean bean){
+	public void onClickEditt(@BindingParam("bean")UnitMasterBean bean){
 		/*unitMasterBean.setCompanyId(bean.getCompanyId());
 		unitMasterBean.setUnitAddress(bean.getUnitAddress());
 		unitMasterBean.setUnitName(bean.getUnitName());
 		unitMasterBean.setUnitId(bean.getUnitId());*/
 		System.out.println("unit id = "+bean.getUnitId());
+		System.out.println("Selected sunday " + bean.getSundaySelection() );
 		//bean.setReadOnly(false);
 		Map<String, Object> parentMap = new HashMap<String, Object>();
 		parentMap.put("parentList", unitMasterBean);
@@ -129,20 +132,7 @@ public class UnitMasterViewModel {
 		saveDisability = false;
 	}*/
 	
-	@Command
-	@NotifyChange("*")
-	public void onClickUpdate(@BindingParam("bean")UnitMasterBean bean){
-		bean.setUserName(userName);
-		//UnitMasterService.updateUnitMasterData(bean);
-		//UnitMasterService.loadAllDataOfUnitMaster(unitMasterBeanList);
-		bean.setReadOnly(false);
-		/*
-		Map<String, Object> parentMap = new HashMap<String, Object>();
-		parentMap.put("bean", bean);
-		parentMap.put("basedaysList ", baseDaysList);
-		*/
-		
-	}
+	
 
 	@Command
 	@NotifyChange("*")
@@ -199,9 +189,43 @@ public class UnitMasterViewModel {
 			sunDaySelecttionBnLst = UnitMasterService.sundaySelType();
 		}
 		
-		
 	}
 	
+	@Command
+	@NotifyChange("*")
+	public void onClckEdit(){
+		baseDaysList = UnitMasterDao.loadDayType();
+		wagesTypeBeanList = UnitMasterService.fetchWagesType();
+		sunDaySelecttionBnLst = UnitMasterService.sundaySelType();
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickEdit(@BindingParam("bean")UnitMasterBean bean){
+		bean.setUserName(userName);
+		
+		Map<String, Object> parentMap = new HashMap<String, Object>();
+		parentMap.put("bean", bean);
+		parentMap.put("basedaysList ", baseDaysList);
+		parentMap.put("wagesList ", wagesTypeBeanList);
+		parentMap.put("sundaylist", sunDaySelecttionBnLst);
+		
+		for(UnitMasterBean bean2 : baseDaysList){
+			System.out.println("bean2 > 2 " + bean2.getBaseDaysType());
+		}
+		for(UnitMasterBean bean2 : wagesTypeBeanList){
+			System.out.println("bean3 > 3 " + bean2.getWagesType());
+		}
+		for(UnitMasterBean bean2 : sunDaySelecttionBnLst){
+			System.out.println("bean4 > 4 " + bean2.getSundaySelection());
+		}
+		
+		
+		Window window = (Window) Executions.createComponents("/WEB-INF/view/unitEdit.zul", null, parentMap);
+		window.doModal();
+		
+		
+	}
 	
 	public UnitMasterBean getUnitMasterBean() {
 		return unitMasterBean;

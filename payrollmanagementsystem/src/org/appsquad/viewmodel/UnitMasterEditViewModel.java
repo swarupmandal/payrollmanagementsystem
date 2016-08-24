@@ -3,13 +3,18 @@ package org.appsquad.viewmodel;
 import java.util.ArrayList;
 
 import org.appsquad.bean.UnitMasterBean;
+import org.appsquad.service.UnitMasterService;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.ExecutionArgParam;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zul.Messagebox;
 
 public class UnitMasterEditViewModel {
 
@@ -29,17 +34,68 @@ public class UnitMasterEditViewModel {
 	
 	
 	@AfterCompose
-	public void initSetup(@ContextParam(ContextType.VIEW) Component view) throws Exception{
+	public void initSetup(@ContextParam(ContextType.VIEW) Component view,
+						@ExecutionArgParam("bean") UnitMasterBean bean,
+						@ExecutionArgParam("basedaysList") ArrayList<UnitMasterBean> pBaseDaysList,
+						@ExecutionArgParam("wagesList") ArrayList<UnitMasterBean> pwagesTypeBeanList, 
+						@ExecutionArgParam("sundaylist") ArrayList<UnitMasterBean> psunDaySelecttionBnLst) throws Exception{
 		Selectors.wireComponents(view, this, false);
-	
+		
 		session = Sessions.getCurrent();
 		userName = (String) session.getAttribute("userId");
 		
+		System.out.println("unit Id " + bean.getUnitId());
 		
+		System.out.println("Base day type " + bean.getBaseDaysType());
+		
+		System.out.println("Wages Type " + bean.getWagesType());
+		
+		System.out.println("Sun day sel " + bean.getSundaySelection());
+		
+		System.out.println("Working hour " + bean.getWorkingHour());
+		
+		
+		unitMasterBean = bean;
+		baseDaysList = pBaseDaysList;
+		wagesTypeBeanList = pwagesTypeBeanList;
+		sunDaySelecttionBnLst = psunDaySelecttionBnLst;
+		//System.out.println("11 " + baseDaysList.size());
+		//System.out.println("11 " + wagesTypeBeanList.size());
+		System.out.println("11 " + sunDaySelecttionBnLst.size());
 		
 	}
 
-
+	@Command
+	@NotifyChange("*")
+	public void onSelectBasedaysType(){
+		unitMasterBean.setBaseDaysTypeId(baseDaysTypeBean.getBaseDaysTypeId());
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectWages(){
+		unitMasterBean.setWagesTypeId(wagesTypeBean.getWagesTypeId());
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSundaySelect(){
+		unitMasterBean.setSundaySelectionId(sundayTypeBean.getSundaySelectionId());
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onClickUpdate(){
+		int i = 0;
+		i= UnitMasterService.upDateUnit(unitMasterBean);
+		if(i>0){
+			Messagebox.show("Updated Successfully", "Information", Messagebox.OK,Messagebox.INFORMATION);
+		}else {
+			Messagebox.show("Updated Successfully!", "Information", Messagebox.OK,Messagebox.INFORMATION);
+		}
+	}
+	
+	
 	public Session getSession() {
 		return session;
 	}

@@ -1,24 +1,36 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
 <window title="Unit Master Edit" border="normal" apply="org.zkoss.bind.BindComposer" 
-	viewModel="@id('vm') @init('org.appsquad.viewmodel.UnitMasterEditViewModel')">
+	viewModel="@id('vm') @init('org.appsquad.viewmodel.UnitMasterEditViewModel')" closable="true" width="1200px" height="200px">
 	
 	<div>
-		<hlayout>
-			<textbox ></textbox>
+		<hlayout spacing="20px">
+			<textbox value="@bind(vm.unitMasterBean.unitName)" width="300px" ></textbox>
 			
-			<combobox>
-			
-			</combobox>
-			
-			<doublebox></doublebox>
-			
-			<combobox></combobox>
-			
-			<combobox></combobox>
-			
-			<button label="Save" onClick="@command('onClickSave')" sclass="bb_button" style="cursor: pointer; cursor: hand; width:60px;"/>
-			
+				<combobox placeholder="Select Base Days Type" model="@bind(vm.baseDaysList)" readonly="true"
+					selectedItem="@bind(vm.baseDaysTypeBean)" onSelect="@command('onSelectBasedaysType')" value="@bind(vm.baseDaysTypeBean.baseDaysType)">
+						<template name="model" var="v">
+						 <comboitem label="@bind(v.baseDaysType)" value="@bind(v.baseDaysTypeId)" />
+						</template>
+					</combobox>
+					
+					<doublebox placeholder="Enter Hour" value="@bind(vm.unitMasterBean.workingHour)"></doublebox>
+					
+					<combobox placeholder="Select Wages Type" model="@bind(vm.wagesTypeBeanList)" readonly="true" selectedItem="@bind(vm.wagesTypeBean)" width="130px"
+					onSelect="@command('onSelectWages')" value="@bind(vm.wagesTypeBean.wagesType)">
+						<template name="model" var = "v">
+						 <comboitem label="@bind(v.wagesType)" value="@bind(v.wagesTypeId)"></comboitem>
+						</template>
+					</combobox>
+					
+					<combobox placeholder="Sunday Selection" model="@bind(vm.sunDaySelecttionBnLst)" readonly="true" selectedItem="@bind(vm.sundayTypeBean)" width="130px"
+					onSelect="@command('onSundaySelect')" value="@bind(vm.sundayTypeBean.sundaySelection)">
+						<template name="model" var = "v">
+						 <comboitem label="@bind(v.sundaySelection)" value="@bind(v.sundaySelectionId)"></comboitem>
+						</template>
+					</combobox>
+					
+					<button label="Update" onClick="@command('onClickUpdate')" sclass="bb_button" style="cursor: pointer; cursor: hand; width:70px;"/>
 		</hlayout>
 	</div>
 </window>

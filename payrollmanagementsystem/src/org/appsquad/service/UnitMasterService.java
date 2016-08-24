@@ -106,5 +106,11 @@ public class UnitMasterService {
 		return list;
 	}
 	
+	public static int upDateUnit(UnitMasterBean bean){
+		int i = 0;
+		i = UnitMasterDao.upDateUnit(bean);
+		return i;
+	}
+	
 	
 }

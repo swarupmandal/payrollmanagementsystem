@@ -24,7 +24,23 @@ public class UnitMasterBean {
 		this.unitName = unitName;
 		this.companyName = companyName;
 	}
+	
+	public UnitMasterBean(int unitId, int companyId, String unitName,
+			String companyName, String baseDaysType, String wagesType, String sundaySelection,
+			double workingHour) {
+		super();
+		this.unitId = unitId;
+		this.companyId = companyId;
+		this.unitName = unitName;
+		this.companyName = companyName;
+		this.baseDaysType = baseDaysType;
+		this.wagesType = wagesType;
+		this.sundaySelection = sundaySelection;
+		this.workingHour = workingHour;
+		
+	}
 
+	
 
 	public int getUnitId() {
 		return unitId;

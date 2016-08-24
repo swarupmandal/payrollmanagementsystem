@@ -12,6 +12,8 @@ import org.appsquad.database.DbConnection;
 import org.appsquad.sql.UnitMasterSqlQuery;
 import org.zkoss.zul.Messagebox;
 
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import utility.Util1;
 
 public class UnitMasterDao {
@@ -28,7 +30,7 @@ public class UnitMasterDao {
 				ResultSet resultSet = null;
 			
 				try {
-					preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.onLoadUnitMasterQuery, null);
+					preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.onLoadUnitQuery, null);
 					
 					resultSet = preparedStatement.executeQuery();
 					while (resultSet.next()) {
@@ -36,7 +38,12 @@ public class UnitMasterDao {
 						int companyId = resultSet.getInt("company_id");
 						String unitName = resultSet.getString("unit_name");
 						String company_Name = resultSet.getString("company_name");
-						unitMasterBeanList.add(new UnitMasterBean(unitId, companyId, unitName, company_Name));
+						String baseDaysType = resultSet.getString("days_type");
+						String wagesType = resultSet.getString("wages_type");
+						String sundaySelection = resultSet.getString("sunday_select");
+						double working_hour = resultSet.getDouble("working_hour");
+						
+						unitMasterBeanList.add(new UnitMasterBean(unitId, companyId, unitName, company_Name, baseDaysType, wagesType, sundaySelection, working_hour));
 					}  
 				} finally{
 					if(preparedStatement != null){
@@ -333,6 +340,36 @@ public class UnitMasterDao {
 		return list;
 	}
 	
-	
+	public static int upDateUnit(UnitMasterBean bean){
+		int i = 0;
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = DbConnection.createConnection();
+			try {
+				preparedStatement = Util1.createQuery(connection, UnitMasterSqlQuery.upDateUnitQuery, Arrays.asList(bean.getUnitName(), bean.getBaseDaysTypeId(),
+																													bean.getWorkingHour(), bean.getWagesTypeId(), 
+																													bean.getSundaySelectionId(), bean.getUnitId()));
+				i = preparedStatement.executeUpdate();
+			} finally {
+				if(preparedStatement != null){
+					preparedStatement.close();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					
+					e.printStackTrace();
+				}
+			}
+		}
+		return i;
+	}
 	
 }
