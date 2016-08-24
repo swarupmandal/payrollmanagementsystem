@@ -71,7 +71,7 @@ public class EmployeeMasterBean {
 	
 	private boolean div1Visblity = false;
 	private boolean div2Visblity = false;
-	
+	private ComponentMasterBean componentMasterBean = new ComponentMasterBean();
 	private ArrayList<ComponentMasterBean> componentMasterBeanList = new ArrayList<ComponentMasterBean>();
 	
 	
@@ -708,6 +708,14 @@ public class EmployeeMasterBean {
 
 	public void setDiv2Visblity(boolean div2Visblity) {
 		this.div2Visblity = div2Visblity;
+	}
+
+	public ComponentMasterBean getComponentMasterBean() {
+		return componentMasterBean;
+	}
+
+	public void setComponentMasterBean(ComponentMasterBean componentMasterBean) {
+		this.componentMasterBean = componentMasterBean;
 	}
 	
 	

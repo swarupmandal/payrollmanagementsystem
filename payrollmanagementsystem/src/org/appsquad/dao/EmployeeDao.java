@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.apache.log4j.chainsaw.Main;
 import org.appsquad.bean.BankAccountBean;
 import org.appsquad.bean.BloodGroupBean;
 import org.appsquad.bean.CompanyMasterBean;
@@ -46,6 +47,9 @@ public class EmployeeDao {
 						while (resultSet.next()) {
 							employeeMasterBean.setEmployeeCode(resultSet.getString("employee_code"));
 							employeeMasterBean.setEmployeeName(resultSet.getString("employee_name"));
+							employeeMasterBean.setCompanyId(resultSet.getInt("company_id"));
+							employeeMasterBean.setUnitId(resultSet.getInt("unit_id"));
+							
 							employeeMasterBean.setEmpPhone(resultSet.getString("employee_phone_number"));
 							employeeMasterBean.setEmpEmail(resultSet.getString("employee_email"));
 							employeeMasterBean.setGender(resultSet.getString("gender"));
@@ -326,7 +330,7 @@ public class EmployeeDao {
 							if(preparedStatement!=null){
 								preparedStatement.close();
 							}if(connection!=null){
-								connection.close();
+								//connection.close();
 							}
 						}
 					}
@@ -351,11 +355,36 @@ public class EmployeeDao {
 							if(preparedStatement!=null){
 								preparedStatement.close();
 							}if(connection!=null){
-								connection.close();
+								//connection.close();
 							}
 						}
 					}	
 				}
+				sql:{
+					for(ComponentMasterBean bean : employeeMasterBean.getComponentMasterBeanList()){
+						if(bean.isCheckVal()){
+							
+							PreparedStatement preparedStatement = null;
+							try {
+								preparedStatement = Util1.createQuery(connection, EmployeeMasterSql.updateComponentsPerEmpQuery, Arrays.asList(employeeMasterBean.getUserId(),
+																									bean.getComponentAmount(), bean.getComponentId(), employeeMasterBean.getEmployeeid(),
+																									employeeMasterBean.getCompanyId(), employeeMasterBean.getUnitId())); 
+							
+								int i = preparedStatement.executeUpdate();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}finally{
+								
+								if(connection != null ){
+									connection.close();
+								}
+							}
+							
+						}
+						
+					}
+				}
+				
 			}
 			
 		} catch (Exception e) {
@@ -895,7 +924,7 @@ public class EmployeeDao {
 							bean.getEmployeeName(),bean.getCompanyId(),bean.getUnitId(),bean.getEmpPhone(),
 										bean.getEmpEmail(),bean.getGender(), userName,userName, bean.getEmpDob(), bean.getUnitDesignationId()));
 					
-					System.out.println("Prep a b c >>> >> > " + preparedStatement);
+					//System.out.println("Prep a b c >>> >> > " + preparedStatement);
 					int i = preparedStatement.executeUpdate();
 					if(i>0){
 						isInserted = true;

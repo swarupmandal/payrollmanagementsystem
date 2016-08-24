@@ -625,6 +625,10 @@ public class RunPayrollViewModel {
 						//System.out.println("Emp name:: "+bean.getEmpName()+" Emp wages:: "+bean.getWages());
 						for(EmployeeSalaryComponentAmountBean earn: earningList){
 							
+							System.out.println("final test 1 ----------------------------------------------------------- >>> >> > " + bean.getWages() + " - " + bean.getEmpName()
+							          +" - " + bean.getEmpId() + " - " + bean.getEmpCode() + earn.getComponentName() + " - " + earn.getComponentAmount());
+					
+							
 							if(earn.getComponentName().equalsIgnoreCase("BASIC")){
 								earn.setComponentAmount( DoubleFormattor.setDoubleFormat(Rules.getBasic(bean.getWages(), bean.getBaseDays(), bean.getPresentDay())) );
 								bean.setBasic(earn.getComponentAmount());
@@ -636,7 +640,9 @@ public class RunPayrollViewModel {
 										|| bean.getEmpDesignation().equalsIgnoreCase("GUN MAN") || bean.getEmpDesignation().equalsIgnoreCase("SECURITY SUPERVISOR")){
 									//earn.setComponentAmount( DoubleFormattor.setDoubleFormat( bean.getWages()*0.15));
 									System.out.println("IF PART HRA CALCULATION STRTS . . . .");
+									System.out.println("get basicccccccccccccccccccccccccccccccccccccccccccccccccccc " + bean.getBasic());
 									earn.setComponentAmount(DoubleFormattor.setDoubleFormat(bean.getBasic()*0.15));
+									System.out.println("get amounttttttttttttttttttttttttttttttttttttttttttttttttttt " + earn.getComponentAmount());
 									System.out.println("HRA CALCULATION ENDS . . . .");
 								}else{
 									System.out.println("ELSE PART HRA CALCULATION STRTS . . . .");
@@ -899,6 +905,10 @@ public class RunPayrollViewModel {
 					ArrayList<EmployeeSalaryComponentAmountBean> earningList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 					ArrayList<EmployeeSalaryComponentAmountBean> deductionList = new ArrayList<EmployeeSalaryComponentAmountBean>();
 					for (EmployeeSalaryComponentAmountBean salBean : bean.getComponentAmountBeanList()) {
+						
+						/*System.out.println("final test 1 ----------------------------------------------------------- >>> >> > " + runPayRollBean.getEmpName()
+								          +" - " + runPayRollBean.getEmpId() + " - " + runPayRollBean.getEmpCode() + salBean.getComponentName() + " - " + salBean.getComponentAmount());
+						*/
 						//Finding earning and deduction components
 						if(salBean.getComponentTypeId()==1){
 							if(salBean.getComponentName().equalsIgnoreCase("WAGES")){
@@ -944,8 +954,11 @@ public class RunPayrollViewModel {
 							
 							double wash = earn.getComponentAmount();
 							
-							if(bean.getSelectedUnitId()==55){
-								earn.setComponentAmount(Rules.getGeneral(wash, baseDays, bean.getPresentDay()));
+							
+							if(bean.getSelectedUnitId()==55){ // Wash calculating depends on presentDays for only new carbon barouni and for general sheet only
+								
+								earn.setComponentAmount(Rules.getOtSalary(wash, baseDays,  bean.getPresentDay()));
+								
 							}else {
 								
 							earn.setComponentAmount( Rules.getWashFORAlpha(wash, baseDays, bean.getPresentDay(), bean.getOtHoursF()) );
@@ -955,11 +968,9 @@ public class RunPayrollViewModel {
 						/********************************************/
 						
 						if(bean.getOverTime() != null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE")
+								&&  (bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40) 
+								&& bean.getSelectedUnitId() !=51 && bean.getSelectedUnitId() !=55){//STC and ALPHA
 
-								&&  (bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40) && bean.getSelectedUnitId() !=51 && bean.getSelectedUnitId() !=55){//STC and ALPHA
-
-							
-							
 							int overTime = bean.getOverTime().intValue();
 							
 							double initAllow = earn.getComponentAmount();
@@ -967,7 +978,7 @@ public class RunPayrollViewModel {
 							double allowoverTime = Rules.getAllowances(initAllow, bean.getBaseDays(), overTime);
 							
 							earn.setComponentAmount(initAllow + allowoverTime);
-							
+							//System.out.println("11 ----------------------------0----------------------------------------- >>> >> > " + earn.getComponentAmount() );
 						    //earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
 							
 							//earn.setComponentAmount(earn.getComponentAmount()+(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), overTime)));
@@ -976,11 +987,7 @@ public class RunPayrollViewModel {
 							
 							
 							
-						}//else {
-							 
-						
-						//System.out.println("SELET U ID ----------------------------------------------------------------->>> >> > " + bean.getSelectedUnitId());
-						
+						} // else{
 						if(bean.getOverTime()==null && earn.getComponentName().equalsIgnoreCase("ALLOWANCE") 
 								&&  (bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40) && bean.getSelectedUnitId() !=51){
 							
@@ -995,12 +1002,24 @@ public class RunPayrollViewModel {
 							Float presentDay = bean.getPresentDay() ;
 							
 							double allowoverTime = Rules.getAllowances(earn.getComponentAmount(),(int) (presentDay+ed), oT);
-							//System.out.println("allow:: "+allowoverTime+" ini:: "+initAllow);
+							
 							earn.setComponentAmount(initAllow + allowoverTime);
 							
-							//System.out.println("OT DAys " + bean.getOtHoursF());
-							
-							//System.out.println("with out Over time and NOT STC AND ALPHA --------------------------------->>> >> > " + earn.getComponentAmount());
+							if(bean.getSelectedUnitId()==35 && oT ==0){ // when extra duty not given -- allwoance calculating based on present days and base days
+								double allowance = Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay());
+								earn.setComponentAmount(allowance);
+								
+							}
+							if(bean.getSelectedUnitId()==55){ // allwoance will be calculating on presentdays only for general sheet for new carbon baroauni
+								double allowance = Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay());
+								earn.setComponentAmount(allowance);
+							}
+							/*if(bean.getSelectedUnitId()==55){ // when extra duty given -- allwoance calculating based on otFoursF or (Ed) for new carbon barouni
+								//if(ed>0){
+								double allowance = Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), ed);
+								earn.setComponentAmount(allowance);
+								//}
+							}*/
 							
 						}
 						
@@ -1031,8 +1050,6 @@ public class RunPayrollViewModel {
 							if(bean.getPresentDay()==0 && bean.getOtHoursF()>0 && bean.getSelectedUnitId()!=38 && bean.getSelectedUnitId() != 40 && bean.getSelectedUnitId()!= 49 && bean.getSelectedUnitId()!= 55) {//General rule applicalbe
 								
 								earn.setComponentAmount(Rules.getGeneral(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay()));
-								
-								
 								
 							}
 							
@@ -1126,7 +1143,7 @@ public class RunPayrollViewModel {
 						}
 						
 						if(deduct.getComponentName().equalsIgnoreCase("ESI")){
-							if((grossTotal/baseDays)>100 && grossTotal <= 15000.00){
+							if((bean.getWages()/30)>100 && grossTotal <= 15000.00){
 								grossTotal = DoubleFormattor.setDoubleFormat(grossTotal);
 								for(EmployeeSalaryComponentAmountBean escb: earningList){
 									if(escb.getComponentName().equalsIgnoreCase("WASHING")){

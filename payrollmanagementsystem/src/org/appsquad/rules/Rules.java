@@ -83,6 +83,14 @@ public class Rules {
 		System.out.println("Returned allowance for ot :: "+allowance);
 		return allowance; 
 	}
+	public static double getAllowanceForOtFactryDriver(double othours){
+		System.out.println("Ot Allowance called with othours. . ."+othours);
+		double allowance =0.0;
+		allowance = othours * 127;
+		allowance = DoubleFormattor.setDoubleFormat(allowance);
+		System.out.println("Returned allowance for ot :: "+allowance);
+		return allowance; 
+	}
 	
 	public static double getAllowanceForFActoryDriver(double allowance, int baseDays, double othours){
 		System.out.println("% % % % % % %  % % % % % % % % % % % %Ot Allowance called with othours FACTORY DRIVER. . ."+othours);
@@ -115,7 +123,6 @@ public class Rules {
 	}
 	
 	public static double getAllowances(double allowances, int baseDay , float presentDays){
-		
 		return ( (allowances/baseDay) *presentDays); 
 	}
 	
@@ -150,6 +157,7 @@ public class Rules {
 	
 	public static double getGeneral(double component, int baseDay , float presentDays){
 		double general = 0.0;
+		
 		general = ( component/baseDay ) * presentDays;
 		general = DoubleFormattor.setDoubleFormat(general);
 		System.out.println("general called with double formatting. . ."+general);
@@ -163,9 +171,10 @@ public class Rules {
 	}
 	
 	public static double getPtAmount(double gross){
-		if(gross > 8500 && gross < 10001 ){
-			return 90.0;
-		}else if (gross > 10000 && gross < 15001 ) {
+		//if(gross > 8500 && gross < 10001 ){
+			//return 90.0;
+		//}else if (gross > 10000 && gross < 15001 ) {
+		if (gross > 10000 && gross < 15001 ) {
 			return 110.0;
 		}else if (gross > 15000 && gross < 25001 ) {
 			return 130.0; 

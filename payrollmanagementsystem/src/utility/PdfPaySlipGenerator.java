@@ -384,6 +384,12 @@ public class PdfPaySlipGenerator {
 								 allowance = Rules.getAllowanceForOt(payRollBean.getOtHoursF());
 								 earn.setComponentAmount(allowance);
 							 }
+							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && payRollBean.getEmpDesignation().equalsIgnoreCase("FACTORY DRIVER") ){
+								 System.out.println("ITC Allowance in pdf sheet:: "+earn.getComponentAmount());
+								 allowance = Rules.getAllowanceForOtFactryDriver(payRollBean.getOtHoursF());
+								 earn.setComponentAmount(allowance);
+							 }
+							 
 						 }else{
 							 //unit id = 38 for STC fixed allowance
 							 if(earn.getComponentName().equalsIgnoreCase("ALLOWANCE") && payRollBean.getSelectedUnitId()!=38
