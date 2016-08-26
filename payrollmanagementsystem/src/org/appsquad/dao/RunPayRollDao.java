@@ -865,9 +865,10 @@ public class RunPayRollDao {
 	
 	public static void saveSalSheet(ArrayList<RunPayRollBean> runPayRollBeanList, RunPayRollBean pdfBean, int coId, int unitId,int unitDesId,String salMonth,String year){
 		
-		delSalStore(coId, unitId, unitDesId, salMonth, year);
-		delSalStrDetails(coId, unitId, unitDesId, salMonth, year);
-		
+		//int i = delSalStore(coId, unitId, unitDesId, salMonth, year);
+		//int j = delSalStrDetails(coId, unitId, unitDesId, salMonth, year);
+		int exCount = existCount(coId, unitId, unitDesId, salMonth, year); // checking if already exist or not
+		if (exCount==0){
 		boolean insert = false;
 		
 		try {
@@ -967,6 +968,9 @@ public class RunPayRollDao {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		}else {
+			Messagebox.show("Already saved \n please remove first ", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
 		}
 	}
 	
@@ -1089,6 +1093,7 @@ public class RunPayRollDao {
 			
 			try { 
 				preparedStatement = Util1.createQuery(connection, RunPayRollSql.countQry, Arrays.asList(coid, unitId, unDesId, salMonth, lvYr));
+				System.out.println("Ex Count " + preparedStatement);
 				ResultSet resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					count = resultSet.getInt("count");
