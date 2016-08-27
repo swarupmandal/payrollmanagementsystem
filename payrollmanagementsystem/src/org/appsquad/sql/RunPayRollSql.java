@@ -44,7 +44,7 @@ public class RunPayRollSql {
 																	  " FROM pms_employee_salary_components pesc, " +
 																	  " pms_component_type_master pctm where " + 
 																	  " pesc.component_type_id = pctm.component_type_id " +
-																	  " and employee_id = ? and pesc.is_delete = 'N'";
+																	  " and employee_id = ? and pesc.is_delete = 'N' order by pesc.component_name ";
 														  	
 	
 	public static final String loadSundayCount = "select total_no_of_days  FROM pms_weekly_holiday_master where day_id = 1 and leave_year_id = ? and company_id = ? and unit_id = ?  ";
