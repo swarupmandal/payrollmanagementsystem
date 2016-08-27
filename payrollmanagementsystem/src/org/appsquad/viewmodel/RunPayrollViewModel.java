@@ -147,33 +147,40 @@ public class RunPayrollViewModel {
 	@Command
 	@NotifyChange("*")
 	public void onSelectMonth(){
-		////System.out.println("MONTH " + monthMasterBean.getMonthName() + " - ID - " + monthMasterBean.getMonthId());
+		
 		runPayRollBean.setSelectedMonthId(monthMasterBean.getMonthId());
 		runPayRollBean.setMonthName(monthMasterBean.getMonthName());
-		//companyMasterBean.setCompanyName(null);
+		
 		unitMasterBean.setUnitName(null);
 		unitDesignationBean.setUnitDesignation(null);
 		calculateButtonVisibility = false;
 		nextButtonVisibility = false;
 		runPayRollBeanList.clear();
+		companyMasterBean.setCompanyName(null);
+		sheetbean.setSheetType(null);
+		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onSelectCompany(){
-		//System.out.println("MONTH " + companyMasterBean.getCompanyName() + " - ID - " + companyMasterBean.getCompanyId());
+		runPayRollBeanList.clear();
 		unitMasterBean.setUnitName(null);
 		unitDesignationBean.setUnitDesignation(null);
+		sheetbean.setSheetType(null);
 		runPayRollBeanList.clear();
 		calculateButtonVisibility = false;
 		nextButtonVisibility = false;
+		
 		unitMasterBeanList = EmployeeMasterService.loadUnitBeanListWrtCompany(companyMasterBean.getCompanyId());
 	}
 	
 	@Command
 	@NotifyChange("*")
 	public void onSelectUnit(){
-		//System.out.println("Compny id: "+companyMasterBean.getCompanyId()+" Unit ID: "+unitMasterBean.getUnitId());
+		runPayRollBeanList.clear();
+		unitDesignationBean.setUnitDesignation(null);
+		sheetbean.setSheetType(null);
 		
 		runPayRollBean.setWagesTypeId(unitMasterBean.getWagesTypeId());
 		runPayRollBean.setSunSelId(unitMasterBean.getSundaySelectionId());
@@ -251,7 +258,9 @@ public class RunPayrollViewModel {
 	@NotifyChange("*")
 	public void onSelectUnitDesignation(){
 		
-	
+		sheetbean.setSheetType(null);
+		runPayRollBeanList.clear();
+		sheetTypeBeanList =  RunPayRollDao.loadSheetTypeList();
 		runPayRollBean.setSelectedCurrentYr(year);
 		
 		//int watypeId = RunPayRollService.fetchWagesTypeId(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId());
@@ -1010,11 +1019,11 @@ public class RunPayrollViewModel {
 								earn.setComponentAmount(allowance);
 								
 							}
-							if(bean.getSelectedUnitId()==55){ // allwoance will be calculating on presentdays only for general sheet for new carbon baroauni
+							if(bean.getSelectedUnitId()==55){ // Allowance will be calculating on presents days only for general sheet for new carbon baroauni
 								double allowance = Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), bean.getPresentDay());
 								earn.setComponentAmount(allowance);
 							}
-							/*if(bean.getSelectedUnitId()==55){ // when extra duty given -- allwoance calculating based on otFoursF or (Ed) for new carbon barouni
+							/*if(bean.getSelectedUnitId()==55){ // when extra duty given -- allowance calculating based on otFoursF or (Ed) for new carbon barouni
 								//if(ed>0){
 								double allowance = Rules.getAllowances(earn.getComponentAmount(), bean.getBaseDays(), ed);
 								earn.setComponentAmount(allowance);
