@@ -12,6 +12,22 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		<tabpanel>
 		<div visible="@bind(vm.upperComponentVisibility)">
      <hlayout spacing="15px"> 
+  		<vbox>
+	     <label value="Select Year"></label>
+	     <combobox  readonly="true" model="@bind(vm.yearList)" selectedItem="@bind(vm.exPayrollBn.lvYr2)" 
+			   value="@bind(vm.exPayrollBn.lvYr2)" onSelect="@command('onSelectYear')" width="80px">
+			   <template name="model" var = "v">
+			   	<comboitem label="@load(v)" value="@load(v)"></comboitem>
+			   	</template>	
+			</combobox>
+	    <!--  <combobox  width="80px" model="@bind(vm.yearList)"
+				  	value="@bind(vm.selectedYear)" onSelect="@command('onSelectYear')"
+					selectedItem="@bind(vm.selectedYear)" autocomplete="true" readonly="true">
+					  <template name="model" var="v">
+					     <comboitem label="@load(v)" value="@load(v)" />
+					  </template>
+		  </combobox> -->
+		</vbox>
   		
   		<vbox>
 	     <label value="Select Month"></label>
@@ -72,7 +88,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 		  <intbox value="@bind(vm.runPayRollBean.noOfHoliDays)"></intbox>	
 		</vbox> -->
 		
-		<vbox>
+		<vbox visible="false">
 		<label value="Current Date"></label>
 		<label value="@bind(vm.currentDate)"></label>
 		</vbox>
@@ -210,6 +226,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
   				
   				<column label="Spcl work" align="center"/>
   				<column label="Holiday Amt" align="center" width="110px"/>
+  				<column label="Leave Amt" align="center" width="90px"/>
   				<column label="Salary Total" align="center"/>
   				<column label="Deduct" align="center"/>
   				<column label="Net Salary" align="left"/>
@@ -225,6 +242,7 @@ apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('org.appsquad.vie
 	  					<textbox value="@bind(v.overTime)"></textbox>
 	  					<textbox value="@bind(v.specialTime)"/>
 	  					<textbox value="@bind(v.holiDayAmount)"/>
+	  					<textbox value="@bind(v.leaveAmount)"/>
 	  					<textbox value="@bind(v.totalSalary)" readonly="true"/>
 	  					<textbox value="@bind(v.totalDeduction)" readonly="true"/>
 	  					<textbox value="@bind(v.netSalary)" readonly="true" width="75%"/>

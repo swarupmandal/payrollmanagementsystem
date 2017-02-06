@@ -441,6 +441,8 @@ public class PdfPaySlipGenerator {
 				if(!otSheet){
 					System.out.println("- - - - GENERATE SHEET CALLED FOR NORMAL SHEET - - - - - - - -");
 					for(RunPayRollBean rollBean : runPayRollBeanList){
+						//for(EmployeeSalaryComponentAmountBean earn : rollBean.getEarningCompList())
+						//System.out.println("Component: "+earn.getComponentName());
 						totPresnt += rollBean.getPresentDay();
 						earnSize += rollBean.getEarningCompList().size();
 						dedSize += rollBean.getDeductionCompList().size();

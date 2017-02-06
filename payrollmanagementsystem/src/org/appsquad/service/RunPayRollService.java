@@ -34,6 +34,15 @@ public class RunPayRollService {
 		RunPayRollDao.loadEmpDetails(beanList, companyId, unitId, workingDay, unitDesignationId);
 	}
 
+	public static ArrayList<String> loadYearList(){
+		ArrayList<String> yearList = new ArrayList<String>();
+		for(int i=2016;i<2099;i++){
+			String year = String.valueOf(i);
+			yearList.add(year);
+		}
+		return yearList;
+	}
+	
 	public static boolean totalWorkingDaysisNull(Integer totalWorkingDays, Double workinghoursPerDay){
 		if(totalWorkingDays != null){
 			if(workinghoursPerDay != null){

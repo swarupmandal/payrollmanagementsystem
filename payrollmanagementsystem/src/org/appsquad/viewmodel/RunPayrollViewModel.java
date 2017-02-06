@@ -72,12 +72,13 @@ public class RunPayrollViewModel {
 	private ArrayList<CompanyMasterBean> companyBeanList = new ArrayList<CompanyMasterBean>();
 	private ArrayList<UnitMasterBean> unitMasterBeanList = new ArrayList<UnitMasterBean>();
 	private ArrayList<MonthMasterBean> monthList = new ArrayList<MonthMasterBean>();
+	private static ArrayList<String> yearList = null;
 	private ArrayList<UnitDesignationBean> unitDesignationBeanList = new ArrayList<UnitDesignationBean>();
 	private ArrayList<SheetBean> sheetTypeBeanList = new ArrayList<SheetBean>();
 	private ArrayList<RunPayRollBean> payrollExistBeanList = new ArrayList<RunPayRollBean>();
 	
 	
-	
+	private String selectedYear = null;
 	
 	private PayrollExistBean exPayrollBn = new PayrollExistBean();
 	private CompanyMasterBean companyMasterBean2 = new CompanyMasterBean();
@@ -125,6 +126,7 @@ public class RunPayrollViewModel {
 		EmployeeMasterService.loadCompanyBeanList(companyBeanList);
 		//EmployeeMasterService.loadUnitBeanList(unitMasterBeanList);
 		RunPayRollDao.loadMonthList(monthList);
+		loadYearList();
 		sheetTypeBeanList =  RunPayRollDao.loadSheetTypeList();
 		loadLeaveYrDate();
 		
@@ -144,6 +146,17 @@ public class RunPayrollViewModel {
 		
 	}
 
+	public static void loadYearList(){
+	//	yearList = RunPayRollService.loadYearList();
+		yearList = EsiReportService.getLvYr();
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void onSelectYear(){
+		System.out.println("Selected year:: "+exPayrollBn.getLvYr2());
+	}
+	
 	@Command
 	@NotifyChange("*")
 	public void onSelectMonth(){
@@ -342,54 +355,71 @@ public class RunPayrollViewModel {
 		//System.out.println("Unit:: "+unitMasterBean.getUnitId()+" "+unitMasterBean.getUnitName());
 		//System.out.println("Unit desg :: "+unitDesignationBean.getUnitDesignationId()+" "+unitDesignationBean.getUnitDesignation());
 		//System.out.println("Sheet type Id: "+sheetbean.getSheetTypeId()+" "+sheetbean.getSheetType());
-		
-		if(sheetbean.getSheetTypeId()>0){
-			
-			if(monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 && unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
-			
-			runPayRollBean.setMonthName(monthMasterBean.getMonthName());
-			runPayRollBean.setYear(String.valueOf(year));
-			pdfBeanList.clear();
-			RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
-					unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
-					unitDesignationBean.getUnitDesignationId());
-			for(RunPayRollBean runPayRollBean : runPayRollBeanList){
-				runPayRollBean.setSheetType(sheetbean.getSheetType());
-				runPayRollBean.setSpecialTime(0.0);
-				runPayRollBean.setTotalSalary(0.0);
-				runPayRollBean.setTotalDeduction(0.0);
-				runPayRollBean.setNetSalary(0.0);
-				runPayRollBean.setSelectedCompanyId(companyMasterBean.getCompanyId());
-				runPayRollBean.setSelectedUnitId(unitMasterBean.getUnitId());
-				runPayRollBean.setSelectedCurrentYr(year);
-				runPayRollBean.setMonthName(monthMasterBean.getMonthName());
-				runPayRollBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
-				runPayRollBean.setSelectedUnitDesignationId(unitDesignationBean.getUnitDesignationId());
-				runPayRollBean.setBaseDays( RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), 
-						runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr(), runPayRollBean.getSunSelId()));
+		if(exPayrollBn.getLvYr2()!=null){
+			if(monthMasterBean.getMonthName()!=null){
+				if(companyMasterBean.getCompanyId()>0){
+					if(unitMasterBean.getUnitId()>0){
+						if(unitDesignationBean.getUnitDesignationId()!=null){
+							if(sheetbean.getSheetTypeId()>0){
+								if( monthMasterBean.getMonthName()!=null && companyMasterBean.getCompanyId()>0 
+										&& unitMasterBean.getUnitId()>0 && unitDesignationBean.getUnitDesignationId()>0){
+
+									runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+									runPayRollBean.setYear(String.valueOf(year));
+									pdfBeanList.clear();
+									RunPayRollService.loadEmpDetails(runPayRollBeanList,companyMasterBean.getCompanyId(), 
+											unitMasterBean.getUnitId(), runPayRollBean.getTotalNumberOfWorkingDaysEveryMonth(), 
+											unitDesignationBean.getUnitDesignationId());
+									for(RunPayRollBean runPayRollBean : runPayRollBeanList){
+										runPayRollBean.setSheetType(sheetbean.getSheetType());
+										runPayRollBean.setSpecialTime(0.0);
+										runPayRollBean.setTotalSalary(0.0);
+										runPayRollBean.setTotalDeduction(0.0);
+										runPayRollBean.setNetSalary(0.0);
+										runPayRollBean.setSelectedCompanyId(companyMasterBean.getCompanyId());
+										runPayRollBean.setSelectedUnitId(unitMasterBean.getUnitId());
+										runPayRollBean.setSelectedCurrentYr(year);
+										runPayRollBean.setMonthName(monthMasterBean.getMonthName());
+										runPayRollBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
+										runPayRollBean.setSelectedUnitDesignationId(unitDesignationBean.getUnitDesignationId());
+										runPayRollBean.setBaseDays( RunPayRollDao.getBaseDays(runPayRollBean.getSelectedMonthId(), 
+												runPayRollBean.getSelectedUnitId(), runPayRollBean.getSelectedCurrentYr(), runPayRollBean.getSunSelId()));
+									}
+
+									int count = RunPayRollService.countSalStore(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), unitDesignationBean.getUnitDesignationId(), monthMasterBean.getMonthName(), String.valueOf(year));
+
+									if(count>0){
+										runPayRollBean.setSaveDisabled(true);
+									}else {
+										runPayRollBean.setSaveDisabled(false);
+									}	
+								}
+								if(runPayRollBeanList.size()>0){
+									//nextButtonVisibility = true;
+									calculateButtonVisibility = true;
+								}else{
+									nextButtonVisibility = false;
+									calculateButtonVisibility = false;
+								}
+
+							}else{
+								Messagebox.show("SELECT SHEET TYPE", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
+							}
+						}else{
+							Messagebox.show("Please select unit designation!", "Year required", Messagebox.OK, Messagebox.EXCLAMATION);
+						}
+					}else{
+						Messagebox.show("Please select unit!", "Year required", Messagebox.OK, Messagebox.EXCLAMATION);
+					}
+				}else{
+					Messagebox.show("Please select company!", "Company name required", Messagebox.OK, Messagebox.EXCLAMATION);
+				}
+			}else{
+				Messagebox.show("Please select month!", "Month required", Messagebox.OK, Messagebox.EXCLAMATION);
 			}
-			
-			int count = RunPayRollService.countSalStore(companyMasterBean.getCompanyId(), unitMasterBean.getUnitId(), unitDesignationBean.getUnitDesignationId(), monthMasterBean.getMonthName(), String.valueOf(year));
-			
-			if(count>0){
-				runPayRollBean.setSaveDisabled(true);
-			}else {
-				runPayRollBean.setSaveDisabled(false);
-			}
-			
-		}
-		if(runPayRollBeanList.size()>0){
-			//nextButtonVisibility = true;
-			calculateButtonVisibility = true;
 		}else{
-			nextButtonVisibility = false;
-			calculateButtonVisibility = false;
+			Messagebox.show("Please select year!", "Year required", Messagebox.OK, Messagebox.EXCLAMATION);
 		}
-		
-		}else{
-			Messagebox.show("SELECT SHEET TYPE", "Alert", Messagebox.OK, Messagebox.EXCLAMATION);
-		}
-		
 		// ADD COMPONENTS AGAIN
 	//	ComponentRemoveDao.addComponent(unitMasterBean.getUnitId());
 	}
@@ -426,7 +456,8 @@ public class RunPayrollViewModel {
 			pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
 			pdfSheetBean.setCurrentDate(currentDate);
 			pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
-			pdfSheetBean.setYear(String.valueOf(year));
+			//pdfSheetBean.setYear(String.valueOf(year));
+			pdfSheetBean.setYear(exPayrollBn.getLvYr2());
 			pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
 			paySlipGenerator.getSlipDetails(pdfPath, pdfBeanList, pdfSheetBean);
 		}else{
@@ -447,7 +478,8 @@ public class RunPayrollViewModel {
 		pdfSheetBean.setUnitName(unitMasterBean.getUnitName());
 		pdfSheetBean.setCurrentDate(currentDate);
 		pdfSheetBean.setMonthName(monthMasterBean.getMonthName());
-		pdfSheetBean.setYear(String.valueOf(year));
+		//pdfSheetBean.setYear(String.valueOf(year));
+		pdfSheetBean.setYear(exPayrollBn.getLvYr2());
 		pdfSheetBean.setUnitDesignation(unitDesignationBean.getUnitDesignation());
 		pdfSheetBean.setSheetType(sheetbean.getSheetType());
 		PdfPaySlipGenerator paySlipGenerator = new PdfPaySlipGenerator();
@@ -2032,6 +2064,30 @@ public class RunPayrollViewModel {
 	public void setPayrollExistBeanList(
 			ArrayList<RunPayRollBean> payrollExistBeanList) {
 		this.payrollExistBeanList = payrollExistBeanList;
+	}
+
+	public RunPayRollBean getExRunPayRollBean() {
+		return exRunPayRollBean;
+	}
+
+	public void setExRunPayRollBean(RunPayRollBean exRunPayRollBean) {
+		this.exRunPayRollBean = exRunPayRollBean;
+	}
+
+	public ArrayList<String> getYearList() {
+		return yearList;
+	}
+
+	public void setYearList(ArrayList<String> yearList) {
+		this.yearList = yearList;
+	}
+
+	public String getSelectedYear() {
+		return selectedYear;
+	}
+
+	public void setSelectedYear(String selectedYear) {
+		this.selectedYear = selectedYear;
 	}
 
 	

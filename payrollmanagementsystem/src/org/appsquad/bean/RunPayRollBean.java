@@ -54,7 +54,7 @@ public class RunPayRollBean {
     private double wages, basic;
     
     private int noOfHoliDays;
-    private Double holiDayAmount;
+    private Double holiDayAmount,leaveAmount;
     
     public double overTimeSalNew;
     
@@ -498,6 +498,14 @@ public class RunPayRollBean {
 
 	public void setSaveDisabled(boolean saveDisabled) {
 		this.saveDisabled = saveDisabled;
+	}
+
+	public Double getLeaveAmount() {
+		return leaveAmount;
+	}
+
+	public void setLeaveAmount(Double leaveAmount) {
+		this.leaveAmount = leaveAmount;
 	}
 	
 }
